@@ -1,0 +1,4 @@
+tabula-py
+lxml
+requests
+django

@@ -1,0 +1,29 @@
+{% extends 'base/base.html' %}
+{% block content %}
+<h1>Torjäger - Verbandsliga (BHV)</h1>
+<h2>Torjäger</h2>
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Pl.</th>
+            <th>Name</th>
+            <th>Sp.</th>
+            <th>Tore</th>
+            <th>7m</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for score in scores %}
+        <tr>
+            <th scope="row">{{forloop.counter}}</th>
+            <td>{{score.player_name}}</td>
+            <td>{{score.scores}}</td>
+            <td>{{score.total}}</td>
+            <td>{{score.penalties}}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
