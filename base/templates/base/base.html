@@ -24,8 +24,16 @@
 
     <div class="collapse navbar-collapse" id="navbar">
         <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-                <a class="nav-link" href="{% url 'home' %}">Statistik</a>
+            <li class="nav-item dropdown active">
+                <a id="nav-statistics" class="nav-link dropdown-toggle" href="#/" data-toggle="dropdown">Statistik</a>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item disabled" href="#/">Tabellen & Begegnungen</a>
+                    <a class="dropdown-item active" href="{% url 'scorers:index' %}">Torjäger</a>
+                    <a class="dropdown-item disabled" href="#/">Torhüter</a>
+                    <a class="dropdown-item disabled" href="#/">Strafen</a>
+                    <a class="dropdown-item disabled" href="#/">Rekorde</a>
+                    <a class="dropdown-item disabled" href="#/">7 Meter</a>
+                </div>
             </li>
             <li class="nav-item">
                 <a class="nav-link disabled" href="#/">Spielberichte</a>

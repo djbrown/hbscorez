@@ -1,31 +1,28 @@
 {% extends 'base/base.html' %}
+{% load static %}
 {% block title %}Start{% endblock %}
 {% block content %}
-<h1>HB-Scorez - </h1>
+<h1>HB-Scorez entdecken</h1>
 <section class="row text-center placeholders">
     <div class="col-6 col-sm-3 placeholder">
-        <img src="data:image/gif;base64,R0lGODlhAQABAIABAAJ12AAAACwAAAAAAQABAAACAkQBADs=" width="200"
+        <img src="{% static 'base/images/thumbnail-in-progress.png' %}" width="200"
              height="200" class="img-fluid rounded-circle" alt="Generic placeholder thumbnail">
-        <h4>Label</h4>
-        <div class="text-muted">Something else</div>
+        <a class="btn btn-lg btn-block btn-secondary disabled" href="#/">Tabellen & Begegnungen</a>
     </div>
     <div class="col-6 col-sm-3 placeholder">
-        <img src="data:image/gif;base64,R0lGODlhAQABAIABAADcgwAAACwAAAAAAQABAAACAkQBADs=" width="200"
+        <img src="{% static 'base/images/thumbnail-scorers.png' %}" width="200"
              height="200" class="img-fluid rounded-circle" alt="Generic placeholder thumbnail">
-        <h4>Label</h4>
-        <span class="text-muted">Something else</span>
+        <a class="btn btn-lg btn-block btn-primary" href="{% url 'scorers:index' %}">Torjäger</a>
     </div>
     <div class="col-6 col-sm-3 placeholder">
-        <img src="data:image/gif;base64,R0lGODlhAQABAIABAAJ12AAAACwAAAAAAQABAAACAkQBADs=" width="200"
+        <img src="{% static 'base/images/thumbnail-in-progress.png' %}" width="200"
              height="200" class="img-fluid rounded-circle" alt="Generic placeholder thumbnail">
-        <h4>Label</h4>
-        <span class="text-muted">Something else</span>
+        <a class="btn btn-lg btn-block btn-secondary disabled" href="#/">Strafen</a>
     </div>
     <div class="col-6 col-sm-3 placeholder">
-        <img src="data:image/gif;base64,R0lGODlhAQABAIABAADcgwAAACwAAAAAAQABAAACAkQBADs=" width="200"
+        <img src="{% static 'base/images/thumbnail-in-progress.png' %}" width="200"
              height="200" class="img-fluid rounded-circle" alt="Generic placeholder thumbnail">
-        <h4>Label</h4>
-        <span class="text-muted">Something else</span>
+        <a class="btn btn-lg btn-block btn-secondary disabled" href="#/">Rekorde</a>
     </div>
 </section>
 
