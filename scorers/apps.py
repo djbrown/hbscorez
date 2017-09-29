@@ -1,5 +1,5 @@
 from django.apps import AppConfig
 
 
-class GoalScorersConfig(AppConfig):
+class ScorersConfig(AppConfig):
     name = 'scorers'

@@ -4,12 +4,12 @@ from django.test import TestCase
 
 django.setup()
 
-from scorers.models import PlayerScore
+from scorers.models import Score
 
 
 class ScorersTestCase(TestCase):
     def test_filter_order_doesnt_matter(self):
-        q1 = PlayerScore.objects \
+        q1 = Score.objects \
             .values('player_name') \
             .annotate(total=Sum('goals')) \
             .filter(total__gt=0) \
@@ -17,7 +17,7 @@ class ScorersTestCase(TestCase):
             .annotate(penalties=Sum('penalty_goals')) \
             .order_by('-total')
 
-        q2 = PlayerScore.objects \
+        q2 = Score.objects \
             .values('player_name') \
             .annotate(total=Sum('goals')) \
             .annotate(scores=Count('player_name')) \
