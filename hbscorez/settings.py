@@ -37,8 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'base',
-    'scorers.apps.GoalScorersConfig',
+    'base.apps.BaseConfig',
+    'scorers.apps.ScorersConfig',
 ]
 
 MIDDLEWARE = [
