@@ -1,9 +1,13 @@
 {% extends 'base/base.html' %}
+{% load static %}
 {% block title %}Torjäger{% endblock %}
+{% block styles %}
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap4.min.css"/>
+{% endblock %}
 {% block content %}
 <h1>Torjäger - Verbandsliga (BHV)</h1>
 <div class="table-responsive">
-    <table class="table table-striped">
+    <table id="scores" class="table table-sm table-striped" cellspacing="0" width="100%">
         <thead>
         <tr>
             <th>Pl.</th>
@@ -14,6 +18,16 @@
             <th>7m</th>
         </tr>
         </thead>
+        <tfoot>
+        <tr>
+            <th>Pl.</th>
+            <th>Name</th>
+            <th>Mannschaft</th>
+            <th>Sp.</th>
+            <th>Tore</th>
+            <th>7m</th>
+        </tr>
+        </tfoot>
         <tbody>
         {% for score in scores %}
         <tr>
@@ -28,4 +42,9 @@
         </tbody>
     </table>
 </div>
+{% endblock %}
+{% block scripts %}
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap4.min.js"></script>
+<script type="text/javascript" src="{% static 'scorers/scripts/scorers.js' %}"></script>
 {% endblock %}
