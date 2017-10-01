@@ -1,5 +1,6 @@
 {% extends 'base/base.html' %}
 {% load static %}
+{% load scores_extras %}
 {% block title %}Torjäger{% endblock %}
 {% block styles %}
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap4.min.css"/>
@@ -31,12 +32,12 @@
         <tbody>
         {% for score in scores %}
         <tr>
-            <th scope="row">{{forloop.counter}}</th>
-            <td>{{score.player_name}}</td>
-            <td>{{score.club__name}}</td>
-            <td>{{score.scores}}</td>
-            <td>{{score.total}}</td>
-            <td>{{score.penalties}}</td>
+            <th scope="row">{{ scores|place:forloop.counter0 }}</th>
+            <td>{{ score.player_name }}</td>
+            <td>{{ score.club__name }}</td>
+            <td>{{ score.scores }}</td>
+            <td>{{ score.total }}</td>
+            <td>{{ score.penalties }}</td>
         </tr>
         {% endfor %}
         </tbody>
