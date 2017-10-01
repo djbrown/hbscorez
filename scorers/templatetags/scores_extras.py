@@ -9,8 +9,8 @@ def dec(value, arg):
 
 
 @register.filter
-def place(scores: list, index: int) -> int:
-    goals = scores[index]['total']
-    while index > 0 and goals == scores[index - 1]['total']:
+def place(scorers: list, index: int) -> int:
+    goals = scorers[index].total_goals
+    while index > 0 and goals == scorers[index - 1].total_goals:
         index -= 1
     return index+1

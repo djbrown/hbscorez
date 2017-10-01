@@ -4,9 +4,11 @@
 {% block title %}Torjäger{% endblock %}
 {% block styles %}
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap4.min.css"/>
+<link rel="stylesheet" type="text/css" href="{% static 'scorers/styles/scorers.css' %}"/>
 {% endblock %}
 {% block content %}
 <h1>Torjäger - Verbandsliga (BHV)</h1>
+{{ scorers.5.club.logo.url }}
 <div class="table-responsive">
     <table id="scores" class="table table-sm table-striped" cellspacing="0" width="100%">
         <thead>
@@ -30,14 +32,23 @@
         </tr>
         </tfoot>
         <tbody>
-        {% for score in scores %}
+        {% for scorer in scorers %}
         <tr>
-            <th scope="row">{{ scores|place:forloop.counter0 }}</th>
-            <td>{{ score.player_name }}</td>
-            <td>{{ score.club__name }}</td>
-            <td>{{ score.scores }}</td>
-            <td>{{ score.total }}</td>
-            <td>{{ score.penalties }}</td>
+            <th scope="row">{{ scorers|place:forloop.counter0 }}</th>
+            <td>{{ scorer.name }}</td>
+            <td>
+                <img class="table-club-logo" src="
+                {% if scorer.club.logo %}
+                {{ scorer.club.logo.url }}
+                {% else %}
+                {% static 'base/images/favicons/favicon.png' %}
+                {% endif %}
+                " width="25px">
+                <span>{{ scorer.club.name }}</span>
+            </td>
+            <td>{{ scorer.games }}</td>
+            <td>{{ scorer.total_goals }}</td>
+            <td>{{ scorer.total_penalty_goals }}</td>
         </tr>
         {% endfor %}
         </tbody>

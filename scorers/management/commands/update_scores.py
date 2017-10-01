@@ -5,7 +5,7 @@ import tabula as tabula
 from django.conf import settings
 from django.core.management import BaseCommand
 
-from scorers.models import Score, Club
+from scorers.models import Score, Club, Player
 
 REPORTS_DIR = settings.BASE_DIR + "/reports/"
 
@@ -41,7 +41,7 @@ class Command(BaseCommand):
 
 
 def add_scores(table, club_name):
-    club, created = Club.objects.get_or_create(name=club_name)
+    club = Club.objects.get_or_create(name=club_name)[0]
     table_rows = table['data']
     for table_row in table_rows[2:]:
         row_data = [cell['text'] for cell in table_row]
@@ -61,9 +61,10 @@ def add_scores(table, club_name):
         if not player_name:
             continue
 
+        player = Player.objects.get_or_create(name=player_name, club=club)[0]
+
         Score(
-            player_name=player_name,
+            player=player,
             goals=goals_total,
             penalty_goals=penalty_goals,
-            club=club,
         ).save()
