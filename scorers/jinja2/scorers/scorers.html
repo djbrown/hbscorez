@@ -1,14 +1,11 @@
 {% extends 'base/base.html' %}
-{% load static %}
-{% load scores_extras %}
 {% block title %}Torjäger{% endblock %}
 {% block styles %}
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap4.min.css"/>
-<link rel="stylesheet" type="text/css" href="{% static 'scorers/styles/scorers.css' %}"/>
+<link rel="stylesheet" type="text/css" href="{{ static('scorers/styles/scorers.css') }}"/>
 {% endblock %}
 {% block content %}
 <h1>Torjäger - Verbandsliga (BHV)</h1>
-{{ scorers.5.club.logo.url }}
 <div class="table-responsive">
     <table id="scores" class="table table-sm table-striped" cellspacing="0" width="100%">
         <thead>
@@ -34,16 +31,11 @@
         <tbody>
         {% for scorer in scorers %}
         <tr>
-            <th scope="row">{{ scorers|place:forloop.counter0 }}</th>
+            <!--<th scope="row">{{ scorers.place }}</th>-->
+            <th scope="row">{{ place(scorers, loop.index0) }}</th>
             <td>{{ scorer.name }}</td>
             <td>
-                <img class="table-club-logo" src="
-                {% if scorer.club.logo %}
-                {{ scorer.club.logo.url }}
-                {% else %}
-                {% static 'base/images/favicons/favicon.png' %}
-                {% endif %}
-                " width="25px">
+                <img class="table-club-logo" src="{{ club_logo_url(scorer.club) }}" width="25px">
                 <span>{{ scorer.club.name }}</span>
             </td>
             <td>{{ scorer.games }}</td>
@@ -58,5 +50,5 @@
 {% block scripts %}
 <script type="text/javascript" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap4.min.js"></script>
-<script type="text/javascript" src="{% static 'scorers/scripts/scorers.js' %}"></script>
+<script type="text/javascript" src="{{ static('scorers/scripts/scorers.js') }}"></script>
 {% endblock %}
