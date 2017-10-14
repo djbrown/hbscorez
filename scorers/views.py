@@ -1,12 +1,12 @@
 from django.db.models import Sum, Count
 from django.shortcuts import render
 
-from scorers.models import Club, Player
+from scorers.models import Team, Player
 
 
 def index(request):
     scorers = Player.objects \
-        .only('name', 'club') \
+        .only('name', 'team') \
         .annotate(games=Count('score')) \
         .annotate(total_goals=Sum('score__goals')) \
         .annotate(total_penalty_goals=Sum('score__penalty_goals')) \

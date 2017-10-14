@@ -35,8 +35,8 @@
             <th scope="row">{{ place(scorers, loop.index0) }}</th>
             <td>{{ scorer.name }}</td>
             <td>
-                <img class="table-club-logo" src="{{ club_logo_url(scorer.club) }}" width="25px">
-                <span>{{ scorer.club.name }}</span>
+                <img class="table-team-logo" src="{{ team_logo_url(scorer.team) }}" width="25px">
+                <span>{{ scorer.team.name }}</span>
             </td>
             <td>{{ scorer.games }}</td>
             <td>{{ scorer.total_goals }}</td>

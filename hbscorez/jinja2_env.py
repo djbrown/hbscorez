@@ -3,7 +3,7 @@ from django.urls import reverse
 
 from jinja2 import Environment
 
-from scorers.templatetags.scores_extras import club_logo_url, place
+from scorers.templatetags.scores_extras import team_logo_url, place
 
 
 def environment(**options):
@@ -13,7 +13,7 @@ def environment(**options):
     env.globals.update({
         'static': staticfiles_storage.url,
         'url': reverse,
-        'club_logo_url': club_logo_url,
+        'team_logo_url': team_logo_url,
         'place': place,
     })
     return env

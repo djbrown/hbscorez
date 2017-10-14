@@ -1,6 +1,6 @@
 from django.contrib.staticfiles.templatetags.staticfiles import static
 
-from scorers.models import Club
+from scorers.models import Team
 
 
 def dec(value, arg):
@@ -14,8 +14,8 @@ def place(scorers: list, index: int) -> int:
     return index + 1
 
 
-def club_logo_url(club: Club):
-    if club.logo:
-        return club.logo.url
+def team_logo_url(team: Team):
+    if team.logo:
+        return team.logo.url
     else:
         return static('base/images/favicons/favicon.png')

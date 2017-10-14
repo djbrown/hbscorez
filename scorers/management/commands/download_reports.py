@@ -1,13 +1,7 @@
-import re
-
-import os
 import requests
-import tabula as tabula
 from django.conf import settings
 from django.core.management import BaseCommand
 from lxml import html
-
-from scorers.models import Score
 
 REPORTS_DIR = settings.BASE_DIR + "/reports/"
 

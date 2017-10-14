@@ -1,25 +1,43 @@
-import os
-from django.conf import settings
 from django.db import models
 
 
-class Club(models.Model):
+class District(models.Model):
     name = models.TextField(unique=True)
-    logo = models.ImageField(upload_to=os.path.join(settings.MEDIA_ROOT, 'club-logos'))
+    abbreviation = models.TextField(unique=True)
 
     def __str__(self):
-        return 'Club: {}'.format(self.name)
+        return 'District: {}'.format(self.abbreviation)
+
+
+class League(models.Model):
+    name = models.TextField()
+    abbreviation = models.TextField()
+    district = models.ForeignKey(District)
+
+    class Meta:
+        unique_together = (('name', 'district'), ('abbreviation', 'district'))
+
+    def __str__(self):
+        return 'League: {} - {}'.format(self.district.abbreviation, self.abbreviation)
+
+
+class Team(models.Model):
+    name = models.TextField(unique=True)
+    league = models.ForeignKey(League)
+
+    def __str__(self):
+        return 'Team: {}/{}'.format(self.name, self.league.abbreviation)
 
 
 class Player(models.Model):
     name = models.TextField()
-    club = models.ForeignKey(Club)
+    team = models.ForeignKey(Team)
 
     def __str__(self):
         return 'Player: {}'.format(self.name)
 
     def get_url(self):
-        return self.club.logo.url
+        return self.team.logo.url
 
 
 class Score(models.Model):
