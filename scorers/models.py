@@ -1,9 +1,33 @@
 from django.db import models
+from django.urls import reverse
+
+
+class Association(models.Model):
+    name = models.TextField(unique=True)
+    acronym = models.TextField()
+    abbreviation = models.TextField(unique=True)
+
+    def get_absolute_url(self):
+        params = {
+            'assoc_abbr': self.abbreviation.lower(),
+        }
+        return reverse('scorers:association', kwargs=params)
+
+    def __str__(self):
+        return 'Association: {}'.format(self.acronym)
 
 
 class District(models.Model):
     name = models.TextField(unique=True)
     abbreviation = models.TextField(unique=True)
+    association = models.ForeignKey(Association)
+
+    def get_absolute_url(self):
+        params = {
+            'assoc_abbr': self.association.abbreviation.lower(),
+            'dist_abbr': self.abbreviation.lower(),
+        }
+        return reverse('scorers:district', kwargs=params)
 
     def __str__(self):
         return 'District: {}'.format(self.abbreviation)
@@ -17,13 +41,32 @@ class League(models.Model):
     class Meta:
         unique_together = (('name', 'district'), ('abbreviation', 'district'))
 
+    def get_absolute_url(self):
+        params = {
+            'assoc_abbr': self.district.association.abbreviation.lower(),
+            'dist_abbr': self.district.abbreviation.lower(),
+            'league_abbr': self.abbreviation.lower(),
+        }
+        return reverse('scorers:league', kwargs=params)
+
+    def scorers_url(self):
+        params = {
+            'assoc_abbr': self.district.association.abbreviation.lower(),
+            'dist_abbr': self.district.abbreviation.lower(),
+            'league_abbr': self.abbreviation.lower(),
+        }
+        return reverse('scorers:scorers', kwargs=params)
+
     def __str__(self):
         return 'League: {} - {}'.format(self.district.abbreviation, self.abbreviation)
 
 
 class Team(models.Model):
-    name = models.TextField(unique=True)
+    name = models.TextField()
     league = models.ForeignKey(League)
+
+    class Meta:
+        unique_together = ('name', 'league')
 
     def __str__(self):
         return 'Team: {}/{}'.format(self.name, self.league.abbreviation)

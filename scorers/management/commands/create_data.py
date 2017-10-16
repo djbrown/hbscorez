@@ -1,8 +1,12 @@
+import os
+from urllib.parse import parse_qs, urlsplit
+
 import requests
+from django.conf import settings
 from django.core.management import BaseCommand
 from lxml import html
 
-from scorers.models import District, League, Player, Score, Team
+from scorers.models import District, League, Player, Score, Team, Association
 
 
 class Command(BaseCommand):
@@ -12,50 +16,86 @@ class Command(BaseCommand):
         Team.objects.all().delete()
         League.objects.all().delete()
         District.objects.all().delete()
+        Association.objects.all().delete()
+
+        badHV = Association(name='Badischer Handball-Verband', acronym='BHV', abbreviation='BAD')
+        badHV.save()
+        bayHV = Association(name='Bayerischer Handball-Verband', acronym='BHV', abbreviation='BAY')
+        bayHV.save()
+        # todo: shv - südbadischer handballverband
 
         districts = [
-            ('BWOL', 'Baden-Württemberg Oberliga', 35, 4),
-            ('BHV', 'Badischer Handball-Verband', 35, 35),
-            ('BzN', 'Bezirk Nord', 35, 84),
-            ('BzS', 'Bezirk Süd', 35, 43),
-            ('BR', 'Bruchsal', 35, 36),
-            ('HD', 'Heidelberg', 35, 37),
-            ('KA', 'Karlsruhe', 35, 38),
-            ('MA', 'Mannheim', 35, 39),
-            ('PF', 'Pforzheim', 35, 40),
+            ('Baden-Württemberg Oberliga', 'BWOL', badHV, 35, 4),
+            ('Badischer Handball-Verband', 'BHV', badHV, 35, 35),
+            ('Bezirk Nord', 'NORD', badHV, 35, 84),
+            ('Bezirk Süd', 'SÜD', badHV, 35, 43),
+            ('Bruchsal', 'BR', badHV, 35, 36),
+            ('Heidelberg', 'HD', badHV, 35, 37),
+            ('Karlsruhe', 'KA', badHV, 35, 38),
+            ('Mannheim', 'MA', badHV, 35, 39),
+            ('Pforzheim', 'PF', badHV, 35, 40),
         ]
-        for d_num, d_data in enumerate(districts):
-            district = District(name=d_data[1], abbreviation=d_data[0])
-            district.save()
-            self.log('District {}/{}: {}'.format(d_num + 1, len(districts), district))
+        for num, data in enumerate(districts):
+            self.log('District {}/{}'.format(num + 1, len(districts)))
+            self.create_district(*data)
 
-            url = 'http://spo.handball4all.de/Spielbetrieb/index.php'
-            data = {
-                'orgGrpID': d_data[2],
-                'orgID': d_data[3],
-            }
-            district_response = requests.post(url=url, data=data)
+    def create_district(self, name, abbreviation, association, group_id, org_id):
+        district = District(name=name, abbreviation=abbreviation, association=association)
+        district.save()
 
-            district_tree = html.fromstring(district_response.text)
-            league_links = district_tree.xpath('//*[@id="results"]/div/table[2]/tr/td[1]/a')
+        url = 'http://spo.handball4all.de/Spielbetrieb/index.php'
+        request_data = {
+            'orgGrpID': group_id,
+            'orgID': org_id,
+        }
+        response = requests.post(url=url, data=request_data)
 
-            for l_num, league_link in enumerate(league_links):
-                league_url = 'http://spo.handball4all.de/Spielbetrieb/index.php' + league_link.get('href')
-                league_response = requests.get(league_url)
+        tree = html.fromstring(code(response.text))
+        league_links = tree.xpath('//*[@id="results"]/div/table[2]/tr/td[1]/a')
 
-                league_tree = html.fromstring(league_response.text)
-                heading = league_tree.xpath('//*[@id="results"]/div/h1/text()[2]')[0]
-                league_name = heading.split(' - ')[0].encode("latin-1").decode()
-                league_abbreviation = league_link.text
+        for num, league_link in enumerate(league_links):
+            self.log('  - League {}/{}'.format(num + 1, len(league_links)))
+            self.create_league(league_link, district)
 
-                league = League(name=league_name, abbreviation=league_abbreviation, district=district)
-                league.save()
-                self.log('League {}/{}: {}'.format(l_num + 1, len(league_links), league))
+    def create_league(self, link, district):
+        url = 'http://spo.handball4all.de/Spielbetrieb/index.php' + link.get('href') + '&all=1'
+        response = requests.get(url=url)
 
-                teams = league_tree.xpath('//*[@id="results"]/div/div[2]/table')#/tr[2]/td[3]/a')
-                print(teams)
-                exit()
+        tree = html.fromstring(code(response.text))
+        heading = tree.xpath('//*[@id="results"]/div/h1/text()[2]')[0]
+        name = heading.split(' - ')[0]
+        abbreviation = link.text
 
+        league = League(name=name, abbreviation=abbreviation, district=district)
+        league.save()
+
+        team_links = tree.xpath('//table[@class="scoretable"]/tr[position() > 1]/td[3]/a')
+
+        for team_link in team_links:
+            team = Team(name=team_link.text, league=league)
+            team.save()
+
+        game_rows = tree.xpath('//table[@class="gametable"]/tr[position() > 1 and ./td[11]/a/@href]')
+        for num, game_row in enumerate(game_rows):
+            self.log("Game {}/{}".format(num + 1, len(game_rows)))
+            self.create_scores(game_row)
+
+    def create_scores(self, game_row):
+        reports_path = settings.BASE_DIR + "/reports/"
+        report_url = game_row.xpath('./td[11]/a/@href')[0]
+        params = urlsplit(report_url)[3]
+        game_id = parse_qs(params)['sGID'][0]
+        file_path = "{}/{}.pdf".format(reports_path, game_id)
+        if os.path.isfile(file_path):
+            return
+
+        response = requests.get(report_url, stream=True)
+        with open(file_path, 'wb') as file:
+            file.write(response.content)
 
     def log(self, text: str) -> None:
         self.stdout.write(self.style.SUCCESS(text))
+
+
+def code(text: str):
+    return text.encode("latin-1").decode()

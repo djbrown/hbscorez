@@ -7,7 +7,7 @@ from django.contrib import admin
 
 urlpatterns = [
     url(r'^$', home, name='home'),
-    url(r'^torjaeger/', include('scorers.urls', namespace='scorers')),
+    url(r'^', include('scorers.urls', namespace='scorers')),
     url(r'^admin/', admin.site.urls),
 ]
 

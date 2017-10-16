@@ -1,0 +1,33 @@
+{% extends 'base/base.html' %}
+{% block title %}Torjäger{% endblock %}
+{% block styles %}
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap4.min.css"/>
+{% endblock %}
+{% block content %}
+<ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{{ league.district.association.get_absolute_url() }}">{{
+        league.district.association.abbreviation }}</a></li>
+    <li class="breadcrumb-item"><a href="{{ league.district.get_absolute_url() }}">{{ league.district.abbreviation
+        }}</a></li>
+    <li class="breadcrumb-item active"><a>{{ league.abbreviation }}</a></li>
+</ol>
+<h1>{{ league.name }}</h1>
+<section class="row text-center placeholders">
+    <div class="col-6 col-sm-3 placeholder">
+        <img src="{{ static('base/images/thumbnail-scorers.png') }}" width="200"
+             height="200" class="img-fluid rounded-circle" alt="Generic placeholder thumbnail">
+        <a class="btn btn-lg btn-block btn-primary" href="{{ league.scorers_url() }}">Torjäger</a>
+    </div>
+</section>
+<h2>Teams</h2>
+<ul>
+    {% for team in league.team_set.all() %}
+    <li><a>{{ team.name }}</a></li>
+    {% endfor %}
+</ul>
+{% endblock %}
+{% block scripts %}
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap4.min.js"></script>
+<script type="text/javascript" src="{{ static('scorers/scripts/datatables.js') }}"></script>
+{% endblock %}

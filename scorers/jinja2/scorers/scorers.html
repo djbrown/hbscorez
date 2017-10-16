@@ -5,7 +5,15 @@
 <link rel="stylesheet" type="text/css" href="{{ static('scorers/styles/scorers.css') }}"/>
 {% endblock %}
 {% block content %}
-<h1>Torjäger - Verbandsliga (BHV)</h1>
+<ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{{ league.district.association.get_absolute_url() }}">{{
+        league.district.association.abbreviation }}</a></li>
+    <li class="breadcrumb-item"><a href="{{ league.district.get_absolute_url() }}">{{ league.district.abbreviation }}</a></li>
+    <li class="breadcrumb-item"><a href="{{ league.get_absolute_url() }}">{{ league.abbreviation }}</a></li>
+    <li class="breadcrumb-item active"><a>Torjäger</a></li>
+</ol>
+<h1>{{ league.name }}</h1>
+<h2>Torjäger</h2>
 <div class="table-responsive">
     <table id="scores" class="table table-sm table-striped" cellspacing="0" width="100%">
         <thead>
@@ -31,7 +39,6 @@
         <tbody>
         {% for scorer in scorers %}
         <tr>
-            <!--<th scope="row">{{ scorers.place }}</th>-->
             <th scope="row">{{ place(scorers, loop.index0) }}</th>
             <td>{{ scorer.name }}</td>
             <td>
@@ -50,5 +57,5 @@
 {% block scripts %}
 <script type="text/javascript" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap4.min.js"></script>
-<script type="text/javascript" src="{{ static('scorers/scripts/scorers.js') }}"></script>
+<script type="text/javascript" src="{{ static('scorers/scripts/datatables.js') }}"></script>
 {% endblock %}

@@ -1,0 +1,15 @@
+{% extends 'base/base.html' %}
+{% block title %}Torjäger{% endblock %}
+{% block content %}
+<ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{{ district.association.get_absolute_url() }}">{{
+        district.association.abbreviation }}</a></li>
+    <li class="breadcrumb-item active"><a>{{ district.abbreviation }}</a></li>
+</ol>
+<h1>{{ district.name }}</h1>
+<ul>
+    {% for league in district.league_set.all() %}
+    <li><a href="{{ league.get_absolute_url() }}">{{ league.name }}</a></li>
+    {% endfor %}
+</ul>
+{% endblock %}
