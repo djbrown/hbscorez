@@ -5,7 +5,7 @@ services:
     image: postgres
   web:
     build: .
-    command: ./run.sh
+    command: chmod +x run.sh && run.sh
     volumes:
       - .:/code
     ports:
