@@ -1,7 +1,9 @@
 import os
+import re
 from urllib.parse import parse_qs, urlsplit
 
 import requests
+import tabula
 from django.conf import settings
 from django.core.management import BaseCommand
 from lxml import html
@@ -10,6 +12,9 @@ from scorers.models import District, League, Player, Score, Team, Association
 
 
 class Command(BaseCommand):
+    def log(self, text: str) -> None:
+        self.stdout.write(self.style.SUCCESS(text))
+
     def handle(self, *args, **options):
         Score.objects.all().delete()
         Player.objects.all().delete()
@@ -78,23 +83,72 @@ class Command(BaseCommand):
         game_rows = tree.xpath('//table[@class="gametable"]/tr[position() > 1 and ./td[11]/a/@href]')
         for num, game_row in enumerate(game_rows):
             self.log("Game {}/{}".format(num + 1, len(game_rows)))
-            self.create_scores(game_row)
+            self.create_scores(game_row, league=league)
 
-    def create_scores(self, game_row):
+    def create_scores(self, game_row, league):
         reports_path = settings.BASE_DIR + "/reports/"
         report_url = game_row.xpath('./td[11]/a/@href')[0]
         params = urlsplit(report_url)[3]
         game_id = parse_qs(params)['sGID'][0]
         file_path = "{}/{}.pdf".format(reports_path, game_id)
-        if os.path.isfile(file_path):
-            return
 
-        response = requests.get(report_url, stream=True)
-        with open(file_path, 'wb') as file:
-            file.write(response.content)
+        if not os.path.isfile(file_path):
+            response = requests.get(report_url, stream=True)
+            with open(file_path, 'wb') as file:
+                file.write(response.content)
 
-    def log(self, text: str) -> None:
-        self.stdout.write(self.style.SUCCESS(text))
+        teams_pdf = tabula.read_pdf(file_path, output_format='json', encoding='cp1252',
+                                    **{'pages': 1, 'lattice': True})
+        team_names = teams_pdf[0]['data'][3][1]['text']
+        home_team_name, guest_team_name = self.parse_team_names(team_names)
+        scores_pdf = tabula.read_pdf(file_path, output_format='json', encoding='cp1252',
+                                     **{'pages': 2, 'lattice': True})
+
+        self.add_scores(scores_pdf[0], team_name=home_team_name, league=league)
+        self.add_scores(scores_pdf[1], team_name=guest_team_name, league=league)
+
+    def add_scores(self, table, team_name, league):
+        team = Team.objects.get_or_create(name=team_name, league=league)[0]
+        table_rows = table['data']
+        for table_row in table_rows[2:]:
+            row_data = [cell['text'] for cell in table_row]
+            # player_number = row_data[0]
+            player_name = row_data[1]
+            # player_year_of_birth = row_data[2]
+            goals_total = row_data[5] or 0
+            penalty_tries, penalty_goals = self.parse_penalty_data(row_data[6])
+            # warning_time = row_data[7]
+            # first_suspension_time = row_data[8]
+            # second_suspension_time = row_data[9]
+            # third_suspension_time = row_data[10]
+            # disqualification_time = row_data[11]
+            # report_time = row_data[12]
+            # team_suspension_time = row_data[13]
+
+            if not player_name:
+                continue
+
+            player = Player.objects.get_or_create(name=player_name, team=team)[0]
+
+            try:
+                score = Score(
+                    player=player,
+                    goals=goals_total,
+                    penalty_goals=penalty_goals,
+                )
+                score.save()
+            except ValueError:
+                continue
+
+    def parse_penalty_data(self, text: str) -> (int, int):
+        match = re.match("([0-9]+)/([0-9]+)", text)
+        if match:
+            return match.group(1), match.group(2)
+        return 0, 0
+
+    def parse_team_names(self, text: str) -> (int, int):
+        match = re.match("(.+) - (.+)", text)
+        return match.group(1), match.group(2)
 
 
 def code(text: str):

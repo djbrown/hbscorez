@@ -65,6 +65,8 @@ class Team(models.Model):
     name = models.TextField()
     league = models.ForeignKey(League)
 
+    # logo = models.ImageField(upload_to=os.path.join(settings.MEDIA_ROOT, 'club-logos'))
+
     class Meta:
         unique_together = ('name', 'league')
 
