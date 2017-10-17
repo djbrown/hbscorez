@@ -12,8 +12,13 @@ from scorers.models import District, League, Player, Score, Team, Association
 
 
 class Command(BaseCommand):
+    fast = False
+
     def log(self, text: str) -> None:
         self.stdout.write(self.style.SUCCESS(text))
+
+    def add_arguments(self, parser):
+        parser.add_argument('--fast', action='store_true')
 
     def handle(self, *args, **options):
         Score.objects.all().delete()
@@ -22,6 +27,8 @@ class Command(BaseCommand):
         League.objects.all().delete()
         District.objects.all().delete()
         Association.objects.all().delete()
+
+        self.fast = options['fast']
 
         badHV = Association(name='Badischer Handball-Verband', acronym='BHV', abbreviation='BAD')
         badHV.save()
@@ -41,6 +48,8 @@ class Command(BaseCommand):
             ('Pforzheim', 'PF', badHV, 35, 40),
         ]
         for num, data in enumerate(districts):
+            if self.fast and num is not 1:
+                continue
             self.log('District {}/{}'.format(num + 1, len(districts)))
             self.create_district(*data)
 
@@ -59,6 +68,8 @@ class Command(BaseCommand):
         league_links = tree.xpath('//*[@id="results"]/div/table[2]/tr/td[1]/a')
 
         for num, league_link in enumerate(league_links):
+            if self.fast and num is not 2:
+                continue
             self.log('  - League {}/{}'.format(num + 1, len(league_links)))
             self.create_league(league_link, district)
 
