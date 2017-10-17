@@ -1,6 +1,6 @@
 ### Custom rules
 reports
-hbscorez/prod_settings.py
+hbscorez/settings_prod.py
 .idea
 db.sqlite3
 

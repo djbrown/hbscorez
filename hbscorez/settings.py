@@ -6,7 +6,7 @@ SECRET_KEY = ' '
 
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', '192.168.99.100']
+ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -101,4 +101,4 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
 if not DEBUG:
-    from hbscorez.prod_settings import *
+    from hbscorez.settings_prod import *
