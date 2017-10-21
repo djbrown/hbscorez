@@ -12,21 +12,24 @@ from scorers.models import District, League, Player, Score, Team, Association
 
 
 class Command(BaseCommand):
-    exemplary = False
-    skip_youth = False
+    mode = 0
     reports_path = settings.BASE_DIR + "/reports/"
 
-    def log(self, text: str) -> None:
-        self.stdout.write(self.style.SUCCESS(text))
+    def parse_penalty_data(self, text: str) -> (int, int):
+        match = re.match("([0-9]+)/([0-9]+)", text)
+        if match:
+            return match.group(1), match.group(2)
+        return 0, 0
+
+    def parse_team_names(self, text: str) -> (int, int):
+        match = re.match("(.+) - (.+)", text)
+        return match.group(1), match.group(2)
 
     def add_arguments(self, parser):
-        parser.add_argument('--exemplary', action='store_true')
-        parser.add_argument('--skip-youth', action='store_true')
+        parser.add_argument('--mode', help="0=all, 1=adults, 2=m-vl, 3=game", type=int)
 
     def handle(self, *args, **options):
-        self.exemplary = options['exemplary']
-        self.skip_youth = options['skip_youth']
-
+        self.mode = options.get('mode', 0)
         Score.objects.all().delete()
         Player.objects.all().delete()
         Team.objects.all().delete()
@@ -36,27 +39,36 @@ class Command(BaseCommand):
 
         os.makedirs(self.reports_path, exist_ok=True)
 
-        bhv = Association(name='Badischer Handball-Verband', acronym='BHV', abbreviation='BAD')
-        bhv.save()
-        # bayHV = Association(name='Bayerischer Handball-Verband', acronym='BHV', abbreviation='BAY')
-        # bayHV.save()
-        # todo: shv - südbadischer handballverband
+        associations = [
+            ('Badischer Handball-Verband', 'BHV', 'BAD')
+            # ('Bayerischer Handball-Verband', 'BHV', 'BAY')
+            # ('Südbadischer Handballverband', 'SHV', 'BADSUED')
+            # ('Handballverband Württemberg', 'HVW', 'WUERT')
+        ]
+
+        for num, association in enumerate(associations):
+            if self.mode >= 2 and num != 0:
+                continue
+            self.create_association(*association)
+
+    def create_association(self, name, acronym, abbreviation):
+        association = Association(name=name, acronym=acronym, abbreviation=abbreviation)
+        association.save()
 
         districts = [
-            ('Baden-Württemberg Oberliga', 'BWOL', bhv, 35, 4),
-            ('Badischer Handball-Verband', 'BHV', bhv, 35, 35),
-            ('Bezirk Nord', 'NORD', bhv, 35, 84),
-            ('Bezirk Süd', 'SÜD', bhv, 35, 43),
-            ('Bruchsal', 'BR', bhv, 35, 36),
-            ('Heidelberg', 'HD', bhv, 35, 37),
-            ('Karlsruhe', 'KA', bhv, 35, 38),
-            ('Mannheim', 'MA', bhv, 35, 39),
-            ('Pforzheim', 'PF', bhv, 35, 40),
+            ('Baden-Württemberg Oberliga', 'BWOL', association, 35, 4),
+            ('Badischer Handball-Verband', 'BHV', association, 35, 35),
+            ('Bezirk Nord', 'NORD', association, 35, 84),
+            ('Bezirk Süd', 'SÜD', association, 35, 43),
+            ('Bruchsal', 'BR', association, 35, 36),
+            ('Heidelberg', 'HD', association, 35, 37),
+            ('Karlsruhe', 'KA', association, 35, 38),
+            ('Mannheim', 'MA', association, 35, 39),
+            ('Pforzheim', 'PF', association, 35, 40),
         ]
         for num, data in enumerate(districts):
-            if self.exemplary and num != 1:
+            if self.mode >= 2 and num != 1:
                 continue
-            self.log('District {}/{}'.format(num + 1, len(districts)))
             self.create_district(*data)
 
     def create_district(self, name, abbreviation, association, group_id, org_id):
@@ -74,16 +86,12 @@ class Command(BaseCommand):
         league_links = tree.xpath('//*[@id="results"]/div/table[2]/tr/td[1]/a')
 
         for num, league_link in enumerate(league_links):
-            if self.exemplary and num != 2:
-                continue
-            self.log('  - League {}/{}'.format(num + 1, len(league_links)))
             self.create_league(league_link, district)
 
     def create_league(self, link, district):
         abbreviation = link.text
-        if self.skip_youth and (abbreviation[:2] == 'mJ' or abbreviation[:2] == 'wJ'):
-            if abbreviation[:2] != 'M-' and abbreviation[:2] != 'F-':
-                self.log(abbreviation)
+        if self.mode > 0 and (abbreviation[:2] == 'mJ' or abbreviation[:2] == 'wJ') or (
+                        self.mode > 1 and abbreviation != 'M-VL'):
             return
 
         url = 'http://spo.handball4all.de/Spielbetrieb/index.php' + link.get('href') + '&all=1'
@@ -104,8 +112,9 @@ class Command(BaseCommand):
 
         game_rows = tree.xpath('//table[@class="gametable"]/tr[position() > 1 and ./td[11]/a/@href]')
         for num, game_row in enumerate(game_rows):
-            self.log("Game {}/{}".format(num + 1, len(game_rows)))
             self.create_scores(game_row, league=league)
+            if self.mode >= 3:
+                break
 
     def create_scores(self, game_row, league):
         report_url = game_row.xpath('./td[11]/a/@href')[0]
@@ -159,13 +168,3 @@ class Command(BaseCommand):
                 score.save()
             except ValueError:
                 continue
-
-    def parse_penalty_data(self, text: str) -> (int, int):
-        match = re.match("([0-9]+)/([0-9]+)", text)
-        if match:
-            return match.group(1), match.group(2)
-        return 0, 0
-
-    def parse_team_names(self, text: str) -> (int, int):
-        match = re.match("(.+) - (.+)", text)
-        return match.group(1), match.group(2)
