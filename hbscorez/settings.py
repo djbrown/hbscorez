@@ -16,6 +16,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'base.apps.BaseConfig',
+    'associations.apps.AssociationsConfig',
     'scorers.apps.ScorersConfig',
 ]
 

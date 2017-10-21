@@ -1,20 +1,7 @@
 from django.db import models
 from django.urls import reverse
 
-
-class Association(models.Model):
-    name = models.TextField(unique=True)
-    acronym = models.TextField()
-    abbreviation = models.TextField(unique=True)
-
-    def get_absolute_url(self):
-        params = {
-            'assoc_abbr': self.abbreviation.lower(),
-        }
-        return reverse('scorers:association', kwargs=params)
-
-    def __str__(self):
-        return 'Association: {}'.format(self.acronym)
+from associations.models import Association
 
 
 class District(models.Model):
@@ -27,7 +14,7 @@ class District(models.Model):
             'assoc_abbr': self.association.abbreviation.lower(),
             'dist_abbr': self.abbreviation.lower(),
         }
-        return reverse('scorers:district', kwargs=params)
+        return reverse('assoc:district', kwargs=params)
 
     def __str__(self):
         return 'District: {}'.format(self.abbreviation)
@@ -47,7 +34,7 @@ class League(models.Model):
             'dist_abbr': self.district.abbreviation.lower(),
             'league_abbr': self.abbreviation.lower(),
         }
-        return reverse('scorers:league', kwargs=params)
+        return reverse('assoc:league', kwargs=params)
 
     def scorers_url(self):
         params = {
@@ -55,7 +42,7 @@ class League(models.Model):
             'dist_abbr': self.district.abbreviation.lower(),
             'league_abbr': self.abbreviation.lower(),
         }
-        return reverse('scorers:scorers', kwargs=params)
+        return reverse('assoc:scorers', kwargs=params)
 
     def __str__(self):
         return 'League: {} - {}'.format(self.district.abbreviation, self.abbreviation)
