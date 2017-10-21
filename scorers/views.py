@@ -5,11 +5,6 @@ from associations.models import Association
 from scorers.models import District, League, Player, Team
 
 
-def district_overview(request, assoc_abbr, dist_abbr):
-    district = District.objects.filter(abbreviation__iexact=dist_abbr).first()
-    return render(request, 'scorers/district.html', {'district': district})
-
-
 def league_overview(request, assoc_abbr, dist_abbr, league_abbr):
     district = District.objects.filter(abbreviation__iexact=dist_abbr).first()
     league = League.objects.filter(abbreviation__iexact=league_abbr, district=district).first()

@@ -17,6 +17,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'base.apps.BaseConfig',
     'associations.apps.AssociationsConfig',
+    'districts.apps.DistrictsConfig',
     'scorers.apps.ScorersConfig',
 ]
 

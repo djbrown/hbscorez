@@ -8,7 +8,9 @@ from django.conf import settings
 from django.core.management import BaseCommand
 from lxml import html
 
-from scorers.models import District, League, Player, Score, Team, Association
+from associations.models import Association
+from districts.models import District
+from scorers.models import League, Player, Score, Team
 
 
 class Command(BaseCommand):

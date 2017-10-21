@@ -9,7 +9,7 @@ from base.views import home
 urlpatterns = [
     url(r'^$', home, name='home'),
     url(r'^admin/', admin.site.urls),
-    url(r'^verbaende/$', assoc.index, name='assocs'),
+    url(r'^verbaende/$', assoc.associations, name='assocs'),
     url(r'^(?P<assoc_abbr>[a-z]+)/', include('associations.urls', namespace='assoc')),
 ]
 
