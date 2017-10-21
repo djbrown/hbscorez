@@ -18,6 +18,7 @@ INSTALLED_APPS = [
     'base.apps.BaseConfig',
     'associations.apps.AssociationsConfig',
     'districts.apps.DistrictsConfig',
+    'leagues.apps.LeaguesConfig',
     'scorers.apps.ScorersConfig',
 ]
 

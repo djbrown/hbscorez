@@ -1,6 +1,5 @@
 from django.conf.urls import url, include
 
-from scorers import views as s
 from . import views
 
 urlpatterns = [

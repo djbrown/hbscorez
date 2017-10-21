@@ -1,6 +1,6 @@
 from django.shortcuts import render
 
-from scorers.models import District
+from districts.models import District
 
 
 def district(request, assoc_abbr, dist_abbr):

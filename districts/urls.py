@@ -1,10 +1,8 @@
-from django.conf.urls import url
+from django.conf.urls import url, include
 
-from scorers import views as s
 from . import views
 
 urlpatterns = [
     url(r'^$', views.district, name='index'),
-    url(r'^(?P<league_abbr>.+)/torjaeger/$', s.league_scorers, name='scorers'),
-    url(r'^(?P<league_abbr>.+)/$', s.league_overview, name='league'),
+    url(r'^(?P<league_abbr>[a-z-]+)/', include('leagues.urls', namespace='league')),
 ]

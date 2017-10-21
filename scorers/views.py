@@ -2,13 +2,9 @@ from django.db.models import Count, Sum
 from django.shortcuts import render
 
 from associations.models import Association
-from scorers.models import District, League, Player, Team
-
-
-def league_overview(request, assoc_abbr, dist_abbr, league_abbr):
-    district = District.objects.filter(abbreviation__iexact=dist_abbr).first()
-    league = League.objects.filter(abbreviation__iexact=league_abbr, district=district).first()
-    return render(request, 'scorers/league.html', {'league': league})
+from districts.models import District
+from leagues.models import League
+from scorers.models import Player, Team
 
 
 def league_scorers(request, assoc_abbr, dist_abbr, league_abbr):
