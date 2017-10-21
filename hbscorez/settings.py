@@ -100,5 +100,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 MEDIA_URL = '/media/'
 
+from hbscorez.settings_local import *
+
 if not DEBUG:
     from hbscorez.settings_prod import *
