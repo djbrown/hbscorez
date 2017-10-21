@@ -1,5 +1,8 @@
 {% extends 'base/base.html' %}
 {% block title %}Torjäger{% endblock %}
+{% block styles %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+{% endblock %}
 {% block content %}
 <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="{{ district.association.get_absolute_url() }}">{{
@@ -9,7 +12,13 @@
 <h1>{{ district.name }}</h1>
 <ul>
     {% for league in district.league_set.all() %}
-    <li><a href="{{ league.get_absolute_url() }}">{{ league.name }}</a></li>
+    <li><a href="{{ league.get_absolute_url() }}">
+        {% if league.abbreviation.upper().startswith("M") %}
+        <i class="fa fa-male" aria-hidden="true"></i>
+        {% elif league.abbreviation.upper().startswith("F") %}
+        <i class="fa fa-female" aria-hidden="true"></i>
+        {% endif %}
+        {{ league.name }}</a></li>
     {% endfor %}
 </ul>
 {% endblock %}
