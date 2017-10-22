@@ -27,7 +27,17 @@ class Player(models.Model):
         return self.team.logo.url
 
 
+class Game(models.Model):
+    number = models.IntegerField(unique=True)
+    home_team = models.ForeignKey(Team, related_name='home_team')
+    guest_team = models.ForeignKey(Team, related_name='guest_team')
+
+    class Meta:
+        unique_together = ('home_team', 'guest_team')
+
+
 class Score(models.Model):
     player = models.ForeignKey(Player)
+    game = models.ForeignKey(Game)
     goals = models.PositiveIntegerField(default=0)
     penalty_goals = models.PositiveIntegerField(default=0)

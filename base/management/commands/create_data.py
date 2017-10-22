@@ -10,12 +10,12 @@ from lxml import html
 
 from associations.models import Association
 from districts.models import District
-from scorers.models import League, Player, Score, Team
+from scorers.models import League, Player, Score, Team, Game
 
 
 class Command(BaseCommand):
     mode = 0
-    reports_path = settings.BASE_DIR + "/reports/"
+    reports_root = os.path.join(settings.BASE_DIR, "reports")
 
     def parse_penalty_data(self, text: str) -> (int, int):
         match = re.match("([0-9]+)/([0-9]+)", text)
@@ -39,7 +39,7 @@ class Command(BaseCommand):
         District.objects.all().delete()
         Association.objects.all().delete()
 
-        os.makedirs(self.reports_path, exist_ok=True)
+        os.makedirs(self.reports_root, exist_ok=True)
 
         associations = [
             ('Badischer Handball-Verband', 'BHV', 'BAD')
@@ -114,16 +114,18 @@ class Command(BaseCommand):
 
         game_rows = tree.xpath('//table[@class="gametable"]/tr[position() > 1 and ./td[11]/a/@href]')
         for num, game_row in enumerate(game_rows):
-            self.create_scores(game_row, league=league)
+            self.create_game(game_row, league=league)
             if self.mode >= 3:
                 break
 
-    def create_scores(self, game_row, league):
+    def create_game(self, game_row, league):
         report_url = game_row.xpath('./td[11]/a/@href')[0]
         params = urlsplit(report_url)[3]
         game_id = parse_qs(params)['sGID'][0]
-        file_path = "{}/{}.pdf".format(self.reports_path, game_id)
+        if Game.objects.filter(number=game_id).exists():
+            return
 
+        file_path = os.path.join(self.reports_root, league.district.association.abbreviation, game_id) + '.pdf'
         if not os.path.isfile(file_path):
             response = requests.get(report_url, stream=True)
             with open(file_path, 'wb') as file:
@@ -132,14 +134,16 @@ class Command(BaseCommand):
         teams_pdf = tabula.read_pdf(file_path, output_format='json', **{'pages': 1, 'lattice': True})
         team_names = teams_pdf[0]['data'][3][1]['text']
         home_team_name, guest_team_name = self.parse_team_names(team_names)
+        home_team = Team.objects.get_or_create(name=home_team_name, league=league)[0]
+        guest_team = Team.objects.get_or_create(name=guest_team_name, league=league)[0]
+        game = Game(number=game_id, home_team=home_team, guest_team=guest_team)
+
         scores_pdf = tabula.read_pdf(file_path, output_format='json', encoding='cp1252',
                                      **{'pages': 2, 'lattice': True})
+        self.add_scores(scores_pdf[0], game=game, team=home_team)
+        self.add_scores(scores_pdf[1], game=game, team=guest_team)
 
-        self.add_scores(scores_pdf[0], team_name=home_team_name, league=league)
-        self.add_scores(scores_pdf[1], team_name=guest_team_name, league=league)
-
-    def add_scores(self, table, team_name, league):
-        team = Team.objects.get_or_create(name=team_name, league=league)[0]
+    def add_scores(self, table, game, team):
         table_rows = table['data']
         for table_row in table_rows[2:]:
             row_data = [cell['text'] for cell in table_row]
@@ -164,6 +168,7 @@ class Command(BaseCommand):
             try:
                 score = Score(
                     player=player,
+                    game=game,
                     goals=goals_total,
                     penalty_goals=penalty_goals,
                 )
