@@ -135,6 +135,8 @@ class Command(BaseCommand):
         home_team_name, guest_team_name = self.parse_team_names(team_names)
         home_team = Team.objects.get_or_create(name=home_team_name, league=league)[0]
         guest_team = Team.objects.get_or_create(name=guest_team_name, league=league)[0]
+        if Game.objects.filter(home_team=home_team, guest_team=guest_team).exists():
+            return
         game = Game(number=game_id, home_team=home_team, guest_team=guest_team)
         game.save()
 
