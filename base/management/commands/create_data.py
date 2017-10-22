@@ -29,15 +29,17 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
         parser.add_argument('--mode', help="0=all, 1=adults, 2=m-vl, 3=game", type=int)
+        parser.add_argument('--clean', action="store_true")
 
     def handle(self, *args, **options):
         self.mode = options.get('mode', 0)
-        Score.objects.all().delete()
-        Player.objects.all().delete()
-        Team.objects.all().delete()
-        League.objects.all().delete()
-        District.objects.all().delete()
-        Association.objects.all().delete()
+        if options['clean']:
+            Score.objects.all().delete()
+            Player.objects.all().delete()
+            Team.objects.all().delete()
+            League.objects.all().delete()
+            District.objects.all().delete()
+            Association.objects.all().delete()
 
         os.makedirs(self.reports_root, exist_ok=True)
 
@@ -54,8 +56,7 @@ class Command(BaseCommand):
             self.create_association(*association)
 
     def create_association(self, name, acronym, abbreviation):
-        association = Association(name=name, acronym=acronym, abbreviation=abbreviation)
-        association.save()
+        association = Association.objects.get_or_create(name=name, acronym=acronym, abbreviation=abbreviation)[0]
 
         districts = [
             ('Baden-Württemberg Oberliga', 'BWOL', association, 35, 4),
@@ -74,8 +75,7 @@ class Command(BaseCommand):
             self.create_district(*data)
 
     def create_district(self, name, abbreviation, association, group_id, org_id):
-        district = District(name=name, abbreviation=abbreviation, association=association)
-        district.save()
+        district = District.objects.get_or_create(name=name, abbreviation=abbreviation, association=association)[0]
 
         url = 'http://spo.handball4all.de/Spielbetrieb/index.php'
         request_data = {
@@ -103,14 +103,12 @@ class Command(BaseCommand):
         heading = tree.xpath('//*[@id="results"]/div/h1/text()[2]')[0]
         name = heading.split(' - ')[0]
 
-        league = League(name=name, abbreviation=abbreviation, district=district)
-        league.save()
+        league = League.objects.get_or_create(name=name, abbreviation=abbreviation, district=district)[0]
 
         team_links = tree.xpath('//table[@class="scoretable"]/tr[position() > 1]/td[3]/a')
 
         for team_link in team_links:
-            team = Team(name=team_link.text, league=league)
-            team.save()
+            Team.objects.get_or_create(name=team_link.text, league=league)
 
         game_rows = tree.xpath('//table[@class="gametable"]/tr[position() > 1 and ./td[11]/a/@href]')
         for num, game_row in enumerate(game_rows):
@@ -137,6 +135,7 @@ class Command(BaseCommand):
         home_team = Team.objects.get_or_create(name=home_team_name, league=league)[0]
         guest_team = Team.objects.get_or_create(name=guest_team_name, league=league)[0]
         game = Game(number=game_id, home_team=home_team, guest_team=guest_team)
+        game.save()
 
         scores_pdf = tabula.read_pdf(file_path, output_format='json', encoding='cp1252',
                                      **{'pages': 2, 'lattice': True})
