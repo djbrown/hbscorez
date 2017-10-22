@@ -143,7 +143,7 @@ class Command(BaseCommand):
         try:
             scores_pdf = tabula.read_pdf(file_path, output_format='json', encoding='cp1252',
                                          **{'pages': 2, 'lattice': True})
-        except UnicodeEncodeError:
+        except UnicodeDecodeError:
             self.stdout.write(file_path)
             return
 
