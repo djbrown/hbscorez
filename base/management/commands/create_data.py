@@ -93,7 +93,7 @@ class Command(BaseCommand):
 
     def create_league(self, link, district):
         abbreviation = link.text
-        if self.mode > 0 and (abbreviation[:2] == 'mJ' or abbreviation[:2] == 'wJ') or (
+        if self.mode > 0 and (abbreviation[:2] == 'mJ' or abbreviation[:2] == 'wJ' or abbreviation[:2] == 'gJ') or (
                         self.mode > 1 and abbreviation != 'M-VL'):
             return
 
