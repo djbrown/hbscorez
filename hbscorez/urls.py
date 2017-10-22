@@ -12,7 +12,7 @@ urlpatterns = [
     url(r'^kontakt/$', contact, name='contact'),
     url(r'^admin/', admin.site.urls),
     url(r'^verbaende/$', assoc.associations, name='assocs'),
-    url(r'^(?P<assoc_abbr>[a-z]+)/', include('associations.urls', namespace='assoc')),
+    url(r'^(?P<assoc_abbr>[^/]+)/', include('associations.urls', namespace='assoc')),
 ]
 
 if settings.DEBUG:
