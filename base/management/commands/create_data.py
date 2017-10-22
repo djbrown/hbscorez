@@ -57,6 +57,7 @@ class Command(BaseCommand):
 
     def create_association(self, name, acronym, abbreviation):
         association = Association.objects.get_or_create(name=name, acronym=acronym, abbreviation=abbreviation)[0]
+        os.makedirs(os.path.join(self.reports_root, abbreviation), exist_ok=True)
 
         districts = [
             ('Baden-Württemberg Oberliga', 'BWOL', association, 35, 4),
