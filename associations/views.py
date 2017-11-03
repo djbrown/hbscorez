@@ -9,5 +9,5 @@ def associations(request):
 
 
 def association(request, assoc_abbr):
-    assoc = Association.objects.filter(abbreviation__iexact=assoc_abbr).first()
+    assoc = Association.objects.filter(abbreviation__iexact=assoc_abbr.upper()).first()
     return render(request, 'associations/association.html', {'association': assoc})
