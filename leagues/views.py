@@ -8,15 +8,15 @@ from scorers.models import Team, Player
 
 
 def league(request, assoc_abbr, dist_abbr, league_abbr):
-    district = District.objects.filter(abbreviation__iexact=dist_abbr).first()
-    l = League.objects.filter(abbreviation__iexact=league_abbr, district=district).first()
-    return render(request, 'scorers/league.html', {'league': l})
+    district = District.objects.filter(abbreviation=dist_abbr.upper()).first()
+    league = League.objects.filter(abbreviation=league_abbr.upper(), district=district).first()
+    return render(request, 'scorers/league.html', {'league': league})
 
 
 def league_scorers(request, assoc_abbr, dist_abbr, league_abbr):
-    association = Association.objects.filter(abbreviation__iexact=assoc_abbr).first()
-    district = District.objects.filter(abbreviation__iexact=dist_abbr, association=association).first()
-    league = League.objects.filter(abbreviation__iexact=league_abbr, district=district).first()
+    association = Association.objects.filter(abbreviation=assoc_abbr.upper()).first()
+    district = District.objects.filter(abbreviation=dist_abbr.upper(), association=association).first()
+    league = League.objects.filter(abbreviation=league_abbr.upper(), district=district).first()
     teams = Team.objects.filter(league=league)
     scorers = Player.objects \
         .only('name', 'team') \
