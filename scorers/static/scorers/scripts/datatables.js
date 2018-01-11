@@ -1,5 +1,6 @@
 $(document).ready(function() {
     $('#scores').dataTable({
+        "colReorder": true,
         "language": {
             //"url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/German.json"
             "sEmptyTable":      "Keine Daten in der Tabelle vorhanden",
