@@ -26,6 +26,9 @@
             <th>Sp.</th>
             <th>Tore</th>
             <th>7m</th>
+            <th>Feldt.</th>
+            <th>Tore &Oslash;</th>
+            <th>Feldt. &Oslash;</th>
         </tr>
         </thead>
         <tfoot>
@@ -36,6 +39,9 @@
             <th>Sp.</th>
             <th>Tore</th>
             <th>7m</th>
+            <th>Feldt.</th>
+            <th>Tore &Oslash;</th>
+            <th>Feldt. &Oslash;</th>
         </tr>
         </tfoot>
         <tbody>
@@ -51,6 +57,9 @@
             <td>{{ scorer.games }}</td>
             <td>{{ scorer.total_goals }}</td>
             <td>{{ scorer.total_penalty_goals }}</td>
+            <td>{{ scorer.total_goals - scorer.total_penalty_goals }}</td>
+            <td>{{ '%0.2f'| format(scorer.total_goals / scorer.games) }}</td>
+            <td>{{ '%0.2f'| format((scorer.total_goals - scorer.total_penalty_goals) / scorer.games) }}</td>
         </tr>
         {% endfor %}
         </tbody>
