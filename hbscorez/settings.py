@@ -16,10 +16,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'base.apps.BaseConfig',
-    'associations.apps.AssociationsConfig',
-    'districts.apps.DistrictsConfig',
-    'leagues.apps.LeaguesConfig',
-    'scorers.apps.ScorersConfig',
 ]
 
 MIDDLEWARE = [

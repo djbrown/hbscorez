@@ -7,11 +7,10 @@
 {% endblock %}
 {% block content %}
 <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="{{ league.district.association.get_absolute_url() }}">{{
+    <li class="breadcrumb-item"><a href="{{ league.district.association.url() }}">{{
         league.district.association.abbreviation }}</a></li>
-    <li class="breadcrumb-item"><a href="{{ league.district.get_absolute_url() }}">{{ league.district.abbreviation
-        }}</a></li>
-    <li class="breadcrumb-item"><a href="{{ league.get_absolute_url() }}">{{ league.abbreviation }}</a></li>
+    <li class="breadcrumb-item"><a href="{{ league.district.url() }}">{{ league.district.abbreviation }}</a></li>
+    <li class="breadcrumb-item"><a href="{{ league.url() }}">{{ league.abbreviation }}</a></li>
     <li class="breadcrumb-item active"><a>Torjäger</a></li>
 </ol>
 <h1>{{ league.name }}</h1>
@@ -52,7 +51,7 @@
             <td>
                 {#<img class="table-team-logo" src="{{ team_logo_url(scorer.team) }}" width="25px">#}
                 <img class="table-team-logo" src="{{ static('base/images/favicons/favicon.png') }}" width="25px">
-                <a href="{{ scorer.team.get_absolute_url() }}">{{ scorer.team.name }}</a>
+                <a href="{{ scorer.team.url() }}">{{ scorer.team.name }}</a>
             </td>
             <td>{{ scorer.games }}</td>
             <td>{{ scorer.total_goals }}</td>
@@ -70,5 +69,5 @@
 <!-- DataTables Builder: Bootstrap 4, DataTables, ColReorder, FixedColumns, FixedHeader -->
 <script type="text/javascript"
         src="https://cdn.datatables.net/v/bs4/dt-1.10.16/cr-1.4.1/fc-3.2.3/fh-3.1.3/datatables.min.js"></script>
-<script type="text/javascript" src="{{ static('scorers/scripts/datatables.js') }}"></script>
+<script type="text/javascript" src="{{ static('base/scripts/datatables.js') }}"></script>
 {% endblock %}

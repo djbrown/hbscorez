@@ -5,14 +5,14 @@
 {% endblock %}
 {% block content %}
 <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="{{ district.association.get_absolute_url() }}">{{
+    <li class="breadcrumb-item"><a href="{{ district.association.url() }}">{{
         district.association.abbreviation }}</a></li>
     <li class="breadcrumb-item active"><a>{{ district.abbreviation }}</a></li>
 </ol>
 <h1>{{ district.name }}</h1>
 <ul>
     {% for league in district.league_set.all() %}
-    <li><a href="{{ league.get_absolute_url() }}">
+    <li><a href="{{ league.url() }}">
         {% if league.abbreviation.upper().startswith("M") %}
         <i class="fa fa-male" aria-hidden="true"></i>
         {% elif league.abbreviation.upper().startswith("F") %}

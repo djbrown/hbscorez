@@ -4,7 +4,7 @@
 <h1>Verbände</h1>
 <ul>
     {% for association in associations %}
-    <li><a href="{{ association.get_absolute_url() }}">{{ association.name }}</a></li>
+    <li><a href="{{ association.url() }}">{{ association.name }}</a></li>
     {% endfor %}
 </ul>
 {% endblock %}

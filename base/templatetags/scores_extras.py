@@ -1,6 +1,6 @@
 from django.contrib.staticfiles.templatetags.staticfiles import static
 
-from scorers.models import Team
+from base.models import *
 
 
 def dec(value, arg):

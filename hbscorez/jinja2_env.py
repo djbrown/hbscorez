@@ -3,7 +3,7 @@ from django.urls import reverse
 
 from jinja2 import Environment
 
-from scorers.templatetags.scores_extras import team_logo_url, place
+from base.templatetags.scores_extras import team_logo_url, place
 
 
 def environment(**options):

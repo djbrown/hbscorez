@@ -1,7 +1,10 @@
 from django.contrib import admin
 
-from .models import Score, Team, Game, Player
+from base.models import *
 
+admin.site.register(Association)
+admin.site.register(District)
+admin.site.register(League)
 admin.site.register(Team)
 admin.site.register(Player)
 admin.site.register(Game)

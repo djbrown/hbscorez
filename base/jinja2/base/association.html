@@ -8,7 +8,7 @@
 <h2>Bereiche</h2>
 <ul>
     {% for district in association.district_set.all() %}
-    <li><a href="{{ district.get_absolute_url() }}">{{ district.name }}</a></li>
+    <li><a href="{{ district.url() }}">{{ district.name }}</a></li>
     {% endfor %}
 </ul>
 {% endblock %}
