@@ -1,8 +1,10 @@
-FROM python:3
+FROM python:3-stretch
 ENV PYTHONUNBUFFERED 1
 RUN mkdir /code
 WORKDIR /code
-ADD requirements.txt /code/
+COPY requirements.txt .
 RUN pip install -r requirements.txt
-RUN apt-get update && apt-get install -y openjdk-7-jre
-ADD . /code/
+RUN apt-get update && apt-get install -y \
+    openjdk-8-jre
+COPY . .
+CMD sh run.sh
