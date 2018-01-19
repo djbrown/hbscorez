@@ -22,7 +22,7 @@
 <h2>Teams</h2>
 <ul>
     {% for team in league.team_set.all() %}
-    <li><a>{{ team.name }}</a></li>
+    <li><a href="{{ team.get_absolute_url() }}">{{ team.name }}</a></li>
     {% endfor %}
 </ul>
 {% endblock %}

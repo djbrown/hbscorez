@@ -4,7 +4,7 @@ from django.conf.urls.static import static
 from django.contrib import admin
 
 from associations import views as assoc
-from base.views import notice, home, contact
+from base.views import notice, home, contact, team
 
 urlpatterns = [
     url(r'^$', home, name='home'),
@@ -12,6 +12,7 @@ urlpatterns = [
     url(r'^kontakt/$', contact, name='contact'),
     url(r'^admin/', admin.site.urls),
     url(r'^verbaende/$', assoc.associations, name='assocs'),
+    url(r'^team/(?P<team_id>\d+)/$', team, name='team'),
     url(r'^(?P<assoc_abbr>[^/]+)/', include('associations.urls', namespace='assoc')),
 ]
 

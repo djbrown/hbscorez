@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 
 from leagues.models import League
 
@@ -11,6 +12,12 @@ class Team(models.Model):
 
     class Meta:
         unique_together = ('name', 'league')
+
+    def get_absolute_url(self):
+        params = {
+            'team_id': self.id,
+        }
+        return reverse('team', kwargs=params)
 
     def __str__(self):
         return 'Team: {}/{}'.format(self.name, self.league.abbreviation)
