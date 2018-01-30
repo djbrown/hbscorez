@@ -7,10 +7,16 @@
 {% endblock %}
 {% block content %}
 <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="{{ league.district.association.url() }}">{{
-        league.district.association.abbreviation }}</a></li>
-    <li class="breadcrumb-item"><a href="{{ league.district.url() }}">{{ league.district.abbreviation }}</a></li>
-    <li class="breadcrumb-item"><a href="{{ league.url() }}">{{ league.abbreviation }}</a></li>
+    <li class="breadcrumb-item"><a href="{{ url('associations') }}">Verbände</a></li>
+    <li class="breadcrumb-item">
+        {% for association in league.district.associations.all() %}
+        <a class="breadcrumb-item-part" href="{{ association.get_absolute_url() }}">{{ association.abbreviation }}</a>
+        {% endfor %}
+    </li>
+    <li class="breadcrumb-item">
+        <a href="{{ league.district.get_absolute_url() }}">{{ league.district.name }}</a>
+    </li>
+    <li class="breadcrumb-item"><a href="{{ league.get_absolute_url() }}">{{ league.abbreviation }}</a></li>
     <li class="breadcrumb-item active"><a>Torjäger</a></li>
 </ol>
 <h1>{{ league.name }}</h1>
@@ -44,21 +50,21 @@
         </tr>
         </tfoot>
         <tbody>
-        {% for scorer in scorers %}
+        {% for player in players %}
         <tr>
-            <th scope="row">{{ place(scorers, loop.index0) }}</th>
-            <td>{{ scorer.name }}</td>
+            <th scope="row">{{ place(players, loop.index0) }}</th>
+            <td><a href="{{ player.get_absolute_url() }}">{{ player.name }}</a></td>
             <td>
-                {#<img class="table-team-logo" src="{{ team_logo_url(scorer.team) }}" width="25px">#}
+                {#<img class="table-team-logo" src="{{ team_logo_url(player.team) }}" width="25px">#}
                 <img class="table-team-logo" src="{{ static('base/images/favicons/favicon.png') }}" width="25px">
-                <a href="{{ scorer.team.url() }}">{{ scorer.team.name }}</a>
+                <a href="{{ player.team.get_absolute_url() }}">{{ player.team.name }}</a>
             </td>
-            <td>{{ scorer.games }}</td>
-            <td>{{ scorer.total_goals }}</td>
-            <td>{{ scorer.total_penalty_goals }}</td>
-            <td>{{ scorer.total_goals - scorer.total_penalty_goals }}</td>
-            <td>{{ '%0.2f'| format(scorer.total_goals / scorer.games) }}</td>
-            <td>{{ '%0.2f'| format((scorer.total_goals - scorer.total_penalty_goals) / scorer.games) }}</td>
+            <td>{{ player.games }}</td>
+            <td>{{ player.total_goals }}</td>
+            <td>{{ player.total_penalty_goals }}</td>
+            <td>{{ player.total_goals - player.total_penalty_goals }}</td>
+            <td>{{ '%0.2f'| format(player.total_goals / player.games) }}</td>
+            <td>{{ '%0.2f'| format((player.total_goals - player.total_penalty_goals) / player.games) }}</td>
         </tr>
         {% endfor %}
         </tbody>

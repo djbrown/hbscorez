@@ -7,61 +7,50 @@
 {% endblock %}
 {% block content %}
 <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="{{ team.league.district.association.get_absolute_url() }}">{{
-        team.league.district.association.abbreviation }}</a></li>
-    <li class="breadcrumb-item"><a href="{{ team.league.district.get_absolute_url() }}">{{
-        team.league.district.abbreviation
-        }}</a></li>
-    <li class="breadcrumb-item active"><a href="{{ team.league.get_absolute_url() }}">{{ team.league.abbreviation }}</a>
+    <li class="breadcrumb-item"><a href="{{ player.team.league.district.association.get_absolute_url() }}">{{
+        player.team.league.district.association.abbreviation }}</a></li>
+    <li class="breadcrumb-item"><a href="{{ player.team.league.district.get_absolute_url() }}">{{
+        player.team.league.district.abbreviation }}</a></li>
+    <li class="breadcrumb-item active"><a href="{{ player.team.league.get_absolute_url() }}">{{
+        player.team.league.abbreviation }}</a>
     </li>
-    <li class="breadcrumb-item active"><a>{{ team.name }}</a></li>
+    <li class="breadcrumb-item active"><a href="{{ player.team.get_absolute_url() }}">{{ player.team.name }}</a></li>
 </ol>
-<h1>{{ team.name }}</h1>
+<h1>{{ player.name }}</h1>
 <h2>Torjäger</h2>
 <div class="table-responsive">
     <table id="scores" class="table table-sm table-striped" cellspacing="0" width="100%">
         <thead>
         <tr>
-            <th>Pl.</th>
-            <th>Name</th>
-            <th>Mannschaft</th>
-            <th>Sp.</th>
+            <th>Gegner</th>
+            <th>Ort</th>
             <th>Tore</th>
             <th>7m</th>
             <th>Feldt.</th>
-            <th>Tore &Oslash;</th>
-            <th>Feldt. &Oslash;</th>
         </tr>
         </thead>
         <tfoot>
         <tr>
-            <th>Pl.</th>
-            <th>Name</th>
-            <th>Mannschaft</th>
-            <th>Sp.</th>
+            <th>Gegner</th>
+            <th>Ort</th>
             <th>Tore</th>
             <th>7m</th>
             <th>Feldt.</th>
-            <th>Tore &Oslash;</th>
-            <th>Feldt. &Oslash;</th>
         </tr>
         </tfoot>
         <tbody>
-        {% for player in players %}
+        {% for score in scores %}
+        {% set opponent_team = score.game.home_team if score.game.guest_team == player.team else score.game.guest_team  %}
         <tr>
-            <th scope="row">{{ place(players, loop.index0) }}</th>
-            <td><a href="{{ player.get_absolute_url() }}">{{ player.name }}</a></td>
             <td>
-                {#<img class="table-team-logo" src="{{ team_logo_url(player.team) }}" width="25px">#}
+                {#<img class="table-team-logo" src="{{ team_logo_url(opponent_team) }}" width="25px">#}
                 <img class="table-team-logo" src="{{ static('base/images/favicons/favicon.png') }}" width="25px">
-                <a href="{{ player.team.get_absolute_url() }}">{{ player.team.name }}</a>
+                <a href="{{ opponent_team.get_absolute_url() }}">{{ opponent_team.name }}</a>
             </td>
-            <td>{{ player.games }}</td>
-            <td>{{ player.total_goals }}</td>
-            <td>{{ player.total_penalty_goals }}</td>
-            <td>{{ player.total_goals - player.total_penalty_goals }}</td>
-            <td>{{ '%0.2f'| format(player.total_goals / player.games) }}</td>
-            <td>{{ '%0.2f'| format((player.total_goals - player.total_penalty_goals) / player.games) }}</td>
+            <td>{{ 'Heim' if score.game.home_team == player.team else 'Auswärts' }}</td>
+            <td>{{ score.goals }}</td>
+            <td>{{ score.penalty_goals }}</td>
+            <td>{{ score.goals - score.penalty_goals }}</td>
         </tr>
         {% endfor %}
         </tbody>
@@ -110,5 +99,10 @@ $(document).ready(function() {
         }
     });
 } );
+
+
+
+
+
 </script>
 {% endblock %}

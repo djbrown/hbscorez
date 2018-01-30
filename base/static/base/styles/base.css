@@ -7,6 +7,13 @@ body {
   padding-top: 50px;
 }
 
+.breadcrumb-item-part + .breadcrumb-item-part::before {
+    display: inline-block;
+    padding-right: .5rem;
+    color: #868e96;
+    content: ",";
+}
+
 /*
  * Typography
  */

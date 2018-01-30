@@ -5,14 +5,18 @@
 {% endblock %}
 {% block content %}
 <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="{{ district.association.url() }}">{{
-        district.association.abbreviation }}</a></li>
-    <li class="breadcrumb-item active"><a>{{ district.abbreviation }}</a></li>
+    <li class="breadcrumb-item"><a href="{{ url('associations') }}">Verbände</a></li>
+    <li class="breadcrumb-item">
+        {% for association in district.associations.all() %}
+        <a class="breadcrumb-item-part" href="{{ association.get_absolute_url() }}">{{ association.abbreviation }}</a>
+        {% endfor %}
+    </li>
+    <li class="breadcrumb-item active"><a>{{ district.name }}</a></li>
 </ol>
 <h1>{{ district.name }}</h1>
 <ul>
     {% for league in district.league_set.all() %}
-    <li><a href="{{ league.url() }}">
+    <li><a href="{{ league.get_absolute_url() }}">
         {% if league.abbreviation.upper().startswith("M") %}
         <i class="fa fa-male" aria-hidden="true"></i>
         {% elif league.abbreviation.upper().startswith("F") %}
