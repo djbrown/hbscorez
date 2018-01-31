@@ -100,8 +100,7 @@ class Game(models.Model):
     def report_url(self):
         return 'https://spo.handball4all.de/misc/sboPublicReports.php?sGID={}'.format(self.bhv_id)
 
-    class Meta:
-        unique_together = ('home_team', 'guest_team')
+    def __str__(self):
 
 
 class Score(models.Model):
