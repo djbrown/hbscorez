@@ -34,7 +34,7 @@ class Command(BaseCommand):
     processed_districts = []
 
     def add_arguments(self, parser):
-        parser.add_argument('--include-youth', action='store_true', help="Setup youth teams.")
+        parser.add_argument('--include-youth', action='store_true', help="Include youth teams in setup.")
 
     def handle(self, *args, **options):
         self.prepare_with_options(**options)
