@@ -36,7 +36,7 @@ class Command(BaseCommand):
         parser.add_argument('--youth', action='store_true', help="include youth teams")
 
     def handle(self, *args, **options):
-        os.remove(self.youth_log_file)
+        open(self.youth_log_file, 'w').close()
         self.create_associations()
 
     def create_associations(self):
@@ -45,7 +45,7 @@ class Command(BaseCommand):
         association_links = tree.xpath('//div[@id="main-content"]/div/ul/li/a')
         for association_num, association_link in enumerate(association_links, start=1):
             # todo: remove debug condition
-            # if association_num != 7:
+            # if association_num != :
             #     continue
             nums = (association_num, len(association_links))
             self.stdout.write('({}/{})'.format(*nums), ending='')
@@ -65,13 +65,12 @@ class Command(BaseCommand):
 
         response = requests.get(association.source_url())
         response.encoding = 'utf-8'
-
         tree = html.fromstring(response.text)
         district_items = tree.xpath('//select[@name="orgID"]/option[position()>1]')
         for district_num, district_item in enumerate(district_items, start=1):
             # todo: remove debug condition
-            # if district_num != 2:
-            # continue
+            # if district_num != :
+            #     continue
             nnums = (*nums, district_num, len(district_items))
             self.stdout.write('({}/{}) ({}/{})'.format(*nnums), ending='')
             self.create_district(district_item, association, nnums)
@@ -93,10 +92,11 @@ class Command(BaseCommand):
         response = requests.get(district.source_url())
         response.encoding = 'utf-8'
         tree = html.fromstring(response.text)
+        # league_links = tree.xpath('//div[@id="results"]/div/table[2]/tr[td[2][text() != " "]]/td[1]/a')
         league_links = tree.xpath('//div[@id="results"]/div/table[2]/tr/td[1]/a')
         for league_num, league_link in enumerate(league_links, start=1):
             # todo: remove debug condition
-            # if league_num != 3:
+            # if league_num != :
             #     continue
             nnums = (*nums, league_num, len(league_links))
             self.stdout.write('({}/{}) ({}/{}) ({}/{})'.format(*nnums), ending='')
@@ -125,6 +125,10 @@ class Command(BaseCommand):
             self.stdout.write('\tSKIPPING (youth league)')
             return
 
+        team_links = tree.xpath('//table[@class="scoretable"]/tr[position() > 1]/td[3]/a')
+        if not team_links:
+            return
+
         league, created = League.objects.get_or_create(name=name, abbreviation=abbreviation, district=district,
                                                        bhv_id=bhv_id)
         if created:
@@ -135,36 +139,42 @@ class Command(BaseCommand):
         league_dir = os.path.join(settings.BASE_DIR, "reports", str(league.bhv_id))
         os.makedirs(league_dir, exist_ok=True)
 
-        team_links = tree.xpath('//table[@class="scoretable"]/tr[position() > 1]/td[3]/a')
-
         for team_num, team_link in enumerate(team_links, start=1):
             # todo: remove debug condition
-            # if team_num != 3:
+            # if team_num != :
             #     continue
             nnums = (*nums, team_num, len(team_links))
             self.stdout.write('({}/{}) ({}/{}) ({}/{}) ({}/{})'.format(*nnums), ending='')
             self.create_team(team_link, league, nnums)
 
         # todo: game creation has to happen after report was downloaded
-        # todo: can be avoided if a mapping between full team name and short team name was established
         game_rows = tree.xpath('//table[@class="gametable"]/tr[position() > 1 and ./td[11]/a/@href]')
         for game_num, game_row in enumerate(game_rows, start=1):
             # todo: remove debug condition
-            # if game_num != 3:
+            # if game_num != :
             #     continue
             nnums = (*nums, game_num, len(game_rows))
             self.stdout.write('({}/{}) ({}/{}) ({}/{}) ({}/{})'.format(*nnums), ending='')
-            self.stdout.write("\t SKIPPING (don't create games)")
-            continue
-            for cell in game_row:
-                print(cell.text)
+            # self.stdout.write("\t SKIPPING (don't create games)")
+            # for cell in game_row:
+            # print(cell.text)
             self.create_game(game_row, league)
 
     def create_team(self, link, league, nums):
         href = link.get('href')
         query = urlsplit(href).query
         bhv_id = parse_qs(query)['teamID'][0]
-        team, created = Team.objects.get_or_create(name=link.text, league=league, bhv_id=bhv_id)
+        name = link.text
+
+        url = 'https://spo.handball4all.de/Spielbetrieb/index.php' + href
+        response = requests.get(url)
+        response.encoding = 'utf-8'
+        tree = html.fromstring(response.text)
+        game_rows = tree.xpath('//table[@class="gametable"]/tr[position() > 1]')
+        short_team_names = [c.text for game_row in game_rows for c in game_row.xpath('td')[4:6:2]]
+        short_team_name = max(set(short_team_names), key=short_team_names.count)
+
+        team, created = Team.objects.get_or_create(name=name, short_name=short_team_name, league=league, bhv_id=bhv_id)
         if created:
             self.stdout.write('\tCREATING\t{}'.format(team))
         else:
@@ -173,18 +183,19 @@ class Command(BaseCommand):
     def create_game(self, game_row, league):
         report_url = game_row.xpath('./td[11]/a/@href')[0]
         params = urlsplit(report_url).query
-        game_id = parse_qs(params)['sGID'][0]
-        if Game.objects.filter(number=game_id).exists():
-            return
-
-        number = game_row[1]
-        # todo: add short team name mapping or create game from report
-        home_team = Team.get(league=league)
-        game, created = Game.objects.get_or_create(number=number, league=league, home_team=home_team, bhv_id=bhv_id)
+        bhv_id = parse_qs(params)['sGID'][0]
+        number = game_row[1].text
+        home_team_short_name = game_row.xpath('td[5]')[0].text
+        guest_team_short_name = game_row.xpath('td[7]')[0].text
+        home_team = Team.objects.get(league=league, short_name=home_team_short_name)
+        guest_team = Team.objects.get(league=league, short_name=guest_team_short_name)
+        game, created = Game.objects.get_or_create(number=number, league=league, home_team=home_team,
+                                                   guest_team=guest_team, bhv_id=bhv_id)
         if created:
-            self.stdout.write('\tCREATING\t{}'.format(team))
+            self.stdout.write('\tCREATING\t{}'.format(game))
         else:
-            self.stdout.write('\tEXISTING\t{}'.format(team))
+            self.stdout.write('\tEXISTING\t{}'.format(game))
+        return
 
         file_path = os.path.join(reports_root, league.district.association.abbreviation, game_id) + '.pdf'
         if not os.path.isfile(file_path):

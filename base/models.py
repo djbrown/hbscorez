@@ -11,7 +11,7 @@ class Association(models.Model):
         return reverse('association', kwargs={'pk': self.pk})
 
     def source_url(self):
-        return 'https://spo.handball4all.de/Spielbetrieb/?orgGrpID={}'.format(self.bhv_id)
+        return 'https://spo.handball4all.de/Spielbetrieb/index.php?orgGrpID={}'.format(self.bhv_id)
 
     def __str__(self):
         return 'Association: {}'.format(self.abbreviation)
@@ -26,7 +26,7 @@ class District(models.Model):
         return reverse('district', kwargs={'pk': self.pk})
 
     def source_url(self):
-        return 'https://spo.handball4all.de/Spielbetrieb/?orgGrpID={}&orgID={}'.format(
+        return 'https://spo.handball4all.de/Spielbetrieb/index.php?orgGrpID={}&orgID={}'.format(
             self.associations.all()[0].bhv_id,
             self.bhv_id)
 
@@ -50,7 +50,7 @@ class League(models.Model):
         return reverse('league_players', kwargs={'pk': self.pk})
 
     def bhv_url(self):
-        return 'spo.handball4all.de/Spielbetrieb/?orgGrpID={}&score={}'.format(
+        return 'spo.handball4all.de/Spielbetrieb/index.php?orgGrpID={}&score={}'.format(
             self.district.associations.all()[0].bhv_id, self.bhv_id)
 
     def __str__(self):
@@ -59,19 +59,20 @@ class League(models.Model):
 
 class Team(models.Model):
     name = models.TextField()
+    short_name = models.TextField()
     league = models.ForeignKey(League)
     bhv_id = models.IntegerField(unique=True)
 
     # logo = models.ImageField(upload_to=os.path.join(settings.MEDIA_ROOT, 'club-logos'))
 
     class Meta:
-        unique_together = ('name', 'league')
+        unique_together = (('name', 'league'), ('short_name', 'league'))
 
     def get_absolute_url(self):
         return reverse('team', kwargs={'pk': self.pk, })
 
     def bhv_url(self):
-        return 'https://spo.handball4all.de/Spielbetrieb/?orgGrpID={}&score={}&teamID={}'.format(
+        return 'https://spo.handball4all.de/Spielbetrieb/index.php?orgGrpID={}&score={}&teamID={}'.format(
             self.league.district.associations.all()[0].bhv_id, self.league.bhv_id, self.bhv_id)
 
     def __str__(self):
