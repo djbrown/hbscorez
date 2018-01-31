@@ -76,7 +76,7 @@ class Team(models.Model):
             self.league.district.associations.all()[0].bhv_id, self.league.bhv_id, self.bhv_id)
 
     def __str__(self):
-        return 'Team: {}/{}'.format(self.name, self.league.abbreviation)
+        return 'Team: {}'.format(self.name)
 
 
 class Player(models.Model):
@@ -101,6 +101,7 @@ class Game(models.Model):
         return 'https://spo.handball4all.de/misc/sboPublicReports.php?sGID={}'.format(self.bhv_id)
 
     def __str__(self):
+        return 'Game: {} vs. {}'.format(self.home_team.name, self.guest_team.name)
 
 
 class Score(models.Model):
