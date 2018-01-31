@@ -29,15 +29,19 @@ association_abbreviations = {
 
 
 class Command(BaseCommand):
+    include_youth = False
+
     processed_districts = []
-    youth_log_file = 'youth.log'
 
     def add_arguments(self, parser):
-        parser.add_argument('--youth', action='store_true', help="include youth teams")
+        parser.add_argument('--include-youth', action='store_true', help="Setup youth teams.")
 
     def handle(self, *args, **options):
-        open(self.youth_log_file, 'w').close()
+        self.prepare_with_options(**options)
         self.create_associations()
+
+    def prepare_with_options(self, **options):
+        self.include_youth = options['include_youth']
 
     def create_associations(self):
         response = requests.get('https://spo.handball4all.de/')
@@ -114,15 +118,8 @@ class Command(BaseCommand):
         name = heading.split(' - ')[0]
         abbreviation = link.text
 
-        # todo: check --youth flag in condition
-        if abbreviation[:1] in ['m', 'w', 'g', 'u'] \
-                or re.search('MJ', name) \
-                or re.search('WJ', name) \
-                or re.search('Jugend', name) \
-                or re.search('Mini', name):
-            with open(self.youth_log_file, 'a') as file:
-                file.writelines("{} {}\n".format(abbreviation, name))
-            self.stdout.write('\tSKIPPING (youth league)')
+        if self.is_youth_league(abbreviation, name) and not self.include_youth:
+            self.stdout.write('\tSKIPPING (youth league: {} ({}))'.format(name, abbreviation))
             return
 
         team_links = tree.xpath('//table[@class="scoretable"]/tr[position() > 1]/td[3]/a')
@@ -159,6 +156,14 @@ class Command(BaseCommand):
             # for cell in game_row:
             # print(cell.text)
             self.create_game(game_row, league)
+
+    @staticmethod
+    def is_youth_league(league_abbreviation, league_name):
+        return league_abbreviation[:1] in ['m', 'w', 'g', 'u'] \
+               or re.search('MJ', league_name) \
+               or re.search('WJ', league_name) \
+               or re.search('Jugend', league_name) \
+               or re.search('Mini', league_name)
 
     def create_team(self, link, league, nums):
         href = link.get('href')
