@@ -171,7 +171,7 @@ class Command(BaseCommand):
         response.encoding = 'utf-8'
         tree = html.fromstring(response.text)
         game_rows = tree.xpath('//table[@class="gametable"]/tr[position() > 1]')
-        short_team_names = [c.text for game_row in game_rows for c in game_row.xpath('td')[4:6:2]]
+        short_team_names = [c.text for game_row in game_rows for c in game_row.xpath('td')[4:7:2]]
         short_team_name = max(set(short_team_names), key=short_team_names.count)
 
         team, created = Team.objects.get_or_create(name=name, short_name=short_team_name, league=league, bhv_id=bhv_id)
