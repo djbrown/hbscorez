@@ -34,7 +34,7 @@ class Command(BaseCommand):
     processed_districts = []
 
     def add_arguments(self, parser):
-        parser.add_argument('--include-youth', action='store_true', help="Include youth teams in setup.")
+        parser.add_argument('--youth', action='store_true', help="Include youth teams in setup.")
 
         parser.add_argument('--associations', nargs='+', type=int, metavar='orgGrpID',
                             help="orgGrpIDs of Associations to be included in setup.")
@@ -117,7 +117,7 @@ class Command(BaseCommand):
         name = heading.split(' - ')[0]
         abbreviation = link.text
 
-        if self.is_youth_league(abbreviation, name) and not self.options['include_youth']:
+        if self.is_youth_league(abbreviation, name) and not self.options['youth']:
             self.stdout.write(' SKIPPING League: {:5} {} (youth league)'.format(bhv_id, name))
             return
 
