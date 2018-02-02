@@ -23,23 +23,23 @@ def view_associations(request):
     return render(request, 'base/associations.html', {'associations': associations})
 
 
-def view_association(request, pk):
-    association = get_object_or_404(Association, pk=pk)
+def view_association(request, bhv_id):
+    association = get_object_or_404(Association, bhv_id=bhv_id)
     return render(request, 'base/association.html', {'association': association})
 
 
-def view_district(request, pk):
-    district = get_object_or_404(District, pk=pk)
+def view_district(request, bhv_id):
+    district = get_object_or_404(District, bhv_id=bhv_id)
     return render(request, 'base/district.html', {'district': district})
 
 
-def view_league(request, pk):
-    league = get_object_or_404(League, pk=pk)
+def view_league(request, bhv_id):
+    league = get_object_or_404(League, bhv_id=bhv_id)
     return render(request, 'base/league.html', {'league': league})
 
 
-def view_league_players(request, pk):
-    league = get_object_or_404(League, pk=pk)
+def view_league_players(request, bhv_id):
+    league = get_object_or_404(League, bhv_id=bhv_id)
     teams = Team.objects.filter(league=league)
     players = Player.objects \
         .only('name', 'team') \
@@ -52,8 +52,8 @@ def view_league_players(request, pk):
     return render(request, 'base/league_players.html', {'league': league, 'players': players})
 
 
-def view_team(request, pk):
-    team = get_object_or_404(Team, pk=pk)
+def view_team(request, bhv_id):
+    team = get_object_or_404(Team, bhv_id=bhv_id)
     players = Player.objects \
         .filter(team=team) \
         .only('name', 'team') \

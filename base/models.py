@@ -8,7 +8,7 @@ class Association(models.Model):
     bhv_id = models.IntegerField(unique=True)
 
     def get_absolute_url(self):
-        return reverse('association', kwargs={'pk': self.pk})
+        return reverse('association', kwargs={'bhv_id': self.bhv_id})
 
     def source_url(self):
         return 'https://spo.handball4all.de/Spielbetrieb/index.php?orgGrpID={}'.format(self.bhv_id)
@@ -23,7 +23,7 @@ class District(models.Model):
     bhv_id = models.IntegerField(unique=True)
 
     def get_absolute_url(self):
-        return reverse('district', kwargs={'pk': self.pk})
+        return reverse('district', kwargs={'bhv_id': self.bhv_id})
 
     def source_url(self):
         return 'https://spo.handball4all.de/Spielbetrieb/index.php?orgGrpID={}&orgID={}'.format(
@@ -44,10 +44,10 @@ class League(models.Model):
         unique_together = (('name', 'district'), ('abbreviation', 'district'))
 
     def get_absolute_url(self):
-        return reverse('league', kwargs={'pk': self.pk})
+        return reverse('league', kwargs={'bhv_id': self.bhv_id})
 
     def players_url(self):
-        return reverse('league_players', kwargs={'pk': self.pk})
+        return reverse('league_players', kwargs={'bhv_id': self.bhv_id})
 
     def bhv_url(self):
         return 'spo.handball4all.de/Spielbetrieb/index.php?orgGrpID={}&score={}'.format(
@@ -68,7 +68,7 @@ class Team(models.Model):
         unique_together = (('name', 'league'), ('short_name', 'league'))
 
     def get_absolute_url(self):
-        return reverse('team', kwargs={'pk': self.pk, })
+        return reverse('team', kwargs={'bhv_id': self.bhv_id, })
 
     def bhv_url(self):
         return 'https://spo.handball4all.de/Spielbetrieb/index.php?orgGrpID={}&score={}&teamID={}'.format(
