@@ -142,7 +142,7 @@ class Command(BaseCommand):
             self.create_team(team_link, league, nnums)
 
         # todo: game creation has to happen after report was downloaded
-        game_rows = tree.xpath('//table[@class="gametable"]/tr[position() > 1 and ./td[11]/a/@href]')
+        game_rows = tree.xpath("//table[@class='gametable']/tr[position() > 1 and ./td[11]/a[text() = 'PI']/@href]")
         for game_num, game_row in enumerate(game_rows, start=1):
             nnums = (*nums, game_num, len(game_rows))
             self.stdout.write('({:2}/{:2}) ({:2}/{:2}) ({:2}/{:2}) ({:3}/{:3})'.format(*nnums), ending='')
