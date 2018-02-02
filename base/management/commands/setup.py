@@ -98,7 +98,6 @@ class Command(BaseCommand):
         response = requests.get(district.source_url())
         response.encoding = 'utf-8'
         tree = html.fromstring(response.text)
-        # league_links = tree.xpath('//div[@id="results"]/div/table[2]/tr[td[2][text() != " "]]/td[1]/a')
         league_links = tree.xpath('//div[@id="results"]/div/table[2]/tr/td[1]/a')
         for league_num, league_link in enumerate(league_links, start=1):
             nnums = (*nums, league_num, len(league_links))
