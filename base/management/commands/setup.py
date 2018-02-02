@@ -49,7 +49,7 @@ class Command(BaseCommand):
         association_links = tree.xpath('//div[@id="main-content"]/div/ul/li/a')
         for association_num, association_link in enumerate(association_links, start=1):
             nums = (association_num, len(association_links))
-            self.stdout.write('({}/{})'.format(*nums), ending='')
+            self.stdout.write('({:2}/{:2})'.format(*nums), ending='')
             self.create_association(association_link, nums)
 
     def create_association(self, association_link, nums):
@@ -57,12 +57,13 @@ class Command(BaseCommand):
         abbreviation = association_abbreviations[name]
         href = association_link.get('href')
         query = urlsplit(href).query
-        bhv_id = parse_qs(query)['orgGrpID'][0]
+        bhv_id = int(parse_qs(query)['orgGrpID'][0])
+
         association, created = Association.objects.get_or_create(name=name, abbreviation=abbreviation, bhv_id=bhv_id)
         if created:
-            self.stdout.write('\tCREATING\t{}'.format(association))
+            self.stdout.write(' CREATING {}'.format(association))
         else:
-            self.stdout.write('\tEXISTING\t{}'.format(association))
+            self.stdout.write(' EXISTING {}'.format(association))
 
         response = requests.get(association.source_url())
         response.encoding = 'utf-8'
@@ -70,21 +71,24 @@ class Command(BaseCommand):
         district_items = tree.xpath('//select[@name="orgID"]/option[position()>1]')
         for district_num, district_item in enumerate(district_items, start=1):
             nnums = (*nums, district_num, len(district_items))
-            self.stdout.write('({}/{}) ({}/{})'.format(*nnums), ending='')
+            self.stdout.write('({:2}/{:2}) ({:2}/{:2})'.format(*nnums), ending='')
             self.create_district(district_item, association, nnums)
 
     def create_district(self, district_item, association, nums):
         name = district_item.text
-        bhv_id = district_item.get('value')
+        bhv_id = int(district_item.get('value'))
+
+        if bhv_id in self.processed_districts:
+            self.stdout.write(' SKIPPING District: {:2} {} (already processed)'.format(bhv_id, name))
+            return
+
         district, created = District.objects.get_or_create(name=name, bhv_id=bhv_id)
         district.associations.add(association)
-        if bhv_id in self.processed_districts:
-            self.stdout.write(' SKIPPING (already processed)')
-            return
+
         if created:
-            self.stdout.write('\tCREATING\t{}'.format(district))
+            self.stdout.write(' CREATING {}'.format(district))
         else:
-            self.stdout.write('\tEXISTING\t{}'.format(district))
+            self.stdout.write(' EXISTING {}'.format(district))
         self.processed_districts.append(bhv_id)
 
         response = requests.get(district.source_url())
@@ -94,13 +98,13 @@ class Command(BaseCommand):
         league_links = tree.xpath('//div[@id="results"]/div/table[2]/tr/td[1]/a')
         for league_num, league_link in enumerate(league_links, start=1):
             nnums = (*nums, league_num, len(league_links))
-            self.stdout.write('({}/{}) ({}/{}) ({}/{})'.format(*nnums), ending='')
+            self.stdout.write('({:2}/{:2}) ({:2}/{:2}) ({:2}/{:2})'.format(*nnums), ending='')
             self.create_league(league_link, district, nnums)
 
     def create_league(self, link, district, nums):
         href = link.get('href')
         query = urlsplit(href).query
-        bhv_id = parse_qs(query)['score'][0]
+        bhv_id = int(parse_qs(query)['score'][0])
         url = 'https://spo.handball4all.de/Spielbetrieb/index.php?&orgGrpID=1&all=1&score={}'.format(bhv_id)
         response = requests.get(url)
         response.encoding = 'utf-8'
@@ -115,31 +119,29 @@ class Command(BaseCommand):
 
         team_links = tree.xpath('//table[@class="scoretable"]/tr[position() > 1]/td[3]/a')
         if not team_links:
+            self.stdout.write(' SKIPPING League: {:5} {} (no team table)'.format(bhv_id, name))
             return
 
         league, created = League.objects.get_or_create(name=name, abbreviation=abbreviation, district=district,
                                                        bhv_id=bhv_id)
         if created:
-            self.stdout.write('\tCREATING\t{}'.format(league))
+            self.stdout.write(' CREATING {}'.format(league))
         else:
-            self.stdout.write('\tEXISTING\t{}'.format(league))
+            self.stdout.write(' EXISTING {}'.format(league))
 
         league_dir = os.path.join(settings.BASE_DIR, "reports", str(league.bhv_id))
         os.makedirs(league_dir, exist_ok=True)
 
         for team_num, team_link in enumerate(team_links, start=1):
             nnums = (*nums, team_num, len(team_links))
-            self.stdout.write('({}/{}) ({}/{}) ({}/{}) ({}/{})'.format(*nnums), ending='')
+            self.stdout.write('({:2}/{:2}) ({:2}/{:2}) ({:2}/{:2}) ({:2}/{:2})'.format(*nnums), ending='')
             self.create_team(team_link, league, nnums)
 
         # todo: game creation has to happen after report was downloaded
         game_rows = tree.xpath('//table[@class="gametable"]/tr[position() > 1 and ./td[11]/a/@href]')
         for game_num, game_row in enumerate(game_rows, start=1):
             nnums = (*nums, game_num, len(game_rows))
-            self.stdout.write('({}/{}) ({}/{}) ({}/{}) ({}/{})'.format(*nnums), ending='')
-            # self.stdout.write("\t SKIPPING (don't create games)")
-            # for cell in game_row:
-            # print(cell.text)
+            self.stdout.write('({:2}/{:2}) ({:2}/{:2}) ({:2}/{:2}) ({:3}/{:3})'.format(*nnums), ending='')
             self.create_game(game_row, league)
 
     @staticmethod
@@ -153,7 +155,7 @@ class Command(BaseCommand):
     def create_team(self, link, league, nums):
         href = link.get('href')
         query = urlsplit(href).query
-        bhv_id = parse_qs(query)['teamID'][0]
+        bhv_id = int(parse_qs(query)['teamID'][0])
         name = link.text
 
         url = 'https://spo.handball4all.de/Spielbetrieb/index.php' + href
@@ -166,14 +168,14 @@ class Command(BaseCommand):
 
         team, created = Team.objects.get_or_create(name=name, short_name=short_team_name, league=league, bhv_id=bhv_id)
         if created:
-            self.stdout.write('\tCREATING\t{}'.format(team))
+            self.stdout.write(' CREATING {}'.format(team))
         else:
-            self.stdout.write('\tEXISTING\t{}'.format(team))
+            self.stdout.write(' EXISTING {}'.format(team))
 
     def create_game(self, game_row, league):
         report_url = game_row.xpath('./td[11]/a/@href')[0]
         params = urlsplit(report_url).query
-        bhv_id = parse_qs(params)['sGID'][0]
+        bhv_id = int(parse_qs(params)['sGID'][0])
         number = game_row[1].text
         home_team_short_name = game_row.xpath('td[5]')[0].text
         guest_team_short_name = game_row.xpath('td[7]')[0].text
@@ -182,9 +184,9 @@ class Command(BaseCommand):
         game, created = Game.objects.get_or_create(number=number, league=league, home_team=home_team,
                                                    guest_team=guest_team, bhv_id=bhv_id)
         if created:
-            self.stdout.write('\tCREATING\t{}'.format(game))
+            self.stdout.write(' CREATING {}'.format(game))
         else:
-            self.stdout.write('\tEXISTING\t{}'.format(game))
+            self.stdout.write(' EXISTING {}'.format(game))
         return
 
         file_path = os.path.join(reports_root, league.district.association.abbreviation, game_id) + '.pdf'

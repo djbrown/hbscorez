@@ -14,7 +14,7 @@ class Association(models.Model):
         return 'https://spo.handball4all.de/Spielbetrieb/index.php?orgGrpID={}'.format(self.bhv_id)
 
     def __str__(self):
-        return 'Association: {}'.format(self.abbreviation)
+        return 'Association: {:2} {}'.format(self.bhv_id, self.abbreviation)
 
 
 class District(models.Model):
@@ -31,7 +31,7 @@ class District(models.Model):
             self.bhv_id)
 
     def __str__(self):
-        return 'District: {}'.format(self.name)
+        return 'District: {:2} {}'.format(self.bhv_id, self.name)
 
 
 class League(models.Model):
@@ -54,7 +54,7 @@ class League(models.Model):
             self.district.associations.all()[0].bhv_id, self.bhv_id)
 
     def __str__(self):
-        return 'League: {} ({})'.format(self.name, self.abbreviation)
+        return 'League: {:5} {}'.format(self.bhv_id, self.name)
 
 
 class Team(models.Model):
@@ -62,7 +62,6 @@ class Team(models.Model):
     short_name = models.TextField()
     league = models.ForeignKey(League)
     bhv_id = models.IntegerField(unique=True)
-
     # logo = models.ImageField(upload_to=os.path.join(settings.MEDIA_ROOT, 'club-logos'))
 
     class Meta:
@@ -76,7 +75,7 @@ class Team(models.Model):
             self.league.district.associations.all()[0].bhv_id, self.league.bhv_id, self.bhv_id)
 
     def __str__(self):
-        return 'Team: {}'.format(self.name)
+        return 'Team: {:6} {}'.format(self.bhv_id, self.name)
 
 
 class Player(models.Model):
@@ -101,7 +100,7 @@ class Game(models.Model):
         return 'https://spo.handball4all.de/misc/sboPublicReports.php?sGID={}'.format(self.bhv_id)
 
     def __str__(self):
-        return 'Game: {} vs. {}'.format(self.home_team.name, self.guest_team.name)
+        return 'Game: {:6} {:6} {} vs. {}'.format(self.bhv_id, self.number, self.home_team.name, self.guest_team.name)
 
 
 class Score(models.Model):
