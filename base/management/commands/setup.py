@@ -36,6 +36,9 @@ class Command(BaseCommand):
     def add_arguments(self, parser):
         parser.add_argument('--include-youth', action='store_true', help="Include youth teams in setup.")
 
+        parser.add_argument('--associations', nargs='+', type=int, metavar='orgGrpID',
+                            help="orgGrpIDs of Associations to be included in setup.")
+
     def handle(self, *args, **options):
         self.options = options
         self.create_associations()
@@ -55,6 +58,10 @@ class Command(BaseCommand):
         href = association_link.get('href')
         query = urlsplit(href).query
         bhv_id = int(parse_qs(query)['orgGrpID'][0])
+
+        if self.options['associations'] and bhv_id not in self.options['associations']:
+            self.stdout.write(' SKIPPING Association: {:2} {} (options)'.format(bhv_id, name))
+            return
 
         association, created = Association.objects.get_or_create(name=name, abbreviation=abbreviation, bhv_id=bhv_id)
         if created:
