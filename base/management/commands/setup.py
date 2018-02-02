@@ -48,9 +48,6 @@ class Command(BaseCommand):
         tree = html.fromstring(response.text.encode('latin-1').decode())
         association_links = tree.xpath('//div[@id="main-content"]/div/ul/li/a')
         for association_num, association_link in enumerate(association_links, start=1):
-            # todo: remove debug condition
-            # if association_num != :
-            #     continue
             nums = (association_num, len(association_links))
             self.stdout.write('({}/{})'.format(*nums), ending='')
             self.create_association(association_link, nums)
@@ -72,9 +69,6 @@ class Command(BaseCommand):
         tree = html.fromstring(response.text)
         district_items = tree.xpath('//select[@name="orgID"]/option[position()>1]')
         for district_num, district_item in enumerate(district_items, start=1):
-            # todo: remove debug condition
-            # if district_num != :
-            #     continue
             nnums = (*nums, district_num, len(district_items))
             self.stdout.write('({}/{}) ({}/{})'.format(*nnums), ending='')
             self.create_district(district_item, association, nnums)
@@ -99,9 +93,6 @@ class Command(BaseCommand):
         # league_links = tree.xpath('//div[@id="results"]/div/table[2]/tr[td[2][text() != " "]]/td[1]/a')
         league_links = tree.xpath('//div[@id="results"]/div/table[2]/tr/td[1]/a')
         for league_num, league_link in enumerate(league_links, start=1):
-            # todo: remove debug condition
-            # if league_num != :
-            #     continue
             nnums = (*nums, league_num, len(league_links))
             self.stdout.write('({}/{}) ({}/{}) ({}/{})'.format(*nnums), ending='')
             self.create_league(league_link, district, nnums)
@@ -137,9 +128,6 @@ class Command(BaseCommand):
         os.makedirs(league_dir, exist_ok=True)
 
         for team_num, team_link in enumerate(team_links, start=1):
-            # todo: remove debug condition
-            # if team_num != :
-            #     continue
             nnums = (*nums, team_num, len(team_links))
             self.stdout.write('({}/{}) ({}/{}) ({}/{}) ({}/{})'.format(*nnums), ending='')
             self.create_team(team_link, league, nnums)
@@ -147,9 +135,6 @@ class Command(BaseCommand):
         # todo: game creation has to happen after report was downloaded
         game_rows = tree.xpath('//table[@class="gametable"]/tr[position() > 1 and ./td[11]/a/@href]')
         for game_num, game_row in enumerate(game_rows, start=1):
-            # todo: remove debug condition
-            # if game_num != :
-            #     continue
             nnums = (*nums, game_num, len(game_rows))
             self.stdout.write('({}/{}) ({}/{}) ({}/{}) ({}/{})'.format(*nnums), ending='')
             # self.stdout.write("\t SKIPPING (don't create games)")
