@@ -82,12 +82,12 @@ class Command(BaseCommand):
         name = district_item.text
         bhv_id = int(district_item.get('value'))
 
+        district, created = District.objects.get_or_create(name=name, bhv_id=bhv_id)
+        district.associations.add(association)
+
         if bhv_id in self.processed_districts:
             self.stdout.write(' SKIPPING District: {:2} {} (already processed)'.format(bhv_id, name))
             return
-
-        district, created = District.objects.get_or_create(name=name, bhv_id=bhv_id)
-        district.associations.add(association)
 
         if created:
             self.stdout.write(' CREATING {}'.format(district))
