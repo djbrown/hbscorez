@@ -29,7 +29,7 @@ association_abbreviations = {
 
 
 class Command(BaseCommand):
-    include_youth = False
+    options = {}
 
     processed_districts = []
 
@@ -37,11 +37,8 @@ class Command(BaseCommand):
         parser.add_argument('--include-youth', action='store_true', help="Include youth teams in setup.")
 
     def handle(self, *args, **options):
-        self.prepare_with_options(**options)
+        self.options = options
         self.create_associations()
-
-    def prepare_with_options(self, **options):
-        self.include_youth = options['include_youth']
 
     def create_associations(self):
         response = requests.get('https://spo.handball4all.de/')
@@ -113,8 +110,8 @@ class Command(BaseCommand):
         name = heading.split(' - ')[0]
         abbreviation = link.text
 
-        if self.is_youth_league(abbreviation, name) and not self.include_youth:
-            self.stdout.write('\tSKIPPING (youth league: {} ({}))'.format(name, abbreviation))
+        if self.is_youth_league(abbreviation, name) and not self.options['include_youth']:
+            self.stdout.write(' SKIPPING League: {:5} {} (youth league)'.format(bhv_id, name))
             return
 
         team_links = tree.xpath('//table[@class="scoretable"]/tr[position() > 1]/td[3]/a')
