@@ -4,7 +4,6 @@ from base.views import *
 
 urlpatterns = [
     url(r'^$', view_home, name='home'),
-    url(r'^test/$', test),
     url(r'^impressum/$', view_notice, name='notice'),
     url(r'^kontakt/$', view_contact, name='contact'),
     url(r'^verbaende/$', view_associations, name='associations'),

@@ -68,16 +68,5 @@ def view_team(request, bhv_id):
 def view_player(request, pk):
     player = get_object_or_404(Player, pk=pk)
     scores = Score.objects.filter(player=player)
-    print(len(scores))
-    print(len(player.score_set.all()))
     return render(request, 'base/player.html', {'player': player, 'scores': scores})
 
-
-def test(request):
-    url = 'https://spo.handball4all.de/Spielbetrieb/index.php'
-    data = {
-        'orgGrpID': '28',
-        'orgID': '29',
-    }
-    html = requests.post(url, data)
-    return HttpResponse(html)
