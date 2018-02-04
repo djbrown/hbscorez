@@ -132,9 +132,6 @@ class Command(BaseCommand):
         else:
             self.stdout.write(' EXISTING {}'.format(league))
 
-        league_dir = os.path.join(settings.BASE_DIR, "reports", str(league.bhv_id))
-        os.makedirs(league_dir, exist_ok=True)
-
         for team_num, team_link in enumerate(team_links, start=1):
             nnums = (*nums, team_num, len(team_links))
             self.stdout.write('({:2}/{:2}) ({:2}/{:2}) ({:2}/{:2}) ({:2}/{:2})'.format(*nnums), ending='')
