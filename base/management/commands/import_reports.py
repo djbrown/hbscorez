@@ -18,28 +18,23 @@ class Command(BaseCommand):
                             help='force download of report and update of scores')
 
     def handle(self, *args, **options):
-        self.stdout.write('Downloading Reports...')
         self.options = options
         for game in Game.objects.all():
+            Score.objects.filter(game=game).delete()
             if options['force_update']:
-                self.delete_reports()
-            Score.objects.all().delete()
+                self.download_report(game)
             self.import_report(game)
 
-    def delete_report(self):
-        self.stdout.write('Deleting Reports...')
-        # todo: implement deletion of reports
+    def download_report(self, game):
+        self.stdout.write('DOWNLOADING Report {}'.format(game.bhv_id))
+        report_path = os.path.join(self.reports_root_path, str(game.bhv_id)) + '.pdf'
+        response = requests.get(game.report_url(), stream=True)
+        with open(report_path, 'wb') as file:
+            file.write(response.content)
 
     def import_report(self, game):
-        self.stdout.write('Downloading Report {}'.format(game.bhv_id))
+        self.stdout.write('IMPORTING REPORT {}'.format(game))
         report_path = os.path.join(self.reports_root_path, str(game.bhv_id)) + '.pdf'
-        if self.options['force_update'] or not os.path.isfile(report_path):
-            response = requests.get(game.report_url(), stream=True)
-            with open(report_path, 'wb') as file:
-                file.write(response.content)
-
-        teams_pdf = tabula.read_pdf(report_path, output_format='json', **{'pages': 1, 'lattice': True})
-        self.stdout.write(' IMPORTING {}'.format(game))
 
         try:
             scores_pdf = tabula.read_pdf(report_path, output_format='json', encoding='cp1252',
