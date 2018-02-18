@@ -37,8 +37,12 @@ class Command(BaseCommand):
             scores_pdf = tabula.read_pdf(path, output_format='json', encoding='cp1252',
                                          **{'pages': 2, 'lattice': True})
         except UnicodeDecodeError:
-            scores_pdf = tabula.read_pdf(path, output_format='json', encoding='utf-8',
-                                         **{'pages': 2, 'lattice': True})
+            try:
+                scores_pdf = tabula.read_pdf(path, output_format='json', encoding='utf-8',
+                                             **{'pages': 2, 'lattice': True})
+            except UnicodeDecodeError:
+                scores_pdf = tabula.read_pdf(path, output_format='json', encoding='latin-1',
+                                             **{'pages': 2, 'lattice': True})
 
         self.add_scores(scores_pdf[0], game=game, team=game.home_team)
         self.add_scores(scores_pdf[1], game=game, team=game.guest_team)
