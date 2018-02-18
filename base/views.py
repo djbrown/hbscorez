@@ -1,7 +1,5 @@
-import requests
 from django.db.models import Count, Sum
-from django.http import HttpResponse
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, get_object_or_404
 
 from base.models import *
 
