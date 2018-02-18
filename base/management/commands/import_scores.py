@@ -1,46 +1,39 @@
-import os
 import re
 
-import requests
 import tabula
-from django.conf import settings
 from django.core.management import BaseCommand
 
+from base.management.report import report_path
 from base.models import Game, Score, Player
 
 
 class Command(BaseCommand):
-    reports_root_path = os.path.join(settings.BASE_DIR, 'reports')
-    options = {}
 
     def add_arguments(self, parser):
         parser.add_argument('--force-update', '-f', action='store_true',
                             help='force download of report and update of scores')
 
     def handle(self, *args, **options):
-        self.options = options
         for game in Game.objects.all():
-            Score.objects.filter(game=game).delete()
-            if options['force_update']:
-                self.download_report(game)
-            self.import_report(game)
+            if not report_path(game).is_file():
+                self.stdout.write('SKIPPING Scores for {} (not found)'.format(game))
+            elif game.score_set.count() == 0:
+                self.stdout.write('IMPORTING Scores for {}'.format(game))
+                self.import_scores(game)
+            elif options['force_update']:
+                self.stdout.write('REIMPORTING Scores for {}'.format(game))
+                Score.object.filter(game=game).delete()
+                self.import_scores(game)
+            else:
+                self.stdout.write('EXISTING Scores for {}'.format(game))
 
-    def download_report(self, game):
-        self.stdout.write('DOWNLOADING Report {}'.format(game.bhv_id))
-        report_path = os.path.join(self.reports_root_path, str(game.bhv_id)) + '.pdf'
-        response = requests.get(game.report_url(), stream=True)
-        with open(report_path, 'wb') as file:
-            file.write(response.content)
-
-    def import_report(self, game):
-        self.stdout.write('IMPORTING REPORT {}'.format(game))
-        report_path = os.path.join(self.reports_root_path, str(game.bhv_id)) + '.pdf'
-
+    def import_scores(self, game):
         try:
-            scores_pdf = tabula.read_pdf(report_path, output_format='json', encoding='cp1252',
+            path = str(report_path(game))
+            scores_pdf = tabula.read_pdf(path, output_format='json', encoding='cp1252',
                                          **{'pages': 2, 'lattice': True})
         except UnicodeDecodeError as err:
-            self.stdout.write('UnicodeDecodeError on {}\n{}'.format(report_path, err))
+            self.stdout.write('UnicodeDecodeError on {}\n{}'.format(game.bhv_id, err))
             return
 
         self.add_scores(scores_pdf[0], game=game, team=game.home_team)
