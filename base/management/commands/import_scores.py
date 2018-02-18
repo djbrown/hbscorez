@@ -8,19 +8,25 @@ from base.models import Game, Score, Player
 
 
 class Command(BaseCommand):
+    options = {}
 
     def add_arguments(self, parser):
+        parser.add_argument('--games', '-g', nargs='+', type=int, metavar='sGID',
+                            help="sGIDs of games whose scores are to be imported.")
         parser.add_argument('--force-update', '-f', action='store_true',
                             help='force download of report and update of scores')
 
     def handle(self, *args, **options):
-        for game in Game.objects.all():
+        self.options = options
+        games = Game.objects.filter(bhv_id__in=self.options['games'])
+        print(games)
+        for game in games:
             if not report_path(game).is_file():
                 self.stdout.write('SKIPPING Scores for {} (not found)'.format(game))
             elif game.score_set.count() == 0:
                 self.stdout.write('IMPORTING Scores for {}'.format(game))
                 self.import_scores(game)
-            elif options['force_update']:
+            elif self.options['force_update']:
                 self.stdout.write('REIMPORTING Scores for {}'.format(game))
                 Score.object.filter(game=game).delete()
                 self.import_scores(game)
