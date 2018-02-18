@@ -1,9 +1,5 @@
 {% extends 'base/base.html' %}
 {% block title %}{{ district.name }}{% endblock %}
-{% block styles %}
-<link rel="stylesheet" type="text/css"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-{% endblock %}
 {% block content %}
 <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="{{ url('associations') }}">Verbände</a></li>
@@ -14,7 +10,7 @@
     </li>
     <li class="breadcrumb-item active"><a>{{ district.name }}</a></li>
 </ol>
-<h1>{{ district.name }}</h1>
+<h1>{{ district.name }}&nbsp;<a href="{{ district.source_url() }}"><i class="fa fa-link" title="Datenquelle"></i></a></h1>
 <ul>
     {% for league in district.league_set.all() %}
     <li><a href="{{ league.get_absolute_url() }}">

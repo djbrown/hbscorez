@@ -4,7 +4,7 @@
 <ol class="breadcrumb">
     <li class="breadcrumb-item active"><a href="{{ url('associations') }}">Verbände</a></li>
 </ol>
-<h1>Verbände</h1>
+<h1>Verbände&nbsp;<a href="https://spo.handball4all.de/"><i class="fa fa-link" title="Datenquelle"></i></a></h1>
 <ul>
     {% for association in associations %}
     <li><a href="{{ association.get_absolute_url() }}">{{ association.abbreviation }} - {{ association.name }}</a></li>

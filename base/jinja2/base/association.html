@@ -5,7 +5,7 @@
     <li class="breadcrumb-item"><a href="{{ url('associations') }}">Verbände</a></li>
     <li class="breadcrumb-item active"><a>{{ association.abbreviation }}</a></li>
 </ol>
-<h1>{{ association.name }}</h1>
+<h1>{{ association.name }}&nbsp;<a href="{{ association.source_url() }}"><i class="fa fa-link" title="Datenquelle"></i></a></h1>
 <h2>Bereiche</h2>
 <ul>
     {% for district in association.district_set.all() %}

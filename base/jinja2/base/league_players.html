@@ -19,7 +19,7 @@
     <li class="breadcrumb-item"><a href="{{ league.get_absolute_url() }}">{{ league.abbreviation }}</a></li>
     <li class="breadcrumb-item active"><a>Torjäger</a></li>
 </ol>
-<h1>{{ league.name }}</h1>
+<h1>{{ league.name }}&nbsp;<a href="{{ league.source_url() }}"><i class="fa fa-link" title="Datenquelle"></i></a></h1>
 <h2>Torjäger</h2>
 <div class="table-responsive">
     <table id="scores" class="table table-sm table-striped" cellspacing="0" width="100%">

@@ -16,7 +16,7 @@
     </li>
     <li class="breadcrumb-item active"><a>{{ league.abbreviation }}</a></li>
 </ol>
-<h1>{{ league.name }}</h1>
+<h1>{{ league.name }}&nbsp;<a href="{{ league.source_url() }}"><i class="fa fa-link" title="Datenquelle"></i></a></h1>
 <section class="row text-center placeholders">
     <div class="col-6 col-sm-3 placeholder">
         <img src="{{ static('base/images/thumbnail-players.png') }}" width="200"
