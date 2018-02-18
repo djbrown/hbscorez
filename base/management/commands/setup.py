@@ -1,14 +1,11 @@
-import os
 import re
 from urllib.parse import urlsplit, parse_qs
 
 import requests
-from django.conf import settings
 from django.core.management import BaseCommand
 from lxml import html
 
 from base.models import *
-from hbscorez import settings
 
 association_abbreviations = {
     'Badischer Handball-Verband': 'BHV',
@@ -137,13 +134,6 @@ class Command(BaseCommand):
             self.stdout.write('({:2}/{:2}) ({:2}/{:2}) ({:2}/{:2}) ({:2}/{:2})'.format(*nnums), ending='')
             self.create_team(team_link, league, nnums)
 
-        # todo: game creation has to happen after report was downloaded
-        game_rows = tree.xpath("//table[@class='gametable']/tr[position() > 1 and ./td[11]/a[text() = 'PI']/@href]")
-        for game_num, game_row in enumerate(game_rows, start=1):
-            nnums = (*nums, game_num, len(game_rows))
-            self.stdout.write('({:2}/{:2}) ({:2}/{:2}) ({:2}/{:2}) ({:3}/{:3})'.format(*nnums), ending='')
-            self.create_game(game_row, league)
-
     @staticmethod
     def is_youth_league(league_abbreviation, league_name):
         return league_abbreviation[:1] in ['m', 'w', 'g', 'u'] \
@@ -171,19 +161,3 @@ class Command(BaseCommand):
             self.stdout.write(' CREATING {}'.format(team))
         else:
             self.stdout.write(' EXISTING {}'.format(team))
-
-    def create_game(self, game_row, league):
-        report_url = game_row.xpath('./td[11]/a/@href')[0]
-        params = urlsplit(report_url).query
-        bhv_id = int(parse_qs(params)['sGID'][0])
-        number = game_row[1].text
-        home_team_short_name = game_row.xpath('td[5]')[0].text
-        guest_team_short_name = game_row.xpath('td[7]')[0].text
-        home_team = Team.objects.get(league=league, short_name=home_team_short_name)
-        guest_team = Team.objects.get(league=league, short_name=guest_team_short_name)
-        game, created = Game.objects.get_or_create(number=number, league=league, home_team=home_team,
-                                                   guest_team=guest_team, bhv_id=bhv_id)
-        if created:
-            self.stdout.write(' CREATING {}'.format(game))
-        else:
-            self.stdout.write(' EXISTING {}'.format(game))
