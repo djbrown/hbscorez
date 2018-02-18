@@ -33,16 +33,7 @@ class Command(BaseCommand):
 
     def import_scores(self, game):
         path = str(report_path(game))
-        try:
-            scores_pdf = tabula.read_pdf(path, output_format='json', encoding='cp1252',
-                                         **{'pages': 2, 'lattice': True})
-        except UnicodeDecodeError:
-            try:
-                scores_pdf = tabula.read_pdf(path, output_format='json', encoding='utf-8',
-                                             **{'pages': 2, 'lattice': True})
-            except UnicodeDecodeError:
-                scores_pdf = tabula.read_pdf(path, output_format='json', encoding='latin-1',
-                                             **{'pages': 2, 'lattice': True})
+        scores_pdf = tabula.read_pdf(path, output_format='json', **{'pages': 2, 'lattice': True})
 
         self.add_scores(scores_pdf[0], game=game, team=game.home_team)
         self.add_scores(scores_pdf[1], game=game, team=game.guest_team)
@@ -52,7 +43,7 @@ class Command(BaseCommand):
         for table_row in table_rows[2:]:
             row_data = [cell['text'] for cell in table_row]
             player_number = row_data[0]
-            player_name = row_data[1].encode("cp1252").decode()
+            player_name = row_data[1]
             # player_year_of_birth = row_data[2]
             goals_total = row_data[5] or 0
             penalty_tries, penalty_goals = parse_penalty_data(row_data[6])
@@ -69,19 +60,19 @@ class Command(BaseCommand):
 
             player = Player.objects.get_or_create(name=player_name, team=team)[0]
 
-            try:
-                score = Score(
-                    player=player,
-                    game=game,
-                    goals=goals_total,
-                    penalty_goals=penalty_goals,
-                )
-                score.save()
-            except ValueError as err:
-                self.stdout.write(
-                    'UnicodeDecodeError on Game {} Team {} Player {} {}\n{}'.format(game.bhv_id, team.name, player.name,
-                                                                                    player_number, err))
-                continue
+            # try:
+            score = Score(
+                player=player,
+                game=game,
+                goals=goals_total,
+                penalty_goals=penalty_goals,
+            )
+            score.save()
+            # except ValueError as err:
+            #     self.stdout.write(
+            #         'ValueError on Game {} Team {} Player {} {}\n{}'.format(game.bhv_id, team.name, player.name,
+            #                                                                         player_number, err))
+            #     continue
 
 
 def parse_penalty_data(text: str) -> (int, int):
