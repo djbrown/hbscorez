@@ -3,8 +3,8 @@ import re
 import tabula
 from django.core.management import BaseCommand
 
-from base.management.report import report_path
-from base.models import Game, Score, Player
+from base.management.common import report_path, find_games
+from base.models import Score, Player
 
 
 class Command(BaseCommand):
@@ -18,7 +18,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         self.options = options
-        for game in self.filter_games():
+        for game in find_games(options['games']):
             if not report_path(game).is_file():
                 self.stdout.write('SKIPPING Scores for {} (not found)'.format(game))
             elif game.score_set.count() == 0:
@@ -30,12 +30,6 @@ class Command(BaseCommand):
                 self.import_scores(game)
             else:
                 self.stdout.write('EXISTING Scores for {}'.format(game))
-
-    def filter_games(self):
-        if self.options['games']:
-            return Game.objects.filter(bhv_id__in=self.options['games'])
-        else:
-            return Game.objects.all()
 
     def import_scores(self, game):
         try:

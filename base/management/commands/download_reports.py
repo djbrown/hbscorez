@@ -1,8 +1,7 @@
 import requests
 from django.core.management import BaseCommand
 
-from base.management.report import REPORTS_PATH, report_path
-from base.models import Game
+from base.management.common import REPORTS_PATH, report_path, find_games
 
 
 class Command(BaseCommand):
@@ -16,8 +15,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         REPORTS_PATH.mkdir(parents=True, exist_ok=True)
 
-        games = Game.objects.filter(bhv_id__in=options['games'])
-        for game in games:
+        for game in find_games(options['games']):
             if not report_path(game).is_file():
                 self.stdout.write('DOWNLOADING Report {}'.format(game.bhv_id))
                 download_report(game)
