@@ -26,19 +26,19 @@ class Command(BaseCommand):
                 self.import_scores(game)
             elif self.options['force_update']:
                 self.stdout.write('REIMPORTING Scores for {}'.format(game))
-                Score.object.filter(game=game).delete()
+                Score.objects.filter(game=game).delete()
                 self.import_scores(game)
             else:
                 self.stdout.write('EXISTING Scores for {}'.format(game))
 
     def import_scores(self, game):
+        path = str(report_path(game))
         try:
-            path = str(report_path(game))
             scores_pdf = tabula.read_pdf(path, output_format='json', encoding='cp1252',
                                          **{'pages': 2, 'lattice': True})
-        except UnicodeDecodeError as err:
-            self.stdout.write('UnicodeDecodeError on {}\n{}'.format(game.bhv_id, err))
-            return
+        except UnicodeDecodeError:
+            scores_pdf = tabula.read_pdf(path, output_format='json', encoding='utf-8',
+                                         **{'pages': 2, 'lattice': True})
 
         self.add_scores(scores_pdf[0], game=game, team=game.home_team)
         self.add_scores(scores_pdf[1], game=game, team=game.guest_team)
