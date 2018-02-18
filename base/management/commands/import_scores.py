@@ -19,7 +19,6 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         self.options = options
         games = Game.objects.filter(bhv_id__in=self.options['games'])
-        print(games)
         for game in games:
             if not report_path(game).is_file():
                 self.stdout.write('SKIPPING Scores for {} (not found)'.format(game))
