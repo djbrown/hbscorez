@@ -2,6 +2,7 @@ version: '3'
 
 services:
   web:
+    container_name: 'hbscorez_web'
     build: .
     volumes:
       - .:/code
