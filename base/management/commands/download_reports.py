@@ -8,13 +8,16 @@ from base.models import Game
 class Command(BaseCommand):
 
     def add_arguments(self, parser):
+        parser.add_argument('--games', '-g', nargs='+', type=int, metavar='sGID',
+                            help="sGIDs of games whose reports are to be downloaded.")
         parser.add_argument('--force-update', '-f', action='store_true',
                             help='force download and overwrite if report already exists')
 
     def handle(self, *args, **options):
         REPORTS_PATH.mkdir(parents=True, exist_ok=True)
 
-        for game in Game.objects.all():
+        games = Game.objects.filter(bhv_id__in=options['games'])
+        for game in games:
             if not report_path(game).is_file():
                 self.stdout.write('DOWNLOADING Report {}'.format(game.bhv_id))
                 download_report(game)
