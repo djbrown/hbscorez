@@ -14,9 +14,9 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         REPORTS_PATH.mkdir(parents=True, exist_ok=True)
-        
+
         bugged_reports = [567811]
-        
+
         for game in find_games(options['games']):
             if game.bhv_id in bugged_reports:
                 self.stdout.write('SKIPPING Report {} (hardcoded ignore list)'.format(game.bhv_id))
