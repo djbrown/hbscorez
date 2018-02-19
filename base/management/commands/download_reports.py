@@ -14,9 +14,13 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         REPORTS_PATH.mkdir(parents=True, exist_ok=True)
-
+        
+        bugged_reports = [567811]
+        
         for game in find_games(options['games']):
-            if not report_path(game).is_file():
+            if game.bhv_id in bugged_reports:
+                self.stdout.write('SKIPPING Report {} (hardcoded ignore list)'.format(game.bhv_id))
+            elif not report_path(game).is_file():
                 self.stdout.write('DOWNLOADING Report {}'.format(game.bhv_id))
                 download_report(game)
             elif options['force_update']:
