@@ -1,0 +1,119 @@
+{% extends 'base/base.html' %}
+{% block title %}{{ team.name }}{% endblock %}
+{% block styles %}
+<!-- DataTables Builder: Bootstrap 4, DataTables, ColReorder, FixedColumns, FixedHeader -->
+<link rel="stylesheet" type="text/css"
+      href="https://cdn.datatables.net/v/bs4/dt-1.10.16/cr-1.4.1/fc-3.2.3/fh-3.1.3/datatables.min.css"/>
+{% endblock %}
+{% block content %}
+<ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{{ url('associations') }}">Verbände</a></li>
+    <li class="breadcrumb-item">
+        {% for association in team.league.district.associations.all() %}
+        <a class="breadcrumb-item-part" href="{{ association.get_absolute_url() }}">{{ association.abbreviation }}</a>
+        {% endfor %}
+    </li>
+    <li class="breadcrumb-item">
+        <a href="{{ team.league.district.get_absolute_url() }}">{{ team.league.district.name}}</a>
+    </li>
+    <li class="breadcrumb-item active">
+        <a href="{{ team.league.get_absolute_url() }}">{{ team.league.abbreviation }}</a>
+    </li>
+    <li class="breadcrumb-item active"><a>{{ team.name }}</a></li>
+</ol>
+<h1>{{ team.name }}&nbsp;<a href="{{ team.source_url() }}"><i class="fa fa-link" title="Datenquelle"></i></a></h1>
+<h2>Torjäger</h2>
+<div class="table-responsive">
+    <table id="scores" class="table table-sm table-striped" cellspacing="0" width="100%">
+        <thead>
+        <tr>
+            <th>Pl.</th>
+            <th>Name</th>
+            <th>Mannschaft</th>
+            <th>Sp.</th>
+            <th>Tore</th>
+            <th>7m</th>
+            <th>Feldt.</th>
+            <th>Tore &Oslash;</th>
+            <th>Feldt. &Oslash;</th>
+        </tr>
+        </thead>
+        <tfoot>
+        <tr>
+            <th>Pl.</th>
+            <th>Name</th>
+            <th>Mannschaft</th>
+            <th>Sp.</th>
+            <th>Tore</th>
+            <th>7m</th>
+            <th>Feldt.</th>
+            <th>Tore &Oslash;</th>
+            <th>Feldt. &Oslash;</th>
+        </tr>
+        </tfoot>
+        <tbody>
+        {% for player in players %}
+        <tr>
+            <th scope="row">{{ place(players, loop.index0) }}</th>
+            <td><a href="{{ player.get_absolute_url() }}">{{ player.name }}</a></td>
+            <td>
+                {#<img class="table-team-logo" src="{{ team_logo_url(player.team) }}" width="25px">#}
+                <img class="table-team-logo" src="{{ static('base/images/favicons/favicon.png') }}" width="25px">
+                <a href="{{ player.team.get_absolute_url() }}">{{ player.team.name }}</a>
+            </td>
+            <td>{{ player.games }}</td>
+            <td>{{ player.total_goals }}</td>
+            <td>{{ player.total_penalty_goals }}</td>
+            <td>{{ player.total_goals - player.total_penalty_goals }}</td>
+            <td>{{ '%0.2f'| format(player.total_goals / player.games) }}</td>
+            <td>{{ '%0.2f'| format((player.total_goals - player.total_penalty_goals) / player.games) }}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
+{% block scripts %}
+{{ super() }}
+<script type="text/javascript"
+        src="https://cdn.datatables.net/v/bs4/dt-1.10.16/cr-1.4.1/fc-3.2.3/fh-3.1.3/datatables.min.js"></script>
+<script>
+$(document).ready(function() {
+    $('#scores').dataTable({
+        "paging": false,
+        "colReorder": true,
+        "language": {
+            //"url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/German.json"
+            "sEmptyTable":      "Keine Daten in der Tabelle vorhanden",
+            "sInfo":            "_START_ bis _END_ von _TOTAL_ Einträgen",
+            "sInfoEmpty":       "0 bis 0 von 0 Einträgen",
+            "sInfoFiltered":    "(gefiltert von _MAX_ Einträgen)",
+            "sInfoPostFix":     "",
+            "sInfoThousands":   ".",
+            "sLengthMenu":      "_MENU_ Einträge anzeigen",
+            "sLoadingRecords":  "Wird geladen...",
+            "sProcessing":      "Bitte warten...",
+            "sSearch":          "Suchen",
+            "sZeroRecords":     "Keine Einträge vorhanden.",
+            "oPaginate": {
+                "sFirst":       "Erste",
+                "sPrevious":    "Zurück",
+                "sNext":        "Nächste",
+                "sLast":        "Letzte"
+            },
+            "oAria": {
+                "sSortAscending":  ": aktivieren, um Spalte aufsteigend zu sortieren",
+                "sSortDescending": ": aktivieren, um Spalte absteigend zu sortieren"
+            },
+            select: {
+                    rows: {
+                    _: '%d Zeilen ausgewählt',
+                    0: 'Zum Auswählen auf eine Zeile klicken',
+                    1: '1 Zeile ausgewählt'
+                    }
+            }
+        }
+    });
+} );
+</script>
+{% endblock %}
