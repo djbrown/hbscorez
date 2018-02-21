@@ -132,7 +132,7 @@ class Command(BaseCommand):
         for team_num, team_link in enumerate(team_links, start=1):
             nnums = (*nums, team_num, len(team_links))
             self.stdout.write('({:2}/{:2}) ({:2}/{:2}) ({:2}/{:2}) ({:2}/{:2})'.format(*nnums), ending='')
-            self.create_team(team_link, league, nnums)
+            self.create_team(team_link, league)
 
     @staticmethod
     def is_youth_league(league_abbreviation, league_name):
@@ -142,7 +142,7 @@ class Command(BaseCommand):
                or re.search('Jugend', league_name) \
                or re.search('Mini', league_name)
 
-    def create_team(self, link, league, nums):
+    def create_team(self, link, league):
         href = link.get('href')
         query = urlsplit(href).query
         bhv_id = int(parse_qs(query)['teamID'][0])
