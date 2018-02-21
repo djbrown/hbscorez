@@ -1,4 +1,4 @@
-from django.db.models import Count, Sum
+from django.db.models import Count, Sum, Q, When, Case, F
 from django.shortcuts import render, get_object_or_404
 
 from base.models import *
@@ -68,3 +68,13 @@ def view_player(request, pk):
     scores = Score.objects.filter(player=player)
     return render(request, 'base/player.html', {'player': player, 'scores': scores})
 
+
+def view_team_calendar(request, bhv_id):
+    team = get_object_or_404(Team, bhv_id=bhv_id)
+    games = Game.objects.filter(Q(home_team=team) | Q(guest_team=team)) \
+        .annotate(opponent_id=Case(When(home_team=team, then="guest_team"), When(guest_team=team, then="home_team")))
+    for game in games:
+        game.opponent = Team.objects.get(pk=game.opponent_id)
+
+    print(type(games[0].opponent), games[0].opponent)
+    return render(request, 'base/team_calendar.html', {'team': team, 'games': games})

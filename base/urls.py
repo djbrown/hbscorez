@@ -13,5 +13,6 @@ urlpatterns = [
     url(r'^liga/(?P<bhv_id>\d+)/$', view_league, name='league'),
     url(r'^liga/(?P<bhv_id>\d+)/torjaeger/$', view_league_players, name='league_players'),
     url(r'^team/(?P<bhv_id>\d+)/$', view_team, name='team'),
+    url(r'^team/(?P<bhv_id>\d+)/kalender/$', view_team_calendar, name='team_calendar'),
     url(r'^spieler/(?P<pk>\d+)/$', view_player, name='player'),
 ]
