@@ -1,5 +1,9 @@
-from django.db.models import Count, Sum, Q, When, Case, F
+import pytz
+from django.db.models import Count, Sum, Q
+from datetime import datetime
+from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404
+from icalendar import Calendar, Event, vCalAddress, vText
 
 from base.models import *
 
@@ -78,5 +82,46 @@ def view_team_games(request, bhv_id):
 def view_team_calendar(request, bhv_id):
     team = get_object_or_404(Team, bhv_id=bhv_id)
     games = Game.objects.filter(Q(home_team=team) | Q(guest_team=team))
-    print(type(games[0].opponent), games[0].opponent)
-    return render(request, 'base/team_calendar.html', {'team': team, 'games': games})
+
+    cal = Calendar()
+    cal.add('prodid', '-//My calendar product//mxm.dk//')
+    cal.add('version', '2.0')
+    event1 = event()
+    cal.add_component(event1)
+
+    return HttpResponse(cal.to_ical(), "text/calendar")
+
+
+def event():
+    e = Event()
+    e.add('summary', 'Python meeting about calendaring')
+    e.add('dtstart', datetime(2005, 4, 4, 8, 0, 0, tzinfo=pytz.utc))
+    e.add('dtend', datetime(2005, 4, 4, 10, 0, 0, tzinfo=pytz.utc))
+    e.add('dtstamp', datetime(2005, 4, 4, 0, 10, 0, tzinfo=pytz.utc))
+    e['organizer'] = organizer('MAILTO:noone@example.com', 'Max Rasmussen', 'CHAIR')
+    e['location'] = vText('Odense, Denmark')
+    e['uid'] = '20050115T101010/27346262376@mxm.dk'
+    e.add('priority', 5)
+    attendee1 = attendee('MAILTO:maxm@example.com', 'Max Rasmussen', 'REQ-PARTICIPANT')
+    e.add('attendee', attendee1, encode=0)
+    attendee2 = attendee('MAILTO:the-dude@example.com', 'The Dude', 'REQ-PARTICIPANT')
+    e.add('attendee', attendee2, encode=0)
+    return e
+
+
+def organizer(email, name, role):
+    o = vCalAddress(email)
+    o.params['cn'] = vText(name)
+    o.params['role'] = vText(role)
+    return o
+
+
+def attendee(email_address, name, role):
+    a = vCalAddress(email_address)
+    a.params['cn'] = vText(name)
+    a.params['ROLE'] = vText(role)
+    return a
+
+
+def display(cal):
+    return cal.to_ical().replace('\r\n', '\n').strip()
