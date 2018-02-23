@@ -48,7 +48,6 @@
         {% set opponent = game.opponent(team) %}
         <tr>
             <th scope="row">
-                {{ opponent }}
                 {#<img class="table-team-logo" src="{{ team_logo_url(opponent) }}" width="25px">#}
                 <img class="table-team-logo" src="{{ static('base/images/favicons/favicon.png') }}" width="25px">
                 <a href="{{ opponent.get_absolute_url() }}">{{ opponent.name }}</a>

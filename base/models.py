@@ -99,6 +99,12 @@ class Game(models.Model):
     def report_url(self):
         return 'https://spo.handball4all.de/misc/sboPublicReports.php?sGID={}'.format(self.bhv_id)
 
+    def opponent(self, team):
+        if team == self.home_team:
+            return self.guest_team
+        elif team == self.guest_team:
+            return self.home_team
+
     def __str__(self):
         return 'Game: {:6} {:6} {} vs. {}'.format(self.bhv_id, self.number, self.home_team.name, self.guest_team.name)
 
