@@ -50,7 +50,7 @@ class League(models.Model):
         return reverse('league_players', kwargs={'bhv_id': self.bhv_id})
 
     def source_url(self):
-        return 'https://spo.handball4all.de/Spielbetrieb/index.php?orgGrpID={}&score={}'.format(
+        return 'https://spo.handball4all.de/Spielbetrieb/index.php?orgGrpID={}&score={}&all=1'.format(
             self.district.associations.all()[0].bhv_id, self.bhv_id)
 
     def __str__(self):
