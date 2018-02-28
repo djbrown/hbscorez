@@ -5,7 +5,7 @@ WORKDIR /code
 COPY requirements.txt .
 RUN pip install -r requirements.txt
 RUN apt-get update && apt-get install -y \
-    openjdk-8-jre \
+    default-jre \
     fonts-liberation \
     gsfonts
 COPY . .
