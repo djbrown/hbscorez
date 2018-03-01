@@ -1,10 +1,10 @@
 ### Custom rules
-reports
-hbscorez/settings_prod.py
-.idea
-db.sqlite3
-static
-media
+/reports/
+/hbscorez/settings_prod.py
+/.idea/
+/db.sqlite3
+/static/
+/media/
 
 
 ### Python template
