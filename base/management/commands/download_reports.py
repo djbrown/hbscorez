@@ -15,7 +15,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         REPORTS_PATH.mkdir(parents=True, exist_ok=True)
 
-        bugged_reports = [567811]
+        bugged_reports = [567811, 562543]
 
         for game in find_games(options['games']):
             if game.bhv_id in bugged_reports:
