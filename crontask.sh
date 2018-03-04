@@ -1,6 +1,9 @@
 #!/bin/bash
-#0 0 * * 5,6 /home/pydev/PycharmProjects/hbscorez/crontask.sh
-sudo docker exec -it hbscorez_web_1 python manage.py setup
-sudo docker exec -it hbscorez_web_1 python manage.py import_games
-sudo docker exec -it hbscorez_web_1 python manage.py download_reports
-sudo docker exec -it hbscorez_web_1 python manage.py import_games
+#0 0 * * 5,6
+source ~/.bash_profile
+workon hbscorez
+export DJANGO_SETTINGS_MODULE=hbscorez.settings_prod
+#python manage.py setup
+python manage.py import_games
+python manage.py download_reports
+python manage.py import_scores
