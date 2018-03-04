@@ -8,3 +8,4 @@ HbScorez is powered by Django
 
 [<img src="https://www.djangoproject.com/m/img/logos/django-logo-positive.svg" height="50"/>
 ](https://www.djangoproject.com/)
+
