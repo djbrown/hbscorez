@@ -18,16 +18,16 @@ class Command(BaseCommand):
         bugged_reports = [567811, 562543]
 
         for game in find_games(options['games']):
-            if game.bhv_id in bugged_reports:
-                self.stdout.write('SKIPPING Report {} (hardcoded ignore list)'.format(game.bhv_id))
+            if game.report_number in bugged_reports:
+                self.stdout.write('SKIPPING Report {} (hardcoded ignore list)'.format(game.report_number))
             elif not report_path(game).is_file():
-                self.stdout.write('DOWNLOADING Report {}'.format(game.bhv_id))
+                self.stdout.write('DOWNLOADING Report {}'.format(game.report_number))
                 download_report(game)
             elif options['force_update']:
-                self.stdout.write('REDOWNLOADING Report {}'.format(game.bhv_id))
+                self.stdout.write('REDOWNLOADING Report {}'.format(game.report_number))
                 download_report(game)
             else:
-                self.stdout.write('EXISTING Report {}'.format(game.bhv_id))
+                self.stdout.write('EXISTING Report {}'.format(game.report_number))
 
 
 def download_report(game):

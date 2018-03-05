@@ -94,10 +94,10 @@ class Game(models.Model):
     league = models.ForeignKey(League)
     home_team = models.ForeignKey(Team, related_name='home_team')
     guest_team = models.ForeignKey(Team, related_name='guest_team')
-    bhv_id = models.IntegerField(unique=True)
+    report_number = models.IntegerField(unique=True)
 
     def report_url(self):
-        return 'https://spo.handball4all.de/misc/sboPublicReports.php?sGID={}'.format(self.bhv_id)
+        return 'https://spo.handball4all.de/misc/sboPublicReports.php?sGID={}'.format(self.report_number)
 
     def opponent(self, team):
         if team == self.home_team:
@@ -106,7 +106,7 @@ class Game(models.Model):
             return self.home_team
 
     def __str__(self):
-        return 'Game: {:6} {:6} {} vs. {}'.format(self.bhv_id, self.number, self.home_team.name, self.guest_team.name)
+        return 'Game: {:6} {:6} {} vs. {}'.format(self.report_number, self.number, self.home_team.name, self.guest_team.name)
 
 
 class Score(models.Model):

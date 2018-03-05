@@ -29,14 +29,14 @@ class Command(BaseCommand):
     def create_game(self, game_row, league):
         report_url = game_row.xpath('./td[11]/a/@href')[0]
         params = urlsplit(report_url).query
-        bhv_id = int(parse_qs(params)['sGID'][0])
+        report_number = int(parse_qs(params)['sGID'][0])
         number = game_row[1].text
         home_team_short_name = game_row.xpath('td[5]')[0].text
         guest_team_short_name = game_row.xpath('td[7]')[0].text
         home_team = Team.objects.get(league=league, short_name=home_team_short_name)
         guest_team = Team.objects.get(league=league, short_name=guest_team_short_name)
         game, created = Game.objects.get_or_create(number=number, league=league, home_team=home_team,
-                                                   guest_team=guest_team, bhv_id=bhv_id)
+                                                   guest_team=guest_team, report_number=report_number)
         if created:
             self.stdout.write(' CREATING {}'.format(game))
         else:

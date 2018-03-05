@@ -70,7 +70,7 @@ class Command(BaseCommand):
             score.save()
             # except ValueError as err:
             #     self.stdout.write(
-            #         'ValueError on Game {} Team {} Player {} {}\n{}'.format(game.bhv_id, team.name, player.name,
+            #         'ValueError on Game {} Team {} Player {} {}\n{}'.format(game.report_number, team.name, player.name,
             #                                                                         player_number, err))
             #     continue
 
