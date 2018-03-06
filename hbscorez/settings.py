@@ -39,8 +39,6 @@ INSTALLED_APPS = [
     'base.apps.BaseConfig',
 ]
 
-LANGUAGE_CODE = 'en-us'
-
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 MEDIA_URL = '/media/'
@@ -88,13 +86,9 @@ TEMPLATES = [
     },
 ]
 
-TIME_ZONE = 'UTC'
-
-USE_I18N = True
+TIME_ZONE = 'Europe/Berlin'
 
 USE_L10N = True
-
-USE_TZ = True
 
 USE_X_FORWARDED_HOST = True
 
