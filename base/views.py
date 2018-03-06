@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from django.db.models import Count, Sum, Q
 from django.http import HttpResponse
@@ -99,8 +99,7 @@ def create_event(team, game):
     summary = '{} - {}'.format(venue, game.opponent(team).name)
     # todo: read datetime from game.opening_whistle
     start = datetime(2018, 2, 24, 19, 45, 0)
-    # todo: calculate end to be 1,5h after opening whistle
-    end = datetime(2018, 2, 24, 21, 15, 0)
+    end = start + timedelta(minutes=90)
     dtstamp = datetime.now()
     # todo: read location from game.sports_hall / game.location
     location = vText('Reblandhalle, Unterer Jagdweg 13, 69254 Malsch, Deutschland')
