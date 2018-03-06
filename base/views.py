@@ -97,19 +97,18 @@ def create_event(team, game):
 
     venue = 'Heimspiel' if game.home_team == team else 'Auswärtsspiel'
     summary = '{} - {}'.format(venue, game.opponent(team).name)
-    # todo: read datetime from game.opening_whistle
-    start = datetime(2018, 2, 24, 19, 45, 0)
+    start = game.opening_whistle
     end = start + timedelta(minutes=90)
     dtstamp = datetime.now()
     # todo: read location from game.sports_hall / game.location
-    location = vText('Reblandhalle, Unterer Jagdweg 13, 69254 Malsch, Deutschland')
+    location = 'Reblandhalle, Unterer Jagdweg 13, 69254 Malsch, Deutschland'
     uid = 'game/{}@hbscorez.de'.format(game.number)
 
     event.add('summary', summary)
     event.add('dtstart', start)
     event.add('dtend', end)
     event.add('dtstamp', dtstamp)
-    event['location'] = location
+    event['location'] = vText(location)
     event['uid'] = uid
     return event
 

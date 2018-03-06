@@ -92,6 +92,7 @@ class Player(models.Model):
 class Game(models.Model):
     number = models.IntegerField(unique=True)
     league = models.ForeignKey(League)
+    opening_whistle = models.DateTimeField()
     home_team = models.ForeignKey(Team, related_name='home_team')
     guest_team = models.ForeignKey(Team, related_name='guest_team')
     report_number = models.IntegerField(unique=True)

@@ -11,8 +11,8 @@ def report_path(game):
     return REPORTS_PATH.joinpath(str(game.report_number) + '.pdf')
 
 
-def find_games(bhv_ids: list):
-    if bhv_ids:
-        return Game.objects.filter(bhv_id__in=bhv_ids)
+def find_games(report_number: list):
+    if report_number:
+        return Game.objects.filter(report_number=report_number)
     else:
         return Game.objects.all()

@@ -1,28 +1,36 @@
+import locale
+from datetime import datetime
+
 import django
-from django.db.models import Sum, Count
 from django.test import TestCase
 
-from base.models import Score
+from base.management.commands.import_games import parse_opening_whistle
 
 django.setup()
 
 
-class PlayersTestCase(TestCase):
-    def test_filter_order_doesnt_matter(self):
-        q1 = Score.objects \
-            .values('player_name') \
-            .annotate(total=Sum('goals')) \
-            .filter(total__gt=0) \
-            .annotate(scores=Count('player_name')) \
-            .annotate(penalties=Sum('penalty_goals')) \
-            .order_by('-total')
+class OpeningWhistleParseTest(TestCase):
+    def test_date_not_null(self):
+        datetime_text = 'Sa, 09.09.17, 19:30h'
 
-        q2 = Score.objects \
-            .values('player_name') \
-            .annotate(total=Sum('goals')) \
-            .annotate(scores=Count('player_name')) \
-            .annotate(penalties=Sum('penalty_goals')) \
-            .filter(total__gt=0) \
-            .order_by('-total')
+        actual = parse_opening_whistle(datetime_text)
 
-        self.assertEqual(list(q1), list(q2))
+        self.assertNotEqual(None, actual)
+
+    def test_fixed_date(self):
+        datetime_text = 'Sa, 09.09.17, 19:30h'
+
+        actual = parse_opening_whistle(datetime_text)
+
+        expected = datetime(2017, 9, 9, 19, 30, 0)
+
+        self.assertEqual(expected, actual)
+
+    def test_dynamic_date(self):
+        datetime_text = 'Di, 06.03.18, 03:54h'
+
+        actual = parse_opening_whistle(datetime_text)
+
+        expected = datetime(2018, 3, 6, 3, 54, 0)
+
+        self.assertEqual(expected, actual)

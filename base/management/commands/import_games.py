@@ -1,3 +1,6 @@
+import locale
+from datetime import datetime
+
 from lxml import html
 from urllib.parse import urlsplit, parse_qs
 
@@ -9,8 +12,6 @@ from base.models import League, Team, Game, Score
 
 class Command(BaseCommand):
     options = {}
-
-    processed_districts = []
 
     def add_arguments(self, parser):
         pass
@@ -28,17 +29,18 @@ class Command(BaseCommand):
     def create_game(self, game_row, league):
         report_url = game_row.xpath('./td[11]/a/@href')[0]
         params = urlsplit(report_url).query
+
         report_number = int(parse_qs(params)['sGID'][0])
         number = game_row[1].text
+        opening_whistle = parse_opening_whistle(game_row[2].text)
+        home_team_short_name = game_row.xpath('td[5]')[0].text
+        guest_team_short_name = game_row.xpath('td[7]')[0].text
+        home_team = Team.objects.get(league=league, short_name=home_team_short_name)
+        guest_team = Team.objects.get(league=league, short_name=guest_team_short_name)
 
         if not Game.objects.filter(number=number).exists():
-            home_team_short_name = game_row.xpath('td[5]')[0].text
-            guest_team_short_name = game_row.xpath('td[7]')[0].text
-            home_team = Team.objects.get(league=league, short_name=home_team_short_name)
-            guest_team = Team.objects.get(league=league, short_name=guest_team_short_name)
-
-            game = Game.objects.create(number=number, league=league, home_team=home_team,
-                                       guest_team=guest_team, report_number=report_number)
+            game = Game.objects.create(number=number, league=league, opening_whistle=opening_whistle,
+                                       home_team=home_team, guest_team=guest_team, report_number=report_number)
             self.stdout.write(' CREATING {}'.format(game))
             game.save()
             return
@@ -54,3 +56,8 @@ class Command(BaseCommand):
             else:
                 self.stdout.write(' EXISTING {}'.format(game))
                 return
+
+
+def parse_opening_whistle(text) -> datetime:
+    locale.setlocale(locale.LC_ALL, "de_DE.UTF-8")
+    return datetime.strptime(text, '%a, %d.%m.%y, %H:%Mh')

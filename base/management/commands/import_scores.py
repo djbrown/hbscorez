@@ -11,14 +11,14 @@ class Command(BaseCommand):
     options = {}
 
     def add_arguments(self, parser):
-        parser.add_argument('--games', '-g', nargs='+', type=int, metavar='sGID',
-                            help="sGIDs of games whose scores are to be imported.")
+        parser.add_argument('--reports', '-r', nargs='+', type=int, metavar='sGID',
+                            help="sGIDs of game reports whose scores are to be imported")
         parser.add_argument('--force-update', '-f', action='store_true',
                             help='force download of report and update of scores')
 
     def handle(self, *args, **options):
         self.options = options
-        for game in find_games(options['games']):
+        for game in find_games(options['reports']):
             if not report_path(game).is_file():
                 self.stdout.write('SKIPPING Scores for {} (not found)'.format(game))
             elif game.score_set.count() == 0:
