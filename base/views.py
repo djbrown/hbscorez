@@ -1,9 +1,9 @@
-import pytz
-from django.db.models import Count, Sum, Q
 from datetime import datetime
+
+from django.db.models import Count, Sum, Q
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404
-from icalendar import Calendar, Event, vCalAddress, vText
+from icalendar import Calendar, Event, vText
 
 from base.models import *
 
@@ -84,43 +84,35 @@ def view_team_calendar(request, bhv_id):
     games = Game.objects.filter(Q(home_team=team) | Q(guest_team=team))
 
     cal = Calendar()
-    cal.add('prodid', '-//My calendar product//mxm.dk//')
+    cal.add('prodid', '-//hbscorez.de//DE//1.0')
     cal.add('version', '2.0')
-    event1 = event()
-    cal.add_component(event1)
+
+    [cal.add_component(create_event(team, game)) for game in games]
 
     return HttpResponse(cal.to_ical(), "text/calendar")
 
 
-def event():
-    e = Event()
-    e.add('summary', 'Python meeting about calendaring')
-    e.add('dtstart', datetime(2005, 4, 4, 8, 0, 0, tzinfo=pytz.utc))
-    e.add('dtend', datetime(2005, 4, 4, 10, 0, 0, tzinfo=pytz.utc))
-    e.add('dtstamp', datetime(2005, 4, 4, 0, 10, 0, tzinfo=pytz.utc))
-    e['organizer'] = organizer('MAILTO:noone@example.com', 'Max Rasmussen', 'CHAIR')
-    e['location'] = vText('Odense, Denmark')
-    e['uid'] = '20050115T101010/27346262376@mxm.dk'
-    e.add('priority', 5)
-    attendee1 = attendee('MAILTO:maxm@example.com', 'Max Rasmussen', 'REQ-PARTICIPANT')
-    e.add('attendee', attendee1, encode=0)
-    attendee2 = attendee('MAILTO:the-dude@example.com', 'The Dude', 'REQ-PARTICIPANT')
-    e.add('attendee', attendee2, encode=0)
-    return e
+def create_event(team, game):
+    event = Event()
 
+    venue = 'Heimspiel' if game.home_team == team else 'Auswärtsspiel'
+    summary = '{} - {}'.format(venue, game.opponent(team).name)
+    # todo: read datetime from game.opening_whistle
+    start = datetime(2018, 2, 24, 19, 45, 0)
+    # todo: calculate end to be 1,5h after opening whistle
+    end = datetime(2018, 2, 24, 21, 15, 0)
+    dtstamp = datetime.now()
+    # todo: read location from game.sports_hall / game.location
+    location = vText('Reblandhalle, Unterer Jagdweg 13, 69254 Malsch, Deutschland')
+    uid = 'game/{}@hbscorez.de'.format(game.number)
 
-def organizer(email, name, role):
-    o = vCalAddress(email)
-    o.params['cn'] = vText(name)
-    o.params['role'] = vText(role)
-    return o
-
-
-def attendee(email_address, name, role):
-    a = vCalAddress(email_address)
-    a.params['cn'] = vText(name)
-    a.params['ROLE'] = vText(role)
-    return a
+    event.add('summary', summary)
+    event.add('dtstart', start)
+    event.add('dtend', end)
+    event.add('dtstamp', dtstamp)
+    event['location'] = location
+    event['uid'] = uid
+    return event
 
 
 def display(cal):
