@@ -84,8 +84,14 @@ def view_team_calendar(request, bhv_id):
     games = Game.objects.filter(Q(home_team=team) | Q(guest_team=team))
 
     cal = Calendar()
-    cal.add('prodid', '-//hbscorez.de//DE//1.0')
-    cal.add('version', '2.0')
+    cal.add('PRODID', '-//hbscorez.de//Mannschaftskalender 1.0//DE')
+    cal.add('VERSION', '2.0')
+    cal.add('CALSCALE', 'GREGORIAN')
+    cal.add('METHOD', 'PUBLISH')
+    cal.add('X-WR-CALNAME', 'Spielplan {} {}'.format(team.league.abbreviation, team.short_name))
+    cal.add('X-WR-TIMEZONE', 'Europe/Berlin')
+    cal.add('X-WR-CALDESC', 'Spielplan der Mannschaft "{}" in der Saison 2018 in der Liga "{}" des Bereichs "{}"'
+            .format(team.name, team.league.name, team.league.district.name))
 
     [cal.add_component(create_event(team, game)) for game in games]
 
