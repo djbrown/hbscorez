@@ -5,6 +5,7 @@
 /db.sqlite3
 /static/
 /media/
+/mails/
 
 
 ### Python template
