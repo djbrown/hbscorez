@@ -1,12 +1,8 @@
-import locale
 from datetime import datetime
 
-import django
 from django.test import TestCase
 
 from base.management.commands.import_games import parse_opening_whistle
-
-django.setup()
 
 
 class OpeningWhistleParseTest(TestCase):

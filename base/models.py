@@ -97,6 +97,8 @@ class Game(models.Model):
     opening_whistle = models.DateTimeField()
     home_team = models.ForeignKey(Team, related_name='home_team')
     guest_team = models.ForeignKey(Team, related_name='guest_team')
+    home_goals = models.IntegerField(blank=True, null=True)
+    guest_goals = models.IntegerField(blank=True, null=True)
     report_number = models.IntegerField(unique=True)
     def __str__(self):
         return '{} ({}): {} vs. {}'.format(self.number, self.league.abbreviation, self.home_team.short_name,
