@@ -58,7 +58,7 @@ class Command(BaseCommand):
         bhv_id = int(parse_qs(query)['orgGrpID'][0])
 
         if self.options['associations'] and bhv_id not in self.options['associations']:
-            self.stdout.write('SKIPPING Association: {:2} {} (options)'.format(bhv_id, name))
+            self.stdout.write('SKIPPING Association: {} {} (options)'.format(bhv_id, name))
             return
 
         association, created = Association.objects.get_or_create(name=name, abbreviation=abbreviation, bhv_id=bhv_id)
@@ -82,10 +82,10 @@ class Command(BaseCommand):
         district.associations.add(association)
 
         if bhv_id in self.processed_districts:
-            self.stdout.write('SKIPPING District: {:2} {} (already processed)'.format(bhv_id, name))
+            self.stdout.write('SKIPPING District: {} {} (already processed)'.format(bhv_id, name))
             return
         if self.options['districts'] and bhv_id not in self.options['districts']:
-            self.stdout.write('SKIPPING District: {:2} {} (options)'.format(bhv_id, name))
+            self.stdout.write('SKIPPING District: {} {} (options)'.format(bhv_id, name))
             return
 
         if created:
@@ -114,15 +114,15 @@ class Command(BaseCommand):
         abbreviation = link.text
 
         if League.is_youth_league(abbreviation, name) and not self.options['youth']:
-            self.stdout.write('SKIPPING League: {:5} {} (youth league)'.format(bhv_id, name))
+            self.stdout.write('SKIPPING League: {} {} (youth league)'.format(bhv_id, name))
             return
         if self.options['leagues'] and bhv_id not in self.options['leagues']:
-            self.stdout.write('SKIPPING League: {:2} {} (options)'.format(bhv_id, name))
+            self.stdout.write('SKIPPING League: {} {} (options)'.format(bhv_id, name))
             return
 
         team_links = tree.xpath('//table[@class="scoretable"]/tr[position() > 1]/td[3]/a')
         if not team_links:
-            self.stdout.write('SKIPPING League: {:5} {} (no team table)'.format(bhv_id, name))
+            self.stdout.write('SKIPPING League: {} {} (no team table)'.format(bhv_id, name))
             return
 
         league, created = League.objects.get_or_create(name=name, abbreviation=abbreviation, district=district,
