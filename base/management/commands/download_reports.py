@@ -1,35 +1,80 @@
+from pathlib import Path
+
 import requests
+from django.conf import settings
 from django.core.management import BaseCommand
 
-from base.management.common import REPORTS_PATH, report_path, find_games
+from base import models
 
 
 class Command(BaseCommand):
+    options = {}
 
     def add_arguments(self, parser):
-        parser.add_argument('--games', '-g', nargs='+', type=int, metavar='sGID',
-                            help="sGIDs of games whose reports are to be downloaded.")
         parser.add_argument('--force-update', '-f', action='store_true',
                             help='force download and overwrite if report already exists')
+        parser.add_argument('--associations', '-a', nargs='+', type=int, metavar='orgGrpID',
+                            help="orgGrpIDs of Associations whose games reports shall be downloaded.")
+        parser.add_argument('--districts', '-d', nargs='+', type=int, metavar='orgID',
+                            help="orgIDs of Districts whose games reports shall be downloaded.")
+        parser.add_argument('--leagues', '-l', nargs='+', type=int, metavar='score',
+                            help="sGIDs of Leagues whose games reports shall be downloaded.")
+        parser.add_argument('--games', '-g', nargs='+', type=int, metavar='game number',
+                            help="numbers of Games whose reports shall be downloaded.")
+        parser.add_argument('--skip-games', '-G', nargs='+', type=int, metavar='game number',
+                            help="numbers of Games whose reports shall not be downloaded.")
 
     def handle(self, *args, **options):
-        REPORTS_PATH.mkdir(parents=True, exist_ok=True)
+        self.options = options
+        self.import_associations()
+
+    def import_associations(self):
+        for association in models.Association.objects.all():
+            self.import_association(association)
+
+    def import_association(self, association):
+        if self.options['associations'] and association.bhv_id not in self.options['associations']:
+            self.stdout.write('SKIPPING Association: {} (options)'.format(association))
+            return
+
+        for district in association.district_set.all():
+            self.import_district(district)
+
+    def import_district(self, district):
+        if self.options['districts'] and district.bhv_id not in self.options['districts']:
+            self.stdout.write('SKIPPING District: {} (options)'.format(district))
+            return
+
+        for league in district.league_set.all():
+            self.import_league(league)
+
+    def import_league(self, league):
+        if self.options['leagues'] and league.bhv_id not in self.options['leagues']:
+            self.stdout.write('SKIPPING League: {} (options)'.format(league))
+            return
+
+        for game in league.game_set.all():
+            self.import_game(game)
+
+    def import_game(self, game):
+        Path(settings.REPORTS_PATH).mkdir(parents=True, exist_ok=True)
 
         bugged_reports = [567811, 562543]
 
-        for game in find_games(options['games']):
-            if game.report_number in bugged_reports:
-                self.stdout.write('SKIPPING Report {} (hardcoded ignore list)'.format(game.report_number))
-            elif not report_path(game).is_file():
-                self.stdout.write('DOWNLOADING Report {}'.format(game.report_number))
-                download_report(game)
-            elif options['force_update']:
-                self.stdout.write('REDOWNLOADING Report {}'.format(game.report_number))
-                download_report(game)
+        if self.options['games'] and game.number not in self.options['games']:
+            self.stdout.write('SKIPPING Report: {} - {}(options)'.format(game.report_number, game))
+            return
+        if game.report_number in bugged_reports:
+            self.stdout.write('SKIPPING Report {} - {} (hardcoded ignore list)'.format(game.report_number, game))
+            return
+        if game.report_path().is_file():
+            if not self.options['force_update']:
+                self.stdout.write('EXISTING Report {} - {}'.format(game.report_number, game))
+                return
             else:
-                self.stdout.write('EXISTING Report {}'.format(game.report_number))
+                self.stdout.write('REDOWNLOADING Report {} - {}'.format(game.report_number, game))
+        else:
+            self.stdout.write('DOWNLOADING Report {} - {}'.format(game.report_number, game))
 
-
-def download_report(game):
-    response = requests.get(game.report_url(), stream=True)
-    report_path(game).write_bytes(response.content)
+        response = requests.get(game.report_url(), stream=True)
+        game.report_path().write_bytes(response.content)

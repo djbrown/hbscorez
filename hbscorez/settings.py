@@ -55,6 +55,8 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'hbscorez.urls'
 
+REPORTS_PATH = os.path.join(BASE_DIR, 'reports')
+
 SECRET_KEY = ' '
 
 STATIC_URL = '/static/'

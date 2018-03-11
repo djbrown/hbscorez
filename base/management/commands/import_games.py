@@ -64,7 +64,7 @@ class Command(BaseCommand):
     def import_game(self, game_row, league):
         league_abbreviation = game_row[0].text
         number = int(game_row[1].text)
-        opening_whistle = parse_opening_whistle(game_row[2].text)
+        opening_whistle = models.Game.parse_opening_whistle(game_row[2].text)
         sports_hall = get_or_create_sports_hall(game_row[3].text)
         home_team_short_name = game_row[4].text
         guest_team_short_name = game_row[6].text
@@ -90,7 +90,6 @@ class Command(BaseCommand):
                                               guest_goals=guest_goals,
                                               report_number=report_number)
             self.stdout.write('CREATING Game: {}'.format(game))
-            game.save()
             return
 
         else:

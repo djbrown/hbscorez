@@ -12,7 +12,7 @@ class Association(models.Model):
     bhv_id = models.IntegerField(unique=True)
 
     def __str__(self):
-        return 'Association: {} {}'.format(self.bhv_id, self.abbreviation)
+        return 'Association: {} ({})'.format(self.bhv_id, self.abbreviation)
 
     def get_absolute_url(self):
         return reverse('association', kwargs={'bhv_id': self.bhv_id})
@@ -27,7 +27,7 @@ class District(models.Model):
     bhv_id = models.IntegerField(unique=True)
 
     def __str__(self):
-        return 'District: {} {}'.format(self.bhv_id, self.name)
+        return 'District: {} ({})'.format(self.bhv_id, self.name)
 
     def get_absolute_url(self):
         return reverse('district', kwargs={'bhv_id': self.bhv_id})
@@ -48,7 +48,7 @@ class League(models.Model):
         unique_together = (('name', 'district'), ('abbreviation', 'district'))
 
     def __str__(self):
-        return 'League: {} {}'.format(self.bhv_id, self.name)
+        return 'League: {} ({})'.format(self.bhv_id, self.name)
 
     def get_absolute_url(self):
         return reverse('league', kwargs={'bhv_id': self.bhv_id})
@@ -112,11 +112,13 @@ class Game(models.Model):
     guest_goals = models.IntegerField(blank=True, null=True)
     report_number = models.IntegerField(unique=True)
     def __str__(self):
-        return '{} ({} - {}): {} vs. {}'.format(self.number, self.league.abbreviation, self.report_number,
-                                                self.home_team.short_name, self.guest_team.short_name)
+        return '{}: {} vs. {}'.format(self.number, self.home_team.short_name, self.guest_team.short_name)
 
     def report_url(self):
         return 'https://spo.handball4all.de/misc/sboPublicReports.php?sGID={}'.format(self.report_number)
+
+    def report_path(self):
+        return Path(settings.REPORTS_PATH).joinpath(str(self.report_number) + '.pdf')
 
     def opponent_of(self, team):
         if team == self.home_team:
