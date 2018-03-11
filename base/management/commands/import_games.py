@@ -1,5 +1,3 @@
-import locale
-from datetime import datetime
 from urllib.parse import urlsplit, parse_qs
 
 import requests
@@ -7,11 +5,6 @@ from django.core.management import BaseCommand
 from lxml import html
 
 from base import models
-
-
-def parse_opening_whistle(text) -> datetime:
-    locale.setlocale(locale.LC_ALL, "de_DE.UTF-8")
-    return datetime.strptime(text, '%a, %d.%m.%y, %H:%Mh')
 
 
 def get_or_create_sports_hall(text):

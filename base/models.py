@@ -1,3 +1,7 @@
+import locale
+import re
+from datetime import datetime
+
 from django.db import models
 from django.urls import reverse
 
@@ -56,6 +60,13 @@ class League(models.Model):
         return 'https://spo.handball4all.de/Spielbetrieb/index.php?orgGrpID={}&score={}&all=1'.format(
             self.district.associations.all()[0].bhv_id, self.bhv_id)
 
+    @staticmethod
+    def is_youth_league(abbreviation, name):
+        return abbreviation[:1] in ['m', 'w', 'g', 'u'] \
+               or re.search('MJ', name) \
+               or re.search('WJ', name) \
+               or re.search('Jugend', name) \
+               or re.search('Mini', name)
 
 
 class Team(models.Model):
@@ -101,8 +112,8 @@ class Game(models.Model):
     guest_goals = models.IntegerField(blank=True, null=True)
     report_number = models.IntegerField(unique=True)
     def __str__(self):
-        return '{} ({}): {} vs. {}'.format(self.number, self.league.abbreviation, self.home_team.short_name,
-                                           self.guest_team.short_name)
+        return '{} ({} - {}): {} vs. {}'.format(self.number, self.league.abbreviation, self.report_number,
+                                                self.home_team.short_name, self.guest_team.short_name)
 
     def report_url(self):
         return 'https://spo.handball4all.de/misc/sboPublicReports.php?sGID={}'.format(self.report_number)
@@ -113,6 +124,11 @@ class Game(models.Model):
         elif team == self.guest_team:
             return self.home_team
 
+
+    @staticmethod
+    def parse_opening_whistle(text) -> datetime:
+        locale.setlocale(locale.LC_ALL, "de_DE.UTF-8")
+        return datetime.strptime(text, '%a, %d.%m.%y, %H:%Mh')
 
 
 class Score(models.Model):
