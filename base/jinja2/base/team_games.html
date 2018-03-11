@@ -45,7 +45,7 @@
         </tfoot>
         <tbody>
         {% for game in games %}
-        {% set opponent = game.opponent(team) %}
+        {% set opponent = game.opponent_of(team) %}
         <tr>
             <th scope="row">
                 {#<img class="table-team-logo" src="{{ team_logo_url(opponent) }}" width="25px">#}

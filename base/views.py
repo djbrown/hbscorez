@@ -1,6 +1,6 @@
 from datetime import datetime, timedelta
 
-from django.db.models import Count, Sum, Q
+from django.db.models import Count, Sum
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404
 from icalendar import Calendar, Event, vText
@@ -102,7 +102,7 @@ def create_event(team, game):
     event = Event()
 
     venue = 'Heimspiel' if game.home_team == team else 'Auswärtsspiel'
-    summary = '{} - {}'.format(venue, game.opponent(team).name)
+    summary = '{} - {}'.format(venue, game.opponent_of(team).short_name)
     start = game.opening_whistle
     end = start + timedelta(minutes=90)
     dtstamp = datetime.now()
