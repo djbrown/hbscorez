@@ -78,6 +78,7 @@ class Team(models.Model):
     short_name = models.TextField()
     league = models.ForeignKey(League)
     bhv_id = models.IntegerField(unique=True)
+
     # logo = models.ImageField(upload_to=os.path.join(settings.MEDIA_ROOT, 'club-logos'))
 
     class Meta:

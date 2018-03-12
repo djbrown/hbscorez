@@ -63,9 +63,9 @@ class Command(BaseCommand):
 
         association, created = Association.objects.get_or_create(name=name, abbreviation=abbreviation, bhv_id=bhv_id)
         if created:
-            self.stdout.write('CREATING {}'.format(association))
+            self.stdout.write('CREATING Association: {}'.format(association))
         else:
-            self.stdout.write('EXISTING {}'.format(association))
+            self.stdout.write('EXISTING Association: {}'.format(association))
 
         response = requests.get(association.source_url())
         response.encoding = 'utf-8'
@@ -89,9 +89,9 @@ class Command(BaseCommand):
         district.associations.add(association)
 
         if created:
-            self.stdout.write('CREATING {}'.format(district))
+            self.stdout.write('CREATING District: {}'.format(district))
         else:
-            self.stdout.write('EXISTING {}'.format(district))
+            self.stdout.write('EXISTING District: {}'.format(district))
         self.processed_districts.append(bhv_id)
 
         response = requests.get(district.source_url())
@@ -128,9 +128,9 @@ class Command(BaseCommand):
         league, created = League.objects.get_or_create(name=name, abbreviation=abbreviation, district=district,
                                                        bhv_id=bhv_id)
         if created:
-            self.stdout.write('CREATING {}'.format(league))
+            self.stdout.write('CREATING League: {}'.format(league))
         else:
-            self.stdout.write('EXISTING {}'.format(league))
+            self.stdout.write('EXISTING League: {}'.format(league))
 
         for team_link in team_links:
             self.create_team(team_link, league)
@@ -151,6 +151,6 @@ class Command(BaseCommand):
 
         team, created = Team.objects.get_or_create(name=name, short_name=short_team_name, league=league, bhv_id=bhv_id)
         if created:
-            self.stdout.write('CREATING {}'.format(team))
+            self.stdout.write('CREATING Team: {}'.format(team))
         else:
-            self.stdout.write('EXISTING {}'.format(team))
+            self.stdout.write('EXISTING Team: {}'.format(team))
