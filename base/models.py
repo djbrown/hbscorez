@@ -16,7 +16,7 @@ class Association(models.Model):
     bhv_id = models.IntegerField(unique=True)
 
     def __str__(self):
-        return 'Association: {} ({})'.format(self.bhv_id, self.abbreviation)
+        return '{} {}'.format(self.bhv_id, self.abbreviation)
 
     def get_absolute_url(self):
         return reverse('association', kwargs={'bhv_id': self.bhv_id})
@@ -31,7 +31,7 @@ class District(models.Model):
     bhv_id = models.IntegerField(unique=True)
 
     def __str__(self):
-        return 'District: {} ({})'.format(self.bhv_id, self.name)
+        return '{} {}'.format(self.bhv_id, self.name)
 
     def get_absolute_url(self):
         return reverse('district', kwargs={'bhv_id': self.bhv_id})
@@ -52,7 +52,7 @@ class League(models.Model):
         unique_together = (('name', 'district'), ('abbreviation', 'district'))
 
     def __str__(self):
-        return 'League: {} ({})'.format(self.bhv_id, self.name)
+        return '{} {}'.format(self.bhv_id, self.name)
 
     def get_absolute_url(self):
         return reverse('league', kwargs={'bhv_id': self.bhv_id})
@@ -84,7 +84,7 @@ class Team(models.Model):
         unique_together = (('name', 'league'), ('short_name', 'league'))
 
     def __str__(self):
-        return '{} ({})'.format(self.short_name, self.bhv_id)
+        return '{} {}'.format(self.bhv_id, self.short_name)
 
     def get_absolute_url(self):
         return reverse('team', kwargs={'bhv_id': self.bhv_id, })
@@ -99,7 +99,7 @@ class Player(models.Model):
     team = models.ForeignKey(Team)
 
     def __str__(self):
-        return '{} ({})'.format(self.name, self.team.short_name)
+        return '{} {}'.format(self.name, self.team.short_name)
 
     def get_absolute_url(self):
         return reverse('player', kwargs={'pk': self.pk})
@@ -141,7 +141,7 @@ class Game(models.Model):
     report_number = models.IntegerField(unique=True, blank=True, null=True)
 
     def __str__(self):
-        return '{}: {} vs. {}'.format(self.number, self.home_team.short_name, self.guest_team.short_name)
+        return '{} {} vs. {}'.format(self.number, self.home_team.short_name, self.guest_team.short_name)
 
     def report_url(self):
         return 'https://spo.handball4all.de/misc/sboPublicReports.php?sGID={}'.format(self.report_number)
@@ -209,7 +209,7 @@ class Score(models.Model):
         unique_together = ('player', 'game')
 
     def __str__(self):
-        return '{} - {} ({})'.format(self.game, self.player, self.player_number)
+        return '{} {} ({})'.format(self.game.number, self.player.name, self.player_number)
 
     @staticmethod
     def parse_game_time(text: str) -> typing.Optional[timedelta]:

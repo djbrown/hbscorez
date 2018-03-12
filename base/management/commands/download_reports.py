@@ -65,16 +65,16 @@ class Command(BaseCommand):
             self.stdout.write('SKIPPING Report: {} - {}(options)'.format(game.report_number, game))
             return
         if game.report_number in bugged_reports:
-            self.stdout.write('SKIPPING Report {} - {} (hardcoded ignore list)'.format(game.report_number, game))
+            self.stdout.write('SKIPPING Report: {} - {} (hardcoded ignore list)'.format(game.report_number, game))
             return
         if game.report_path().is_file():
             if not self.options['force_update']:
-                self.stdout.write('EXISTING Report {} - {}'.format(game.report_number, game))
+                self.stdout.write('EXISTING Report: {} - {}'.format(game.report_number, game))
                 return
             else:
-                self.stdout.write('REDOWNLOADING Report {} - {}'.format(game.report_number, game))
+                self.stdout.write('REDOWNLOADING Report: {} - {}'.format(game.report_number, game))
         else:
-            self.stdout.write('DOWNLOADING Report {} - {}'.format(game.report_number, game))
+            self.stdout.write('DOWNLOADING Report: {} - {}'.format(game.report_number, game))
 
         response = requests.get(game.report_url(), stream=True)
         game.report_path().write_bytes(response.content)
