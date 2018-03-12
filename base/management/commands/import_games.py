@@ -84,6 +84,7 @@ class Command(BaseCommand):
             game = models.Game.objects.create(number=number,
                                               league=league,
                                               opening_whistle=opening_whistle,
+                                              sports_hall=sports_hall,
                                               home_team=home_team,
                                               guest_team=guest_team,
                                               home_goals=home_goals,

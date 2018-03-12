@@ -105,6 +105,18 @@ class Player(models.Model):
         return reverse('player', kwargs={'pk': self.pk})
 
 
+class SportsHall(models.Model):
+    number = models.IntegerField(unique=True)
+    name = models.TextField()
+    address = models.TextField()
+    phone_number = models.TextField()
+    latitude = models.DecimalField(max_digits=9, decimal_places=6)
+    longitude = models.DecimalField(max_digits=9, decimal_places=6)
+
+    def __str__(self):
+        return "{} {}".format(self.number, self.name)
+
+
 class GameOutcome(Enum):
     HOME_WIN = auto()
     AWAY_WIN = auto()
@@ -121,7 +133,7 @@ class Game(models.Model):
     number = models.IntegerField(unique=True)
     league = models.ForeignKey(League)
     opening_whistle = models.DateTimeField()
-    # sports_hall = models.ForeignKey(SportsHall)
+    sports_hall = models.ForeignKey(SportsHall)
     home_team = models.ForeignKey(Team, related_name='home_team')
     guest_team = models.ForeignKey(Team, related_name='guest_team')
     home_goals = models.IntegerField(blank=True, null=True)
