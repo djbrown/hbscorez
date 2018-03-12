@@ -1,7 +1,10 @@
 import locale
 import re
-from datetime import datetime
+import typing
+from datetime import datetime, timedelta
+from pathlib import Path
 
+from django.conf import settings
 from django.db import models
 from django.urls import reverse
 
@@ -110,7 +113,8 @@ class Game(models.Model):
     guest_team = models.ForeignKey(Team, related_name='guest_team')
     home_goals = models.IntegerField(blank=True, null=True)
     guest_goals = models.IntegerField(blank=True, null=True)
-    report_number = models.IntegerField(unique=True)
+    report_number = models.IntegerField(unique=True, blank=True, null=True)
+
     def __str__(self):
         return '{}: {} vs. {}'.format(self.number, self.home_team.short_name, self.guest_team.short_name)
 
@@ -135,6 +139,29 @@ class Game(models.Model):
 
 class Score(models.Model):
     player = models.ForeignKey(Player)
+    player_number = models.PositiveIntegerField()
     game = models.ForeignKey(Game)
-    goals = models.PositiveIntegerField(default=0)
-    penalty_goals = models.PositiveIntegerField(default=0)
+    goals = models.PositiveIntegerField()
+    penalty_goals = models.PositiveIntegerField()
+    penalty_tries = models.PositiveIntegerField()
+    warning_time = models.DurationField(blank=True, null=True)
+    first_suspension_time = models.DurationField(blank=True, null=True)
+    second_suspension_time = models.DurationField(blank=True, null=True)
+    third_suspension_time = models.DurationField(blank=True, null=True)
+    disqualification_time = models.DurationField(blank=True, null=True)
+    # report_time = models.DurationField(blank=True, null=True)
+    team_suspension_time = models.DurationField(blank=True, null=True)
+
+    class Meta:
+        unique_together = ('player', 'game')
+
+    def __str__(self):
+        return '{} - {} ({})'.format(self.game, self.player, self.player_number)
+
+    @staticmethod
+    def parse_game_time(text: str) -> typing.Optional[timedelta]:
+        if not text:
+            return None
+
+        minutes, seconds = text.split(':')
+        return timedelta(minutes=int(minutes), seconds=int(seconds))

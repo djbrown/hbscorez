@@ -2,37 +2,82 @@ import re
 
 import tabula
 from django.core.management import BaseCommand
+from django.db import transaction
 
-from base.management.common import report_path, find_games
-from base.models import Score, Player
+from base import models
 
 
 class Command(BaseCommand):
     options = {}
 
     def add_arguments(self, parser):
-        parser.add_argument('--reports', '-r', nargs='+', type=int, metavar='sGID',
-                            help="sGIDs of game reports whose scores are to be imported")
         parser.add_argument('--force-update', '-f', action='store_true',
-                            help='force download of report and update of scores')
+                            help='force download and overwrite if report already exists')
+        parser.add_argument('--associations', '-a', nargs='+', type=int, metavar='orgGrpID',
+                            help="orgGrpIDs of Associations whose games reports shall be downloaded.")
+        parser.add_argument('--districts', '-d', nargs='+', type=int, metavar='orgID',
+                            help="orgIDs of Districts whose games reports shall be downloaded.")
+        parser.add_argument('--leagues', '-l', nargs='+', type=int, metavar='score',
+                            help="sGIDs of Leagues whose games reports shall be downloaded.")
+        parser.add_argument('--games', '-g', nargs='+', type=int, metavar='game number',
+                            help="numbers of Games whose reports shall be downloaded.")
+        parser.add_argument('--skip-games', '-G', nargs='+', type=int, metavar='game number',
+                            help="numbers of Games whose reports shall not be downloaded.")
 
     def handle(self, *args, **options):
         self.options = options
-        for game in find_games(options['reports']):
-            if not report_path(game).is_file():
-                self.stdout.write('SKIPPING Scores for {} (not found)'.format(game))
-            elif game.score_set.count() == 0:
-                self.stdout.write('IMPORTING Scores for {}'.format(game))
-                self.import_scores(game)
-            elif self.options['force_update']:
-                self.stdout.write('REIMPORTING Scores for {}'.format(game))
-                Score.objects.filter(game=game).delete()
-                self.import_scores(game)
-            else:
-                self.stdout.write('EXISTING Scores for {}'.format(game))
+        self.import_associations()
 
+    def import_associations(self):
+        for association in models.Association.objects.all():
+            self.import_association(association)
+
+    def import_association(self, association):
+        if self.options['associations'] and association.bhv_id not in self.options['associations']:
+            self.stdout.write('SKIPPING Association: {} (options)'.format(association))
+            return
+
+        for district in association.district_set.all():
+            self.import_district(district)
+
+    def import_district(self, district):
+        if self.options['districts'] and district.bhv_id not in self.options['districts']:
+            self.stdout.write('SKIPPING District: {} (options)'.format(district))
+            return
+
+        for league in district.league_set.all():
+            self.import_league(league)
+
+    def import_league(self, league):
+        if self.options['leagues'] and league.bhv_id not in self.options['leagues']:
+            self.stdout.write('SKIPPING League: {} (options)'.format(league))
+            return
+
+        for game in league.game_set.all():
+            self.import_game(game)
+
+    def import_game(self, game):
+        if self.options['games'] and game.number not in self.options['games']:
+            self.stdout.write('SKIPPING Scores: {} - {}(options)'.format(game.report_number, game))
+            return
+        if not game.report_path().is_file():
+            self.stdout.write('SKIPPING Scores: {} - {} (not found)'.format(game.report_number, game))
+            return
+        if game.score_set.count() > 0:
+            if not self.options['force_update']:
+                self.stdout.write('EXISTING Scores: {} - {}'.format(game.report_number, game))
+                return
+            else:
+                self.stdout.write('REIMPORTING Scores: {} - {}'.format(game.report_number, game))
+                models.Score.objects.filter(game=game).delete()
+        else:
+            self.stdout.write('IMPORTING Scores: {} - {}'.format(game.report_number, game))
+
+        self.import_scores(game)
+
+    @transaction.atomic
     def import_scores(self, game):
-        path = str(report_path(game))
+        path = str(game.report_path())
         scores_pdf = tabula.read_pdf(path, output_format='json', **{'pages': 2, 'lattice': True})
 
         self.add_scores(scores_pdf[0], game=game, team=game.home_team)
@@ -42,37 +87,40 @@ class Command(BaseCommand):
         table_rows = table['data']
         for table_row in table_rows[2:]:
             row_data = [cell['text'] for cell in table_row]
+
             player_number = row_data[0]
             player_name = row_data[1]
             # player_year_of_birth = row_data[2]
-            goals_total = row_data[5] or 0
+            goals = row_data[5] or 0
             penalty_tries, penalty_goals = parse_penalty_data(row_data[6])
-            # warning_time = row_data[7]
-            # first_suspension_time = row_data[8]
-            # second_suspension_time = row_data[9]
-            # third_suspension_time = row_data[10]
-            # disqualification_time = row_data[11]
-            # report_time = row_data[12]
-            # team_suspension_time = row_data[13]
+            warning_time = models.Score.parse_game_time(row_data[7])
+            first_suspension_time = models.Score.parse_game_time(row_data[8])
+            second_suspension_time = models.Score.parse_game_time(row_data[9])
+            third_suspension_time = models.Score.parse_game_time(row_data[10])
+            disqualification_time = models.Score.parse_game_time(row_data[11])
+            report_time = models.Score.parse_game_time(row_data[12])
+            team_suspension_time = models.Score.parse_game_time(row_data[13])
 
             if not player_name or player_number in ('A', 'B', 'C', 'D'):
                 continue
 
-            player = Player.objects.get_or_create(name=player_name, team=team)[0]
+            player = models.Player.objects.get_or_create(name=player_name, team=team)[0]
 
-            # try:
-            score = Score(
+            models.Score.objects.create(
                 player=player,
+                player_number=player_number,
                 game=game,
-                goals=goals_total,
+                goals=goals,
                 penalty_goals=penalty_goals,
+                penalty_tries=penalty_tries,
+                warning_time=warning_time,
+                first_suspension_time=first_suspension_time,
+                second_suspension_time=second_suspension_time,
+                third_suspension_time=third_suspension_time,
+                disqualification_time=disqualification_time,
+                # report_time=report_time,
+                team_suspension_time=team_suspension_time
             )
-            score.save()
-            # except ValueError as err:
-            #     self.stdout.write(
-            #         'ValueError on Game {} Team {} Player {} {}\n{}'.format(game.report_number, team.name, player.name,
-            #                                                                         player_number, err))
-            #     continue
 
 
 def parse_penalty_data(text: str) -> (int, int):
