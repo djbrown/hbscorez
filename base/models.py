@@ -2,6 +2,7 @@ import locale
 import re
 import typing
 from datetime import datetime, timedelta
+from enum import Enum, auto
 from pathlib import Path
 
 from django.conf import settings
@@ -104,11 +105,23 @@ class Player(models.Model):
         return reverse('player', kwargs={'pk': self.pk})
 
 
+class GameOutcome(Enum):
+    HOME_WIN = auto()
+    AWAY_WIN = auto()
+    TIE = auto()
+
+
+class TeamOutCome(Enum):
+    WIN = auto()
+    LOSS = auto()
+    TIE = auto()
+
 
 class Game(models.Model):
     number = models.IntegerField(unique=True)
     league = models.ForeignKey(League)
     opening_whistle = models.DateTimeField()
+    # sports_hall = models.ForeignKey(SportsHall)
     home_team = models.ForeignKey(Team, related_name='home_team')
     guest_team = models.ForeignKey(Team, related_name='guest_team')
     home_goals = models.IntegerField(blank=True, null=True)
@@ -130,6 +143,34 @@ class Game(models.Model):
         elif team == self.guest_team:
             return self.home_team
 
+    def other_game(self):
+        games = Game.objects.filter(home_team__in=(self.home_team, self.guest_team),
+                                    guest_team__in=(self.home_team, self.guest_team))
+        assert len(games) == 2
+        assert self in games
+        return games.get(~models.Q(number=self.number))
+
+    def is_first_leg(self):
+        other_game = self.other_game()
+        return self.opening_whistle < other_game.opening_whistle
+
+    def outcome(self) -> GameOutcome:
+        if self.home_goals > self.guest_goals:
+            return GameOutcome.HOME_WIN
+        if self.home_goals < self.guest_goals:
+            return GameOutcome.AWAY_WIN
+        if self.home_goals == self.guest_goals:
+            return GameOutcome.TIE
+
+    def outcome_for(self, team) -> TeamOutCome:
+        if self.outcome() == GameOutcome.TIE:
+            return TeamOutCome.TIE
+        if team == self.home_team and self.outcome() == GameOutcome.HOME_WIN \
+                or team == self.guest_team and self.outcome() == GameOutcome.AWAY_WIN:
+            return TeamOutCome.WIN
+        if team == self.home_team and self.outcome() == GameOutcome.AWAY_WIN \
+                or team == self.guest_team and self.outcome() == GameOutcome.HOME_WIN:
+            return TeamOutCome.LOSS
 
     @staticmethod
     def parse_opening_whistle(text) -> datetime:

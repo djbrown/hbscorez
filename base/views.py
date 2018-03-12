@@ -103,6 +103,11 @@ def create_event(team, game):
 
     venue = 'Heimspiel' if game.home_team == team else 'Auswärtsspiel'
     summary = '{} - {}'.format(venue, game.opponent_of(team).short_name)
+    leg = 'Hinspiel' if game.is_first_leg() else 'Rückspiel'
+    description = '{} gegen {}'.format(leg, game.opponent_of(team).name)
+    if not game.is_first_leg():
+        previous = game.other_game()
+        description += '\nHinspiel: {}:{} ({})'.format(previous.home_goals, previous.guest_goals, outcome(game, team))
     start = game.opening_whistle
     end = start + timedelta(minutes=90)
     dtstamp = datetime.now()
@@ -111,12 +116,23 @@ def create_event(team, game):
     uid = 'game/{}@hbscorez.de'.format(game.number)
 
     event.add('summary', summary)
+    event.add('description', description)
     event.add('dtstart', start)
     event.add('dtend', end)
     event.add('dtstamp', dtstamp)
     event['location'] = vText(location)
     event['uid'] = uid
     return event
+
+
+def outcome(game, team):
+    mapping = {
+        TeamOutCome.WIN: 'Sieg',
+        TeamOutCome.LOSS: 'Niederlage',
+        TeamOutCome.TIE: 'Unentschieden',
+    }
+    outcome = game.outcome_for(team)
+    return mapping.get(outcome)
 
 
 def display(cal):
