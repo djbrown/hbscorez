@@ -202,7 +202,7 @@ class Score(models.Model):
     second_suspension_time = models.DurationField(blank=True, null=True)
     third_suspension_time = models.DurationField(blank=True, null=True)
     disqualification_time = models.DurationField(blank=True, null=True)
-    # report_time = models.DurationField(blank=True, null=True)
+    report_time = models.DurationField(blank=True, null=True)
     team_suspension_time = models.DurationField(blank=True, null=True)
 
     class Meta:

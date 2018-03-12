@@ -118,7 +118,7 @@ class Command(BaseCommand):
                 second_suspension_time=second_suspension_time,
                 third_suspension_time=third_suspension_time,
                 disqualification_time=disqualification_time,
-                # report_time=report_time,
+                report_time=report_time,
                 team_suspension_time=team_suspension_time
             )
 
