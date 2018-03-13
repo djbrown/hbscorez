@@ -1,4 +1,3 @@
-import re
 from urllib.parse import urlsplit, parse_qs
 
 import requests

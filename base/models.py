@@ -110,9 +110,10 @@ class SportsHall(models.Model):
     number = models.IntegerField(unique=True)
     name = models.TextField()
     address = models.TextField()
-    phone_number = models.TextField()
+    phone_number = models.TextField(blank=True, null=True)
     latitude = models.DecimalField(max_digits=9, decimal_places=6)
     longitude = models.DecimalField(max_digits=9, decimal_places=6)
+    bhv_id = models.IntegerField(unique=True)
 
     def __str__(self):
         return "{} {}".format(self.number, self.name)
@@ -193,11 +194,11 @@ class Game(models.Model):
 
 class Score(models.Model):
     player = models.ForeignKey(Player)
-    player_number = models.PositiveIntegerField()
+    player_number = models.IntegerField()
     game = models.ForeignKey(Game)
-    goals = models.PositiveIntegerField()
-    penalty_goals = models.PositiveIntegerField()
-    penalty_tries = models.PositiveIntegerField()
+    goals = models.IntegerField()
+    penalty_goals = models.IntegerField()
+    penalty_tries = models.IntegerField()
     warning_time = models.DurationField(blank=True, null=True)
     first_suspension_time = models.DurationField(blank=True, null=True)
     second_suspension_time = models.DurationField(blank=True, null=True)

@@ -104,7 +104,11 @@ class Command(BaseCommand):
             if not player_name or player_number in ('A', 'B', 'C', 'D'):
                 continue
 
-            player = models.Player.objects.get_or_create(name=player_name, team=team)[0]
+            player, created = models.Player.objects.get_or_create(name=player_name, team=team)[0]
+            if created:
+                self.stdout.write('CREATING Player: {}'.format(player))
+            else:
+                self.stdout.write('EXISTING Player: {}'.format(player))
 
             models.Score.objects.create(
                 player=player,
