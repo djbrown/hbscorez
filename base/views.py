@@ -110,7 +110,7 @@ def create_event(team, game):
     end = start + timedelta(minutes=90)
     dtstamp = datetime.now()
     # todo: read location from game.sports_hall / game.location
-    location = 'Reblandhalle, Unterer Jagdweg 13, 69254 Malsch, Deutschland'
+    location = game.sports_hall.address
     uid = 'game/{}@hbscorez.de'.format(game.number)
 
     event.add('summary', summary)
