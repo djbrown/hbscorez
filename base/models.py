@@ -160,12 +160,16 @@ class Game(models.Model):
     def other_game(self):
         games = Game.objects.filter(home_team__in=(self.home_team, self.guest_team),
                                     guest_team__in=(self.home_team, self.guest_team))
-        assert len(games) == 2
+        # assert len(games) == 2
+        if len(games) == 1:
+            return None
         assert self in games
         return games.get(~models.Q(number=self.number))
 
     def is_first_leg(self):
         other_game = self.other_game()
+        if not other_game:
+            return True
         return self.opening_whistle < other_game.opening_whistle
 
     def outcome(self) -> GameOutcome:
