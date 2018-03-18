@@ -148,6 +148,7 @@ class Game(models.Model):
     home_goals = models.IntegerField(blank=True, null=True)
     guest_goals = models.IntegerField(blank=True, null=True)
     report_number = models.IntegerField(unique=True, blank=True, null=True)
+    forfeiting_team = models.ForeignKey(Team, blank=True, null=True, related_name='forfeiting_team')
 
     def __str__(self):
         return '{} {} vs. {}'.format(self.number, self.home_team.short_name, self.guest_team.short_name)
@@ -167,10 +168,6 @@ class Game(models.Model):
     def other_game(self):
         games = Game.objects.filter(home_team__in=(self.home_team, self.guest_team),
                                     guest_team__in=(self.home_team, self.guest_team))
-        # assert len(games) == 2
-        if len(games) == 1:
-            return None
-        assert self in games
         return games.get(~models.Q(number=self.number))
 
     def is_first_leg(self):
@@ -182,9 +179,11 @@ class Game(models.Model):
     def outcome(self) -> typing.Optional[GameOutcome]:
         if self.home_goals is None and self.guest_goals is None:
             return None
-        if self.home_goals > self.guest_goals:
+        if self.home_goals > self.guest_goals \
+                or self.winner == self.home_team:
             return GameOutcome.HOME_WIN
-        if self.home_goals < self.guest_goals:
+        if self.home_goals < self.guest_goals \
+                or self.winner == self.guest_team:
             return GameOutcome.AWAY_WIN
         if self.home_goals == self.guest_goals:
             return GameOutcome.TIE
@@ -199,11 +198,12 @@ class Game(models.Model):
                 or team == self.guest_team and self.outcome() == GameOutcome.HOME_WIN:
             return TeamOutCome.LOSS
 
-    def goals_of(self, team) -> models.IntegerField:
+    def goals_of(self, team):
         if team == self.home_team:
             return self.home_goals
         if team == self.guest_team:
             return self.guest_goals
+        return 0
 
     @staticmethod
     def parse_opening_whistle(text) -> datetime:
@@ -218,6 +218,13 @@ class Game(models.Model):
             return int(parse_qs(query)['sGID'][0])
         else:
             return None
+
+    @staticmethod
+    def parse_forfeiting_team(cell, home_team, guest_team):
+        if cell.text == " (2:0)":
+            return guest_team
+        if cell.text == " (0:2)":
+            return home_team
 
 
 class Score(models.Model):

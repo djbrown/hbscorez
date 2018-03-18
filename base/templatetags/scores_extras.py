@@ -23,7 +23,7 @@ def team_logo_url(team: models.Team):
 
 def team_outcome_badge(outcome: models.TeamOutCome):
     if outcome is None:
-        return
+        return "-"
 
     mapping = {
         models.TeamOutCome.WIN: ('success', 'Sieg'),
@@ -35,7 +35,7 @@ def team_outcome_badge(outcome: models.TeamOutCome):
 
 def game_outcome_badge(outcome: models.GameOutcome):
     if outcome is None:
-        return
+        return "-"
 
     mapping = {
         models.GameOutcome.HOME_WIN: 'Heimsieg',

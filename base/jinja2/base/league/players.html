@@ -54,8 +54,8 @@
                 <a href="{{ player.team.get_absolute_url() }}">{{ player.team.name }}</a>
             </td>
             <td>{{ player.games }}</td>
-            <td>{{ player.total_goals }}</td>
-            <td>{{ player.total_penalty_goals }}</td>
+            <td>{{ player.total_goals or "-" }}</td>
+            <td>{{ player.total_penalty_goals or "-" }}</td>
             <td>{{ player.total_goals - player.total_penalty_goals }}</td>
             <td>{{ '%0.2f'| format(player.total_goals / player.games) }}</td>
             <td>{{ '%0.2f'| format((player.total_goals - player.total_penalty_goals) / player.games) }}</td>

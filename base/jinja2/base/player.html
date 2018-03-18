@@ -52,8 +52,8 @@
                 <a href="{{ opponent_team.get_absolute_url() }}">{{ opponent_team.name }}</a>
             </td>
             <td>{{ 'Heim' if score.game.home_team == player.team else 'Auswärts' }}</td>
-            <td>{{ score.goals }}</td>
-            <td>{{ score.penalty_goals }}</td>
+            <td>{{ score.goals or "-" }}</td>
+            <td>{{ score.penalty_goals or "-" }}</td>
             <td>{{ score.goals - score.penalty_goals }}</td>
         </tr>
         {% endfor %}
