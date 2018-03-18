@@ -180,10 +180,10 @@ class Game(models.Model):
         if self.home_goals is None and self.guest_goals is None:
             return None
         if self.home_goals > self.guest_goals \
-                or self.winner == self.home_team:
+                or self.forfeiting_team == self.guest_team:
             return GameOutcome.HOME_WIN
         if self.home_goals < self.guest_goals \
-                or self.winner == self.guest_team:
+                or self.forfeiting_team == self.home_team:
             return GameOutcome.AWAY_WIN
         if self.home_goals == self.guest_goals:
             return GameOutcome.TIE

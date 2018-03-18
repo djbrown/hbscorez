@@ -58,8 +58,8 @@
                 <a href="{{ opponent.get_absolute_url() }}">{{ opponent.short_name }}</a>
             </td>
             <td>{{ team_outcome_badge(game.outcome_for(team))|safe }}</td>
-            <td>{{ game.goals_of(team) or "-" }}</td>
-            <td>{{ game.goals_of(opponent) or "-" }}</td>
+            <td>{{ game.goals_of(team) if game.goals_of(team) != None else "-" }}</td>
+            <td>{{ game.goals_of(opponent) if game.goals_of(opponent)!= None else "-" }}</td>
             <td><a href="#/">{{ game.sports_hall.name }}</a></td>
             <td><a href="#/">{{ game.number }}</a></td>
         </tr>

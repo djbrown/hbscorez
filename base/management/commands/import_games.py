@@ -77,7 +77,7 @@ class Command(BaseCommand):
             guest_team = models.Team.objects.get(league=league, short_name=guest_team_short_name)
             home_goals = int(game_row[7].text) if game_row[7].text else None
             guest_goals = int(game_row[9].text) if game_row[9].text else None
-            forfeiting_team = models.Game.parse_forfeiting_team(game_row[10])
+            forfeiting_team = models.Game.parse_forfeiting_team(game_row[10], home_team, guest_team)
 
             game = models.Game.objects.create(number=number, league=league,
                                               opening_whistle=opening_whistle, sports_hall=sports_hall,
