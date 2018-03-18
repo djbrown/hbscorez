@@ -1,4 +1,6 @@
 $(document).ready(function() {
+    $.fn.dataTable.moment('DD.MM.YYYY');
+
     $('#scores').dataTable({
         //"paging": false,
         "colReorder": true,

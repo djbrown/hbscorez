@@ -48,9 +48,11 @@ def view_league_teams(request, bhv_id):
 
 def view_league_games(request, bhv_id):
     league = get_object_or_404(League, bhv_id=bhv_id)
-    games_by_month = Game.objects.annotate(month=TruncMonth('opening_whistle')).values('month')
-    print(games_by_month)
-    return render(request, 'base/league/games.html', {'league': league})
+    games = Game.objects.annotate(month=TruncMonth('opening_whistle'))
+    games_by_month = {}
+    for game in games:
+        games_by_month.setdefault(game.month, []).append(game)
+    return render(request, 'base/league/games.html', {'league': league, 'games_by_month': games_by_month})
 
 
 def view_league_players(request, bhv_id):
@@ -94,7 +96,6 @@ def view_team_players(request, bhv_id):
         .annotate(total_penalty_goals=Sum('score__penalty_goals')) \
         .order_by('-total_goals')
     return render(request, 'base/team/players.html', {'team': team, 'players': players})
-
 
 
 def view_team_calendar(request, bhv_id):
