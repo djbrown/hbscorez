@@ -1,0 +1,73 @@
+{% extends 'base/league/base.html' %}
+{% block title %}{{ league.abbreviation }} - Torjäger{% endblock %}
+{% block styles %}
+{{ super() }}
+<!-- DataTables Builder: Bootstrap 4, DataTables, ColReorder, FixedColumns, FixedHeader -->
+<link rel="stylesheet" type="text/css"
+      href="https://cdn.datatables.net/v/bs4/dt-1.10.16/cr-1.4.1/fc-3.2.3/fh-3.1.3/datatables.min.css"/>
+{% endblock %}
+{% block content %}
+{{ super() }}
+<nav class="nav nav-pills mb-3">
+    <a class="nav-item nav-link m-1" href="{{ url('league_overview', args=[league.bhv_id]) }}">Übersicht</a>
+    <a class="nav-item nav-link m-1" href="{{ url('league_teams', args=[league.bhv_id]) }}">Mannschaften</a>
+    <a class="nav-item nav-link m-1" href="{{ url('league_games', args=[league.bhv_id]) }}">Spiele</a>
+    <a class="nav-item nav-link m-1 active" href="#/">Spieler</a>
+</nav>
+<h2>Spieler</h2>
+<div class="table-responsive">
+    <table id="scores" class="table table-sm table-striped" cellspacing="0" width="100%">
+        <thead>
+        <tr>
+            <th>Pl.</th>
+            <th>Name</th>
+            <th>Mannschaft</th>
+            <th>Sp.</th>
+            <th>Tore</th>
+            <th>7m</th>
+            <th>Feldt.</th>
+            <th>Tore &Oslash;</th>
+            <th>Feldt. &Oslash;</th>
+        </tr>
+        </thead>
+        <tfoot>
+        <tr>
+            <th>Pl.</th>
+            <th>Name</th>
+            <th>Mannschaft</th>
+            <th>Sp.</th>
+            <th>Tore</th>
+            <th>7m</th>
+            <th>Feldt.</th>
+            <th>Tore &Oslash;</th>
+            <th>Feldt. &Oslash;</th>
+        </tr>
+        </tfoot>
+        <tbody>
+        {% for player in players %}
+        <tr>
+            <th scope="row">{{ place(players, loop.index0) }}</th>
+            <td><a href="{{ player.get_absolute_url() }}">{{ player.name }}</a></td>
+            <td>
+                {#<img class="table-team-logo" src="{{ team_logo_url(player.team) }}" width="25px">#}
+                <img class="table-team-logo" src="{{ static('base/images/favicons/favicon.png') }}" width="25px">
+                <a href="{{ player.team.get_absolute_url() }}">{{ player.team.name }}</a>
+            </td>
+            <td>{{ player.games }}</td>
+            <td>{{ player.total_goals }}</td>
+            <td>{{ player.total_penalty_goals }}</td>
+            <td>{{ player.total_goals - player.total_penalty_goals }}</td>
+            <td>{{ '%0.2f'| format(player.total_goals / player.games) }}</td>
+            <td>{{ '%0.2f'| format((player.total_goals - player.total_penalty_goals) / player.games) }}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
+{% block scripts %}
+<!-- DataTables Builder: Bootstrap 4, DataTables, ColReorder, FixedColumns, FixedHeader -->
+<script type="text/javascript"
+        src="https://cdn.datatables.net/v/bs4/dt-1.10.16/cr-1.4.1/fc-3.2.3/fh-3.1.3/datatables.min.js"></script>
+<script type="text/javascript" src="{{ static('base/scripts/datatables.js') }}"></script>
+{% endblock %}

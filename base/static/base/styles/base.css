@@ -14,6 +14,12 @@ body {
     content: ",";
 }
 
+nav.nav-pills > a {
+  border: 1px solid #007bff;
+}
+
+//nv.nav-pills
+
 /*
  * Typography
  */

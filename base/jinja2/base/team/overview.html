@@ -1,0 +1,12 @@
+{% extends 'base/team/base.html' %}
+{% block content %}
+{{ super() }}
+<nav class="nav nav-pills mb-3">
+    <a class="nav-item nav-link m-1 active" href="#/">Übersicht</a>
+    <a class="nav-item nav-link m-1" href="{{ url('team_games', args=[team.bhv_id]) }}">Spiele</a>
+    <a class="nav-item nav-link m-1" href="{{ url('team_players', args=[team.bhv_id]) }}">Spieler</a>
+    <a class="nav-item nav-link m-1 disabled">Hallen</a>
+    <a class="nav-item nav-link m-1 disabled">Berichte</a>
+</nav>
+<h2>Übersicht</h2>
+{% endblock %}

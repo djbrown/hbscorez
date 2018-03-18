@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'base.apps.BaseConfig',
 ]
 
+LANGUAGE_CODE = 'de'
+
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 MEDIA_URL = '/media/'

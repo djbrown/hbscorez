@@ -1,4 +1,5 @@
 from django.db.models import Count, Sum, Q
+from django.db.models.functions import TruncMonth
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404
 from icalendar import Calendar, Event, vText
@@ -33,9 +34,23 @@ def view_district(request, bhv_id):
     return render(request, 'base/district.html', {'district': district})
 
 
-def view_league(request, bhv_id):
+# LEAGUE #
+
+def view_league_overview(request, bhv_id):
     league = get_object_or_404(League, bhv_id=bhv_id)
-    return render(request, 'base/league.html', {'league': league})
+    return render(request, 'base/league/overview.html', {'league': league})
+
+
+def view_league_teams(request, bhv_id):
+    league = get_object_or_404(League, bhv_id=bhv_id)
+    return render(request, 'base/league/teams.html', {'league': league})
+
+
+def view_league_games(request, bhv_id):
+    league = get_object_or_404(League, bhv_id=bhv_id)
+    games_by_month = Game.objects.annotate(month=TruncMonth('opening_whistle')).values('month')
+    print(games_by_month)
+    return render(request, 'base/league/games.html', {'league': league})
 
 
 def view_league_players(request, bhv_id):
@@ -49,32 +64,37 @@ def view_league_players(request, bhv_id):
         .filter(total_goals__gt=0) \
         .filter(team__in=teams) \
         .order_by('-total_goals')
-    return render(request, 'base/league_players.html', {'league': league, 'players': players})
+    return render(request, 'base/league/players.html', {'league': league, 'players': players})
 
 
-def view_team(request, bhv_id):
+def view_league_calendar(request, bhv_id):
+    return HttpResponse(status=501)
+
+
+# TEAM #
+
+def view_team_overview(request, bhv_id):
+    team = get_object_or_404(Team, bhv_id=bhv_id)
+    return render(request, 'base/team/overview.html', {'team': team})
+
+
+def view_team_games(request, bhv_id):
+    team = get_object_or_404(Team, bhv_id=bhv_id)
+    games = Game.objects.filter(Q(home_team=team) | Q(guest_team=team)).order_by('opening_whistle')
+    return render(request, 'base/team/games.html', {'team': team, 'games': games})
+
+
+def view_team_players(request, bhv_id):
     team = get_object_or_404(Team, bhv_id=bhv_id)
     players = Player.objects \
         .filter(team=team) \
         .only('name', 'team') \
         .annotate(games=Count('score')) \
         .annotate(total_goals=Sum('score__goals')) \
-        .filter(total_goals__gt=0) \
         .annotate(total_penalty_goals=Sum('score__penalty_goals')) \
         .order_by('-total_goals')
-    return render(request, 'base/team.html', {'team': team, 'players': players})
+    return render(request, 'base/team/players.html', {'team': team, 'players': players})
 
-
-def view_player(request, pk):
-    player = get_object_or_404(Player, pk=pk)
-    scores = Score.objects.filter(player=player)
-    return render(request, 'base/player.html', {'player': player, 'scores': scores})
-
-
-def view_team_games(request, bhv_id):
-    team = get_object_or_404(Team, bhv_id=bhv_id)
-    games = Game.objects.filter(Q(home_team=team) | Q(guest_team=team))
-    return render(request, 'base/team_games.html', {'team': team, 'games': games})
 
 
 def view_team_calendar(request, bhv_id):
@@ -129,9 +149,15 @@ def outcome(game, team):
         TeamOutCome.LOSS: 'Niederlage',
         TeamOutCome.TIE: 'Unentschieden',
     }
-    outcome = game.outcome_for(team)
-    return mapping.get(outcome)
+    o = game.outcome_for(team)
+    return mapping.get(o)
 
 
 def display(cal):
     return cal.to_ical().replace('\r\n', '\n').strip()
+
+
+def view_player(request, pk):
+    player = get_object_or_404(Player, pk=pk)
+    scores = Score.objects.filter(player=player)
+    return render(request, 'base/player.html', {'player': player, 'scores': scores})

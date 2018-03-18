@@ -1,0 +1,21 @@
+{% extends 'base/base.html' %}
+{% block title %}{{ team.name }}{{ super() }}{% endblock %}
+{% block content %}
+{{ super() }}
+<ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{{ url('associations') }}">Verbände</a></li>
+    <li class="breadcrumb-item">
+        {% for association in team.league.district.associations.all() %}
+        <a class="breadcrumb-item-part" href="{{ association.get_absolute_url() }}">{{ association.abbreviation }}</a>
+        {% endfor %}
+    </li>
+    <li class="breadcrumb-item">
+        <a href="{{ team.league.district.get_absolute_url() }}">{{ team.league.district.name}}</a>
+    </li>
+    <li class="breadcrumb-item active">
+        <a href="{{ team.league.get_absolute_url() }}">{{ team.league.abbreviation }}</a>
+    </li>
+    <li class="breadcrumb-item active"><a>{{ team.name }}</a></li>
+</ol>
+<h1>{{ team.name }}&nbsp;<a href="{{ team.source_url() }}"><i class="fa fa-link" title="Datenquelle"></i></a></h1>
+{% endblock %}

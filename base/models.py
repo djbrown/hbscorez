@@ -4,6 +4,7 @@ import typing
 from datetime import datetime, timedelta
 from enum import Enum, auto
 from pathlib import Path
+from urllib.parse import urlsplit, parse_qs
 
 from django.conf import settings
 from django.db import models
@@ -55,7 +56,7 @@ class League(models.Model):
         return '{} {}'.format(self.bhv_id, self.name)
 
     def get_absolute_url(self):
-        return reverse('league', kwargs={'bhv_id': self.bhv_id})
+        return reverse('league_overview', kwargs={'bhv_id': self.bhv_id})
 
     def players_url(self):
         return reverse('league_players', kwargs={'bhv_id': self.bhv_id})
@@ -88,7 +89,7 @@ class Team(models.Model):
         return '{} {}'.format(self.bhv_id, self.short_name)
 
     def get_absolute_url(self):
-        return reverse('team', kwargs={'bhv_id': self.bhv_id, })
+        return reverse('team_overview', kwargs={'bhv_id': self.bhv_id, })
 
     def source_url(self):
         return 'https://spo.handball4all.de/Spielbetrieb/index.php?orgGrpID={}&score={}&teamID={}'.format(
@@ -117,6 +118,12 @@ class SportsHall(models.Model):
 
     def __str__(self):
         return "{} {}".format(self.number, self.name)
+
+    @staticmethod
+    def parse_bhv_id(link):
+        href = link.get('href')
+        query = urlsplit(href).query
+        return int(parse_qs(query)['gymID'][0])
 
 
 class GameOutcome(Enum):
@@ -172,7 +179,9 @@ class Game(models.Model):
             return True
         return self.opening_whistle < other_game.opening_whistle
 
-    def outcome(self) -> GameOutcome:
+    def outcome(self) -> typing.Optional[GameOutcome]:
+        if self.home_goals is None and self.guest_goals is None:
+            return None
         if self.home_goals > self.guest_goals:
             return GameOutcome.HOME_WIN
         if self.home_goals < self.guest_goals:
@@ -190,10 +199,25 @@ class Game(models.Model):
                 or team == self.guest_team and self.outcome() == GameOutcome.HOME_WIN:
             return TeamOutCome.LOSS
 
+    def goals_of(self, team) -> models.IntegerField:
+        if team == self.home_team:
+            return self.home_goals
+        if team == self.guest_team:
+            return self.guest_goals
+
     @staticmethod
     def parse_opening_whistle(text) -> datetime:
         locale.setlocale(locale.LC_ALL, "de_DE.UTF-8")
         return datetime.strptime(text, '%a, %d.%m.%y, %H:%Mh')
+
+    @staticmethod
+    def parse_report_number(cell):
+        if len(cell) == 1 and cell[0].text == 'PI':
+            href = cell[0].get('href')
+            query = urlsplit(href).query
+            return int(parse_qs(query)['sGID'][0])
+        else:
+            return None
 
 
 class Score(models.Model):

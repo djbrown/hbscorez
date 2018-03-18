@@ -1,5 +1,4 @@
 import re
-from urllib.parse import urlsplit, parse_qs
 
 import requests
 from django.core.management import BaseCommand
@@ -54,7 +53,7 @@ class Command(BaseCommand):
         response.encoding = 'utf-8'
         tree = html.fromstring(response.text)
 
-        game_rows = tree.xpath("//table[@class='gametable']/tr[position() > 1 and ./td[11]/a[text() = 'PI']/@href]")
+        game_rows = tree.xpath("//table[@class='gametable']/tr[position() > 1]")
         for game_row in game_rows:
             self.import_game(game_row, league)
 
@@ -66,43 +65,45 @@ class Command(BaseCommand):
             self.stdout.write('SKIPPING Game: {} (options)'.format(number))
             return
 
-        href = game_row[10][0].get('href')
-        query = urlsplit(href).query
-        report_number = int(parse_qs(query)['sGID'][0])
+        report_number = models.Game.parse_report_number(game_row[10])
+        opening_whistle = models.Game.parse_opening_whistle(game_row[2].text)
+        sports_hall = self.import_sports_hall(game_row[3][0])
 
         if not models.Game.objects.filter(number=number).exists():
-            opening_whistle = models.Game.parse_opening_whistle(game_row[2].text)
-            sports_hall = self.import_sports_hall(game_row[3][0])
+            self.stdout.write('CREATING Game: {}'.format(number))
             home_team_short_name = game_row[4].text
             guest_team_short_name = game_row[6].text
             home_team = models.Team.objects.get(league=league, short_name=home_team_short_name)
             guest_team = models.Team.objects.get(league=league, short_name=guest_team_short_name)
-            home_goals = int(game_row[7].text)
-            guest_goals = int(game_row[9].text)
+            home_goals = int(game_row[7].text) if game_row[7].text else None
+            guest_goals = int(game_row[9].text) if game_row[9].text else None
 
             game = models.Game.objects.create(number=number, league=league, opening_whistle=opening_whistle,
                                               sports_hall=sports_hall, home_team=home_team, guest_team=guest_team,
                                               home_goals=home_goals, guest_goals=guest_goals,
                                               report_number=report_number)
-            self.stdout.write('CREATING Game: {}'.format(game))
+            self.stdout.write('CREATED Game: {}'.format(game))
 
         else:
+            self.stdout.write('EXISTING Game: {}'.format(number))
             game = models.Game.objects.get(number=number)
             if game.report_number != report_number:
-                self.stdout.write('UPDATING Game: {} (report_number)'.format(game))
+                self.stdout.write('UPDATING Game Report: {}'.format(game))
                 game.report_number = report_number
+                self.stdout.write('DELETING Game Scores: {}'.format(game))
                 models.Score.objects.filter(game=game).delete()
-                game.save()
-            else:
-                self.stdout.write('EXISTING Game: {}'.format(game))
+            if game.sports_hall != sports_hall:
+                self.stdout.write('UPDATING Game Sports Hall: {}'.format(game))
+                game.sports_hall = sports_hall
+                models.Score.objects.filter(game=game).delete()
+            game.save()
 
     def import_sports_hall(self, link):
         number = link.text
-        href = link.get('href')
-        query = urlsplit(href).query
-        bhv_id = int(parse_qs(query)['gymID'][0])
+        bhv_id = models.SportsHall.parse_bhv_id(link)
 
         if not models.SportsHall.objects.filter(number=number, bhv_id=bhv_id).exists():
+            self.stdout.write('CREATING Sports Hall: {} ({})'.format(number, bhv_id))
             url = 'https://spo.handball4all.de/Spielbetrieb/index.php?orgGrpID=1&gymID={}'.format(bhv_id)
             response = requests.get(url)
             tree = html.fromstring(response.text.encode('latin-1').decode())
@@ -121,9 +122,7 @@ class Command(BaseCommand):
             sports_hall = models.SportsHall.objects.create(number=number, name=name, address=address,
                                                            phone_number=phone_number, latitude=latitude,
                                                            longitude=longitude, bhv_id=bhv_id)
-            self.stdout.write('CREATING Sports Hall: {}'.format(sports_hall))
+            self.stdout.write('CREATED Sports Hall: {}'.format(sports_hall))
             return sports_hall
         else:
-            sports_hall = models.SportsHall.objects.get(number=number)
-            self.stdout.write('EXISTING Sports Hall: {}'.format(sports_hall))
-            return sports_hall
+            return models.SportsHall.objects.get(number=number)

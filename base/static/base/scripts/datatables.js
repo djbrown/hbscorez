@@ -1,5 +1,6 @@
 $(document).ready(function() {
     $('#scores').dataTable({
+        //"paging": false,
         "colReorder": true,
         "language": {
             //"url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/German.json"
@@ -34,4 +35,3 @@ $(document).ready(function() {
         }
     });
 } );
-

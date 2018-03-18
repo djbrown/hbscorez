@@ -1,0 +1,76 @@
+{% extends 'base/team/base.html' %}
+{% block title %}{{ team.name }}{% endblock %}
+{% block styles %}
+{{ super() }}
+<!-- DataTables Builder: Bootstrap 4, DataTables, ColReorder, FixedColumns, FixedHeader -->
+<link rel="stylesheet" type="text/css"
+      href="https://cdn.datatables.net/v/bs4/dt-1.10.16/cr-1.4.1/fc-3.2.3/fh-3.1.3/datatables.min.css"/>
+{% endblock %}
+{% block content %}
+{{ super() }}
+<nav class="nav nav-pills mb-3">
+    <a class="nav-item nav-link m-1" href="{{ url('team_overview', args=[team.bhv_id]) }}">Übersicht</a>
+    <a class="nav-item nav-link m-1 active" href="#/">Spiele</a>
+    <a class="nav-item nav-link m-1" href="{{ url('team_players', args=[team.bhv_id]) }}">Spieler</a>
+    <a class="nav-item nav-link m-1 disabled">Hallen</a>
+    <a class="nav-item nav-link m-1 disabled">Berichte</a>
+</nav>
+<h2>Spiele</h2>
+<div class="table-responsive">
+    <table id="scores" class="table table-sm table-striped" cellspacing="0" width="100%">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>Datum</th>
+            <th>Uhrzeit</th>
+            <th>Gegner</th>
+            <th>Ergebnis</th>
+            <th>Tore</th>
+            <th>Gegentore</th>
+            <th>Halle</th>
+            <th>Details</th>
+        </tr>
+        </thead>
+        <tfoot>
+        <tr>
+            <th>#</th>
+            <th>Datum</th>
+            <th>Uhrzeit</th>
+            <th>Gegner</th>
+            <th>Ergebnis</th>
+            <th>Tore</th>
+            <th>Gegentore</th>
+            <th>Halle</th>
+            <th>Details</th>
+        </tr>
+        </tfoot>
+        <tbody>
+        {% for game in games %}
+        {% set opponent = game.opponent_of(team) %}
+        <tr>
+            <th scope="row">{{ loop.index }}</th>
+            <td>{{ date(game.opening_whistle, 'SHORT_DATE_FORMAT') }}
+            </th>
+            <td>{{ time(game.opening_whistle) }}</td>
+            <td>
+                {#<img class="table-team-logo" src="{{ team_logo_url(opponent) }}" width="25px">#}
+                <img class="table-team-logo" src="{{ static('base/images/favicons/favicon.png') }}" width="25px">
+                <a href="{{ opponent.get_absolute_url() }}">{{ opponent.short_name }}</a>
+            </td>
+            <td>{{ team_outcome_badge(game.outcome_for(team))|safe }}</td>
+            <td>{{ game.goals_of(team) }}</td>
+            <td>{{ game.goals_of(opponent) }}</td>
+            <td><a href="#/">{{ game.sports_hall.name }}</a></td>
+            <td><a href="#/">{{ game.number }}</a></td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
+{% block scripts %}
+{{ super() }}
+<script type="text/javascript"
+        src="https://cdn.datatables.net/v/bs4/dt-1.10.16/cr-1.4.1/fc-3.2.3/fh-3.1.3/datatables.min.js"></script>
+<script type="text/javascript" src="{{ static('base/scripts/datatables.js') }}"></script>
+{% endblock %}
