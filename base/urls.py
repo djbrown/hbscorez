@@ -19,5 +19,5 @@ urlpatterns = [
     url(r'^mannschaft/(?P<bhv_id>\d+)/spiele/$', view_team_games, name='team_games'),
     url(r'^mannschaft/(?P<bhv_id>\d+)/spieler/$', view_team_players, name='team_players'),
     url(r'^mannschaft/(?P<bhv_id>\d+)/kalender/$', view_team_calendar, name='team_calendar'),
-    url(r'^spieler/(?P<pk>\d+)/$', view_player, name='scorer'),
+    url(r'^spieler/(?P<pk>\d+)/$', view_player, name='player'),
 ]

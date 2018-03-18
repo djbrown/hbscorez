@@ -1,5 +1,5 @@
 {% extends 'base/base.html' %}
-{% block title %}{{ player.name }}{% endblock %}
+{% block title %}{{ player.name }} | {{ super() }}{% endblock %}
 {% block styles %}
 <!-- DataTables Builder: Bootstrap 4, DataTables, ColReorder, FixedColumns, FixedHeader -->
 <link rel="stylesheet" type="text/css"
@@ -18,7 +18,7 @@
     <li class="breadcrumb-item active">
         <a href="{{ player.team.league.get_absolute_url() }}">{{ player.team.league.abbreviation }}</a>
     </li>
-    <li class="breadcrumb-item active"><a href="{{ player.team.get_absolute_url() }}">{{ player.team.name }}</a></li>
+    <li class="breadcrumb-item active"><a href="{{ player.team.get_absolute_url() }}">{{ player.team.short_name }}</a></li>
 </ol>
 <h1>{{ player.name }}</h1>
 <h2>Torjäger</h2>
@@ -49,7 +49,7 @@
             <td>
                 {#<img class="table-team-logo" src="{{ team_logo_url(opponent_team) }}" width="25px">#}
                 <img class="table-team-logo" src="{{ static('base/images/favicons/favicon.png') }}" width="25px">
-                <a href="{{ opponent_team.get_absolute_url() }}">{{ opponent_team.name }}</a>
+                <a href="{{ opponent_team.get_absolute_url() }}">{{ opponent_team.short_name }}</a>
             </td>
             <td>{{ 'Heim' if score.game.home_team == player.team else 'Auswärts' }}</td>
             <td>{{ score.goals or "-" }}</td>

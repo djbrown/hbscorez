@@ -65,7 +65,7 @@ class Command(BaseCommand):
             return
         if game.score_set.count() > 0:
             if not self.options['force_update']:
-                self.stdout.write('EXISTING Scores: {} - {}'.format(game.report_number, game))
+                self.stdout.write('SKIPPING Scores: {} - {} (existing scores)'.format(game.report_number, game))
                 return
             else:
                 self.stdout.write('REIMPORTING Scores: {} - {}'.format(game.report_number, game))
@@ -104,7 +104,7 @@ class Command(BaseCommand):
             if not player_name or player_number in ('A', 'B', 'C', 'D'):
                 continue
 
-            player, created = models.Player.objects.get_or_create(name=player_name, team=team)[0]
+            player, created = models.Player.objects.get_or_create(name=player_name, team=team)
             if created:
                 self.stdout.write('CREATING Player: {}'.format(player))
             else:

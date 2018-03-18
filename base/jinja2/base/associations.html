@@ -1,5 +1,5 @@
 {% extends 'base/base.html' %}
-{% block title %}Verbände{% endblock %}
+{% block title %}Verbände | {{ super() }}{% endblock %}
 {% block content %}
 <ol class="breadcrumb">
     <li class="breadcrumb-item active"><a href="{{ url('associations') }}">Verbände</a></li>
