@@ -1,6 +1,7 @@
 {% extends 'base/base.html' %}
 {% block title %}{{ player.name }} | {{ super() }}{% endblock %}
 {% block styles %}
+{{ super() }}
 <!-- DataTables Builder: Bootstrap 4, DataTables, ColReorder, FixedColumns, FixedHeader -->
 <link rel="stylesheet" type="text/css"
       href="https://cdn.datatables.net/v/bs4/dt-1.10.16/cr-1.4.1/fc-3.2.3/fh-3.1.3/datatables.min.css"/>
@@ -18,14 +19,18 @@
     <li class="breadcrumb-item active">
         <a href="{{ player.team.league.get_absolute_url() }}">{{ player.team.league.abbreviation }}</a>
     </li>
-    <li class="breadcrumb-item active"><a href="{{ player.team.get_absolute_url() }}">{{ player.team.short_name }}</a></li>
+    <li class="breadcrumb-item active"><a href="{{ player.team.get_absolute_url() }}">{{ player.team.short_name }}</a>
+    </li>
 </ol>
 <h1>{{ player.name }}</h1>
-<h2>Torjäger</h2>
+<h2>Spiele</h2>
 <div class="table-responsive">
     <table id="scores" class="table table-sm table-striped" cellspacing="0" width="100%">
         <thead>
         <tr>
+            <th>#</th>
+            <th>Datum</th>
+            <th>Uhrzeit</th>
             <th>Gegner</th>
             <th>Ort</th>
             <th>Tore</th>
@@ -35,6 +40,9 @@
         </thead>
         <tfoot>
         <tr>
+            <th>#</th>
+            <th>Datum</th>
+            <th>Uhrzeit</th>
             <th>Gegner</th>
             <th>Ort</th>
             <th>Tore</th>
@@ -44,16 +52,20 @@
         </tfoot>
         <tbody>
         {% for score in scores %}
-        {% set opponent_team = score.game.home_team if score.game.guest_team == player.team else score.game.guest_team  %}
+        {% set opponent_team = score.game.home_team if score.game.guest_team == player.team else score.game.guest_team
+        %}
         <tr>
+            <th scope="row">{{ loop.index }}</th>
+            <td>{{ date(score.game.opening_whistle, 'SHORT_DATE_FORMAT' ) }}</td>
+            <td>{{ time(score.game.opening_whistle) }}</td>
             <td>
                 {#<img class="table-team-logo" src="{{ team_logo_url(opponent_team) }}" width="25px">#}
                 <img class="table-team-logo" src="{{ static('base/images/favicons/favicon.png') }}" width="25px">
                 <a href="{{ opponent_team.get_absolute_url() }}">{{ opponent_team.short_name }}</a>
             </td>
             <td>{{ 'Heim' if score.game.home_team == player.team else 'Auswärts' }}</td>
-            <td>{{ score.goals or "-" }}</td>
-            <td>{{ score.penalty_goals or "-" }}</td>
+            <td>{{ score.goals or 0 }}</td>
+            <td>{{ score.penalty_goals or 0 }}</td>
             <td>{{ score.goals - score.penalty_goals }}</td>
         </tr>
         {% endfor %}
@@ -63,45 +75,5 @@
 {% endblock %}
 {% block scripts %}
 {{ super() }}
-<script type="text/javascript"
-        src="https://cdn.datatables.net/v/bs4/dt-1.10.16/cr-1.4.1/fc-3.2.3/fh-3.1.3/datatables.min.js"></script>
-<script>
-$(document).ready(function() {
-    $('#scores').dataTable({
-        "paging": false,
-        "colReorder": true,
-        "language": {
-            //"url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/German.json"
-            "sEmptyTable":      "Keine Daten in der Tabelle vorhanden",
-            "sInfo":            "_START_ bis _END_ von _TOTAL_ Einträgen",
-            "sInfoEmpty":       "0 bis 0 von 0 Einträgen",
-            "sInfoFiltered":    "(gefiltert von _MAX_ Einträgen)",
-            "sInfoPostFix":     "",
-            "sInfoThousands":   ".",
-            "sLengthMenu":      "_MENU_ Einträge anzeigen",
-            "sLoadingRecords":  "Wird geladen...",
-            "sProcessing":      "Bitte warten...",
-            "sSearch":          "Suchen",
-            "sZeroRecords":     "Keine Einträge vorhanden.",
-            "oPaginate": {
-                "sFirst":       "Erste",
-                "sPrevious":    "Zurück",
-                "sNext":        "Nächste",
-                "sLast":        "Letzte"
-            },
-            "oAria": {
-                "sSortAscending":  ": aktivieren, um Spalte aufsteigend zu sortieren",
-                "sSortDescending": ": aktivieren, um Spalte absteigend zu sortieren"
-            },
-            select: {
-                    rows: {
-                    _: '%d Zeilen ausgewählt',
-                    0: 'Zum Auswählen auf eine Zeile klicken',
-                    1: '1 Zeile ausgewählt'
-                    }
-            }
-        }
-    });
-} );
-</script>
+{% include "base/include/datatables.html" %}
 {% endblock %}

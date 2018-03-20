@@ -46,7 +46,7 @@
         </tr>
         </tfoot>
         <tbody>
-        {% for game in league.game_set.all() %}
+        {% for game in league.game_set.all().order_by('opening_whistle') %}
         <tr>
             <th scope="row">{{ loop.index }}</th>
             <td>{{ date(game.opening_whistle, 'SHORT_DATE_FORMAT' ) }}</td>

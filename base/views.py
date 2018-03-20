@@ -48,7 +48,7 @@ def view_league_teams(request, bhv_id):
 
 def view_league_games(request, bhv_id):
     league = get_object_or_404(League, bhv_id=bhv_id)
-    games = Game.objects.annotate(month=TruncMonth('opening_whistle'))
+    games = Game.objects.annotate(month=TruncMonth('opening_whistle')).order_by('opening_whistle')
     games_by_month = {}
     for game in games:
         games_by_month.setdefault(game.month, []).append(game)
@@ -160,5 +160,5 @@ def display(cal):
 
 def view_player(request, pk):
     player = get_object_or_404(Player, pk=pk)
-    scores = Score.objects.filter(player=player)
+    scores = Score.objects.filter(player=player).order_by("game__opening_whistle")
     return render(request, 'base/player.html', {'player': player, 'scores': scores})
