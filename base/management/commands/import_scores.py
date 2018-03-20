@@ -107,8 +107,6 @@ class Command(BaseCommand):
             player, created = models.Player.objects.get_or_create(name=player_name, team=team)
             if created:
                 self.stdout.write('CREATING Player: {}'.format(player))
-            else:
-                self.stdout.write('EXISTING Player: {}'.format(player))
 
             models.Score.objects.create(
                 player=player,
