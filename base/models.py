@@ -224,7 +224,11 @@ class Game(models.Model):
         if not text.strip():
             return None
         locale.setlocale(locale.LC_ALL, "de_DE.UTF-8")
-        return datetime.strptime(text, '%a, %d.%m.%y, %H:%Mh')
+        if len(text) == 12:
+            return datetime.strptime(text, '%a, %d.%m.%y')
+        elif len(text) == 20:
+            return datetime.strptime(text, '%a, %d.%m.%y, %H:%Mh')
+        else: raise Exception()
 
     @staticmethod
     def parse_report_number(cell):
