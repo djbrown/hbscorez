@@ -155,7 +155,7 @@ class TeamOutCome(Enum):
 class Game(models.Model):
     number = models.IntegerField(unique=True)
     league = models.ForeignKey(League)
-    opening_whistle = models.DateTimeField()
+    opening_whistle = models.DateTimeField(blank=True, null=True)
     sports_hall = models.ForeignKey(SportsHall)
     home_team = models.ForeignKey(Team, related_name='home_team')
     guest_team = models.ForeignKey(Team, related_name='guest_team')
@@ -220,7 +220,9 @@ class Game(models.Model):
         return 0
 
     @staticmethod
-    def parse_opening_whistle(text) -> datetime:
+    def parse_opening_whistle(text) -> typing.Optional[datetime]:
+        if not text.strip():
+            return None
         locale.setlocale(locale.LC_ALL, "de_DE.UTF-8")
         return datetime.strptime(text, '%a, %d.%m.%y, %H:%Mh')
 
