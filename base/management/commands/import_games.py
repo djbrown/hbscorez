@@ -60,6 +60,19 @@ class Command(BaseCommand):
         for game_row in game_rows:
             self.import_game(game_row, league)
 
+    def parse_goals(self, game_row) -> (int, int):
+        home_goals = int(game_row[7].text) if game_row[7].text else None
+        guest_goals = int(game_row[9].text) if game_row[9].text else None
+
+        if home_goals is None and guest_goals is None and len(game_row[10]) == 1:
+            title = game_row[10][0].get("title", "")
+            match = re.match("SpA\((\d+):(\d+)\)", title)
+            if match:
+                home_goals = match.group(1)
+                guest_goals = match.group(2)
+
+        return home_goals, guest_goals
+
     def import_game(self, game_row, league):
         # league_abbreviation = game_row[0].text
         number = int(game_row[1].text)
@@ -78,8 +91,7 @@ class Command(BaseCommand):
             guest_team_short_name = game_row[6].text
             home_team = models.Team.objects.get(league=league, short_name=home_team_short_name)
             guest_team = models.Team.objects.get(league=league, short_name=guest_team_short_name)
-            home_goals = int(game_row[7].text) if game_row[7].text else None
-            guest_goals = int(game_row[9].text) if game_row[9].text else None
+            home_goals, guest_goals = self.parse_goals(game_row)
             forfeiting_team = models.Game.parse_forfeiting_team(game_row[10], home_team, guest_team)
 
             game = models.Game.objects.create(number=number, league=league,
