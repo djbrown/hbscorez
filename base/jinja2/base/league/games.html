@@ -47,10 +47,11 @@
         </tfoot>
         <tbody>
         {% for game in league.game_set.all().order_by('opening_whistle') %}
+        {% set t = time(game.opening_whistle) %}
         <tr>
             <th scope="row">{{ loop.index }}</th>
             <td>{{ date(game.opening_whistle, 'SHORT_DATE_FORMAT' ) }}</td>
-            <td>{{ time(game.opening_whistle) }}</td>
+            <td>{{ t if t != "00:00" else "-" }}</td>
             <td>
                 {#<img class="table-team-logo" src="{{ team_logo_url(opponent) }}" width="25px">#}
                 <img class="table-team-logo" src="{{ static('base/images/favicons/favicon.png') }}" width="25px"/>
