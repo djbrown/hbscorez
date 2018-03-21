@@ -4,6 +4,7 @@ import requests
 from django.core.management import BaseCommand
 from lxml import html
 
+from base.middleware import env
 from base.models import *
 
 association_abbreviations = {
@@ -40,7 +41,9 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         self.options = options
+        env.UPDATING.set_value(Value.TRUE)
         self.create_associations()
+        env.UPDATING.set_value(Value.FALSE)
 
     def create_associations(self):
         response = requests.get('https://spo.handball4all.de/')

@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="{{ static('base/styles/base.css') }}">
     <link rel="stylesheet" type="text/css"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdnjscloudflare.com/ajax/libs/animate.css/3.5.2/animate.css">
     {% endblock %}
 </head>
 <body>
@@ -24,7 +25,6 @@
     <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#navbar">
         <span class="navbar-toggler-icon"></span>
     </button>
-
     <div class="collapse navbar-collapse" id="navbar">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item dropdown active">
@@ -47,8 +47,8 @@
             <li class="nav-item">
                 <a class="nav-link disabled" href="#/">Dateneintrag</a>
             </li>
-            <li><a class="btn btn-block btn-primary" target="_blank"
-                   href="https://redmine.djbrown.de/projects/hbscorez/boards">Forum</a></li>
+            <li class="nav-item"><a class="btn btn-block btn-primary" target="_blank"
+                                    href="https://redmine.djbrown.de/projects/hbscorez/boards">Forum</a></li>
         </ul>
     </div>
 </nav>
@@ -78,6 +78,12 @@
             </ul>
         </nav>
         -->
+        {% if request.env["UPDATING"] == "TRUE" %}
+        <div class="col-12">
+            <h3><span class="badge badge-warning animated bounce">Daten werden aktualisiert&nbsp;
+                 <i id="spinner" class="fa fa-refresh"></i> </span></h3>
+        </div>
+        {% endif %}
         <main class="col-sm-12 ml-sm-auto pt-3">
             {% block content %}{% endblock %}
         </main>

@@ -5,6 +5,7 @@ from django.core.management import BaseCommand
 from django.db import transaction
 
 from base import models
+from base.middleware import env
 
 
 class Command(BaseCommand):
@@ -26,7 +27,9 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         self.options = options
+        env.UPDATING.set_value(models.Value.TRUE)
         self.import_associations()
+        env.UPDATING.set_value(models.Value.FALSE)
 
     def import_associations(self):
         for association in models.Association.objects.all():

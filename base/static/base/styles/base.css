@@ -7,6 +7,16 @@ body {
   padding-top: 50px;
 }
 
+#spinner {
+    margin-top: 30px;
+    animation: spin 1.2s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
 .breadcrumb-item-part + .breadcrumb-item-part::before {
     display: inline-block;
     padding-right: .5rem;
