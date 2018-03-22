@@ -25,7 +25,7 @@ class Command(BaseCommand):
         self.options = options
         env.UPDATING.set_value(models.Value.TRUE)
         self.import_associations()
-        env.UPDATING.set_value(models.Value.TRUE)
+        env.UPDATING.set_value(models.Value.FALSE)
 
     def import_associations(self):
         for association in models.Association.objects.all():
