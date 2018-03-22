@@ -108,7 +108,11 @@ class Command(BaseCommand):
 
             player, created = models.Player.objects.get_or_create(name=player_name, team=team)
             if created:
-                self.stdout.write('CREATING Player: {}'.format(player))
+                self.stdout.write('CREATED Player: {}'.format(player))
+
+            if models.Score.objects.filter(player=player, game=game).exists():
+                self.stdout.write('SKIPPING Score: {} {} (already exists)'.format(player, game))
+                continue
 
             models.Score.objects.create(
                 player=player,
