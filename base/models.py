@@ -252,7 +252,7 @@ class Game(models.Model):
 
 class Score(models.Model):
     player = models.ForeignKey(Player)
-    player_number = models.IntegerField()
+    player_number = models.IntegerField(blank=True, null=True)
     game = models.ForeignKey(Game)
     goals = models.IntegerField()
     penalty_goals = models.IntegerField()

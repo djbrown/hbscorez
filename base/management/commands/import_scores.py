@@ -90,7 +90,7 @@ class Command(BaseCommand):
         for table_row in table_rows[2:]:
             row_data = [cell['text'] for cell in table_row]
 
-            player_number = row_data[0]
+            player_number = row_data[0] or None
             player_name = row_data[1]
             # player_year_of_birth = row_data[2]
             goals = row_data[5] or 0
