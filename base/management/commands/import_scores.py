@@ -62,21 +62,20 @@ class Command(BaseCommand):
     def import_game(self, game):
         if self.options['games'] and game.number not in self.options['games']:
             self.stdout.write('SKIPPING Scores: {} - {}(options)'.format(game.report_number, game))
-            return
-        if not game.report_path().is_file():
+        elif game.report_number is None:
+            self.stdout.write('SKIPPING Scores: {} - {} (no report)'.format(game.report_number, game))
+        elif not game.report_path().is_file():
             self.stdout.write('SKIPPING Scores: {} - {} (not found)'.format(game.report_number, game))
-            return
-        if game.score_set.count() > 0:
+        elif game.score_set.count() > 0:
             if not self.options['force_update']:
                 self.stdout.write('SKIPPING Scores: {} - {} (existing scores)'.format(game.report_number, game))
-                return
             else:
                 self.stdout.write('REIMPORTING Scores: {} - {}'.format(game.report_number, game))
                 models.Score.objects.filter(game=game).delete()
+                self.import_scores(game)
         else:
             self.stdout.write('IMPORTING Scores: {} - {}'.format(game.report_number, game))
-
-        self.import_scores(game)
+            self.import_scores(game)
 
     @transaction.atomic
     def import_scores(self, game):

@@ -168,6 +168,8 @@ class Game(models.Model):
         return '{} {} vs. {}'.format(self.number, self.home_team.short_name, self.guest_team.short_name)
 
     def report_url(self):
+        if self.report_number is None:
+            return None
         return 'https://spo.handball4all.de/misc/sboPublicReports.php?sGID={}'.format(self.report_number)
 
     def report_path(self):
@@ -228,7 +230,8 @@ class Game(models.Model):
             return datetime.strptime(text, '%a, %d.%m.%y')
         elif len(text) == 20:
             return datetime.strptime(text, '%a, %d.%m.%y, %H:%Mh')
-        else: raise Exception()
+        else:
+            raise Exception()
 
     @staticmethod
     def parse_report_number(cell):
