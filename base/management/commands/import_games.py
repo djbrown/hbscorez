@@ -132,7 +132,7 @@ class Command(BaseCommand):
             name = table[0][1][0].text
             city = table[1][1].text
             street = table[2][1].text
-            address = street + ', ' + city
+            address = street + ", " + city if street else city
             phone_number = table[3][1].text
 
             map_script = tree.xpath('//script')[4].text
