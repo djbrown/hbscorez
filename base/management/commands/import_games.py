@@ -83,7 +83,7 @@ class Command(BaseCommand):
 
         report_number = models.Game.parse_report_number(game_row[10])
         opening_whistle = models.Game.parse_opening_whistle(game_row[2].text)
-        sports_hall = self.import_sports_hall(game_row[3][0])
+        sports_hall = self.import_sports_hall(game_row)
 
         if not models.Game.objects.filter(number=number).exists():
             self.stdout.write('CREATING Game: {}'.format(number))
@@ -115,7 +115,10 @@ class Command(BaseCommand):
                 models.Score.objects.filter(game=game).delete()
             game.save()
 
-    def import_sports_hall(self, link):
+    def import_sports_hall(self, game_row):
+        if len(game_row[3]) != 1:
+            return
+        link = game_row[3][0]
         number = link.text
         bhv_id = models.SportsHall.parse_bhv_id(link)
 

@@ -156,7 +156,7 @@ class Game(models.Model):
     number = models.IntegerField(unique=True)
     league = models.ForeignKey(League)
     opening_whistle = models.DateTimeField(blank=True, null=True)
-    sports_hall = models.ForeignKey(SportsHall)
+    sports_hall = models.ForeignKey(SportsHall, blank=True, null=True)
     home_team = models.ForeignKey(Team, related_name='home_team')
     guest_team = models.ForeignKey(Team, related_name='guest_team')
     home_goals = models.IntegerField(blank=True, null=True)
