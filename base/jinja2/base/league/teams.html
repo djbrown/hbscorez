@@ -10,7 +10,7 @@
 </nav>
 <h2>Mannschaften</h2>
 <ul>
-    {% for team in league.team_set.all() %}
+    {% for team in league.team_set.order_by('name') %}
     <li><a href="{{ team.get_absolute_url() }}">{{ team.name }}</a></li>
     {% endfor %}
 </ul>

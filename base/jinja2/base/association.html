@@ -8,7 +8,7 @@
 <h1>{{ association.name }}&nbsp;<a href="{{ association.source_url() }}"><i class="fa fa-link" title="Datenquelle"></i></a></h1>
 <h2>Bereiche</h2>
 <ul>
-    {% for district in association.district_set.all() %}
+    {% for district in association.district_set.order_by('name') %}
     <li><a href="{{ district.get_absolute_url() }}">{{ district.name }}</a></li>
     {% endfor %}
 </ul>
