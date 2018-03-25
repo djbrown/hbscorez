@@ -30,20 +30,6 @@
             <th>Details</th>
         </tr>
         </thead>
-        <tfoot>
-        <tr>
-            <th>#</th>
-            <th>Datum</th>
-            <th>Uhrzeit</th>
-            <th>Heimmannschaft</th>
-            <th>Gastmannschaft</th>
-            <th>Ergebnis</th>
-            <th>Heim</th>
-            <th>Gast</th>
-            <th>Halle</th>
-            <th>Details</th>
-        </tr>
-        </tfoot>
         <tbody>
         {% for game in league.game_set.all().order_by('opening_whistle') %}
         {% set t = time(game.opening_whistle) %}
@@ -70,6 +56,20 @@
         </tr>
         {% endfor %}
         </tbody>
+        <tfoot>
+        <tr>
+            <th>#</th>
+            <th>Datum</th>
+            <th>Uhrzeit</th>
+            <th>Heimmannschaft</th>
+            <th>Gastmannschaft</th>
+            <th>Ergebnis</th>
+            <th>Heim</th>
+            <th>Gast</th>
+            <th>Halle</th>
+            <th>Details</th>
+        </tr>
+        </tfoot>
     </table>
 </div>
 {% endblock %}
