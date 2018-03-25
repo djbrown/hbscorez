@@ -1,7 +1,7 @@
 $(document).ready(function() {
     $.fn.dataTable.moment('DD.MM.YYYY');
 
-    const $table = $('#scores');
+    const $table = $('#data-table');
     function initTable(paging=true) {
         return $table.DataTable({
             "paging": paging,
