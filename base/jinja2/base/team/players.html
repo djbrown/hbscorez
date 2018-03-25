@@ -36,11 +36,11 @@
             <th scope="row">{{ place(players, loop.index0) }}</th>
             <td><a href="{{ player.get_absolute_url() }}">{{ player.name }}</a></td>
             <td>{{ player.games }}</td>
-            <td>{{ player.total_goals or 0 }}</td>
-            <td>{{ player.total_penalty_goals or 0 }}</td>
-            <td>{{ player.total_goals - player.total_penalty_goals or 0 }}</td>
-            <td>{{ '%0.2f'| format(player.total_goals / player.games) }}</td>
-            <td>{{ '%0.2f'| format((player.total_goals - player.total_penalty_goals) / player.games) }}</td>
+            <td>{{ player.total_goals }}</td>
+            <td>{{ player.total_penalty_goals }}</td>
+            <td>{{ player.total_field_goals }}</td>
+            <td>{{ '%0.2f'| format(player.average_goals) }}</td>
+            <td>{{ '%0.2f'| format(player.average_field_goals) }}</td>
         </tr>
         {% endfor %}
         </tbody>

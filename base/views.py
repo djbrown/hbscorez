@@ -1,5 +1,5 @@
-from django.db.models import Count, Sum, Q
-from django.db.models.functions import TruncMonth
+from django.db.models import Count, Sum, Q, F
+from django.db.models.functions import TruncMonth, Coalesce
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404
 from icalendar import Calendar, Event, vText
@@ -57,14 +57,16 @@ def view_league_games(request, bhv_id):
 
 def view_league_players(request, bhv_id):
     league = get_object_or_404(League, bhv_id=bhv_id)
-    teams = Team.objects.filter(league=league)
     players = Player.objects \
         .only('name', 'team') \
-        .annotate(games=Count('score')) \
-        .annotate(total_goals=Sum('score__goals')) \
-        .annotate(total_penalty_goals=Sum('score__penalty_goals')) \
+        .filter(team__league=league) \
+        .annotate(total_goals=Coalesce(Sum('score__goals'), 0)) \
         .filter(total_goals__gt=0) \
-        .filter(team__in=teams) \
+        .annotate(games=Count('score')) \
+        .annotate(total_penalty_goals=Coalesce(Sum('score__penalty_goals'), 0)) \
+        .annotate(total_field_goals=F('total_goals') - F('total_penalty_goals')) \
+        .annotate(average_goals=Coalesce(F('total_goals') / F('games'), 0)) \
+        .annotate(average_field_goals=Coalesce(F('total_field_goals') / F('games'), 0)) \
         .order_by('-total_goals')
     return render(request, 'base/league/players.html', {'league': league, 'players': players})
 
@@ -92,8 +94,11 @@ def view_team_players(request, bhv_id):
         .filter(team=team) \
         .only('name', 'team') \
         .annotate(games=Count('score')) \
-        .annotate(total_goals=Sum('score__goals')) \
-        .annotate(total_penalty_goals=Sum('score__penalty_goals')) \
+        .annotate(total_goals=Coalesce(Sum('score__goals'), 0)) \
+        .annotate(total_penalty_goals=Coalesce(Sum('score__penalty_goals'), 0)) \
+        .annotate(total_field_goals=F('total_goals') - F('total_penalty_goals')) \
+        .annotate(average_goals=Coalesce(F('total_goals') / F('games'), 0)) \
+        .annotate(average_field_goals=Coalesce(F('total_field_goals') / F('games'), 0)) \
         .order_by('-total_goals')
     return render(request, 'base/team/players.html', {'team': team, 'players': players})
 
