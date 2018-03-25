@@ -62,14 +62,10 @@ class Command(BaseCommand):
     def import_game(self, game):
         Path(settings.REPORTS_PATH).mkdir(parents=True, exist_ok=True)
 
-        bugged_reports = [567811, 562543]
-
         if self.options['games'] and game.number not in self.options['games']:
             self.stdout.write('SKIPPING Report: {} - {}(options)'.format(game.report_number, game))
         elif game.report_number is None:
             self.stdout.write('SKIPPING Report: {} - {} (no report)'.format(game.report_number, game))
-        elif game.report_number in bugged_reports:
-            self.stdout.write('SKIPPING Report: {} - {} (hardcoded ignore list)'.format(game.report_number, game))
         elif game.report_path().is_file():
             if not self.options['force_update']:
                 self.stdout.write('EXISTING Report: {} - {}'.format(game.report_number, game))

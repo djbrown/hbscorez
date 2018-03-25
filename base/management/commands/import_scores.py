@@ -10,6 +10,7 @@ from base.middleware import env
 
 class Command(BaseCommand):
     options = {}
+    bugged_reports = [497475, 567811, 562543]
 
     def add_arguments(self, parser):
         parser.add_argument('--force-update', '-f', action='store_true',
@@ -61,17 +62,19 @@ class Command(BaseCommand):
 
     def import_game(self, game):
         if self.options['games'] and game.number not in self.options['games']:
-            self.stdout.write('SKIPPING Scores: {} - {}(options)'.format(game.report_number, game))
+            self.stdout.write('SKIPPING Scores (options): {} - {}'.format(game.report_number, game))
         elif game.report_number is None:
-            self.stdout.write('SKIPPING Scores: {} - {} (no report)'.format(game.report_number, game))
+            self.stdout.write('SKIPPING Scores (no report): {} - {}'.format(game.report_number, game))
+        elif game.report_number in self.bugged_reports:
+            self.stdout.write('SKIPPING Report (ignore list): {} - {}'.format(game.report_number, game))
         elif not game.report_path().is_file():
-            self.stdout.write('SKIPPING Scores: {} - {} (not found)'.format(game.report_number, game))
+            self.stdout.write('SKIPPING Scores (not found): {} - {}'.format(game.report_number, game))
         elif game.score_set.count() > 0:
             if not self.options['force_update']:
-                self.stdout.write('SKIPPING Scores: {} - {} (existing scores)'.format(game.report_number, game))
+                self.stdout.write('SKIPPING Scores (existing scores): {} - {}'.format(game.report_number, game))
             else:
                 self.stdout.write('REIMPORTING Scores: {} - {}'.format(game.report_number, game))
-                models.Score.objects.filter(game=game).delete()
+                game.score_set.delete()
                 self.import_scores(game)
         else:
             self.stdout.write('IMPORTING Scores: {} - {}'.format(game.report_number, game))
