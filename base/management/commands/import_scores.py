@@ -112,13 +112,15 @@ class Command(BaseCommand):
             if not player_name or player_number in ('A', 'B', 'C', 'D'):
                 continue
 
+            divided_players = team.player_set.filter(name__regex="^{} \(\d+\)$".format(player_name))
+            duplicate_scores = models.Score.objects.filter(player__name=player_name, player__team=team, game=game)
+            if divided_players.exists() or duplicate_scores.exists():
+                self.divide_player_scores(player_name, team)
+                player_name = '{} ({})'.format(player_name, player_number)
+
             player, created = models.Player.objects.get_or_create(name=player_name, team=team)
             if created:
                 self.stdout.write('CREATED Player: {}'.format(player))
-
-            if models.Score.objects.filter(player=player, game=game).exists():
-                self.stdout.write('SKIPPING Score: {} {} (already exists)'.format(player, game))
-                continue
 
             models.Score.objects.create(
                 player=player,
@@ -135,6 +137,24 @@ class Command(BaseCommand):
                 report_time=report_time,
                 team_suspension_time=team_suspension_time
             )
+
+    def divide_player_scores(self, original_name, team):
+        self.stdout.write("DIVIDING Player: {} ({})".format(original_name, team))
+        matches = models.Player.objects.filter(name=original_name, team=team)
+        if matches.exists():
+            original_player = matches[0]
+            for score in original_player.score_set.all():
+                new_name = "{} ({})".format(original_player.name, score.player_number)
+                new_player, created = models.Player.objects.get_or_create(name=new_name, team=original_player.team)
+                if created:
+                    self.stdout.write("CREATED Player: {}".format(new_player))
+                score.player = new_player
+                score.save()
+            if not original_player.score_set.all().exists():
+                self.stdout.write("DELETING Player (no dangling scores): {}".format(original_player))
+                original_player.delete()
+        else:
+            self.stdout.write("SKIPPING Player (not found): {} ({})".format(original_name, team))
 
 
 def parse_penalty_data(text: str) -> (int, int):
