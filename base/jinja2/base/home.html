@@ -2,7 +2,7 @@
 {% block title %}Start | {{ super() }}{% endblock %}
 {% block content %}
 <h1>HbScorez entdecken</h1>
-<section class="row text-center placeholders">
+<div class="row text-center placeholders">
     <div class="col-6 col-sm-3 placeholder">
         <img src="{{ static('base/images/thumbnail-in-progress.png') }}" width="200"
              height="200" class="img-fluid rounded-circle" alt="In Bearbeitung">
@@ -23,5 +23,5 @@
              height="200" class="img-fluid rounded-circle" alt="In Bearbeitung">
         <a class="btn btn-lg btn-block btn-secondary disabled" href="#/">Rekorde</a>
     </div>
-</section>
+</div>
 {% endblock %}
