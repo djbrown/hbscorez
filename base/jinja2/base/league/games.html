@@ -53,12 +53,14 @@
             <td>{{ date(game.opening_whistle, 'SHORT_DATE_FORMAT' ) }}</td>
             <td>{{ t if t != "00:00" else "-" }}</td>
             <td>
-                {#<img class="table-team-logo" src="{{ team_logo_url(opponent) }}" width="25px">#}
-                <img class="table-team-logo" src="{{ static('base/images/favicons/favicon.png') }}" width="25px"/>
+                {#<img class="table-team-logo" src="{{ team_logo_url(opponent) }}" width="25px" alt="HbScorez Logo">#}
+                <img class="table-team-logo" src="{{ static('base/images/favicons/favicon.png') }}" width="25px"
+                     alt="HbScorez Logo"/>
                 <a href="{{ game.home_team.get_absolute_url() }}">{{ game.home_team.short_name }}</a>
             </td>
             <td>
-                <img class="table-team-logo" src="{{ static('base/images/favicons/favicon.png') }}" width="25px"/>
+                <img class="table-team-logo" src="{{ static('base/images/favicons/favicon.png') }}" width="25px"
+                     alt="HbScorez Logo"/>
                 <a href="{{ game.guest_team.get_absolute_url() }}">{{ game.guest_team.short_name }}</a>
             </td>
             <td>{{ game_outcome_badge(game.outcome())|safe }}</td>

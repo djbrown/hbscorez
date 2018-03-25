@@ -49,8 +49,9 @@
             <th scope="row">{{ place(players, loop.index0) }}</th>
             <td><a href="{{ player.get_absolute_url() }}">{{ player.name }}</a></td>
             <td>
-                {#<img class="table-team-logo" src="{{ team_logo_url(player.team) }}" width="25px">#}
-                <img class="table-team-logo" src="{{ static('base/images/favicons/favicon.png') }}" width="25px">
+                {#<img class="table-team-logo" src="{{ team_logo_url(player.team) }}" width="25px" alt="HbScorez Logo">#}
+                <img class="table-team-logo" src="{{ static('base/images/favicons/favicon.png') }}" width="25px"
+                     alt="HbScorez Logo">
                 <a href="{{ player.team.get_absolute_url() }}">{{ player.team.short_name }}</a>
             </td>
             <td>{{ player.games }}</td>

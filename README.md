@@ -6,6 +6,5 @@ HbScorez is a web application, which processes handball game reports of diverse 
 
 HbScorez is powered by Django
 
-[<img src="https://www.djangoproject.com/m/img/logos/django-logo-positive.svg" height="50"/>
-](https://www.djangoproject.com/)
+[<img src="https://www.djangoproject.com/m/img/logos/django-logo-positive.svg" height="50" alt="Django Logo"/>](https://www.djangoproject.com/)
 
