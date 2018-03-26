@@ -81,19 +81,16 @@ class Command(BaseCommand):
             self.stdout.write('SKIPPING Game: {} (options)'.format(number))
             return
 
-        report_number = models.Game.parse_report_number(game_row[10])
         opening_whistle = models.Game.parse_opening_whistle(game_row[2].text)
         sports_hall = self.import_sports_hall(game_row)
+        home_team = models.Team.objects.get(league=league, short_name=game_row[4].text)
+        guest_team = models.Team.objects.get(league=league, short_name=game_row[6].text)
+        home_goals, guest_goals = self.parse_goals(game_row)
+        report_number = models.Game.parse_report_number(game_row[10])
+        forfeiting_team = models.Game.parse_forfeiting_team(game_row[10], home_team, guest_team)
 
         if not models.Game.objects.filter(number=number).exists():
             self.stdout.write('CREATING Game: {}'.format(number))
-            home_team_short_name = game_row[4].text
-            guest_team_short_name = game_row[6].text
-            home_team = models.Team.objects.get(league=league, short_name=home_team_short_name)
-            guest_team = models.Team.objects.get(league=league, short_name=guest_team_short_name)
-            home_goals, guest_goals = self.parse_goals(game_row)
-            forfeiting_team = models.Game.parse_forfeiting_team(game_row[10], home_team, guest_team)
-
             game = models.Game.objects.create(number=number, league=league,
                                               opening_whistle=opening_whistle, sports_hall=sports_hall,
                                               home_team=home_team, guest_team=guest_team,
@@ -104,15 +101,23 @@ class Command(BaseCommand):
         else:
             self.stdout.write('EXISTING Game: {}'.format(number))
             game = models.Game.objects.get(number=number)
-            if game.report_number != report_number:
-                self.stdout.write('UPDATING Game Report: {}'.format(game))
-                game.report_number = report_number
-                self.stdout.write('DELETING Game Scores: {}'.format(game))
-                models.Score.objects.filter(game=game).delete()
+            if game.opening_whistle != opening_whistle:
+                self.stdout.write('UPDATING Game opening whistle: {}'.format(game))
+                game.opening_whistle = opening_whistle
             if game.sports_hall != sports_hall:
                 self.stdout.write('UPDATING Game Sports Hall: {}'.format(game))
                 game.sports_hall = sports_hall
+            if game.home_goals != home_goals or game.guest_goals != guest_goals:
+                self.stdout.write('UPDATING Game goals: {}'.format(game))
+                game.home_goals = home_goals
+                game.guest_goals = guest_goals
+            if game.report_number != report_number:
+                game.report_number = report_number
+                self.stdout.write('DELETING Game Scores: {}'.format(game))
                 models.Score.objects.filter(game=game).delete()
+            if game.forfeiting_team != forfeiting_team:
+                self.stdout.write('UPDATING Game forfeiting team: {}'.format(game))
+                game.forfeiting_team = forfeiting_team
             game.save()
 
     def import_sports_hall(self, game_row):
