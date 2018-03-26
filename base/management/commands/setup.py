@@ -2,6 +2,7 @@ from urllib.parse import urlsplit, parse_qs
 
 import requests
 from django.core.management import BaseCommand
+from django.db import transaction
 from lxml import html
 
 from base.middleware import env
@@ -103,6 +104,7 @@ class Command(BaseCommand):
         for league_link in league_links:
             self.create_league(league_link, district)
 
+    @transaction.atomic
     def create_league(self, link, district):
         href = link.get('href')
         query = urlsplit(href).query
@@ -126,6 +128,10 @@ class Command(BaseCommand):
                      tree.xpath('//table[@class="scoretable"]/tr[position() > 1]/td[2]/a')
         if not team_links:
             self.stdout.write('SKIPPING League: {} {} (no team table)'.format(bhv_id, name))
+            return
+
+        if not tree.xpath('//table[@class="gametable"]'):
+            self.stdout.write('SKIPPING League: {} {} (no game table)'.format(bhv_id, name))
             return
 
         league, created = League.objects.get_or_create(name=name, abbreviation=abbreviation, district=district,
