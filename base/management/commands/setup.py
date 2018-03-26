@@ -122,8 +122,8 @@ class Command(BaseCommand):
             self.stdout.write('SKIPPING League: {} {} (options)'.format(bhv_id, name))
             return
 
-        team_links = tree.xpath('//table[@class="scoretable"]/tr[position() > 1]/td[3]/a') \
-                     or tree.xpath('//table[@class="scoretable"]/tr[position() > 1]/td[3]/a')
+        team_links = tree.xpath('//table[@class="scoretable"]/tr[position() > 1]/td[3]/a') or \
+                     tree.xpath('//table[@class="scoretable"]/tr[position() > 1]/td[2]/a')
         if not team_links:
             self.stdout.write('SKIPPING League: {} {} (no team table)'.format(bhv_id, name))
             return
