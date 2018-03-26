@@ -122,7 +122,8 @@ class Command(BaseCommand):
             self.stdout.write('SKIPPING League: {} {} (options)'.format(bhv_id, name))
             return
 
-        team_links = tree.xpath('//table[@class="scoretable"]/tr[position() > 1]/td[3]/a')
+        team_rows = tree.xpath('//table[@class="scoretable"]/tr[position() > 1]')
+        team_links = [row.xpath('./td[2]/a') or row.xpath('./td[3]/a') for row in team_rows]
         if not team_links:
             self.stdout.write('SKIPPING League: {} {} (no team table)'.format(bhv_id, name))
             return
@@ -135,7 +136,7 @@ class Command(BaseCommand):
             self.stdout.write('EXISTING League: {}'.format(league))
 
         for team_link in team_links:
-            self.create_team(team_link, league)
+            self.create_team(team_link[0], league)
 
     def create_team(self, link, league):
         href = link.get('href')
