@@ -140,9 +140,7 @@ class Command(BaseCommand):
             address = street + ", " + city if street else city
             phone_number = table[3][1].text
 
-            map_script = tree.xpath('//script')[4].text
-            latitude, longitude = re.search("^   new mxn.LatLonPoint\(([.0-9]+),([.0-9]+)\)\),$",
-                                            map_script, re.MULTILINE).groups()
+            latitude, longitude = self.parse_coordinates(tree)
 
             sports_hall = models.SportsHall.objects.create(number=number, name=name, address=address,
                                                            phone_number=phone_number, latitude=latitude,
@@ -151,3 +149,12 @@ class Command(BaseCommand):
             return sports_hall
         else:
             return models.SportsHall.objects.get(number=number)
+
+    def parse_coordinates(self, tree):
+        scripts = tree.xpath('//script')
+        if len(scripts) >= 5:
+            map_script = scripts[4].text
+            return re.search("^   new mxn.LatLonPoint\(([.0-9]+),([.0-9]+)\)\),$",
+                             map_script, re.MULTILINE).groups()
+        else:
+            return None, None

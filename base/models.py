@@ -126,8 +126,8 @@ class SportsHall(models.Model):
     name = models.TextField()
     address = models.TextField()
     phone_number = models.TextField(blank=True, null=True)
-    latitude = models.DecimalField(max_digits=9, decimal_places=6)
-    longitude = models.DecimalField(max_digits=9, decimal_places=6)
+    latitude = models.DecimalField(blank=True, null=True, max_digits=9, decimal_places=6)
+    longitude = models.DecimalField(blank=True, null=True, max_digits=9, decimal_places=6)
     bhv_id = models.IntegerField(unique=True)
 
     def __str__(self):
