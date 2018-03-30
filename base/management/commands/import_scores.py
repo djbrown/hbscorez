@@ -1,5 +1,7 @@
+import os
 import re
 
+import requests
 import tabula
 from django.core.management import BaseCommand
 from django.db import transaction
@@ -67,8 +69,6 @@ class Command(BaseCommand):
             self.stdout.write('SKIPPING Scores (no report): {} - {}'.format(game.report_number, game))
         elif game.report_number in self.bugged_reports:
             self.stdout.write('SKIPPING Report (ignore list): {} - {}'.format(game.report_number, game))
-        elif not game.report_path().is_file():
-            self.stdout.write('SKIPPING Scores (not found): {} - {}'.format(game.report_number, game))
         elif game.score_set.count() > 0:
             if not self.options['force_update']:
                 self.stdout.write('SKIPPING Scores (existing scores): {} - {}'.format(game.report_number, game))
@@ -82,11 +82,16 @@ class Command(BaseCommand):
 
     @transaction.atomic
     def import_scores(self, game):
+        response = requests.get(game.report_url(), stream=True)
+        game.report_path().write_bytes(response.content)
+
         path = str(game.report_path())
         scores_pdf = tabula.read_pdf(path, output_format='json', **{'pages': 2, 'lattice': True})
 
         self._add_scores(scores_pdf[0], game=game, team=game.home_team)
         self._add_scores(scores_pdf[1], game=game, team=game.guest_team)
+
+        os.remove(path)
 
     def _add_scores(self, table, game, team):
         table_rows = table['data']
