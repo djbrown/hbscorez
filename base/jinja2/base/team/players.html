@@ -1,5 +1,6 @@
 {% extends 'base/team/base.html' %}
 {% block title %}Spieler - {{ super() }}{% endblock %}
+{% block description %}Spieler der Mannschaft '{{team.name }}' in der Liga '{{ team.league.name }}' des Bereichs '{{ team.league.district.name }}'{% endblock %}
 {% block styles %}
 {% block content %}
 {{ super() }}

@@ -1,4 +1,5 @@
 {% extends 'base/league/base.html' %}
+{% block description %}Übersichtsseite der Liga '{{ league.name }}' des Bereichs '{{ league.district.name }}'{% endblock %}
 {% block content %}
 {{ super() }}
 <nav class="nav nav-pills mb-3">

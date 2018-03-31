@@ -1,5 +1,6 @@
 {% extends 'base/league/base.html' %}
 {% block title %}Spiele - {{ super() }}{% endblock %}
+{% block description %}Spielergebnisse der Liga '{{ league.name }}' des Bereichs '{{ league.district.name }}'{% endblock %}
 {% block styles %}
 {{ super() }}
 <!-- DataTables Builder: Bootstrap 4, DataTables, ColReorder, FixedColumns, FixedHeader -->
