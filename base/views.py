@@ -79,10 +79,15 @@ def view_league_penalties(request, bhv_id):
     players = Player.objects \
         .filter(team__league=league) \
         .annotate(games=Count('score')) \
-        .annotate(penalty_points=F('games')) \
+        .annotate(warnings=Count('score__warning_time')) \
+        .annotate(suspensions=
+                  Count('score__first_suspension_time') +
+                  Count('score__second_suspension_time') +
+                  Count('score__third_suspension_time')) \
+        .annotate(disqualifications=Count('score__disqualification_time')) \
+        .annotate(penalty_points=F('warnings') + 2 * F('suspensions') + 3 * F('disqualifications')) \
         .filter(penalty_points__gt=0) \
         .order_by('-penalty_points')
-    # .annotate(suspensions=Count('score__warning_time')) \
     set_place(players, 'penalty_points')
     return render(request, 'base/league/penalties.html', {'league': league, 'players': players})
 
@@ -107,7 +112,7 @@ def view_team_games(request, bhv_id):
 def view_team_players(request, bhv_id):
     # todo: change view to show portraits and summary data of the players (not scorers data)
     team = get_object_or_404(Team, bhv_id=bhv_id)
-    players = Player.objects .all()
+    players = Player.objects.all()
     return render(request, 'base/team/players.html', {'team': team, 'players': players})
 
 

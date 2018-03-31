@@ -16,7 +16,7 @@
     <a class="nav-item nav-link m-1" href="{{ url('league_scorers', args=[league.bhv_id]) }}">Schützen</a>
     <a class="nav-item nav-link m-1 active" href="#/">Strafen</a>
 </nav>
-<h2>Spieler</h2>
+<h2>Strafen</h2>
 <div class="table-responsive">
     <table id="data-table" class="table table-sm table-striped">
         <thead>
@@ -43,10 +43,10 @@
                 <a href="{{ player.team.get_absolute_url() }}">{{ player.team.short_name }}</a>
             </td>
             <td>{{ player.games }}</td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td>{{ player.penalty_points }}</td>
+            <td>{{ player.warnings }}</td>
+            <td>{{ player.suspensions }}</td>
+            <td>{{ player.disqualifications }}</td>
         </tr>
         {% endfor %}
         </tbody>
