@@ -14,7 +14,6 @@ def environment(**options):
         'static': staticfiles_storage.url,
         'url': reverse,
         'team_logo_url': team_logo_url,
-        'place': place,
         'date': date,
         'time': time,
         'team_outcome_badge': team_outcome_badge,

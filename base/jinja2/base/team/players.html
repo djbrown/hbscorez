@@ -1,11 +1,6 @@
 {% extends 'base/team/base.html' %}
 {% block title %}Spieler - {{ super() }}{% endblock %}
 {% block styles %}
-{{ super() }}
-<!-- DataTables Builder: Bootstrap 4, DataTables, ColReorder, FixedColumns, FixedHeader -->
-<link rel="stylesheet" type="text/css"
-      href="https://cdn.datatables.net/v/bs4/dt-1.10.16/cr-1.4.1/fc-3.2.3/fh-3.1.3/datatables.min.css"/>
-{% endblock %}
 {% block content %}
 {{ super() }}
 <nav class="nav nav-pills mb-3">
@@ -16,50 +11,7 @@
     <a class="nav-item nav-link m-1 disabled">Berichte</a>
 </nav>
 <h2>Spieler</h2>
-<div class="table-responsive">
-    <table id="data-table" class="table table-sm table-striped">
-        <thead>
-        <tr>
-            <th>Pl.</th>
-            <th>Name</th>
-            <th>Sp.</th>
-            <th>Tore</th>
-            <th>7m</th>
-            <th>Feldt.</th>
-            <th>Tore &Oslash;</th>
-            <th>Feldt. &Oslash;</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for player in players %}
-        <tr>
-            <th scope="row">{{ place(players, loop.index0) }}</th>
-            <td><a href="{{ player.get_absolute_url() }}">{{ player.name }}</a></td>
-            <td>{{ player.games }}</td>
-            <td>{{ player.total_goals }}</td>
-            <td>{{ player.total_penalty_goals }}</td>
-            <td>{{ player.total_field_goals }}</td>
-            <td>{{ '%0.2f'| format(player.average_goals) }}</td>
-            <td>{{ '%0.2f'| format(player.average_field_goals) }}</td>
-        </tr>
-        {% endfor %}
-        </tbody>
-        <tfoot>
-        <tr>
-            <th>Pl.</th>
-            <th>Name</th>
-            <th>Sp.</th>
-            <th>Tore</th>
-            <th>7m</th>
-            <th>Feldt.</th>
-            <th>Tore &Oslash;</th>
-            <th>Feldt. &Oslash;</th>
-        </tr>
-        </tfoot>
-    </table>
-</div>
 {% endblock %}
 {% block scripts %}
 {{ super() }}
-{% include "base/include/datatables.html" %}
 {% endblock %}

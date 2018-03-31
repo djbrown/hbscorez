@@ -1,5 +1,5 @@
 {% extends 'base/league/base.html' %}
-{% block title %}Spieler - {{ super() }}{% endblock %}
+{% block title %}Schützen - {{ super() }}{% endblock %}
 {% block styles %}
 {{ super() }}
 <!-- DataTables Builder: Bootstrap 4, DataTables, ColReorder, FixedColumns, FixedHeader -->
@@ -12,9 +12,10 @@
     <a class="nav-item nav-link m-1" href="{{ url('league_overview', args=[league.bhv_id]) }}">Übersicht</a>
     <a class="nav-item nav-link m-1" href="{{ url('league_teams', args=[league.bhv_id]) }}">Mannschaften</a>
     <a class="nav-item nav-link m-1" href="{{ url('league_games', args=[league.bhv_id]) }}">Spiele</a>
-    <a class="nav-item nav-link m-1 active" href="#/">Spieler</a>
+    <a class="nav-item nav-link m-1 active" href="#/">Schützen</a>
+    <a class="nav-item nav-link m-1" href="{{ url('league_penalties', args=[league.bhv_id]) }}">Strafen</a>
 </nav>
-<h2>Spieler</h2>
+<h2>Schützen</h2>
 <div class="table-responsive">
     <table id="data-table" class="table table-sm table-striped">
         <thead>
@@ -33,7 +34,7 @@
         <tbody>
         {% for player in players %}
         <tr>
-            <th scope="row">{{ place(players, loop.index0) }}</th>
+            <th scope="row">{{ player.place }}</th>
             <td><a href="{{ player.get_absolute_url() }}">{{ player.name }}</a></td>
             <td>
                 {#<img class="table-team-logo" src="{{ team_logo_url(player.team) }}" width="25" alt="HbScorez Logo">#}

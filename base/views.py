@@ -4,6 +4,7 @@ from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404
 from icalendar import Calendar, Event, vText
 
+from base.logic import set_place
 from base.models import *
 
 
@@ -48,17 +49,18 @@ def view_league_teams(request, bhv_id):
 
 def view_league_games(request, bhv_id):
     league = get_object_or_404(League, bhv_id=bhv_id)
-    games = Game.objects.annotate(month=TruncMonth('opening_whistle')).order_by('opening_whistle')
+    games = league.game_set \
+        .annotate(month=TruncMonth('opening_whistle')) \
+        .order_by('opening_whistle')
     games_by_month = {}
     for game in games:
         games_by_month.setdefault(game.month, []).append(game)
     return render(request, 'base/league/games.html', {'league': league, 'games_by_month': games_by_month})
 
 
-def view_league_players(request, bhv_id):
+def view_league_scorers(request, bhv_id):
     league = get_object_or_404(League, bhv_id=bhv_id)
     players = Player.objects \
-        .only('name', 'team') \
         .filter(team__league=league) \
         .annotate(total_goals=Coalesce(Sum('score__goals'), 0)) \
         .filter(total_goals__gt=0) \
@@ -68,7 +70,21 @@ def view_league_players(request, bhv_id):
         .annotate(average_goals=Coalesce(F('total_goals') / F('games'), 0)) \
         .annotate(average_field_goals=Coalesce(F('total_field_goals') / F('games'), 0)) \
         .order_by('-total_goals')
-    return render(request, 'base/league/players.html', {'league': league, 'players': players})
+    set_place(players, 'total_goals')
+    return render(request, 'base/league/scorers.html', {'league': league, 'players': players})
+
+
+def view_league_penalties(request, bhv_id):
+    league = get_object_or_404(League, bhv_id=bhv_id)
+    players = Player.objects \
+        .filter(team__league=league) \
+        .annotate(games=Count('score')) \
+        .annotate(penalty_points=F('games')) \
+        .filter(penalty_points__gt=0) \
+        .order_by('-penalty_points')
+    # .annotate(suspensions=Count('score__warning_time')) \
+    set_place(players, 'penalty_points')
+    return render(request, 'base/league/penalties.html', {'league': league, 'players': players})
 
 
 def view_league_calendar(request, bhv_id):
@@ -89,17 +105,9 @@ def view_team_games(request, bhv_id):
 
 
 def view_team_players(request, bhv_id):
+    # todo: change view to show portraits and summary data of the players (not scorers data)
     team = get_object_or_404(Team, bhv_id=bhv_id)
-    players = Player.objects \
-        .filter(team=team) \
-        .only('name', 'team') \
-        .annotate(games=Count('score')) \
-        .annotate(total_goals=Coalesce(Sum('score__goals'), 0)) \
-        .annotate(total_penalty_goals=Coalesce(Sum('score__penalty_goals'), 0)) \
-        .annotate(total_field_goals=F('total_goals') - F('total_penalty_goals')) \
-        .annotate(average_goals=Coalesce(F('total_goals') / F('games'), 0)) \
-        .annotate(average_field_goals=Coalesce(F('total_field_goals') / F('games'), 0)) \
-        .order_by('-total_goals')
+    players = Player.objects .all()
     return render(request, 'base/team/players.html', {'team': team, 'players': players})
 
 

@@ -72,9 +72,6 @@ class League(models.Model):
     def get_absolute_url(self):
         return reverse('league_overview', kwargs={'bhv_id': self.bhv_id})
 
-    def players_url(self):
-        return reverse('league_players', kwargs={'bhv_id': self.bhv_id})
-
     def source_url(self):
         return 'https://spo.handball4all.de/Spielbetrieb/index.php?orgGrpID={}&score={}&all=1'.format(
             self.district.associations.all()[0].bhv_id, self.bhv_id)
