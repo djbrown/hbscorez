@@ -16,7 +16,18 @@
     <a class="nav-item nav-link m-1" href="{{ url('league_scorers', args=[league.bhv_id]) }}">Schützen</a>
     <a class="nav-item nav-link m-1 active" href="#/">Strafen</a>
 </nav>
-<h2>Strafen</h2>
+<h2>Strafen
+    <button class="btn btn-outline-primary" type="button" data-toggle="collapse" data-target="#penalty-info"><i
+            class="fa fa-info-circle"></i>
+    </button>
+</h2>
+<div class="collapse mb-2" id="penalty-info">
+    <div class="card card-body">
+        Bei der Berechnung der Punktezahl werden Gelbe Karten einfach, 2-Minuten doppelt und Rote Karten dreifach
+        aufaddiert.<br/>
+        Spieler, die keine Strafe erhalten haben, werden in der Tabelle nicht angezeigt.
+    </div>
+</div>
 <div class="table-responsive">
     <table id="data-table" class="table table-sm table-striped">
         <thead>
