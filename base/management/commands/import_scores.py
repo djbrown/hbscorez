@@ -119,6 +119,10 @@ class Command(BaseCommand):
         if not player_name or player_number in ('A', 'B', 'C', 'D'):
             return
 
+        if player_number == "":
+            self.stdout.write('SKIPPING Score (no player number): {}'.format(player_name))
+            return
+
         divided_players = team.player_set.filter(name__regex="^{} \(\d+\)$".format(player_name))
         duplicate_scores = models.Score.objects.filter(player__name=player_name, player__team=team, game=game)
         if divided_players.exists() or duplicate_scores.exists():
