@@ -1,10 +1,9 @@
-import re
-
-import requests
 from django.core.management import BaseCommand
-from lxml import html
 
+from base import logic
 from base import models
+from base import parsing
+from base import source_url
 from base.middleware import env
 
 
@@ -52,26 +51,11 @@ class Command(BaseCommand):
             self.stdout.write('SKIPPING League: {} (options)'.format(league))
             return
 
-        response = requests.get(league.source_url())
-        response.encoding = 'utf-8'
-        tree = html.fromstring(response.text)
+        tree = logic.get_html(league.source_url())
 
         game_rows = tree.xpath("//table[@class='gametable']/tr[position() > 1]")
         for game_row in game_rows:
             self.import_game(game_row, league)
-
-    def parse_goals(self, game_row) -> (int, int):
-        home_goals = int(game_row[7].text) if game_row[7].text else None
-        guest_goals = int(game_row[9].text) if game_row[9].text else None
-
-        if home_goals is None and guest_goals is None and len(game_row[10]) == 1:
-            title = game_row[10][0].get("title", "")
-            match = re.match("SpA\((\d+):(\d+)\)", title)
-            if match:
-                home_goals = match.group(1)
-                guest_goals = match.group(2)
-
-        return home_goals, guest_goals
 
     def import_game(self, game_row, league):
         # league_abbreviation = game_row[0].text
@@ -81,13 +65,13 @@ class Command(BaseCommand):
             self.stdout.write('SKIPPING Game: {} (options)'.format(number))
             return
 
-        opening_whistle = models.Game.parse_opening_whistle(game_row[2].text)
-        sports_hall = self.import_sports_hall(game_row)
+        opening_whistle = parsing.parse_opening_whistle(game_row[2].text)
+        sports_hall = self.get_sports_hall(game_row)
         home_team = models.Team.objects.get(league=league, short_name=game_row[4].text)
         guest_team = models.Team.objects.get(league=league, short_name=game_row[6].text)
-        home_goals, guest_goals = self.parse_goals(game_row)
-        report_number = models.Game.parse_report_number(game_row[10])
-        forfeiting_team = models.Game.parse_forfeiting_team(game_row[10], home_team, guest_team)
+        home_goals, guest_goals = parsing.parse_goals(game_row)
+        report_number = parsing.parse_report_number(game_row[10])
+        forfeiting_team = parsing.parse_forfeiting_team(game_row[10], home_team, guest_team)
 
         if not models.Game.objects.filter(number=number).exists():
             self.stdout.write('CREATING Game: {}'.format(number))
@@ -111,27 +95,28 @@ class Command(BaseCommand):
                 self.stdout.write('UPDATING Game goals: {}'.format(game))
                 game.home_goals = home_goals
                 game.guest_goals = guest_goals
+                models.Score.objects.filter(game=game).delete()
+                self.stdout.write('DELETED Game Scores: {}'.format(game))
             if game.report_number != report_number:
+                self.stdout.write('UPDATING Game report number: {}'.format(game))
                 game.report_number = report_number
-                self.stdout.write('DELETING Game Scores: {}'.format(game))
+                self.stdout.write('DELETED Game Scores: {}'.format(game))
                 models.Score.objects.filter(game=game).delete()
             if game.forfeiting_team != forfeiting_team:
                 self.stdout.write('UPDATING Game forfeiting team: {}'.format(game))
                 game.forfeiting_team = forfeiting_team
             game.save()
 
-    def import_sports_hall(self, game_row):
+    def get_sports_hall(self, game_row):
         if len(game_row[3]) != 1:
             return
         link = game_row[3][0]
-        number = link.text
-        bhv_id = models.SportsHall.parse_bhv_id(link)
+        number = int(link.text)
+        bhv_id = parsing.parse_sports_hall_bhv_id(link)
 
         if not models.SportsHall.objects.filter(number=number, bhv_id=bhv_id).exists():
-            self.stdout.write('CREATING Sports Hall: {} ({})'.format(number, bhv_id))
-            url = 'https://spo.handball4all.de/Spielbetrieb/index.php?orgGrpID=1&gymID={}'.format(bhv_id)
-            response = requests.get(url)
-            tree = html.fromstring(response.text.encode('latin-1').decode())
+            url = source_url.sports_hall_source_url(bhv_id)
+            tree = logic.get_html(url)
 
             table = tree.xpath('//table[@class="gym"]')[0]
             name = table[0][1][0].text
@@ -140,7 +125,7 @@ class Command(BaseCommand):
             address = street + ", " + city if street else city
             phone_number = table[3][1].text
 
-            latitude, longitude = self.parse_coordinates(tree)
+            latitude, longitude = parsing.parse_coordinates(tree)
 
             sports_hall = models.SportsHall.objects.create(number=number, name=name, address=address,
                                                            phone_number=phone_number, latitude=latitude,
@@ -148,13 +133,4 @@ class Command(BaseCommand):
             self.stdout.write('CREATED Sports Hall: {}'.format(sports_hall))
             return sports_hall
         else:
-            return models.SportsHall.objects.get(number=number)
-
-    def parse_coordinates(self, tree):
-        scripts = tree.xpath('//script')
-        if len(scripts) >= 5:
-            map_script = scripts[4].text
-            return re.search("^   new mxn.LatLonPoint\(([.0-9]+),([.0-9]+)\)\),$",
-                             map_script, re.MULTILINE).groups()
-        else:
-            return None, None
+            return models.SportsHall.objects.get(number=number, bhv_id=bhv_id)

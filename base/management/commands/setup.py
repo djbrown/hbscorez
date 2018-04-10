@@ -1,143 +1,127 @@
-from urllib.parse import urlsplit, parse_qs
-
-import requests
 from django.core.management import BaseCommand
 from django.db import transaction
-from lxml import html
 
+from base import logic
+from base import models
+from base import parsing
+from base import source_url
 from base.middleware import env
-from base.models import *
-
-association_abbreviations = {
-    'Badischer Handball-Verband': 'BHV',
-    'Fédération Luxembourgeoise de Handball': 'FLH',
-    'Hamburger Handball-Verband': 'HHV',
-    'Handball Baden-Württemberg': 'HBW',
-    'Handballoberliga Rheinland-Pfalz/Saar': 'RPS',
-    'Handballverband Rheinhessen': 'HVR',
-    'Handballverband Saar': 'HVS',
-    'Handballverband Schleswig-Holstein': 'HVSH',
-    'Handballverband Württemberg': 'HVW',
-    'Mitteldeutscher Handball-Verband': 'MHV',
-    'Oberliga Hamburg - Schleswig-Holstein': 'HHSH',
-    'Südbadischer Handballverband': 'SHV',
-    'Thüringer Handball-Verband': 'THV',
-    'Vorarlberger Handballverband': 'VHV',
-}
 
 
 class Command(BaseCommand):
     options = {}
-
-    processed_districts = []
+    processed_districts = set()
 
     def add_arguments(self, parser):
         parser.add_argument('--youth', action='store_true', help="Include youth teams in setup.")
         parser.add_argument('--associations', '-a', nargs='+', type=int, metavar='orgGrpID',
-                            help="orgGrpIDs of Associations to be setup.")
+                            help="IDs of Associations to be setup.")
         parser.add_argument('--districts', '-d', nargs='+', type=int, metavar='orgID',
-                            help="orgIDs of Districts to be setup.")
+                            help="IDs of Districts to be setup.")
         parser.add_argument('--leagues', '-l', nargs='+', type=int, metavar='score',
-                            help="sGIDs of Leagues to be setup.")
+                            help="IDs of Leagues to be setup.")
 
     def handle(self, *args, **options):
         self.options = options
-        env.UPDATING.set_value(Value.TRUE)
+        env.UPDATING.set_value(models.Value.TRUE)
         self.create_associations()
-        env.UPDATING.set_value(Value.FALSE)
+        env.UPDATING.set_value(models.Value.FALSE)
 
     def create_associations(self):
-        response = requests.get('https://spo.handball4all.de/')
-        tree = html.fromstring(response.text.encode('latin-1').decode())
-        association_links = tree.xpath('//div[@id="main-content"]/div/ul/li/a')
-        for association_link in association_links:
-            self.create_association(association_link)
+        url = source_url.associations_url()
+        dom = logic.get_html(url)
+        links = dom.xpath('//div[@id="main-content"]/div/ul/li/a')
+        for link in links:
+            self.create_association(link)
 
     def create_association(self, association_link):
         name = association_link.text
-        abbreviation = association_abbreviations[name]
-        href = association_link.get('href')
-        query = urlsplit(href).query
-        bhv_id = int(parse_qs(query)['orgGrpID'][0])
+        abbreviation = logic.get_association_abbreviation(name)
+        bhv_id = parsing.parse_association_bhv_id(association_link)
 
         if self.options['associations'] and bhv_id not in self.options['associations']:
-            self.stdout.write('SKIPPING Association: {} {} (options)'.format(bhv_id, name))
+            self.stdout.write('SKIPPING Association (options): {} {}'.format(bhv_id, name))
             return
 
-        association, created = Association.objects.get_or_create(name=name, abbreviation=abbreviation, bhv_id=bhv_id)
+        association, created = models.Association.objects.get_or_create(name=name, abbreviation=abbreviation,
+                                                                        bhv_id=bhv_id)
         if created:
-            self.stdout.write('CREATING Association: {}'.format(association))
+            self.stdout.write('CREATED Association: {}'.format(association))
         else:
             self.stdout.write('EXISTING Association: {}'.format(association))
 
-        response = requests.get(association.source_url())
-        response.encoding = 'utf-8'
-        tree = html.fromstring(response.text)
-        district_items = tree.xpath('//select[@name="orgID"]/option[position()>1]')
-        for district_item in district_items:
-            self.create_district(district_item, association)
+        url = association.source_url()
+        dom = logic.get_html(url)
+        items = dom.xpath('//select[@name="orgID"]/option[position()>1]')
+        for item in items:
+            self.create_district(item, association)
 
     def create_district(self, district_item, association):
         name = district_item.text
         bhv_id = int(district_item.get('value'))
 
         if self.options['districts'] and bhv_id not in self.options['districts']:
-            self.stdout.write('SKIPPING District: {} {} (options)'.format(bhv_id, name))
+            self.stdout.write('SKIPPING District (options): {} {}'.format(bhv_id, name))
             return
 
-        district, created = District.objects.get_or_create(name=name, bhv_id=bhv_id)
+        district, created = models.District.objects.get_or_create(name=name, bhv_id=bhv_id)
         district.associations.add(association)
         if bhv_id in self.processed_districts:
             self.stdout.write('SKIPPING District: {} {} (already processed)'.format(bhv_id, name))
             return
 
         if created:
-            self.stdout.write('CREATING District: {}'.format(district))
+            self.stdout.write('CREATED District: {}'.format(district))
         else:
             self.stdout.write('EXISTING District: {}'.format(district))
-        self.processed_districts.append(bhv_id)
+        self.processed_districts.add(bhv_id)
 
-        response = requests.get(district.source_url())
-        response.encoding = 'utf-8'
-        tree = html.fromstring(response.text)
-        league_links = tree.xpath('//div[@id="results"]/div/table[2]/tr/td[1]/a')
-        for league_link in league_links:
-            self.create_league(league_link, district)
+        url = district.source_url()
+        dom = logic.get_html(url)
+        links = dom.xpath('//div[@id="results"]/div/table[2]/tr/td[1]/a')
+        for link in links:
+            self.create_league(link, district)
 
     @transaction.atomic
-    def create_league(self, link, district):
-        href = link.get('href')
-        query = urlsplit(href).query
-        bhv_id = int(parse_qs(query)['score'][0])
-        url = 'https://spo.handball4all.de/Spielbetrieb/index.php?&orgGrpID=1&all=1&score={}'.format(bhv_id)
-        response = requests.get(url)
-        response.encoding = 'utf-8'
-        tree = html.fromstring(response.text)
-        heading = tree.xpath('//*[@id="results"]/div/h1/text()[2]')[0]
-        name = heading.split(' - ')[0]
-        abbreviation = link.text
+    def create_league(self, league_link, district):
+        abbreviation = league_link.text
+        bhv_id = parsing.parse_league_bhv_id(league_link)
 
-        if League.is_youth_league(abbreviation, name) and not self.options['youth']:
-            self.stdout.write('SKIPPING League: {} {} (youth league)'.format(bhv_id, name))
-            return
         if self.options['leagues'] and bhv_id not in self.options['leagues']:
-            self.stdout.write('SKIPPING League: {} {} (options)'.format(bhv_id, name))
+            self.stdout.write('SKIPPING League (options): {} {}'.format(bhv_id, abbreviation))
             return
 
-        team_links = tree.xpath('//table[@class="scoretable"]/tr[position() > 1]/td[3]/a') or \
-                     tree.xpath('//table[@class="scoretable"]/tr[position() > 1]/td[2]/a')
+        if abbreviation[:1] in ['m', 'w', 'g', 'u'] and not self.options['youth']:
+            self.stdout.write('SKIPPING League (youth league): {} {}'.format(bhv_id, abbreviation))
+            return
+
+        url = source_url.league_source_url(bhv_id)
+        dom = logic.get_html(url)
+
+        name = parsing.parse_league_name(dom)
+
+        if logic.is_youth_league(name) and not self.options['youth']:
+            self.stdout.write('SKIPPING League (youth league): {} {}'.format(bhv_id, name))
+            return
+
+        team_links = dom.xpath('//table[@class="scoretable"]/tr[position() > 1]/td[3]/a') or \
+                     dom.xpath('//table[@class="scoretable"]/tr[position() > 1]/td[2]/a')
         if not team_links:
             self.stdout.write('SKIPPING League: {} {} (no team table)'.format(bhv_id, name))
             return
 
-        if not tree.xpath('//table[@class="gametable"]'):
-            self.stdout.write('SKIPPING League: {} {} (no game table)'.format(bhv_id, name))
+        game_rows = parsing.parse_game_rows(dom)
+        if not game_rows:
+            self.stdout.write('SKIPPING League (no games): {} {}'.format(bhv_id, name))
+            return
+        if len(game_rows) < len(team_links) * (len(team_links) - 1):
+            self.stdout.write('SKIPPING League (few games): {} {}'.format(bhv_id, abbreviation))
             return
 
-        league, created = League.objects.get_or_create(name=name, abbreviation=abbreviation, district=district,
-                                                       bhv_id=bhv_id)
+        league, created = models.League.objects.get_or_create(name=name, abbreviation=abbreviation, district=district,
+                                                              bhv_id=bhv_id)
         if created:
-            self.stdout.write('CREATING League: {}'.format(league))
+            self.stdout.write('CREATED League: {}'.format(league))
         else:
             self.stdout.write('EXISTING League: {}'.format(league))
 
@@ -145,21 +129,18 @@ class Command(BaseCommand):
             self.create_team(team_link, league)
 
     def create_team(self, link, league):
-        href = link.get('href')
-        query = urlsplit(href).query
-        bhv_id = int(parse_qs(query)['teamID'][0])
+        bhv_id = parsing.parse_team_bhv_id(link)
         name = link.text
 
-        url = 'https://spo.handball4all.de/Spielbetrieb/index.php' + href
-        response = requests.get(url)
-        response.encoding = 'utf-8'
-        tree = html.fromstring(response.text)
-        game_rows = tree.xpath('//table[@class="gametable"]/tr[position() > 1]')
+        url = source_url.team_source_url(league.bhv_id, bhv_id)
+        dom = logic.get_html(url)
+        game_rows = parsing.parse_game_rows(dom)
         short_team_names = [c.text for game_row in game_rows for c in game_row.xpath('td')[4:7:2]]
         short_team_name = max(set(short_team_names), key=short_team_names.count)
 
-        team, created = Team.objects.get_or_create(name=name, short_name=short_team_name, league=league, bhv_id=bhv_id)
+        team, created = models.Team.objects.get_or_create(name=name, short_name=short_team_name, league=league,
+                                                          bhv_id=bhv_id)
         if created:
-            self.stdout.write('CREATING Team: {}'.format(team))
+            self.stdout.write('CREATED Team: {}'.format(team))
         else:
             self.stdout.write('EXISTING Team: {}'.format(team))

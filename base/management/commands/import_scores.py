@@ -1,18 +1,19 @@
 import os
-import re
 
 import requests
 import tabula
 from django.core.management import BaseCommand
 from django.db import transaction
 
+from base import logic
 from base import models
+from base import parsing
 from base.middleware import env
 
 
 class Command(BaseCommand):
     options = {}
-    bugged_reports = [497475, 567811, 562543]
+    bugged_reports = [497475, 567811, 562543, 546059, 627428, 501159]
 
     def add_arguments(self, parser):
         parser.add_argument('--force-update', '-f', action='store_true',
@@ -83,98 +84,50 @@ class Command(BaseCommand):
     @transaction.atomic
     def import_scores(self, game):
         response = requests.get(game.report_url(), stream=True)
-        game.report_path().write_bytes(response.content)
+        if int(response.headers.get('Content-Length', default=-1)) == 0:
+            self.stdout.write('SKIPPING Scores (empty report): {} - {}'.format(game.report_number, game))
+            return
 
+        game.report_path().write_bytes(response.content)
         path = str(game.report_path())
         scores_pdf = tabula.read_pdf(path, output_format='json', **{'pages': 2, 'lattice': True})
 
-        self._add_scores(scores_pdf[0], game=game, team=game.home_team)
-        self._add_scores(scores_pdf[1], game=game, team=game.guest_team)
+        self.add_scores(scores_pdf[0], game=game, team=game.home_team)
+        self.add_scores(scores_pdf[1], game=game, team=game.guest_team)
 
         os.remove(path)
 
-    def _add_scores(self, table, game, team):
+    def add_scores(self, table, game, team):
         table_rows = table['data']
         for table_row in table_rows[2:]:
             row_data = [cell['text'] for cell in table_row]
-            self._add_score(game, team, row_data)
 
-    def _add_score(self: BaseCommand, game, team, row_data):
-        player_number = row_data[0]
-        player_name = row_data[1]
-        # player_year_of_birth = row_data[2]
-        try:
-            goals = int(row_data[5])
-        except ValueError:
-            goals = 0
-        penalty_tries, penalty_goals = parse_penalty_data(row_data[6])
-        warning_time = models.Score.parse_game_time(row_data[7])
-        first_suspension_time = models.Score.parse_game_time(row_data[8])
-        second_suspension_time = models.Score.parse_game_time(row_data[9])
-        third_suspension_time = models.Score.parse_game_time(row_data[10])
-        disqualification_time = models.Score.parse_game_time(row_data[11])
-        report_time = models.Score.parse_game_time(row_data[12])
-        team_suspension_time = models.Score.parse_game_time(row_data[13])
+            player_name = row_data[1]
+            if not player_name:
+                return
 
-        if not player_name or player_number in ('A', 'B', 'C', 'D'):
-            return
+            player_number = row_data[0]
+            if player_number in ('A', 'B', 'C', 'D'):
+                return
+            if player_number == "":
+                self.stdout.write('SKIPPING Score (no player number): {}'.format(player_name))
+                return
 
-        if player_number == "":
-            self.stdout.write('SKIPPING Score (no player number): {}'.format(player_name))
-            return
+            # player_year_of_birth = row_data[2]
 
-        divided_players = team.player_set.filter(name__regex="^{} \(\d+\)$".format(player_name))
-        duplicate_scores = models.Score.objects.filter(player__name=player_name, player__team=team, game=game)
-        if divided_players.exists() or duplicate_scores.exists():
-            self.divide_player_scores(player_name, team)
-            player_name = '{} ({})'.format(player_name, player_number)
+            try:
+                goals = int(row_data[5])
+            except ValueError:
+                goals = 0
+            penalty_tries, penalty_goals = parsing.parse_penalty_data(row_data[6])
+            warning_time = parsing.parse_game_time(row_data[7])
+            first_suspension_time = parsing.parse_game_time(row_data[8])
+            second_suspension_time = parsing.parse_game_time(row_data[9])
+            third_suspension_time = parsing.parse_game_time(row_data[10])
+            disqualification_time = parsing.parse_game_time(row_data[11])
+            report_time = parsing.parse_game_time(row_data[12])
+            team_suspension_time = parsing.parse_game_time(row_data[13])
 
-        player, created = models.Player.objects.get_or_create(name=player_name, team=team)
-        if created:
-            self.stdout.write('CREATED Player: {}'.format(player))
-
-        models.Score.objects.create(
-            player=player,
-            player_number=player_number,
-            game=game,
-            goals=goals,
-            penalty_goals=penalty_goals,
-            penalty_tries=penalty_tries,
-            warning_time=warning_time,
-            first_suspension_time=first_suspension_time,
-            second_suspension_time=second_suspension_time,
-            third_suspension_time=third_suspension_time,
-            disqualification_time=disqualification_time,
-            report_time=report_time,
-            team_suspension_time=team_suspension_time
-        )
-
-    def divide_player_scores(self, original_name, team):
-        self.stdout.write("DIVIDING Player: {} ({})".format(original_name, team))
-        matches = models.Player.objects.filter(name=original_name, team=team)
-        if matches.exists():
-            original_player = matches[0]
-            for score in original_player.score_set.all():
-                new_name = "{} ({})".format(original_player.name, score.player_number)
-                new_player, created = models.Player.objects.get_or_create(name=new_name, team=original_player.team)
-                if created:
-                    self.stdout.write("CREATED Player: {}".format(new_player))
-                score.player = new_player
-                score.save()
-            if not original_player.score_set.all().exists():
-                self.stdout.write("DELETING Player (no dangling scores): {}".format(original_player))
-                original_player.delete()
-        else:
-            self.stdout.write("SKIPPING Player (not found): {} ({})".format(original_name, team))
-
-
-def parse_penalty_data(text: str) -> (int, int):
-    match = re.match("([0-9]+)/([0-9]+)", text)
-    if match:
-        return match.group(1), match.group(2)
-    return 0, 0
-
-
-def parse_team_names(text: str) -> (int, int):
-    match = re.match("(.+) - (.+)", text)
-    return match.group(1), match.group(2)
+            logic.add_score(game, team, player_name, player_number, goals, penalty_goals, penalty_tries, warning_time,
+                            first_suspension_time, second_suspension_time, third_suspension_time, disqualification_time,
+                            report_time, team_suspension_time, self.stdout.write)

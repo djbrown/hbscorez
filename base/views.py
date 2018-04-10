@@ -1,10 +1,13 @@
+from datetime import datetime
+from datetime import timedelta
+
 from django.db.models import Count, Sum, Q, F
 from django.db.models.functions import TruncMonth, Coalesce
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404
 from icalendar import Calendar, Event, vText
 
-from base.logic import set_place
+from base.logic import add_ranking_place
 from base.models import *
 
 
@@ -70,7 +73,7 @@ def view_league_scorers(request, bhv_id):
         .annotate(average_goals=Coalesce(F('total_goals') / F('games'), 0)) \
         .annotate(average_field_goals=Coalesce(F('total_field_goals') / F('games'), 0)) \
         .order_by('-total_goals')
-    set_place(players, 'total_goals')
+    add_ranking_place(players, 'total_goals')
     return render(request, 'base/league/scorers.html', {'league': league, 'players': players})
 
 
@@ -88,7 +91,7 @@ def view_league_penalties(request, bhv_id):
         .annotate(penalty_points=F('warnings') + 2 * F('suspensions') + 3 * F('disqualifications')) \
         .filter(penalty_points__gt=0) \
         .order_by('-penalty_points')
-    set_place(players, 'penalty_points')
+    add_ranking_place(players, 'penalty_points')
     return render(request, 'base/league/penalties.html', {'league': league, 'players': players})
 
 

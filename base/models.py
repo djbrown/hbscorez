@@ -1,14 +1,12 @@
-import locale
-import re
 import typing
-from datetime import datetime, timedelta
 from enum import Enum, auto
 from pathlib import Path
-from urllib.parse import urlsplit, parse_qs
 
 from django.conf import settings
 from django.db import models
 from django.urls import reverse
+
+from base import source_url
 
 
 class Value(Enum):
@@ -37,7 +35,7 @@ class Association(models.Model):
         return reverse('association', kwargs={'bhv_id': self.bhv_id})
 
     def source_url(self):
-        return 'https://spo.handball4all.de/Spielbetrieb/index.php?orgGrpID={}'.format(self.bhv_id)
+        return source_url.association_url(self.bhv_id)
 
 
 class District(models.Model):
@@ -52,9 +50,7 @@ class District(models.Model):
         return reverse('district', kwargs={'bhv_id': self.bhv_id})
 
     def source_url(self):
-        return 'https://spo.handball4all.de/Spielbetrieb/index.php?orgGrpID={}&orgID={}'.format(
-            self.associations.all()[0].bhv_id,
-            self.bhv_id)
+        return source_url.district_url(self.bhv_id)
 
 
 class League(models.Model):
@@ -67,22 +63,13 @@ class League(models.Model):
         unique_together = (('name', 'district'), ('abbreviation', 'district'))
 
     def __str__(self):
-        return '{} {}'.format(self.bhv_id, self.name)
+        return '{} {}'.format(self.bhv_id, self.abbreviation)
 
     def get_absolute_url(self):
         return reverse('league_overview', kwargs={'bhv_id': self.bhv_id})
 
     def source_url(self):
-        return 'https://spo.handball4all.de/Spielbetrieb/index.php?orgGrpID={}&score={}&all=1'.format(
-            self.district.associations.all()[0].bhv_id, self.bhv_id)
-
-    @staticmethod
-    def is_youth_league(abbreviation, name):
-        return abbreviation[:1] in ['m', 'w', 'g', 'u'] \
-               or re.search('MJ', name) \
-               or re.search('WJ', name) \
-               or re.search('Jugend', name) \
-               or re.search('Mini', name)
+        return source_url.league_source_url(self.bhv_id)
 
 
 class Team(models.Model):
@@ -103,8 +90,7 @@ class Team(models.Model):
         return reverse('team_overview', kwargs={'bhv_id': self.bhv_id, })
 
     def source_url(self):
-        return 'https://spo.handball4all.de/Spielbetrieb/index.php?orgGrpID={}&score={}&teamID={}'.format(
-            self.league.district.associations.all()[0].bhv_id, self.league.bhv_id, self.bhv_id)
+        return source_url.team_source_url(self.league.bhv_id, self.bhv_id)
 
 
 class Player(models.Model):
@@ -130,11 +116,8 @@ class SportsHall(models.Model):
     def __str__(self):
         return "{} {}".format(self.number, self.name)
 
-    @staticmethod
-    def parse_bhv_id(link):
-        href = link.get('href')
-        query = urlsplit(href).query
-        return int(parse_qs(query)['gymID'][0])
+    def source_url(self):
+        return source_url.sports_hall_source_url(self.bhv_id)
 
 
 class GameOutcome(Enum):
@@ -167,7 +150,7 @@ class Game(models.Model):
     def report_url(self):
         if self.report_number is None:
             return None
-        return 'https://spo.handball4all.de/misc/sboPublicReports.php?sGID={}'.format(self.report_number)
+        return source_url.report_url(self.report_number)
 
     def report_path(self):
         return Path(settings.REPORTS_PATH).joinpath(str(self.report_number) + '.pdf')
@@ -218,34 +201,6 @@ class Game(models.Model):
             return self.guest_goals
         return 0
 
-    @staticmethod
-    def parse_opening_whistle(text) -> typing.Optional[datetime]:
-        if not text.strip():
-            return None
-        locale.setlocale(locale.LC_ALL, "de_DE.UTF-8")
-        if len(text) == 12:
-            return datetime.strptime(text, '%a, %d.%m.%y')
-        elif len(text) == 20:
-            return datetime.strptime(text, '%a, %d.%m.%y, %H:%Mh')
-        else:
-            raise Exception()
-
-    @staticmethod
-    def parse_report_number(cell):
-        if len(cell) == 1 and cell[0].text == 'PI':
-            href = cell[0].get('href')
-            query = urlsplit(href).query
-            return int(parse_qs(query)['sGID'][0])
-        else:
-            return None
-
-    @staticmethod
-    def parse_forfeiting_team(cell, home_team, guest_team):
-        if cell.text == " (2:0)":
-            return guest_team
-        if cell.text == " (0:2)":
-            return home_team
-
 
 class Score(models.Model):
     player = models.ForeignKey(Player)
@@ -267,11 +222,3 @@ class Score(models.Model):
 
     def __str__(self):
         return '{} {} ({})'.format(self.game.number, self.player.name, self.player_number)
-
-    @staticmethod
-    def parse_game_time(text: str) -> typing.Optional[timedelta]:
-        if not text:
-            return None
-
-        minutes, seconds = text.split(':')
-        return timedelta(minutes=int(minutes), seconds=int(seconds))
