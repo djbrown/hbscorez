@@ -7,7 +7,7 @@ def association_url(bhv_id):
 
 
 def district_url(bhv_id):
-    'https://spo.handball4all.de/Spielbetrieb/index.php?orgGrpID=1&orgID={}'.format(bhv_id)
+    return 'https://spo.handball4all.de/Spielbetrieb/index.php?orgGrpID=1&orgID={}'.format(bhv_id)
 
 
 def league_source_url(bhv_id):
