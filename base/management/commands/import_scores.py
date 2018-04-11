@@ -13,7 +13,7 @@ from base.middleware import env
 
 class Command(BaseCommand):
     options = {}
-    bugged_reports = [497475, 567811, 562543, 546059, 627428, 501159]
+    bugged_reports = [450001, 497475, 501159, 546059, 562543, 567811, 627428]
 
     def add_arguments(self, parser):
         parser.add_argument('--force-update', '-f', action='store_true',
