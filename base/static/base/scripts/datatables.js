@@ -110,15 +110,14 @@ $(document).ready(function() {
                 }
                 else {
                     // last item on this page is in past, try next page
-                    table.page("next").draw("page");
                     continue;
                 }
             }
-            // rowNumber starting from 2 (start with secon row)
-            for (let rowNumber = 2; rowNumber < table.page.info().length - 1; rowNumber++) {
+            // find first date greater than today, then highlight previous row
+            for (let rowNumber = 2; rowNumber <= table.page.info().length; rowNumber++) {
                 const date = moment(nthDateCell(rowNumber).text(), "DD.MM.YYYY");
                 if (today < date) {
-                    // last item is the most recent item
+                    // previous item is the most recent item
                     highlightRow(nthDateCell(rowNumber - 1));
                     return;
                 }
