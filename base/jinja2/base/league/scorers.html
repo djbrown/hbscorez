@@ -56,8 +56,8 @@
             <td>{{ player.total_goals }}</td>
             <td>{{ player.total_penalty_goals }}</td>
             <td>{{ player.total_field_goals }}</td>
-            <td>{{ '%0.2f'| format(player.average_goals) }}</td>
-            <td>{{ '%0.2f'| format(player.average_field_goals) }}</td>
+            <td>{{ '%0.2f'| format(player.total_goals / player.games) }}</td>
+            <td>{{ '%0.2f'| format(player.total_field_goals / player.games) }}</td>
         </tr>
         {% endfor %}
         </tbody>

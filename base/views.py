@@ -1,7 +1,7 @@
 from datetime import datetime
 from datetime import timedelta
 
-from django.db.models import Count, Sum, Q, F
+from django.db.models import Count, Sum, Q, F, ExpressionWrapper, FloatField
 from django.db.models.functions import TruncMonth, Coalesce
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404
@@ -65,13 +65,12 @@ def view_league_scorers(request, bhv_id):
     league = get_object_or_404(League, bhv_id=bhv_id)
     players = Player.objects \
         .filter(team__league=league) \
+        .annotate(games=Count('score')) \
+        .filter(games__gt=0) \
         .annotate(total_goals=Coalesce(Sum('score__goals'), 0)) \
         .filter(total_goals__gt=0) \
-        .annotate(games=Count('score')) \
-        .annotate(total_penalty_goals=Coalesce(Sum('score__penalty_goals'), 0)) \
+        .annotate(total_penalty_goals=Sum('score__penalty_goals')) \
         .annotate(total_field_goals=F('total_goals') - F('total_penalty_goals')) \
-        .annotate(average_goals=Coalesce(F('total_goals') / F('games'), 0)) \
-        .annotate(average_field_goals=Coalesce(F('total_field_goals') / F('games'), 0)) \
         .order_by('-total_goals')
     add_ranking_place(players, 'total_goals')
     return render(request, 'base/league/scorers.html', {'league': league, 'players': players})
