@@ -56,7 +56,7 @@ class District(models.Model):
 class League(models.Model):
     name = models.TextField()
     abbreviation = models.TextField()
-    district = models.ForeignKey(District)
+    district = models.ForeignKey(District, on_delete=models.CASCADE)
     bhv_id = models.IntegerField(unique=True)
 
     class Meta:
@@ -75,7 +75,7 @@ class League(models.Model):
 class Team(models.Model):
     name = models.TextField()
     short_name = models.TextField()
-    league = models.ForeignKey(League)
+    league = models.ForeignKey(League, on_delete=models.CASCADE)
     bhv_id = models.IntegerField(unique=True)
 
     # logo = models.ImageField(upload_to=os.path.join(settings.MEDIA_ROOT, 'club-logos'))
@@ -95,7 +95,7 @@ class Team(models.Model):
 
 class Player(models.Model):
     name = models.TextField()
-    team = models.ForeignKey(Team)
+    team = models.ForeignKey(Team, on_delete=models.CASCADE)
 
     def __str__(self):
         return '{} {}'.format(self.name, self.team.short_name)
@@ -134,15 +134,15 @@ class TeamOutCome(Enum):
 
 class Game(models.Model):
     number = models.IntegerField(unique=True)
-    league = models.ForeignKey(League)
+    league = models.ForeignKey(League, on_delete=models.CASCADE)
     opening_whistle = models.DateTimeField(blank=True, null=True)
-    sports_hall = models.ForeignKey(SportsHall, blank=True, null=True)
-    home_team = models.ForeignKey(Team, related_name='home_team')
-    guest_team = models.ForeignKey(Team, related_name='guest_team')
+    sports_hall = models.ForeignKey(SportsHall, on_delete=models.CASCADE, blank=True, null=True)
+    home_team = models.ForeignKey(Team, on_delete=models.CASCADE, related_name='home_team')
+    guest_team = models.ForeignKey(Team, on_delete=models.CASCADE, related_name='guest_team')
     home_goals = models.IntegerField(blank=True, null=True)
     guest_goals = models.IntegerField(blank=True, null=True)
     report_number = models.IntegerField(unique=True, blank=True, null=True)
-    forfeiting_team = models.ForeignKey(Team, blank=True, null=True, related_name='forfeiting_team')
+    forfeiting_team = models.ForeignKey(Team, on_delete=models.CASCADE, blank=True, null=True, related_name='forfeiting_team')
 
     def __str__(self):
         return '{} {} vs. {}'.format(self.number, self.home_team.short_name, self.guest_team.short_name)
@@ -203,9 +203,9 @@ class Game(models.Model):
 
 
 class Score(models.Model):
-    player = models.ForeignKey(Player)
+    player = models.ForeignKey(Player, on_delete=models.CASCADE)
     player_number = models.IntegerField(blank=True, null=True)
-    game = models.ForeignKey(Game)
+    game = models.ForeignKey(Game, on_delete=models.CASCADE)
     goals = models.IntegerField()
     penalty_goals = models.IntegerField()
     penalty_tries = models.IntegerField()
