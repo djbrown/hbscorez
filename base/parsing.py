@@ -80,7 +80,7 @@ def parse_goals(game_row) -> (int, int):
 
 
 def parse_report_number(cell):
-    if len(cell) == 1 and cell[0].text == 'PI':
+    if len(cell) >= 1 and cell[0].text == 'PI':
         href = cell[0].get('href')
         query = urlsplit(href).query
         return int(parse_qs(query)['sGID'][0])
