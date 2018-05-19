@@ -4,7 +4,7 @@
 
 /* Move down content because we have a fixed navbar that is 50px tall */
 body {
-  padding-top: 50px;
+    padding-top: 50px;
 }
 
 #spinner {
@@ -13,8 +13,12 @@ body {
 }
 
 @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
 }
 
 .breadcrumb-item-part + .breadcrumb-item-part::before {
@@ -25,7 +29,7 @@ body {
 }
 
 nav.nav-pills > a {
-  border: 1px solid #007bff;
+    border: 1px solid #007bff;
 }
 
 /*
@@ -45,55 +49,55 @@ h1 {
  */
 
 .sidebar {
-  position: fixed;
-  top: 51px;
-  bottom: 0;
-  left: 0;
-  z-index: 1000;
-  padding: 20px;
-  overflow-x: hidden;
-  overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
-  border-right: 1px solid #eee;
+    position: fixed;
+    top: 51px;
+    bottom: 0;
+    left: 0;
+    z-index: 1000;
+    padding: 20px;
+    overflow-x: hidden;
+    overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
+    border-right: 1px solid #eee;
 }
 
 /* Sidebar navigation */
 .sidebar {
-  padding-left: 0;
-  padding-right: 0;
+    padding-left: 0;
+    padding-right: 0;
 }
 
 .sidebar .nav {
-  margin-bottom: 20px;
+    margin-bottom: 20px;
 }
 
 .sidebar .nav-item {
-  width: 100%;
+    width: 100%;
 }
 
 .sidebar .nav-item + .nav-item {
-  margin-left: 0;
+    margin-left: 0;
 }
 
 .sidebar .nav-link {
-  border-radius: 0;
+    border-radius: 0;
 }
 
 /*
  * Dashboard
  */
 
- /* Placeholders */
+/* Placeholders */
 .placeholders {
-  padding-bottom: 3rem;
+    padding-bottom: 3rem;
 }
 
 .placeholder img {
-  padding-top: 1.5rem;
-  padding-bottom: 1.5rem;
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
 }
 
 .placeholder a {
-  white-space: normal;
+    white-space: normal;
 }
 
 /*

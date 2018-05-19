@@ -1,40 +1,40 @@
-$(document).ready(function() {
+$(document).ready(function () {
     $.fn.dataTable.moment('DD.MM.YYYY');
-
     const $table = $('#data-table');
-    function initTable(paging=true) {
+
+    function initTable(paging = true) {
         return $table.DataTable({
             "paging": paging,
             "colReorder": true,
             "language": {
                 //"url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/German.json"
-                "sEmptyTable":      "Keine Daten in der Tabelle vorhanden",
-                "sInfo":            "_START_ bis _END_ von _TOTAL_ Einträgen",
-                "sInfoEmpty":       "0 bis 0 von 0 Einträgen",
-                "sInfoFiltered":    "(gefiltert von _MAX_ Einträgen)",
-                "sInfoPostFix":     "",
-                "sInfoThousands":   ".",
-                "sLengthMenu":      "_MENU_ Einträge anzeigen",
-                "sLoadingRecords":  "Wird geladen...",
-                "sProcessing":      "Bitte warten...",
-                "sSearch":          "Suchen",
-                "sZeroRecords":     "Keine Einträge vorhanden.",
+                "sEmptyTable": "Keine Daten in der Tabelle vorhanden",
+                "sInfo": "_START_ bis _END_ von _TOTAL_ Einträgen",
+                "sInfoEmpty": "0 bis 0 von 0 Einträgen",
+                "sInfoFiltered": "(gefiltert von _MAX_ Einträgen)",
+                "sInfoPostFix": "",
+                "sInfoThousands": ".",
+                "sLengthMenu": "_MENU_ Einträge anzeigen",
+                "sLoadingRecords": "Wird geladen...",
+                "sProcessing": "Bitte warten...",
+                "sSearch": "Suchen",
+                "sZeroRecords": "Keine Einträge vorhanden.",
                 "oPaginate": {
-                    "sFirst":       "Erste",
-                    "sPrevious":    "Zurück",
-                    "sNext":        "Nächste",
-                    "sLast":        "Letzte"
+                    "sFirst": "Erste",
+                    "sPrevious": "Zurück",
+                    "sNext": "Nächste",
+                    "sLast": "Letzte"
                 },
                 "oAria": {
-                    "sSortAscending":  ": aktivieren, um Spalte aufsteigend zu sortieren",
+                    "sSortAscending": ": aktivieren, um Spalte aufsteigend zu sortieren",
                     "sSortDescending": ": aktivieren, um Spalte absteigend zu sortieren"
                 },
                 select: {
-                        rows: {
+                    rows: {
                         _: '%d Zeilen ausgewählt',
                         0: 'Zum Auswählen auf eine Zeile klicken',
                         1: '1 Zeile ausgewählt'
-                        }
+                    }
                 }
             }
         });
@@ -46,26 +46,30 @@ $(document).ready(function() {
     $(".table-responsive").prepend($buttonRow);
 
     const $paginationToggle = $('<button class="btn btn-secondary mb-2" data-toggle="button"></button>');
+
     function isPagingActive() {
         return table.init()['bPaginate'];
     }
+
     function updateToggleText() {
         const newText = isPagingActive() ? "alle anzeigen" : "seitenweise anzeigen";
         $paginationToggle.text(newText);
     }
+
     updateToggleText();
-    $paginationToggle.click(e => {
-        table.destroy()
+    $paginationToggle.click(() => {
+        table.destroy();
         table = initTable(!isPagingActive());
         updateToggleText();
     });
     $buttonRow.append($paginationToggle);
 
     const dateColumnIndex = $("thead > tr > th:contains('Datum')", $table).index() - 1;
+
     /**
-      * @param n number of the target dates row, starting with 1 for the first row<br/>
-      *          negative n are counted from the end, starting with -1 for the last row
-      */
+     * @param n number of the target dates row, starting with 1 for the first row<br/>
+     *          negative n are counted from the end, starting with -1 for the last row
+     */
     function nthDateCell(n) {
         if (n < 0) {
             return $(`tbody > tr:nth-last-child(${Math.abs(n)}) > td:eq(${dateColumnIndex})`, $table);
@@ -74,6 +78,7 @@ $(document).ready(function() {
             return $(`tbody > tr:nth-child(${n}) > td:eq(${dateColumnIndex})`, $table);
         }
     }
+
     function highlightRow($element) {
         const offset = $element.offset();
         offset.left -= 20;
@@ -84,6 +89,7 @@ $(document).ready(function() {
         });
         $element.parent().addClass("table-info");
     }
+
     function highlightMostRecentItem(today = moment()) {
         table.order([dateColumnIndex, "asc"]).draw();
         for (let pageIndex = 0; pageIndex < table.page.info().pages; pageIndex++) {
@@ -103,7 +109,7 @@ $(document).ready(function() {
             }
             const lastDate = moment(nthDateCell(-1).text(), "DD.MM.YYYY");
             if (today >= lastDate) {
-                if (pageIndex  === table.page.info().pages - 1) {
+                if (pageIndex === table.page.info().pages - 1) {
                     // last item on this last page is most recent item
                     highlightRow(nthDateCell(-1));
                     return;
@@ -124,6 +130,7 @@ $(document).ready(function() {
             }
         }
     }
+
     if (dateColumnIndex >= 0) {
         const $btnToday = $('<button class="btn btn-secondary mb-2 ml-2">heute <i class="fa fa-arrow-down"></i></button>');
         const query = `tbody > tr > td:eq(${dateColumnIndex})`;
@@ -131,4 +138,4 @@ $(document).ready(function() {
         $buttonRow.append($btnToday);
     }
 
-} );
+});
