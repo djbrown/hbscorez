@@ -38,33 +38,34 @@ def view_district(request, bhv_id):
     return render(request, 'base/district.html', {'district': district})
 
 
-# LEAGUE #
+# LEAGUE SEASON #
 
-def view_league_overview(request, bhv_id):
-    league = get_object_or_404(League, bhv_id=bhv_id)
-    return render(request, 'base/league/overview.html', {'league': league})
-
-
-def view_league_teams(request, bhv_id):
-    league = get_object_or_404(League, bhv_id=bhv_id)
-    return render(request, 'base/league/teams.html', {'league': league})
+def view_league_season_overview(request, bhv_id):
+    league_season = get_object_or_404(LeagueSeason, bhv_id=bhv_id)
+    return render(request, 'base/league_season/overview.html', {'league_season': league_season})
 
 
-def view_league_games(request, bhv_id):
-    league = get_object_or_404(League, bhv_id=bhv_id)
-    games = league.game_set \
+def view_league_season_teams(request, bhv_id):
+    league_season = get_object_or_404(LeagueSeason, bhv_id=bhv_id)
+    return render(request, 'base/league_season/teams.html', {'league_season': league_season})
+
+
+def view_league_season_games(request, bhv_id):
+    league_season = get_object_or_404(LeagueSeason, bhv_id=bhv_id)
+    games = league_season.game_set \
         .annotate(month=TruncMonth('opening_whistle')) \
         .order_by('opening_whistle')
     games_by_month = {}
     for game in games:
         games_by_month.setdefault(game.month, []).append(game)
-    return render(request, 'base/league/games.html', {'league': league, 'games_by_month': games_by_month})
+    return render(request, 'base/league_season/games.html',
+                  {'league_season': league_season, 'games_by_month': games_by_month})
 
 
-def view_league_scorers(request, bhv_id):
-    league = get_object_or_404(League, bhv_id=bhv_id)
+def view_league_season_scorers(request, bhv_id):
+    league_season = get_object_or_404(LeagueSeason, bhv_id=bhv_id)
     players = Player.objects \
-        .filter(team__league=league) \
+        .filter(team__league_season=league_season) \
         .annotate(games=Count('score')) \
         .filter(games__gt=0) \
         .annotate(total_goals=Coalesce(Sum('score__goals'), 0)) \
@@ -73,13 +74,13 @@ def view_league_scorers(request, bhv_id):
         .annotate(total_field_goals=F('total_goals') - F('total_penalty_goals')) \
         .order_by('-total_goals')
     add_ranking_place(players, 'total_goals')
-    return render(request, 'base/league/scorers.html', {'league': league, 'players': players})
+    return render(request, 'base/league_season/scorers.html', {'league_season': league_season, 'players': players})
 
 
-def view_league_penalties(request, bhv_id):
-    league = get_object_or_404(League, bhv_id=bhv_id)
+def view_league_season_penalties(request, bhv_id):
+    league_season = get_object_or_404(LeagueSeason, bhv_id=bhv_id)
     players = Player.objects \
-        .filter(team__league=league) \
+        .filter(team__league_season=league_season) \
         .annotate(games=Count('score')) \
         .annotate(warnings=Count('score__warning_time')) \
         .annotate(suspensions=
@@ -91,10 +92,10 @@ def view_league_penalties(request, bhv_id):
         .filter(penalty_points__gt=0) \
         .order_by('-penalty_points')
     add_ranking_place(players, 'penalty_points')
-    return render(request, 'base/league/penalties.html', {'league': league, 'players': players})
+    return render(request, 'base/league_season/penalties.html', {'league_season': league_season, 'players': players})
 
 
-def view_league_calendar(request, bhv_id):
+def view_league_season_calendar(request, bhv_id):
     return HttpResponse(status=501)
 
 
@@ -127,10 +128,11 @@ def view_team_calendar(request, bhv_id):
     cal.add('VERSION', '2.0')
     cal.add('CALSCALE', 'GREGORIAN')
     cal.add('METHOD', 'PUBLISH')
-    cal.add('X-WR-CALNAME', 'Spielplan {} {}'.format(team.league.abbreviation, team.short_name))
+    cal.add('X-WR-CALNAME', 'Spielplan {} {}'.format(team.league_season.league.abbreviation, team.short_name))
     cal.add('X-WR-TIMEZONE', 'Europe/Berlin')
-    cal.add('X-WR-CALDESC', 'Spielplan der Mannschaft "{}" in der Saison 2018 in der Liga "{}" des Bereichs "{}"'
-            .format(team.name, team.league.name, team.league.district.name))
+    cal.add('X-WR-CALDESC', 'Spielplan der Mannschaft "{}" in der Saison {}/{} in der Liga "{}" des Bereichs "{}"'
+            .format(team.name, team.league_season.season.year, team.league_season.season.year + 1,
+                    team.league_season.league.name, team.league_season.league.district.name))
 
     [cal.add_component(create_event(team, game)) for game in games]
 

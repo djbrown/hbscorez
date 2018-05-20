@@ -3,6 +3,7 @@ from enum import Enum, auto
 from pathlib import Path
 
 from django.conf import settings
+from django.core import validators
 from django.db import models
 from django.urls import reverse
 
@@ -57,31 +58,51 @@ class League(models.Model):
     name = models.TextField()
     abbreviation = models.TextField()
     district = models.ForeignKey(District, on_delete=models.CASCADE)
-    bhv_id = models.IntegerField(unique=True)
 
     class Meta:
         unique_together = (('name', 'district'), ('abbreviation', 'district'))
 
     def __str__(self):
-        return '{} {}'.format(self.bhv_id, self.abbreviation)
+        return self.name
 
     def get_absolute_url(self):
-        return reverse('league_overview', kwargs={'bhv_id': self.bhv_id})
+        return reverse('league', kwargs={'pk': self.pk})
+
+
+class Season(models.Model):
+    year = models.PositiveIntegerField(unique=True, validators=[
+        validators.MinValueValidator(2010),
+        validators.MaxValueValidator(2050)])
+
+    def __str__(self):
+        return '{}/{}'.format(self.year, self.year + 1)
+
+
+class LeagueSeason(models.Model):
+    league = models.ForeignKey(League, on_delete=models.CASCADE)
+    season = models.ForeignKey(Season, on_delete=models.CASCADE)
+    bhv_id = models.IntegerField(unique=True)
+
+    def __str__(self):
+        return '{} {}'.format(self.league, self.season)
+
+    def get_absolute_url(self):
+        return reverse('league_season_overview', kwargs={'bhv_id': self.bhv_id})
 
     def source_url(self):
-        return source_url.league_source_url(self.bhv_id)
+        return source_url.league_season_source_url(self.bhv_id)
 
 
 class Team(models.Model):
     name = models.TextField()
     short_name = models.TextField()
-    league = models.ForeignKey(League, on_delete=models.CASCADE)
+    league_season = models.ForeignKey(LeagueSeason, on_delete=models.CASCADE)
     bhv_id = models.IntegerField(unique=True)
 
     # logo = models.ImageField(upload_to=os.path.join(settings.MEDIA_ROOT, 'club-logos'))
 
     class Meta:
-        unique_together = (('name', 'league'), ('short_name', 'league'))
+        unique_together = (('name', 'league_season'), ('short_name', 'league_season'))
 
     def __str__(self):
         return '{} {}'.format(self.bhv_id, self.short_name)
@@ -90,7 +111,7 @@ class Team(models.Model):
         return reverse('team_overview', kwargs={'bhv_id': self.bhv_id, })
 
     def source_url(self):
-        return source_url.team_source_url(self.league.bhv_id, self.bhv_id)
+        return source_url.team_source_url(self.league_season.bhv_id, self.bhv_id)
 
 
 class Player(models.Model):
@@ -134,7 +155,7 @@ class TeamOutCome(Enum):
 
 class Game(models.Model):
     number = models.IntegerField(unique=True)
-    league = models.ForeignKey(League, on_delete=models.CASCADE)
+    league_season = models.ForeignKey(LeagueSeason, on_delete=models.CASCADE)
     opening_whistle = models.DateTimeField(blank=True, null=True)
     sports_hall = models.ForeignKey(SportsHall, on_delete=models.CASCADE, blank=True, null=True)
     home_team = models.ForeignKey(Team, on_delete=models.CASCADE, related_name='home_team')
@@ -142,7 +163,8 @@ class Game(models.Model):
     home_goals = models.IntegerField(blank=True, null=True)
     guest_goals = models.IntegerField(blank=True, null=True)
     report_number = models.IntegerField(unique=True, blank=True, null=True)
-    forfeiting_team = models.ForeignKey(Team, on_delete=models.CASCADE, blank=True, null=True, related_name='forfeiting_team')
+    forfeiting_team = models.ForeignKey(Team, on_delete=models.CASCADE, blank=True, null=True,
+                                        related_name='forfeiting_team')
 
     def __str__(self):
         return '{} {} vs. {}'.format(self.number, self.home_team.short_name, self.guest_team.short_name)
