@@ -157,7 +157,6 @@ class Command(BaseCommand):
         else:
             self.stdout.write('EXISTING League Season: {}'.format(league_season))
 
-        return
         for team_link in team_links:
             self.create_team(team_link, league_season)
 
