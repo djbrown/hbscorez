@@ -4,7 +4,7 @@ from django.test import TestCase
 from base import models
 
 
-class ParseReportNumberTest(TestCase):
+class SetupTest(TestCase):
 
     def assert_single_object(self, model):
         objects = model.objects.all()
@@ -20,7 +20,7 @@ class ParseReportNumberTest(TestCase):
         self.assertEqual(association.name, "Badischer Handball-Verband")
 
     def test__setup__district(self):
-        return_code = call_command('setup', '-a 35', '-d 35', '-l 0')
+        return_code = call_command('setup', '-a 35', '-d 35', '-s 0')
         self.assertEqual(return_code, None)
         district = self.assert_single_object(models.District)
         self.assertEqual(district.bhv_id, 35)
