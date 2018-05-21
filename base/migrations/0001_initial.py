@@ -39,30 +39,23 @@ class Migration(migrations.Migration):
             ],
         ),
         migrations.CreateModel(
-            name='League',
-            fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.TextField()),
-                ('abbreviation', models.TextField()),
-                ('district', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='base.District')),
-            ],
-        ),
-        migrations.CreateModel(
             name='Season',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('year', models.PositiveIntegerField(unique=True,
+                ('start_year', models.PositiveIntegerField(unique=True,
                                                      validators=[django.core.validators.MinValueValidator(2010),
                                                                  django.core.validators.MaxValueValidator(2050)])),
             ],
         ),
         migrations.CreateModel(
-            name='LeagueSeason',
+            name='League',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('season', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='base.Season')),
+                ('name', models.TextField()),
+                ('abbreviation', models.TextField()),
                 ('bhv_id', models.IntegerField(unique=True)),
-                ('league', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='base.League')),
+                ('district', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='base.District')),
+                ('season', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='base.Season')),
             ],
         ),
         migrations.CreateModel(
@@ -72,8 +65,7 @@ class Migration(migrations.Migration):
                 ('name', models.TextField()),
                 ('short_name', models.TextField()),
                 ('bhv_id', models.IntegerField(unique=True)),
-                ('league_season', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE,
-                                                    to='base.LeagueSeason')),
+                ('league', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='base.League')),
             ],
         ),
         migrations.CreateModel(
@@ -102,8 +94,8 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('number', models.IntegerField(unique=True)),
-                ('league_season', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE,
-                                                    to='base.LeagueSeason')),
+                ('league', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE,
+                                             to='base.League')),
                 ('opening_whistle', models.DateTimeField(blank=True, null=True)),
                 ('sports_hall', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE,
                                                   to='base.SportsHall')),
@@ -140,7 +132,7 @@ class Migration(migrations.Migration):
         ),
         migrations.AlterUniqueTogether(
             name='team',
-            unique_together={('short_name', 'league_season'), ('name', 'league_season')},
+            unique_together={('short_name', 'league'), ('name', 'league')},
         ),
         migrations.AlterUniqueTogether(
             name='score',

@@ -9,7 +9,7 @@ from base.models import *
 
 associations_dict = {'queryset': Association.objects.get_queryset().order_by('pk')}
 districts_dict = {'queryset': District.objects.get_queryset().order_by('pk')}
-league_seasons_dict = {'queryset': LeagueSeason.objects.get_queryset().order_by('pk')}
+leagues_dict = {'queryset': League.objects.get_queryset().order_by('pk')}
 teams_dict = {'queryset': Team.objects.get_queryset().order_by('pk')}
 players_dict = {'queryset': Player.objects.get_queryset().order_by('pk')}
 
@@ -18,7 +18,7 @@ urlpatterns = [
     url(r'^sitemap\.xml$', sitemap, {'sitemaps': {
         'associations': GenericSitemap(associations_dict),
         'districts': GenericSitemap(districts_dict),
-        'league_seasons': GenericSitemap(league_seasons_dict),
+        'leagues': GenericSitemap(leagues_dict),
         'teams': GenericSitemap(teams_dict),
         'players': GenericSitemap(players_dict),
     }}, name='django.contrib.sitemaps.views.sitemap'),

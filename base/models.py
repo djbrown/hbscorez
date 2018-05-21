@@ -36,7 +36,7 @@ class Association(models.Model):
         return reverse('association', kwargs={'bhv_id': self.bhv_id})
 
     def source_url(self):
-        return source_url.association_url(self.bhv_id)
+        return source_url.association_source_url(self.bhv_id)
 
 
 class District(models.Model):
@@ -51,58 +51,48 @@ class District(models.Model):
         return reverse('district', kwargs={'bhv_id': self.bhv_id})
 
     def source_url(self):
-        return source_url.district_url(self.bhv_id)
+        return source_url.district_source_url(self.bhv_id)
+
+
+class Season(models.Model):
+    start_year = models.PositiveIntegerField(unique=True, validators=[
+        validators.MinValueValidator(2010),
+        validators.MaxValueValidator(2050)])
+
+    def __str__(self):
+        return '{}/{}'.format(self.start_year, self.start_year + 1)
 
 
 class League(models.Model):
     name = models.TextField()
     abbreviation = models.TextField()
     district = models.ForeignKey(District, on_delete=models.CASCADE)
+    season = models.ForeignKey(Season, on_delete=models.CASCADE)
+    bhv_id = models.IntegerField(unique=True)
 
     class Meta:
         unique_together = (('name', 'district'), ('abbreviation', 'district'))
 
     def __str__(self):
-        return self.name
+        return '{} {}'.format(self.name, self.season)
 
     def get_absolute_url(self):
-        return reverse('league', kwargs={'pk': self.pk})
-
-
-class Season(models.Model):
-    year = models.PositiveIntegerField(unique=True, validators=[
-        validators.MinValueValidator(2010),
-        validators.MaxValueValidator(2050)])
-
-    def __str__(self):
-        return '{}/{}'.format(self.year, self.year + 1)
-
-
-class LeagueSeason(models.Model):
-    league = models.ForeignKey(League, on_delete=models.CASCADE)
-    season = models.ForeignKey(Season, on_delete=models.CASCADE)
-    bhv_id = models.IntegerField(unique=True)
-
-    def __str__(self):
-        return '{} {}'.format(self.league, self.season)
-
-    def get_absolute_url(self):
-        return reverse('league_season_overview', kwargs={'bhv_id': self.bhv_id})
+        return reverse('league_overview', kwargs={'bhv_id': self.bhv_id})
 
     def source_url(self):
-        return source_url.league_season_source_url(self.bhv_id)
+        return source_url.league_source_url(self.bhv_id)
 
 
 class Team(models.Model):
     name = models.TextField()
     short_name = models.TextField()
-    league_season = models.ForeignKey(LeagueSeason, on_delete=models.CASCADE)
+    league = models.ForeignKey(League, on_delete=models.CASCADE)
     bhv_id = models.IntegerField(unique=True)
 
     # logo = models.ImageField(upload_to=os.path.join(settings.MEDIA_ROOT, 'club-logos'))
 
     class Meta:
-        unique_together = (('name', 'league_season'), ('short_name', 'league_season'))
+        unique_together = (('name', 'league'), ('short_name', 'league'))
 
     def __str__(self):
         return '{} {}'.format(self.bhv_id, self.short_name)
@@ -111,7 +101,7 @@ class Team(models.Model):
         return reverse('team_overview', kwargs={'bhv_id': self.bhv_id, })
 
     def source_url(self):
-        return source_url.team_source_url(self.league_season.bhv_id, self.bhv_id)
+        return source_url.team_source_url(self.league.bhv_id, self.bhv_id)
 
 
 class Player(models.Model):
@@ -155,7 +145,7 @@ class TeamOutCome(Enum):
 
 class Game(models.Model):
     number = models.IntegerField(unique=True)
-    league_season = models.ForeignKey(LeagueSeason, on_delete=models.CASCADE)
+    league = models.ForeignKey(League, on_delete=models.CASCADE)
     opening_whistle = models.DateTimeField(blank=True, null=True)
     sports_hall = models.ForeignKey(SportsHall, on_delete=models.CASCADE, blank=True, null=True)
     home_team = models.ForeignKey(Team, on_delete=models.CASCADE, related_name='home_team')
@@ -172,7 +162,7 @@ class Game(models.Model):
     def report_url(self):
         if self.report_number is None:
             return None
-        return source_url.report_url(self.report_number)
+        return source_url.report_source_url(self.report_number)
 
     def report_path(self):
         return Path(settings.REPORTS_PATH).joinpath(str(self.report_number) + '.pdf')

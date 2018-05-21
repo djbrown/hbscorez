@@ -26,16 +26,18 @@ class ParseReportNumberTest(TestCase):
         self.assertEqual(district.bhv_id, 35)
         self.assertEqual(district.name, "BHV-Ligen")
 
+    def test__setup__season(self):
+        return_code = call_command('setup', '-a 35', '-d 35', '-s 2017', '-l 0')
+        self.assertEqual(return_code, None)
+
+        season = self.assert_single_object(models.Season)
+        self.assertEqual(season.start_year, 2017)
+
     def test__setup__league(self):
-        return_code = call_command('setup', '-a 35', '-d 35', '-l 26777')
+        return_code = call_command('setup', '-a 35', '-d 35', '-s 2017', '-l 26777')
         self.assertEqual(return_code, None)
 
         league = self.assert_single_object(models.League)
         self.assertEqual(league.name, "Verbandsliga Männer")
         self.assertEqual(league.abbreviation, "M-VL")
-
-        season = self.assert_single_object(models.Season)
-        self.assertEqual(season.year, 2017)
-
-        league_season = self.assert_single_object(models.LeagueSeason)
-        self.assertEqual(league_season.bhv_id, 26777)
+        self.assertEqual(league.bhv_id, 26777)

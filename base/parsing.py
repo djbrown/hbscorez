@@ -19,12 +19,12 @@ def parse_district_link_date(link):
     return parse_link_query_item(link, 'do')
 
 
-def parse_league_season_bhv_id(link):
+def parse_league_bhv_id(link):
     return int(parse_link_query_item(link, 'score'))
 
 
-def parse_district_season_year(district_season_link):
-    matches = re.search("( \d{4})/(\d{4})", district_season_link.text)
+def parse_district_season_start_year(district_season_heading):
+    matches = re.search("( \d{4})/(\d{4})", district_season_heading.text)
     return int(matches.group(1))
 
 
@@ -86,9 +86,9 @@ def parse_goals(game_row) -> (int, int):
     return home_goals, guest_goals
 
 
-def parse_report_number(link):
-    if len(link) >= 1 and link[0].text == 'PI':
-        return int(parse_link_query_item(link, 'sGID'))
+def parse_report_number(cell):
+    if len(cell) >= 1 and cell[0].text == 'PI':
+        return int(parse_link_query_item(cell[0], 'sGID'))
     else:
         return None
 

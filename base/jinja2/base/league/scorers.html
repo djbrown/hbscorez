@@ -1,6 +1,6 @@
-{% extends 'base/league_season/base.html' %}
-{% block title %}Strafen - {{ super() }}{% endblock %}
-{% block description %}Ranking der Spieler mit den meisten Strafen in der Liga {{ league.name }}{% endblock %}
+{% extends 'base/league/base.html' %}
+{% block title %}Schützen - {{ super() }}{% endblock %}
+{% block description %}Torschützenranking in der Liga '{{ league.name }}' des Bereichs '{{ league.district.name }}'{% endblock %}
 {% block styles %}
 {{ super() }}
 <!-- DataTables Builder: Bootstrap 4, DataTables, ColReorder, FixedColumns, FixedHeader -->
@@ -13,19 +13,17 @@
     <a class="nav-item nav-link m-1" href="{{ url('league_overview', args=[league.bhv_id]) }}">Übersicht</a>
     <a class="nav-item nav-link m-1" href="{{ url('league_teams', args=[league.bhv_id]) }}">Mannschaften</a>
     <a class="nav-item nav-link m-1" href="{{ url('league_games', args=[league.bhv_id]) }}">Spiele</a>
-    <a class="nav-item nav-link m-1" href="{{ url('league_scorers', args=[league.bhv_id]) }}">Schützen</a>
-    <a class="nav-item nav-link m-1 active" href="#/">Strafen</a>
+    <a class="nav-item nav-link m-1 active" href="#/">Schützen</a>
+    <a class="nav-item nav-link m-1" href="{{ url('league_penalties', args=[league.bhv_id]) }}">Strafen</a>
 </nav>
-<h2>Strafen
+<h2>Schützen
     <button class="btn btn-outline-primary" type="button" data-toggle="collapse" data-target="#penalty-info"><i
             class="fa fa-info-circle"></i>
     </button>
 </h2>
 <div class="collapse mb-2" id="penalty-info">
     <div class="card card-body">
-        Bei der Berechnung der Punktezahl werden Gelbe Karten einfach, 2-Minuten doppelt und Rote Karten dreifach
-        aufaddiert.<br/>
-        Spieler, die keine Strafe erhalten haben, werden in der Tabelle nicht angezeigt.
+        Spieler, die keine Tore erzielt haben, werden in der Tabelle nicht angezeigt.
     </div>
 </div>
 <div class="table-responsive">
@@ -36,10 +34,11 @@
             <th>Name</th>
             <th>Mannschaft</th>
             <th>Sp.</th>
-            <th>Pkt.</th>
-            <th>Gelb</th>
-            <th>2min</th>
-            <th>Rot</th>
+            <th>Tore</th>
+            <th>7m</th>
+            <th>Feldt.</th>
+            <th>Tore &Oslash;</th>
+            <th>Feldt. &Oslash;</th>
         </tr>
         </thead>
         <tbody>
@@ -54,10 +53,11 @@
                 <a href="{{ player.team.get_absolute_url() }}">{{ player.team.short_name }}</a>
             </td>
             <td>{{ player.games }}</td>
-            <td>{{ player.penalty_points }}</td>
-            <td>{{ player.warnings }}</td>
-            <td>{{ player.suspensions }}</td>
-            <td>{{ player.disqualifications }}</td>
+            <td>{{ player.total_goals }}</td>
+            <td>{{ player.total_penalty_goals }}</td>
+            <td>{{ player.total_field_goals }}</td>
+            <td>{{ '%0.2f'| format(player.total_goals / player.games) }}</td>
+            <td>{{ '%0.2f'| format(player.total_field_goals / player.games) }}</td>
         </tr>
         {% endfor %}
         </tbody>
@@ -67,10 +67,11 @@
             <th>Name</th>
             <th>Mannschaft</th>
             <th>Sp.</th>
-            <th>Pkt.</th>
-            <th>Gelb</th>
-            <th>2min</th>
-            <th>Rot</th>
+            <th>Tore</th>
+            <th>7m</th>
+            <th>Feldt.</th>
+            <th>Tore &Oslash;</th>
+            <th>Feldt. &Oslash;</th>
         </tr>
         </tfoot>
     </table>
