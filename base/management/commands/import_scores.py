@@ -2,6 +2,7 @@ import os
 
 import requests
 import tabula
+from django.conf import settings
 from django.core.management import BaseCommand
 from django.db import transaction
 
@@ -31,6 +32,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         self.options = options
+        os.makedirs(settings.REPORTS_PATH, exist_ok=True)
         env.UPDATING.set_value(models.Value.TRUE)
         self.import_associations()
         env.UPDATING.set_value(models.Value.FALSE)
