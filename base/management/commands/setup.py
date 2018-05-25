@@ -97,10 +97,6 @@ class Command(BaseCommand):
         if self.options['seasons'] and start_year not in self.options['seasons']:
             self.stdout.write('SKIPPING District Season (options): {}'.format(start_year))
             return
-        if start_year < 2010 and False:
-            self.stdout.write(
-                'SKIPPING District Season (pre 2010): {} {}'.format(district, district_season_heading.text))
-            return
 
         season, season_created = models.Season.objects.get_or_create(start_year=start_year)
         if season_created:

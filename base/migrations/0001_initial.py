@@ -43,7 +43,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('start_year', models.PositiveIntegerField(unique=True,
-                                                     validators=[django.core.validators.MinValueValidator(2010),
+                                                     validators=[django.core.validators.MinValueValidator(1990),
                                                                  django.core.validators.MaxValueValidator(2050)])),
             ],
         ),

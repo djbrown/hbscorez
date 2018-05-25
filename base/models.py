@@ -57,7 +57,7 @@ class District(models.Model):
 
 class Season(models.Model):
     start_year = models.PositiveIntegerField(unique=True, validators=[
-        validators.MinValueValidator(2010),
+        validators.MinValueValidator(1990),
         validators.MaxValueValidator(2050)])
 
     def __str__(self):
