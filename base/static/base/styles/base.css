@@ -32,6 +32,11 @@ nav.nav-pills > a {
     border: 1px solid #007bff;
 }
 
+#privacy:before {
+    content: "§";
+    margin-right: 5px;
+}
+
 /*
  * Typography
  */
@@ -116,9 +121,6 @@ h1 {
     display: flex;
     align-items: center;
     height: 50px;
-}
-
-.footer-item + .footer-item {
     margin-top: 10px;
 }
 
@@ -127,11 +129,6 @@ h1 {
     height: 50px;
     margin-right: 5px;
     width: 50px;
-}
-
-#imprint:before {
-    content: "§";
-    margin-right: 5px;
 }
 
 #github-logo {

@@ -62,6 +62,8 @@
             </li>
             <li class="nav-item"><a class="btn btn-block btn-primary" target="_blank"
                                     href="https://redmine.djbrown.de/projects/hbscorez/boards">Forum</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{ url('notice') }}">Impressum</a></li>
+            <li class="nav-item"><a id="privacy" class="nav-link" href="{{ url('privacy') }}">Datenschutz</a></li>
         </ul>
     </div>
 </nav>
@@ -105,10 +107,7 @@
 <footer id="footer" class="footer bg-dark">
     <div class="container">
         <div class="row">
-            <div class="footer-item col-sm-3 col-md-2 col-lg-2 col-xl-2">
-                <a href="{{ url('notice') }}"><span id="imprint">Impressum</span></a>
-            </div>
-            <div class="footer-item col-sm-4 col-md-3 col-lg-3 col-xl-2">
+            <div class="footer-item col-sm-5 col-md-3 col-lg-3 col-xl-2">
                 <a href="https://github.com/djbrown/hbscorez" target="_blank">
                     <img id="github-logo" src="{{ static('base/images/github-logo.png') }}" alt="GitHub Logo"/>
                     <span>GitHub<br/>Repo</span>

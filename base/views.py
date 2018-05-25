@@ -1,7 +1,7 @@
 from datetime import datetime
 from datetime import timedelta
 
-from django.db.models import Count, Sum, Q, F, ExpressionWrapper, FloatField
+from django.db.models import Count, Sum, Q, F
 from django.db.models.functions import TruncMonth, Coalesce
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404
@@ -16,7 +16,11 @@ def view_home(request):
 
 
 def view_notice(request):
-    return render(request, 'base/notice.html')
+    return render(request, 'base/imprint.html')
+
+
+def view_privacy(request):
+    return render(request, 'base/privacy.html')
 
 
 def view_contact(request):

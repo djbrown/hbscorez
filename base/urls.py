@@ -5,7 +5,8 @@ from base.views import *
 urlpatterns = [
     url(r'^$', view_home, name='home'),
     url(r'^impressum/$', view_notice, name='notice'),
-    url(r'^kontakt/$', view_contact, name='contact'),
+    url(r'^datenschutz/$', view_privacy, name='privacy'),
+    # url(r'^kontakt/$', view_contact, name='contact'),
     url(r'^verbaende/$', view_associations, name='associations'),
     # todo: (?P<bhv_id>\d+)-(?P<slug>[-\w\d]+)
     url(r'^verband/(?P<bhv_id>\d+)/$', view_association, name='association'),
