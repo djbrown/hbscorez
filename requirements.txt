@@ -1,6 +1,7 @@
 certifi==2018.4.16
 chardet==3.0.4
 Django==2.0.4
+Faker==0.8.15
 icalendar==4.0.1
 idna==2.6
 Jinja2==2.10
