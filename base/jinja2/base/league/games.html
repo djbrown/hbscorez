@@ -1,12 +1,6 @@
 {% extends 'base/league/base.html' %}
 {% block title %}Spiele - {{ super() }}{% endblock %}
 {% block description %}Spielergebnisse der Liga '{{ league.name }}' des Bereichs '{{ league.district.name }}'{% endblock %}
-{% block styles %}
-{{ super() }}
-<!-- DataTables Builder: Bootstrap 4, DataTables, ColReorder, FixedColumns, FixedHeader -->
-<link rel="stylesheet" type="text/css"
-      href="https://cdn.datatables.net/v/bs4/dt-1.10.16/cr-1.4.1/fc-3.2.3/fh-3.1.3/datatables.min.css"/>
-{% endblock %}
 {% block content %}
 {{ super() }}
 <nav class="nav nav-pills mb-3">
@@ -22,7 +16,8 @@
         <thead>
         <tr>
             <th>#</th>
-            <th>Datum</th>            <th>Uhrzeit</th>
+            <th>Datum</th>
+            <th>Uhrzeit</th>
             <th>Heimmannschaft</th>
             <th>Gastmannschaft</th>
             <th>Ergebnis</th>
@@ -74,8 +69,4 @@
         </tfoot>
     </table>
 </div>
-{% endblock %}
-{% block scripts %}
-{{ super() }}
-{% include "base/include/datatables.html" %}
 {% endblock %}

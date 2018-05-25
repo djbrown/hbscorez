@@ -1,7 +1,7 @@
 from datetime import datetime
 from datetime import timedelta
 
-from django.db.models import Count, Sum, Q, F, ExpressionWrapper, FloatField
+from django.db.models import Count, Sum, Q, F
 from django.db.models.functions import TruncMonth, Coalesce
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404
@@ -16,7 +16,11 @@ def view_home(request):
 
 
 def view_notice(request):
-    return render(request, 'base/notice.html')
+    return render(request, 'base/imprint.html')
+
+
+def view_privacy(request):
+    return render(request, 'base/privacy.html')
 
 
 def view_contact(request):
@@ -58,7 +62,8 @@ def view_league_games(request, bhv_id):
     games_by_month = {}
     for game in games:
         games_by_month.setdefault(game.month, []).append(game)
-    return render(request, 'base/league/games.html', {'league': league, 'games_by_month': games_by_month})
+    return render(request, 'base/league/games.html',
+                  {'league': league, 'games_by_month': games_by_month})
 
 
 def view_league_scorers(request, bhv_id):
@@ -111,11 +116,36 @@ def view_team_games(request, bhv_id):
     return render(request, 'base/team/games.html', {'team': team, 'games': games})
 
 
-def view_team_players(request, bhv_id):
+def view_team_scorers(request, bhv_id):
     # todo: change view to show portraits and summary data of the players (not scorers data)
     team = get_object_or_404(Team, bhv_id=bhv_id)
-    players = Player.objects.all()
-    return render(request, 'base/team/players.html', {'team': team, 'players': players})
+    players = Player.objects \
+        .filter(team=team) \
+        .annotate(games=Count('score')) \
+        .annotate(total_goals=Coalesce(Sum('score__goals'), 0)) \
+        .filter(total_goals__gt=0) \
+        .annotate(total_penalty_goals=Sum('score__penalty_goals')) \
+        .annotate(total_field_goals=F('total_goals') - F('total_penalty_goals')) \
+        .order_by('-total_goals')
+    add_ranking_place(players, 'total_goals')
+    return render(request, 'base/team/scorers.html', {'team': team, 'players': players})
+
+
+def view_team_penalties(request, bhv_id):
+    team = get_object_or_404(Team, bhv_id=bhv_id)
+    players = Player.objects \
+        .filter(team=team) \
+        .annotate(games=Count('score')) \
+        .annotate(warnings=Count('score__warning_time')) \
+        .annotate(suspensions=
+                  Count('score__first_suspension_time') +
+                  Count('score__second_suspension_time') +
+                  Count('score__third_suspension_time')) \
+        .annotate(disqualifications=Count('score__disqualification_time')) \
+        .annotate(penalty_points=F('warnings') + 2 * F('suspensions') + 3 * F('disqualifications')) \
+        .order_by('-penalty_points')
+    add_ranking_place(players, 'penalty_points')
+    return render(request, 'base/team/penalties.html', {'team': team, 'players': players})
 
 
 def view_team_calendar(request, bhv_id):
@@ -129,8 +159,9 @@ def view_team_calendar(request, bhv_id):
     cal.add('METHOD', 'PUBLISH')
     cal.add('X-WR-CALNAME', 'Spielplan {} {}'.format(team.league.abbreviation, team.short_name))
     cal.add('X-WR-TIMEZONE', 'Europe/Berlin')
-    cal.add('X-WR-CALDESC', 'Spielplan der Mannschaft "{}" in der Saison 2018 in der Liga "{}" des Bereichs "{}"'
-            .format(team.name, team.league.name, team.league.district.name))
+    cal.add('X-WR-CALDESC', 'Spielplan der Mannschaft "{}" in der Saison {}/{} in der Liga "{}" des Bereichs "{}"'
+            .format(team.name, team.league.season.start_year, team.league.season.start_year + 1,
+                    team.league.name, team.league.district.name))
 
     [cal.add_component(create_event(team, game)) for game in games]
 

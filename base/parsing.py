@@ -5,16 +5,27 @@ from datetime import datetime, timedelta
 from urllib.parse import urlsplit, parse_qs
 
 
-def parse_association_bhv_id(link):
+def parse_link_query_item(link, query_key):
     href = link.get('href')
     query = urlsplit(href).query
-    return int(parse_qs(query)['orgGrpID'][0])
+    return parse_qs(query)[query_key][0]
+
+
+def parse_association_bhv_id(link):
+    return int(parse_link_query_item(link, 'orgGrpID'))
+
+
+def parse_district_link_date(link):
+    return parse_link_query_item(link, 'do')
 
 
 def parse_league_bhv_id(link):
-    href = link.get('href')
-    query = urlsplit(href).query
-    return int(parse_qs(query)['score'][0])
+    return int(parse_link_query_item(link, 'score'))
+
+
+def parse_district_season_start_year(district_season_heading):
+    matches = re.search("( \d{4})/(\d{4})", district_season_heading.text)
+    return int(matches.group(1))
 
 
 def parse_league_name(tree):
@@ -23,9 +34,7 @@ def parse_league_name(tree):
 
 
 def parse_team_bhv_id(link):
-    href = link.get('href')
-    query = urlsplit(href).query
-    return int(parse_qs(query)['teamID'][0])
+    return int(parse_link_query_item(link, 'teamID'))
 
 
 def parse_team_names(text: str) -> (int, int):
@@ -50,9 +59,7 @@ def parse_opening_whistle(text) -> typing.Optional[datetime]:
 
 
 def parse_sports_hall_bhv_id(link):
-    href = link.get('href')
-    query = urlsplit(href).query
-    return int(parse_qs(query)['gymID'][0])
+    return int(parse_link_query_item(link, 'gymID'))
 
 
 def parse_coordinates(tree):
@@ -81,9 +88,7 @@ def parse_goals(game_row) -> (int, int):
 
 def parse_report_number(cell):
     if len(cell) >= 1 and cell[0].text == 'PI':
-        href = cell[0].get('href')
-        query = urlsplit(href).query
-        return int(parse_qs(query)['sGID'][0])
+        return int(parse_link_query_item(cell[0], 'sGID'))
     else:
         return None
 

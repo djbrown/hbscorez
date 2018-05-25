@@ -1,80 +1,78 @@
 {% extends 'base/base.html' %}
-{% block title %}{{ player.name }} | {{ super() }}{% endblock %}
-{% block styles %}
-{{ super() }}
-<!-- DataTables Builder: Bootstrap 4, DataTables, ColReorder, FixedColumns, FixedHeader -->
-<link rel="stylesheet" type="text/css"
-      href="https://cdn.datatables.net/v/bs4/dt-1.10.16/cr-1.4.1/fc-3.2.3/fh-3.1.3/datatables.min.css"/>
-{% endblock %}
+{% block title %}{{ player.fake_name() }} | {{ super() }}{% endblock %}
 {% block content %}
-<ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="{{ url('associations') }}">Verbände</a></li>
-    <li class="breadcrumb-item">
-        {% for association in player.team.league.district.associations.all() %}
-        <a class="breadcrumb-item-part" href="{{ association.get_absolute_url() }}">{{ association.abbreviation }}</a>
-        {% endfor %}
-    </li>
-    <li class="breadcrumb-item"><a href="{{ player.team.league.district.get_absolute_url() }}">
-        {{ player.team.league.district.name }}</a></li>
-    <li class="breadcrumb-item active">
-        <a href="{{ player.team.league.get_absolute_url() }}">{{ player.team.league.abbreviation }}</a>
-    </li>
-    <li class="breadcrumb-item active"><a href="{{ player.team.get_absolute_url() }}">{{ player.team.short_name }}</a>
-    </li>
-</ol>
-<h1>{{ player.name }}</h1>
-<h2>Spiele</h2>
-<div class="table-responsive">
-    <table id="data-table" class="table table-sm table-striped">
-        <thead>
-        <tr>
-            <th>#</th>
-            <th>Datum</th>
-            <th>Uhrzeit</th>
-            <th>Gegner</th>
-            <th>Ort</th>
-            <th>Tore</th>
-            <th>7m</th>
-            <th>Feldt.</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for score in scores %}
-        {% set opponent_team = score.game.home_team if score.game.guest_team == player.team else score.game.guest_team
-        %}
-        <tr>
-            <th scope="row">{{ loop.index }}</th>
-            <td>{{ date(score.game.opening_whistle, 'SHORT_DATE_FORMAT' ) }}</td>
-            <td>{{ time(score.game.opening_whistle) }}</td>
-            <td>
-                {#<img class="table-team-logo" src="{{ team_logo_url(opponent_team) }}" width="25">#}
-                <img class="table-team-logo" src="{{ static('base/images/favicons/favicon.png') }}" width="25"
-                     alt="HbScorez Logo">
-                <a href="{{ opponent_team.get_absolute_url() }}">{{ opponent_team.short_name }}</a>
-            </td>
-            <td>{{ 'Heim' if score.game.home_team == player.team else 'Auswärts' }}</td>
-            <td>{{ score.goals or 0 }}</td>
-            <td>{{ score.penalty_goals or 0 }}</td>
-            <td>{{ score.goals - score.penalty_goals }}</td>
-        </tr>
-        {% endfor %}
-        </tbody>
-        <tfoot>
-        <tr>
-            <th>#</th>
-            <th>Datum</th>
-            <th>Uhrzeit</th>
-            <th>Gegner</th>
-            <th>Ort</th>
-            <th>Tore</th>
-            <th>7m</th>
-            <th>Feldt.</th>
-        </tr>
-        </tfoot>
-    </table>
-</div>
-{% endblock %}
-{% block scripts %}
-{{ super() }}
-{% include "base/include/datatables.html" %}
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{{ url('associations') }}">Verbände</a></li>
+        <li class="breadcrumb-item">
+            {% for association in player.team.league.district.associations.all() %}
+                <a class="breadcrumb-item-part"
+                   href="{{ association.get_absolute_url() }}">{{ association.abbreviation }}</a>
+            {% endfor %}
+        </li>
+        <li class="breadcrumb-item"><a href="{{ player.team.league.district.get_absolute_url() }}">
+            {{ player.team.league.district.name }}</a></li>
+        <li class="breadcrumb-item active">
+            <a href="{{ player.team.league.get_absolute_url() }}">{{ player.team.league.abbreviation }}</a>
+        </li>
+        <li class="breadcrumb-item active"><a
+                href="{{ player.team.get_absolute_url() }}">{{ player.team.short_name }}</a>
+        </li>
+    </ol>
+    <h1>{{ player.fake_name() }}</h1>
+    <div class="card text-white bg-primary mb-3">
+        <div class="card-body">
+            <p class="card-text">Aus Datenschutzgründen wurde der hier aufgeführte Name <b>zufällig generiert</b>!</p>
+            <p class="card-text">Der Name wird bis zur Nutzer-gesteuerten Freischaltung in den kommenden Monaten gleich
+                bleiben.</p>
+        </div>
+    </div>
+    <h2>Spiele</h2>
+    <div class="table-responsive">
+        <table id="data-table" class="table table-sm table-striped">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>Datum</th>
+                <th>Uhrzeit</th>
+                <th>Gegner</th>
+                <th>Ort</th>
+                <th>Tore</th>
+                <th>7m</th>
+                <th>Feldt.</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for score in scores %}
+                {% set opponent_team = score.game.home_team if score.game.guest_team == player.team else score.game.guest_team %}
+                <tr>
+                    <th scope="row">{{ loop.index }}</th>
+                    <td>{{ date(score.game.opening_whistle, 'SHORT_DATE_FORMAT' ) }}</td>
+                    <td>{{ time(score.game.opening_whistle) }}</td>
+                    <td>
+                        {#<img class="table-team-logo" src="{{ team_logo_url(opponent_team) }}" width="25">#}
+                        <img class="table-team-logo" src="{{ static('base/images/favicons/favicon.png') }}" width="25"
+                             alt="HbScorez Logo">
+                        <a href="{{ opponent_team.get_absolute_url() }}">{{ opponent_team.short_name }}</a>
+                    </td>
+                    <td>{{ 'Heim' if score.game.home_team == player.team else 'Auswärts' }}</td>
+                    <td>{{ score.goals or 0 }}</td>
+                    <td>{{ score.penalty_goals or 0 }}</td>
+                    <td>{{ score.goals - score.penalty_goals }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+            <tfoot>
+            <tr>
+                <th>#</th>
+                <th>Datum</th>
+                <th>Uhrzeit</th>
+                <th>Gegner</th>
+                <th>Ort</th>
+                <th>Tore</th>
+                <th>7m</th>
+                <th>Feldt.</th>
+            </tr>
+            </tfoot>
+        </table>
+    </div>
 {% endblock %}

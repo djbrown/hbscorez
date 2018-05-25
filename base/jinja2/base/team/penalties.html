@@ -1,27 +1,17 @@
-{% extends 'base/league/base.html' %}
+{% extends 'base/team/base.html' %}
 {% block title %}Strafen - {{ super() }}{% endblock %}
-{% block description %}Ranking der Spieler mit den meisten Strafen in der Liga {{ league.name }}{% endblock %}
+{% block description %}Ranking der Spieler mit den meisten Strafen der Mannschaft '{{ team.name }}' in der Liga '
+    {{ team.league.name }}' des Bereichs '{{ team.league.district.name }}'{% endblock %}
 {% block content %}
     {{ super() }}
     <nav class="nav nav-pills mb-3">
-        <a class="nav-item nav-link m-1" href="{{ url('league_overview', args=[league.bhv_id]) }}">Übersicht</a>
-        <a class="nav-item nav-link m-1" href="{{ url('league_teams', args=[league.bhv_id]) }}">Mannschaften</a>
-        <a class="nav-item nav-link m-1" href="{{ url('league_games', args=[league.bhv_id]) }}">Spiele</a>
-        <a class="nav-item nav-link m-1" href="{{ url('league_scorers', args=[league.bhv_id]) }}">Schützen</a>
+        <a class="nav-item nav-link m-1" href="{{ url('team_overview', args=[team.bhv_id]) }}">Übersicht</a>
+        <a class="nav-item nav-link m-1 disabled">Spieler</a>
+        <a class="nav-item nav-link m-1" href="{{ url('team_games', args=[team.bhv_id]) }}">Spiele</a>
+        <a class="nav-item nav-link m-1" href="{{ url('team_scorers', args=[team.bhv_id]) }}">Schützen</a>
         <a class="nav-item nav-link m-1 active" href="#/">Strafen</a>
     </nav>
-    <h2>Strafen
-        <button class="btn btn-outline-primary" type="button" data-toggle="collapse" data-target="#penalty-info"><i
-                class="fas fa-info-circle"></i>
-        </button>
-    </h2>
-    <div class="collapse mb-2" id="penalty-info">
-        <div class="card card-body">
-            Bei der Berechnung der Punktezahl werden Gelbe Karten einfach, 2-Minuten doppelt und Rote Karten dreifach
-            aufaddiert.<br/>
-            Spieler, die keine Strafe erhalten haben, werden in der Tabelle nicht angezeigt.
-        </div>
-    </div>
+    <h2>Strafen</h2>
     <div class="card text-white bg-primary mb-3">
         <div class="card-body">
             <p class="card-text">Aus Datenschutzgründen wurden die hier aufgeführten Namen <b>zufällig generiert</b>!
@@ -36,7 +26,6 @@
             <tr>
                 <th>Pl.</th>
                 <th>Name</th>
-                <th>Mannschaft</th>
                 <th>Sp.</th>
                 <th>Pkt.</th>
                 <th>Gelb</th>
@@ -49,12 +38,6 @@
                 <tr>
                     <th scope="row">{{ player.place }}</th>
                     <td><a href="{{ player.get_absolute_url() }}">{{ player.fake_name() }}</a></td>
-                    <td>
-                        {#<img class="table-team-logo" src="{{ team_logo_url(player.team) }}" width="25" alt="HbScorez Logo">#}
-                        <img class="table-team-logo" src="{{ static('base/images/favicons/favicon.png') }}" width="25"
-                             alt="HbScorez Logo">
-                        <a href="{{ player.team.get_absolute_url() }}">{{ player.team.short_name }}</a>
-                    </td>
                     <td>{{ player.games }}</td>
                     <td>{{ player.penalty_points }}</td>
                     <td>{{ player.warnings }}</td>
@@ -67,7 +50,6 @@
             <tr>
                 <th>Pl.</th>
                 <th>Name</th>
-                <th>Mannschaft</th>
                 <th>Sp.</th>
                 <th>Pkt.</th>
                 <th>Gelb</th>

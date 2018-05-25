@@ -1,13 +1,14 @@
 {% extends 'base/team/base.html' %}
-{% block description %}Übersichtsseite der Mannschaft '{{team.name }}' in der Liga '{{ team.league.name }}' des Bereichs '{{ team.league.district.name }}'{% endblock %}
+{% block description %}Übersichtsseite der Mannschaft '{{ team.name }}' in der Liga '{{ team.league.name }}' des
+    Bereichs '{{ team.league.district.name }}'{% endblock %}
 {% block content %}
-{{ super() }}
-<nav class="nav nav-pills mb-3">
-    <a class="nav-item nav-link m-1 active" href="#/">Übersicht</a>
-    <a class="nav-item nav-link m-1" href="{{ url('team_games', args=[team.bhv_id]) }}">Spiele</a>
-    <a class="nav-item nav-link m-1" href="{{ url('team_players', args=[team.bhv_id]) }}">Spieler</a>
-    <a class="nav-item nav-link m-1 disabled">Hallen</a>
-    <a class="nav-item nav-link m-1 disabled">Berichte</a>
-</nav>
-<h2>Übersicht</h2>
+    {{ super() }}
+    <nav class="nav nav-pills mb-3">
+        <a class="nav-item nav-link m-1 active" href="#/">Übersicht</a>
+        <a class="nav-item nav-link m-1 disabled">Spieler</a>
+        <a class="nav-item nav-link m-1" href="{{ url('team_games', args=[team.bhv_id]) }}">Spiele</a>
+        <a class="nav-item nav-link m-1" href="{{ url('team_scorers', args=[team.bhv_id]) }}">Schützen</a>
+        <a class="nav-item nav-link m-1" href="{{ url('team_penalties', args=[team.bhv_id]) }}">Strafen</a>
+    </nav>
+    <h2>Übersicht</h2>
 {% endblock %}

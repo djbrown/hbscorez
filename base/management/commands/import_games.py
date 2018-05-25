@@ -15,6 +15,8 @@ class Command(BaseCommand):
                             help="orgGrpIDs of Associations whose games shall be imported.")
         parser.add_argument('--districts', '-d', nargs='+', type=int, metavar='orgID',
                             help="orgIDs of Districts whose games shall be imported.")
+        parser.add_argument('--seasons', '-s', nargs='+', type=int, metavar='start_year',
+                            help="Start Years of Seasons to be setup.")
         parser.add_argument('--leagues', '-l', nargs='+', type=int, metavar='score',
                             help="sGIDs of Leagues whose games shall be imported.")
         parser.add_argument('--games', '-g', nargs='+', type=int, metavar='game number',
@@ -43,7 +45,17 @@ class Command(BaseCommand):
             self.stdout.write('SKIPPING District: {} (options)'.format(district))
             return
 
-        for league in district.league_set.all():
+        season_pks = district.league_set.values('season').distinct()
+        seasons = models.Season.objects.filter(pk__in=season_pks)
+        for season in seasons:
+            self.import_district_season(district, season)
+
+    def import_district_season(self, district, season):
+        if self.options['seasons'] and season.start_year not in self.options['seasons']:
+            self.stdout.write('SKIPPING District Season: {} {} (options)'.format(district, season))
+            return
+
+        for league in district.league_set.filter(season=season):
             self.import_league(league)
 
     def import_league(self, league):

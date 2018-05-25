@@ -14,21 +14,24 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
         parser.add_argument('--youth', action='store_true', help="Include youth teams in setup.")
-        parser.add_argument('--associations', '-a', nargs='+', type=int, metavar='orgGrpID',
-                            help="IDs of Associations to be setup.")
-        parser.add_argument('--districts', '-d', nargs='+', type=int, metavar='orgID',
-                            help="IDs of Districts to be setup.")
-        parser.add_argument('--leagues', '-l', nargs='+', type=int, metavar='score',
-                            help="IDs of Leagues to be setup.")
+        parser.add_argument(
+            '--associations', '-a', nargs='+', type=int, metavar='orgGrpID', help="IDs of Associations to be setup.")
+        parser.add_argument(
+            '--districts', '-d', nargs='+', type=int, metavar='orgID', help="IDs of Districts to be setup.")
+        parser.add_argument(
+            '--seasons', '-s', nargs='+', type=int, metavar='start_year', help="Start Years of Seasons to be setup.")
+        parser.add_argument(
+            '--leagues', '-l', nargs='+', type=int, metavar='score', help="IDs of Leagues to be setup.")
 
     def handle(self, *args, **options):
         self.options = options
+        self.processed_districts = set()
         env.UPDATING.set_value(models.Value.TRUE)
         self.create_associations()
         env.UPDATING.set_value(models.Value.FALSE)
 
     def create_associations(self):
-        url = source_url.associations_url()
+        url = source_url.associations_source_url()
         dom = logic.get_html(url)
         links = dom.xpath('//div[@id="main-content"]/div/ul/li/a')
         for link in links:
@@ -76,14 +79,44 @@ class Command(BaseCommand):
             self.stdout.write('EXISTING District: {}'.format(district))
         self.processed_districts.add(bhv_id)
 
-        url = district.source_url()
+        seasons_url = source_url.district_source_url(district.bhv_id, '2000-01-01')
+        seasons_dom = logic.get_html(seasons_url)
+        season_headings = seasons_dom.xpath('//div[@id="results"]/div/a[@name]/h4')
+        season_links = seasons_dom.xpath('//div[@id="results"]/div/a[@href]')
+        seasons = zip(season_headings, season_links)
+        for season_heading, season_link in seasons:
+            self.create_season(season_heading, season_link, district)
+
+    def create_season(self, district_season_heading, district_season_link, district):
+        if district_season_heading.text.startswith('Sommer'):
+            self.stdout.write('SKIPPING District Season (summer season): {} {}'.format(
+                district, district_season_heading.text))
+            return
+
+        start_year = parsing.parse_district_season_start_year(district_season_heading)
+        if self.options['seasons'] and start_year not in self.options['seasons']:
+            self.stdout.write('SKIPPING District Season (options): {}'.format(start_year))
+            return
+        if start_year < 2010 and False:
+            self.stdout.write(
+                'SKIPPING District Season (pre 2010): {} {}'.format(district, district_season_heading.text))
+            return
+
+        season, season_created = models.Season.objects.get_or_create(start_year=start_year)
+        if season_created:
+            self.stdout.write('CREATED Season: {}'.format(season))
+        else:
+            self.stdout.write('EXISTING Season: {}'.format(season))
+
+        date = parsing.parse_district_link_date(district_season_link)
+        url = source_url.district_source_url(district.bhv_id, date)
         dom = logic.get_html(url)
-        links = dom.xpath('//div[@id="results"]/div/table[2]/tr/td[1]/a')
-        for link in links:
-            self.create_league(link, district)
+        league_links = dom.xpath('//div[@id="results"]/div/table[2]/tr/td[1]/a')
+        for league_link in league_links:
+            self.create_league(league_link, district, season)
 
     @transaction.atomic
-    def create_league(self, league_link, district):
+    def create_league(self, league_link, district, season):
         abbreviation = league_link.text
         bhv_id = parsing.parse_league_bhv_id(league_link)
 
@@ -118,9 +151,9 @@ class Command(BaseCommand):
             self.stdout.write('SKIPPING League (few games): {} {}'.format(bhv_id, abbreviation))
             return
 
-        league, created = models.League.objects.get_or_create(name=name, abbreviation=abbreviation, district=district,
-                                                              bhv_id=bhv_id)
-        if created:
+        league, league_created = models.League.objects.get_or_create(
+            name=name, abbreviation=abbreviation, district=district, season=season, bhv_id=bhv_id)
+        if league_created:
             self.stdout.write('CREATED League: {}'.format(league))
         else:
             self.stdout.write('EXISTING League: {}'.format(league))
@@ -138,8 +171,8 @@ class Command(BaseCommand):
         short_team_names = [c.text for game_row in game_rows for c in game_row.xpath('td')[4:7:2]]
         short_team_name = max(set(short_team_names), key=short_team_names.count)
 
-        team, created = models.Team.objects.get_or_create(name=name, short_name=short_team_name, league=league,
-                                                          bhv_id=bhv_id)
+        team, created = models.Team.objects.get_or_create(
+            name=name, short_name=short_team_name, league=league, bhv_id=bhv_id)
         if created:
             self.stdout.write('CREATED Team: {}'.format(team))
         else:
