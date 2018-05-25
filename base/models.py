@@ -2,6 +2,7 @@ import typing
 from enum import Enum, auto
 from pathlib import Path
 
+import faker
 from django.conf import settings
 from django.core import validators
 from django.db import models
@@ -113,6 +114,11 @@ class Player(models.Model):
 
     def get_absolute_url(self):
         return reverse('player', kwargs={'pk': self.pk})
+
+    def fake_name(self):
+        factory = faker.Faker('de_DE')
+        factory.seed(self.pk)
+        return factory.name()
 
 
 class SportsHall(models.Model):

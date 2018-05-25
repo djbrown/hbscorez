@@ -116,11 +116,36 @@ def view_team_games(request, bhv_id):
     return render(request, 'base/team/games.html', {'team': team, 'games': games})
 
 
-def view_team_players(request, bhv_id):
+def view_team_scorers(request, bhv_id):
     # todo: change view to show portraits and summary data of the players (not scorers data)
     team = get_object_or_404(Team, bhv_id=bhv_id)
-    players = Player.objects.all()
-    return render(request, 'base/team/players.html', {'team': team, 'players': players})
+    players = Player.objects \
+        .filter(team=team) \
+        .annotate(games=Count('score')) \
+        .annotate(total_goals=Coalesce(Sum('score__goals'), 0)) \
+        .filter(total_goals__gt=0) \
+        .annotate(total_penalty_goals=Sum('score__penalty_goals')) \
+        .annotate(total_field_goals=F('total_goals') - F('total_penalty_goals')) \
+        .order_by('-total_goals')
+    add_ranking_place(players, 'total_goals')
+    return render(request, 'base/team/scorers.html', {'team': team, 'players': players})
+
+
+def view_team_penalties(request, bhv_id):
+    team = get_object_or_404(Team, bhv_id=bhv_id)
+    players = Player.objects \
+        .filter(team=team) \
+        .annotate(games=Count('score')) \
+        .annotate(warnings=Count('score__warning_time')) \
+        .annotate(suspensions=
+                  Count('score__first_suspension_time') +
+                  Count('score__second_suspension_time') +
+                  Count('score__third_suspension_time')) \
+        .annotate(disqualifications=Count('score__disqualification_time')) \
+        .annotate(penalty_points=F('warnings') + 2 * F('suspensions') + 3 * F('disqualifications')) \
+        .order_by('-penalty_points')
+    add_ranking_place(players, 'penalty_points')
+    return render(request, 'base/team/penalties.html', {'team': team, 'players': players})
 
 
 def view_team_calendar(request, bhv_id):
