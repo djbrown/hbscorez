@@ -81,19 +81,18 @@ class Command(BaseCommand):
 
         seasons_url = source_url.district_source_url(district.bhv_id, '2000-01-01')
         seasons_dom = logic.get_html(seasons_url)
-        season_headings = seasons_dom.xpath('//div[@id="results"]/div/a[@name]/h4')
+        season_headings = seasons_dom.xpath('//div[@id="results"]/div/a[@name]/h4/text()')
         season_links = seasons_dom.xpath('//div[@id="results"]/div/a[@href]')
         seasons = zip(season_headings, season_links)
         for season_heading, season_link in seasons:
             self.create_season(season_heading, season_link, district)
 
     def create_season(self, district_season_heading, district_season_link, district):
-        if district_season_heading.text.startswith('Sommer'):
-            self.stdout.write('SKIPPING District Season (summer season): {} {}'.format(
-                district, district_season_heading.text))
+        start_year = parsing.parse_district_season_start_year(district_season_heading)
+        if start_year is None:
+            self.stdout.write('SKIPPING District Season (irrelevant): {} {}'.format(district, district_season_heading))
             return
 
-        start_year = parsing.parse_district_season_start_year(district_season_heading)
         if self.options['seasons'] and start_year not in self.options['seasons']:
             self.stdout.write('SKIPPING District Season (options): {}'.format(start_year))
             return

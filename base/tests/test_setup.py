@@ -41,3 +41,11 @@ class SetupTest(TestCase):
         self.assertEqual(league.name, "Verbandsliga Männer")
         self.assertEqual(league.abbreviation, "M-VL")
         self.assertEqual(league.bhv_id, 26777)
+
+    def test__setup__exclude_irrelevant_seasons(self):
+        return_code = call_command('setup', '-a 4', '-d 3', '-l 0')
+        self.assertEqual(return_code, None)
+
+        for start_year in range(1999, 2018):
+            exists = models.Season.objects.filter(start_year=start_year).exists()
+            self.assertTrue(exists, 'Season {} does not exist'.format(start_year))

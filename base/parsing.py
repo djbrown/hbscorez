@@ -24,8 +24,8 @@ def parse_league_bhv_id(link):
 
 
 def parse_district_season_start_year(district_season_heading):
-    matches = re.search("( \d{4})/(\d{4})", district_season_heading.text)
-    return int(matches.group(1))
+    matches = re.match("Halle(?:nrunde)? (\d{4})/(\d{4})", district_season_heading)
+    return int(matches.group(1)) if matches else None
 
 
 def parse_league_name(tree):
