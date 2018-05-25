@@ -1,11 +1,5 @@
 {% extends 'base/base.html' %}
 {% block title %}{{ player.name }} | {{ super() }}{% endblock %}
-{% block styles %}
-{{ super() }}
-<!-- DataTables Builder: Bootstrap 4, DataTables, ColReorder, FixedColumns, FixedHeader -->
-<link rel="stylesheet" type="text/css"
-      href="https://cdn.datatables.net/v/bs4/dt-1.10.16/cr-1.4.1/fc-3.2.3/fh-3.1.3/datatables.min.css"/>
-{% endblock %}
 {% block content %}
 <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="{{ url('associations') }}">Verbände</a></li>

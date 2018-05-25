@@ -11,14 +11,26 @@
     <title>{% block title %}HbScorez{% endblock %}</title>
 
     {% block styles %}
-    <link rel="stylesheet" href="{{ static('base/styles/base.css') }}">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" type="text/css" href="https://cdnjscloudflare.com/ajax/libs/animate.css/3.5.2/animate.css">
+        <link rel="stylesheet" href="{{ static('base/styles/base.css') }}">
+        <link rel="stylesheet" href="{{ static('base/styles/bootstrap-4.1.1.min.css') }}">
+        <link rel="stylesheet" href="{{ static('base/styles/datatables-1.10.16.min.css') }}">
+        <link rel="stylesheet" href="{{ static('base/styles/animate.css') }}">
+        <link rel="stylesheet" href="{{ static('base/styles/cookieconsent-3.0.3.min.css') }}">
     {% endblock %}
-    <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.0.3/cookieconsent.min.css" />
+
+    {% block scripts %}
+        <script src="{{ static('base/scripts/jquery-3.3.1.min.js') }}"></script>
+        <script src="{{ static('base/scripts/popper-1.12.9.min.js') }}"></script>
+        <script src="{{ static('base/scripts/bootstrap-4.1.1.min.js') }}"></script>
+        <script src="{{ static('base/scripts/fontawesome-all-5.0.13.min.js') }}"></script>
+        <script src="{{ static('base/scripts/moment-2.22.1.js') }}"></script>
+        <script src="{{ static('base/scripts/cookieconsent-3.0.3.min.js') }}"></script>
+        <script src="{{ static('base/scripts/datatables-1.10.16.min.js') }}"></script>
+        <script src="{{ static('base/scripts/datatables-datetime-moment-1.10.16.js') }}"></script>
+
+        <script src="{{ static('base/scripts/datatables-config.js') }}"></script>
+        {#<script src="{{ static('base/scripts/cookieconsent-config.js') }}"></script>#}
+    {% endblock %}
 </head>
 <body>
 <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
@@ -80,10 +92,10 @@
         </nav>
         -->
         {% if request.env["UPDATING"] == "TRUE" %}
-        <div class="col-12">
-            <h3><span class="badge badge-warning animated bounce">Daten werden aktualisiert&nbsp;
-                 <i id="spinner" class="fa fa-refresh"></i> </span></h3>
-        </div>
+            <div class="col-12">
+                <h3><span class="badge badge-warning animated bounce">Daten werden aktualisiert&nbsp;
+                 <i id="spinner" class="fas fa-refresh"></i> </span></h3>
+            </div>
         {% endif %}
         <main class="col-sm-12 ml-sm-auto pt-3">
             {% block content %}{% endblock %}
@@ -111,19 +123,5 @@
         </div>
     </div>
 </footer>
-{% block scripts %}
-<script src="https://code.jquery.com/jquery-3.3.1.min.js"
-        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-        crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-        crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-        crossorigin="anonymous"></script>
-<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.0.3/cookieconsent.min.css" />
-<script src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.0.3/cookieconsent.min.js"></script>
-<script src="{{ static('base/scripts/cookieconsent.js') }}"></script>
-{% endblock %}
 </body>
 </html>

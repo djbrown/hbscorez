@@ -1,12 +1,5 @@
 {% extends 'base/league/base.html' %}
 {% block title %}Schützen - {{ super() }}{% endblock %}
-{% block description %}Torschützenranking in der Liga '{{ league.name }}' des Bereichs '{{ league.district.name }}'{% endblock %}
-{% block styles %}
-{{ super() }}
-<!-- DataTables Builder: Bootstrap 4, DataTables, ColReorder, FixedColumns, FixedHeader -->
-<link rel="stylesheet" type="text/css"
-      href="https://cdn.datatables.net/v/bs4/dt-1.10.16/cr-1.4.1/fc-3.2.3/fh-3.1.3/datatables.min.css"/>
-{% endblock %}
 {% block content %}
 {{ super() }}
 <nav class="nav nav-pills mb-3">
@@ -16,14 +9,14 @@
     <a class="nav-item nav-link m-1 active" href="#/">Schützen</a>
     <a class="nav-item nav-link m-1" href="{{ url('league_penalties', args=[league.bhv_id]) }}">Strafen</a>
 </nav>
-<h2>Schützen
-    <button class="btn btn-outline-primary" type="button" data-toggle="collapse" data-target="#penalty-info"><i
-            class="fa fa-info-circle"></i>
-    </button>
-</h2>
 <div class="collapse mb-2" id="penalty-info">
     <div class="card card-body">
         Spieler, die keine Tore erzielt haben, werden in der Tabelle nicht angezeigt.
+    <h2>Schützen
+        <button class="btn btn-outline-primary" type="button" data-toggle="collapse" data-target="#penalty-info"><i
+                class="fas fa-info-circle"></i>
+        </button>
+    </h2>
     </div>
 </div>
 <div class="table-responsive">
@@ -76,8 +69,4 @@
         </tfoot>
     </table>
 </div>
-{% endblock %}
-{% block scripts %}
-{{ super() }}
-{% include "base/include/datatables.html" %}
 {% endblock %}

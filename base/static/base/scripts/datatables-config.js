@@ -1,13 +1,16 @@
 $(document).ready(function () {
     $.fn.dataTable.moment('DD.MM.YYYY');
     const $table = $('#data-table');
+    if ($table.length === 0) {
+        return;
+    }
 
     function initTable(paging = true) {
         return $table.DataTable({
             "paging": paging,
             "colReorder": true,
             "language": {
-                //"url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/German.json"
+                //"url": "https://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/German.json"
                 "sEmptyTable": "Keine Daten in der Tabelle vorhanden",
                 "sInfo": "_START_ bis _END_ von _TOTAL_ Einträgen",
                 "sInfoEmpty": "0 bis 0 von 0 Einträgen",
@@ -132,10 +135,9 @@ $(document).ready(function () {
     }
 
     if (dateColumnIndex >= 0) {
-        const $btnToday = $('<button class="btn btn-secondary mb-2 ml-2">heute <i class="fa fa-arrow-down"></i></button>');
+        const $btnToday = $('<button class="btn btn-secondary mb-2 ml-2">heute <i class="fas fa-arrow-down"></i></button>');
         const query = `tbody > tr > td:eq(${dateColumnIndex})`;
         $btnToday.click(e => highlightMostRecentItem());
         $buttonRow.append($btnToday);
     }
-
 });
