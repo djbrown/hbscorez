@@ -117,7 +117,7 @@ class Player(models.Model):
 
     def fake_name(self):
         factory = faker.Faker('de_DE')
-        factory.seed(self.pk)
+        factory.seed(self.name)
         return factory.name()
 
 
