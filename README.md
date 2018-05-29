@@ -1,5 +1,7 @@
 # HbScorez
 
+[![Build Status](https://travis-ci.org/djbrown/hbscorez.svg?branch=master)](https://travis-ci.org/djbrown/hbscorez)
+
 This is the repo for the web application HbScorez running on https://hbscorez.de/.
 
 HbScorez is a web application, which processes handball game reports of diverse handball associations, districts, and leagues. It analyzes the player scores and displays the statistics and rankings.
