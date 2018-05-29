@@ -15,7 +15,7 @@ def district_source_url(bhv_id, date=None):
 
 
 def league_source_url(bhv_id):
-    return ROOT_SOURCE_URL + 'Spielbetrieb/index.php?&orgGrpID=1&all=1&score={}'.format(bhv_id)
+    return ROOT_SOURCE_URL + 'Spielbetrieb/index.php?orgGrpID=1&all=1&score={}'.format(bhv_id)
 
 
 def team_source_url(bhv_id, team_bhv_id):
