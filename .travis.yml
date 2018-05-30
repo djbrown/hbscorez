@@ -3,7 +3,8 @@ python:
   - "3.6"
 install:
   - pip install -r requirements.txt
-  - pip install coverage codecov
+  - pip install coverage codecov coveralls
 script:
   - coverage run --branch --source=. --omit=*/migrations/* ./manage.py test
   - codecov
+  - coveralls
