@@ -5,6 +5,5 @@ install:
   - pip install -r requirements.txt
   - pip install coverage codecov
 script:
-  - python manage.py test
-  - codecov
   - coverage run --branch --source=. --omit=*/migrations/* ./manage.py test
+  - codecov
