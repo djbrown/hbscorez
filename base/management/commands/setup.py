@@ -79,7 +79,7 @@ class Command(BaseCommand):
             self.stdout.write('EXISTING District: {}'.format(district))
         self.processed_districts.add(bhv_id)
 
-        seasons_url = source_url.district_source_url(district.bhv_id, '2000-01-01')
+        seasons_url = source_url.district_source_url(district.bhv_id, '1990-01-01')
         seasons_dom = logic.get_html(seasons_url)
         season_headings = seasons_dom.xpath('//div[@id="results"]/div/a[@name]/h4/text()')
         season_links = seasons_dom.xpath('//div[@id="results"]/div/a[@href]')
@@ -92,6 +92,10 @@ class Command(BaseCommand):
         if start_year is None:
             self.stdout.write('SKIPPING District Season (irrelevant): {} {}'.format(district, district_season_heading))
             return
+
+        if start_year < 2000:
+            with open('out.log', 'a') as file:
+                file.write('{} {}'.format(district, district_season_heading))
 
         if self.options['seasons'] and start_year not in self.options['seasons']:
             self.stdout.write('SKIPPING District Season (options): {}'.format(start_year))
