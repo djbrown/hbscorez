@@ -1,8 +1,7 @@
 from django.core.management import BaseCommand
 from django.db import transaction
 
-from base import models
-from base.management.commands import import_scores
+from base import models, logic
 from base.middleware import env
 
 
@@ -14,40 +13,34 @@ class Command(BaseCommand):
         self.move_player(387733, "Frieder Schwarb", "Frieder Schwab")
         self.move_player(387733, "Patrick Dederich", "Patrick Dederichs")
         sghh = [
-            ("1", "David Krypczyk", '', ''),
-            ("4", "Jakob Steinhilper", '', ''),
-            ("6", "Benjamin Boudgoust", '2', ''),
-            ("7", "Stephan Keibl", '6', ''),
-            ("8", "Yannick Beer", '4', ''),
-            ("11", "Jascha Lehnkering", '2', ''),
-            ("12", "Daniel Debatin", '', ''),
-            ("13", "Raphael Blum", '', ''),
-            ("19", "Maximilian Strüwing", '3', '4/3'),
-            ("24", "Matthias Junker", '3', '2/1'),
-            ("28", "Michael Förster", '5', ''),
-            ("71", "Maximilian Vollmer", '2', ''),
-            ("77", "Daniel Badawi", '1', ''),
-            ("A", "Roland Hähnel", '', ''),
-            ("B", "Sandro Catak", '', ''),
-            ("C", "Thomas Hinz", '', ''),
-            ("D", "Daniel Philipp", '', ''),
+            ("David Krypczyk", 1,),
+            ("Jakob Steinhilper", 1,),
+            ("Benjamin Boudgoust", 1, 2,),
+            ("Stephan Keibl", 1, 6,),
+            ("Yannick Beer", 1, 4,),
+            ("Jascha Lehnkering", 11, 2),
+            ("Daniel Debatin", 12,),
+            ("Raphael Blum", 13,),
+            ("Maximilian Strüwing", 19, 3, 4, 3),
+            ("Matthias Junker", 14, 3, 2, 1),
+            ("Michael Förster", 18, 5),
+            ("Maximilian Vollmer", 11, 2),
+            ("Daniel Badawi", 17, 1),
         ]
         hcn = [
-            ("2", "Julian Frauendorff", '2', ''),
-            ("5", "Artur Pietrucha", '7', ''),
-            ("7", "Georg Kern", '3', ''),
-            ("10", "Jochen Werling", '2', ''),
-            ("12", "Findan Krettek", '', ''),
-            ("17", "Paul Nonnenmacher", '', ''),
-            ("18", "Jonas Kraus", '7', '3/3'),
-            ("19", "Marius Angrick", '5,', ''),
-            ("23", "Felix Kracht", '1', ''),
-            ("27", "Janick Nölle", '', ''),
-            ("32", "Marco Langjahr", '4', ''),
-            ("34", "Kevin Langjahr", '1', ''),
-            ("62", "Timo Bäuerlein", '2', ''),
-            ("A", "Achim Frautz", '', ''),
-            ("C", "Janine Ensslin", '', ''),
+            ("Julian Frauendorff", 2, 2),
+            ("Artur Pietrucha", 5, 7),
+            ("Georg Kern", 7, 3),
+            ("Jochen Werling", 10, 2),
+            ("Findan Krettek", 12),
+            ("Paul Nonnenmacher", 17),
+            ("Jonas Kraus", 18, 7, 3, 3),
+            ("Marius Angrick", 19, 5),
+            ("Felix Kracht", 23, 1),
+            ("Janick Nölle", 27),
+            ("Marco Langjahr", 32, 4),
+            ("Kevin Langjahr", 34, 1),
+            ("Timo Bäuerlein", 62, 2),
         ]
         self.add_scores(210116, sghh, hcn)
         env.UPDATING.set_value(models.Value.FALSE)
@@ -91,5 +84,4 @@ class Command(BaseCommand):
 
     def _add_scores(self, game, team, data):
         for score in data:
-            score = (score[0], score[1], None, None, None, score[2], score[3], None, None, None, None, None, None, None)
-            import_scores.Command._add_score(self, game, team, score)
+            logic.add_score(*(game, team) + score, log_fun=self.stdout.write)
