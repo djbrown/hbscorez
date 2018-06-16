@@ -1,7 +1,7 @@
 from django.test import TestCase
 
 
-class BaseTestCase(TestCase):
+class ModelTestCase(TestCase):
     def assert_objects(self, model, count=1, filters=None):
         if filters is None:
             filters = {}

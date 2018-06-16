@@ -1,10 +1,10 @@
 from django.core.management import call_command
 
 from base import models
-from base.tests.base_test_case import BaseTestCase
+from base.tests.model_test_case import ModelTestCase
 
 
-class SetupTest(BaseTestCase):
+class SetupTest(ModelTestCase):
 
     def test__setup__mvl_2016(self):
         return_code = call_command('setup', '-a 35', '-d 35', '-s 2016', '-l 21666')

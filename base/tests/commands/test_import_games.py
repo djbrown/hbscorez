@@ -3,10 +3,10 @@ import datetime
 from django.core.management import call_command
 
 from base import models
-from base.tests.base_test_case import BaseTestCase
+from base.tests.model_test_case import ModelTestCase
 
 
-class ImportGamesTest(BaseTestCase):
+class ImportGamesTest(ModelTestCase):
 
     def test__import_games__specific_game(self):
         return_code = call_command('setup', '-a 35', '-d 35', '-s 2017', '-l 26777')
