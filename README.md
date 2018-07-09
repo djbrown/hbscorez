@@ -11,3 +11,18 @@ HbScorez is powered by Django
 
 [<img src="https://www.djangoproject.com/m/img/logos/django-logo-positive.svg" height="50" alt="Django Logo"/>](https://www.djangoproject.com/)
 
+## Requirements
+
+* python3
+* java (>=1.6)
+
+
+## Installation
+
+`$ pip install pipenv`
+
+`$ pipenv install` (add `--dev` to include development dependencies)
+
+`$ pipenv run python manage.py migrate`
+
+`$ pipenv run python manage.py runserver`

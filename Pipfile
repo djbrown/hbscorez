@@ -1,0 +1,22 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+django = ">=2.0"
+"jinja2" = "*"
+requests = "*"
+lxml = "*"
+icalendar = "*"
+faker = "*"
+tabula-py = "*"
+coveralls = "*"
+
+[dev-packages]
+coverage = "*"
+coveralls = "*"
+codecov = "*"
+
+[requires]
+python_version = "3.6"

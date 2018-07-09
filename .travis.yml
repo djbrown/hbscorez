@@ -2,9 +2,9 @@ language: python
 python:
   - "3.6"
 install:
-  - pip install -r requirements.txt
-  - pip install coverage codecov coveralls
+  - pip install pipenv
+  - pipenv install --dev
 script:
-  - coverage run --branch --source=. --omit=*/migrations/* ./manage.py test
-  - codecov
-  - coveralls
+  - pipenv run coverage run --branch --source=. --omit=*/migrations/* ./manage.py test
+  - pipenv run codecov
+  - pipenv run coveralls
