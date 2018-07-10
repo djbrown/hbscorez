@@ -1,0 +1,13 @@
+{% extends 'leagues/base.html' %}
+{% block description %}Übersichtsseite der Liga '{{ league.name }}' des Bereichs '{{ league.district.name }}'{% endblock %}
+{% block content %}
+{{ super() }}
+<nav class="nav nav-pills mb-3">
+    <a class="nav-item nav-link m-1 active" href="#/">Übersicht</a>
+    <a class="nav-item nav-link m-1" href="{{ url('leagues:teams', args=[league.bhv_id]) }}">Mannschaften</a>
+    <a class="nav-item nav-link m-1" href="{{ url('leagues:games', args=[league.bhv_id]) }}">Spiele</a>
+    <a class="nav-item nav-link m-1" href="{{ url('leagues:scorers', args=[league.bhv_id]) }}">Schützen</a>
+    <a class="nav-item nav-link m-1" href="{{ url('leagues:penalties', args=[league.bhv_id]) }}">Strafen</a>
+</nav>
+<h2>Übersicht</h2>
+{% endblock %}

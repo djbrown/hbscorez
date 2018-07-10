@@ -1,38 +1,39 @@
 from django.contrib.staticfiles.templatetags.staticfiles import static
 
-from base import models
+from games.models import TeamOutCome, GameOutcome
+from teams.models import Team
 
 
 def dec(value, arg):
     return value - arg
 
 
-def team_logo_url(team: models.Team):
+def team_logo_url(team: Team):
     if team.logo:
         return team.logo.url
     else:
         return static('base/images/favicons/favicon.png')
 
 
-def team_outcome_badge(outcome: models.TeamOutCome):
+def team_outcome_badge(outcome: TeamOutCome):
     if outcome is None:
         return "-"
 
     mapping = {
-        models.TeamOutCome.WIN: ('success', 'Sieg'),
-        models.TeamOutCome.TIE: ('warning', 'Unentschieden'),
-        models.TeamOutCome.LOSS: ('danger', 'Niederlage')
+        TeamOutCome.WIN: ('success', 'Sieg'),
+        TeamOutCome.TIE: ('warning', 'Unentschieden'),
+        TeamOutCome.LOSS: ('danger', 'Niederlage')
     }
     return '<span class="badge badge-{}">{}</span>'.format(*mapping[outcome])
 
 
-def game_outcome_badge(outcome: models.GameOutcome):
+def game_outcome_badge(outcome: GameOutcome):
     if outcome is None:
         return "-"
 
     mapping = {
-        models.GameOutcome.HOME_WIN: 'Heimsieg',
-        models.GameOutcome.AWAY_WIN: 'Auswärtssieg',
-        models.GameOutcome.TIE: 'Unentschieden',
+        GameOutcome.HOME_WIN: 'Heimsieg',
+        GameOutcome.AWAY_WIN: 'Auswärtssieg',
+        GameOutcome.TIE: 'Unentschieden',
     }
     return '<span class="badge badge-light">{}</span>'.format(mapping[outcome])
