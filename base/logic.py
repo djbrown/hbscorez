@@ -1,4 +1,3 @@
-import re
 from typing import Callable
 
 import requests
@@ -17,33 +16,6 @@ def get_html(url):
     return html.fromstring(response.text)
 
 
-def get_association_abbreviation(association_name):
-    association_abbreviations = {
-        'Badischer Handball-Verband': 'BHV',
-        'Fédération Luxembourgeoise de Handball': 'FLH',
-        'Hamburger Handball-Verband': 'HHV',
-        'Handball Baden-Württemberg': 'HBW',
-        'Handballoberliga Rheinland-Pfalz/Saar': 'RPS',
-        'Handballverband Rheinhessen': 'HVR',
-        'Handballverband Saar': 'HVS',
-        'Handballverband Schleswig-Holstein': 'HVSH',
-        'Handballverband Württemberg': 'HVW',
-        'Mitteldeutscher Handball-Verband': 'MHV',
-        'Oberliga Hamburg - Schleswig-Holstein': 'HHSH',
-        'Südbadischer Handballverband': 'SHV',
-        'Thüringer Handball-Verband': 'THV',
-        'Vorarlberger Handballverband': 'VHV',
-    }
-    return association_abbreviations[association_name]
-
-
-def is_youth_league(name):
-    return re.search('MJ', name) \
-           or re.search('WJ', name) \
-           or re.search('Jugend', name) \
-           or re.search('Mini', name)
-
-
 def add_ranking_place(items: list, field: str):
     """
     Adds 'place' to all items according to their order.
@@ -59,36 +31,6 @@ def add_ranking_place(items: list, field: str):
             previous = items[index - 1]
             if getattr(previous, field) == getattr(item, field):
                 item.place = previous.place
-
-
-def move_player(team_bhv_id: int, old_name: str, new_name: str, log_fun: Callable = print):
-    log_fun("MOVING Player: {} ({}) to {}".format(old_name, team_bhv_id, new_name))
-
-    if old_name == new_name:
-        log_fun("SKIPPING: identical names")
-        return
-
-    team_matches = Team.objects.filter(bhv_id=team_bhv_id)
-    if not team_matches.exists():
-        log_fun("SKIPPING: team not found")
-        return
-
-    team = team_matches[0]
-
-    old_player_matches = Player.objects.filter(name=old_name, team=team)
-    if not old_player_matches.exists():
-        log_fun("SKIPPING: player not found")
-        return
-
-    old_player = old_player_matches[0]
-
-    new_player, created = Player.objects.get_or_create(name=new_name, team=team)
-
-    for score in old_player.score_set.all():
-        score.player = new_player
-        score.save()
-    old_player.delete()
-    log_fun("RENAMED Player: {} to {}".format(old_player, new_player))
 
 
 def add_score(game: Game, team: Team, player_name: str, player_number: int,

@@ -43,7 +43,7 @@ class Command(BaseCommand):
 
     def create_association(self, association_link):
         name = association_link.text
-        abbreviation = logic.get_association_abbreviation(name)
+        abbreviation = Association.get_association_abbreviation(name)
         bhv_id = parsing.parse_association_bhv_id(association_link)
 
         if self.options['associations'] and bhv_id not in self.options['associations']:
@@ -132,7 +132,7 @@ class Command(BaseCommand):
 
         name = parsing.parse_league_name(dom)
 
-        if logic.is_youth_league(name) and not self.options['youth']:
+        if League.is_youth_league(name) and not self.options['youth']:
             self.stdout.write('SKIPPING League (youth league): {} {}'.format(bhv_id, name))
             return
 

@@ -1,3 +1,5 @@
+import re
+
 from django.conf import settings
 from django.core import validators
 from django.db import models
@@ -37,3 +39,10 @@ class League(models.Model):
 
     def source_url(self):
         return self.build_source_url(self.bhv_id)
+
+    @staticmethod
+    def is_youth_league(name):
+        return re.search('MJ', name) \
+               or re.search('WJ', name) \
+               or re.search('Jugend', name) \
+               or re.search('Mini', name)
