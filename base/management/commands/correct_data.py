@@ -1,14 +1,17 @@
 from django.core.management import BaseCommand
 from django.db import transaction
 
-from base import models, logic
+from base import logic
 from base.middleware import env
+from base.models import Value
+from games.models import Game
+from players.models import Player
 
 
 class Command(BaseCommand):
 
     def handle(self, *args, **options):
-        env.UPDATING.set_value(models.Value.TRUE)
+        env.UPDATING.set_value(Value.TRUE)
         self.move_player(387733, "Philip Noske", "Philipp Noske")
         self.move_player(387733, "Frieder Schwarb", "Frieder Schwab")
         self.move_player(387733, "Patrick Dederich", "Patrick Dederichs")
@@ -43,15 +46,15 @@ class Command(BaseCommand):
             ("Timo Bäuerlein", 62, 2),
         ]
         self.add_scores(210116, sghh, hcn)
-        env.UPDATING.set_value(models.Value.FALSE)
+        env.UPDATING.set_value(Value.FALSE)
 
     @transaction.atomic
     def move_player(self, team_bhv_id, old_name, new_name):
         self.stdout.write("MOVING Player {} ({}) to {}".format(old_name, team_bhv_id, new_name))
-        matches = models.Player.objects.filter(name=old_name, team__bhv_id=team_bhv_id)
+        matches = Player.objects.filter(name=old_name, team__bhv_id=team_bhv_id)
         if matches.exists():
             old_player = matches[0]
-            new_player, created = models.Player.objects.get_or_create(name=new_name, team=old_player.team)
+            new_player, created = Player.objects.get_or_create(name=new_name, team=old_player.team)
             if old_player == new_player:
                 self.stdout.write("SKIPPING Player (old equals new): {}".format(new_player))
             else:
@@ -69,7 +72,7 @@ class Command(BaseCommand):
 
     @transaction.atomic
     def add_scores(self, game_number, home_data, guest_data):
-        game_matches = models.Game.objects.filter(number=game_number)
+        game_matches = Game.objects.filter(number=game_number)
         if not game_matches.exists():
             self.stdout.write("SKIPPING Game (not found): {}".format(game_number))
             return
