@@ -1,12 +1,18 @@
-## Description
+---
+name: Feature request
+about: Suggest an idea for this project
+
+---
+
+**Description**
 I'm always frustrated when...
 - [ ] what are you trying to accomplish?
-- [ ] which feature did you miss?
-- [ ] how has this affected you?
+- [ ] what should be better?
+- [ ] how would this affect your goal?
 
-## Optional
+**Optional**
 - [ ] alternatives you've considered
-- [ ] screenshots
+- [ ] relevant screenshots
 - [ ] requester status: user, developer
 - [ ] version used (e.g. website, local copy at commit X)
 - [ ] browser (e.g. Chrome 68, Firefox 61, Safari 11):
