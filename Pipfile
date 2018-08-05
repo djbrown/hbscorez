@@ -4,19 +4,25 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-django = ">=2.0"
-"jinja2" = "*"
+Django = ">=2.0"
+"Jinja2" = "*"
 requests = "*"
 lxml = "*"
 icalendar = "*"
-faker = "*"
+Faker = "*"
 tabula-py = "*"
-coveralls = "*"
+"autopep8" = "*"
 
 [dev-packages]
+"flake8" = "*"
+"autopep8" = "*"
+mypy = "*"
 coverage = "*"
 coveralls = "*"
 codecov = "*"
+ptpython = "*"
+pip-licenses = "*"
+pylint = "*"
 
 [requires]
 python_version = "3.6"
