@@ -10,10 +10,10 @@ about: Create a bug report to help me improve
 - what should have happened instead?
 
 **Steps to reproduce**
-. go to '...'
-. click on '....'
-. scroll down to '....'
-. see error / incorrect result '...'
+1. go to '...'
+2. click on '....'
+3. scroll down to '....'
+4. see error / incorrect result '...'
 
 **Optional**
 - relevant screenshots
