@@ -1,5 +1,6 @@
 ## Context
-I'm always frustrated when ...
+I'm always frustrated when...
+
 Consider following points:
 - [ ] what are you trying to accomplish?
 - [ ] which feature did you miss?
