@@ -1,16 +1,11 @@
 ### Project
 /db.sqlite3
-/reports/
 /hbscorez/settings_prod.py
-/mails/
 /media/
+/reports/
 /static/
 
 ### IDEs
 /.idea/
 /.vscode/
 
-### Python
-#__pycache__/
-#*.py[cod]
-#*$py.class
