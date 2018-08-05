@@ -11,5 +11,13 @@ COPY Pipfile .
 COPY Pipfile.lock .
 RUN pipenv install
 COPY . .
-RUN pipenv run python manage.py migrate
-CMD sh run.sh
+
+RUN ["pipenv", "run", "python", "manage.py", "migrate"]
+RUN ["pipenv", "run", "python", "manage.py", "collectstatic --no-input"]
+RUN ["pipenv", "run", "python", "manage.py", "setup"]
+RUN ["pipenv", "run", "python", "manage.py", "download_reports"]
+RUN ["pipenv", "run", "python", "manage.py", "import_scores"]
+
+EXPOSE 8000
+ENTRYPOINT ["pipenv", "run", "python", "manage.py", "runserver"]
+CMD ["0.0.0.0:8000"]
