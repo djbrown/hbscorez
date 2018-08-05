@@ -113,8 +113,16 @@ h1 {
     width: 100%;
 }
 
+/*
+ * Leader Cards
+ */
+.leader-card ol > li:first-child {
+    font-weight: bold;
+}
+
 #footer {
-    padding: 20px 0 20px 180px
+    padding: 20px 0 20px 180px;
+    margin-top: 20px;
 }
 
 .footer-item {

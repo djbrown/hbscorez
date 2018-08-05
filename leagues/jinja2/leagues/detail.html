@@ -7,7 +7,62 @@
     <a class="nav-item nav-link m-1" href="{{ url('leagues:teams', args=[league.bhv_id]) }}">Mannschaften</a>
     <a class="nav-item nav-link m-1" href="{{ url('leagues:games', args=[league.bhv_id]) }}">Spiele</a>
     <a class="nav-item nav-link m-1" href="{{ url('leagues:scorers', args=[league.bhv_id]) }}">Schützen</a>
-    <a class="nav-item nav-link m-1" href="{{ url('leagues:penalties', args=[league.bhv_id]) }}">Strafen</a>
+    <a class="nav-item nav-link m-1" href="{{ url('leagues:offenders', args=[league.bhv_id]) }}">Straffällige</a>
 </nav>
 <h2>Übersicht</h2>
+<p>Anzahl der Spiele: {{ games_count }}</p>
+<div class="card-deck">
+    <div class="card leader-card">
+        <div class="card-body">
+            <h5 class="card-title">Top 5 Mannschaften</h5>
+            <ol class="card-text">
+                {% for group in teams.values() %}
+                <li>
+                    {% for team in group %}
+                    <a href="{{ url('teams:detail', args=[team.bhv_id]) }} ">{{ team.name }}</a> ({{ team.points }}&nbsp;Punkte)
+                    {% endfor %}
+                </li>
+                {% endfor %}
+            </ol>
+        </div>
+        <div class="card-footer">
+            <small class="text-muted">Last updated 3 mins ago</small>
+        </div>
+    </div>
+    <div class="card leader-card">
+        <div class="card-body">
+            <h5 class="card-title">Top 5 Schützen</h5>
+            <ol class="card-text">
+                {% for group in scorers.values() %}
+                <li>
+                    {% for scorer in group %}
+                    {{ scorer.fake_name() }}
+                    {{ scorer.fake_name() }}p
+                    {% endfor %}
+                </li>
+                {% endfor %}
+            </ol>
+        </div>
+        <div class="card-footer">
+            <small class="text-muted">Last updated 3 mins ago</small>
+        </div>
+    </div>
+    <div class="card leader-card">
+        <div class="card-body">
+            <h5 class="card-title">Top 5 Straffällige</h5>
+            <ol class="card-text">
+                {% for group in offenders.values() %}
+                <li>
+                    {% for scorer in group %}
+                    {{ scorer.fake_name() }}
+                    {% endfor %}
+                </li>
+                {% endfor %}
+            </ol>
+        </div>
+        <div class="card-footer">
+            <small class="text-muted">Last updated 3 mins ago</small>
+        </div>
+    </div>
+</div>
 {% endblock %}

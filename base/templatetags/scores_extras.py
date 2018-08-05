@@ -1,6 +1,6 @@
 from django.contrib.staticfiles.templatetags.staticfiles import static
 
-from games.models import TeamOutCome, GameOutcome
+from games.models import TeamOutcome, GameOutcome
 from teams.models import Team
 
 
@@ -15,14 +15,14 @@ def team_logo_url(team: Team):
         return static('base/images/favicons/favicon.png')
 
 
-def team_outcome_badge(outcome: TeamOutCome):
+def team_outcome_badge(outcome: TeamOutcome):
     if outcome is None:
         return "-"
 
     mapping = {
-        TeamOutCome.WIN: ('success', 'Sieg'),
-        TeamOutCome.TIE: ('warning', 'Unentschieden'),
-        TeamOutCome.LOSS: ('danger', 'Niederlage')
+        TeamOutcome.WIN: ('success', 'Sieg'),
+        TeamOutcome.TIE: ('warning', 'Unentschieden'),
+        TeamOutcome.LOSS: ('danger', 'Niederlage')
     }
     return '<span class="badge badge-{}">{}</span>'.format(*mapping[outcome])
 

@@ -7,7 +7,7 @@ from django.shortcuts import get_object_or_404, render
 from icalendar import vText, Event, Calendar
 
 from base.logic import add_ranking_place
-from games.models import TeamOutCome, Game
+from games.models import TeamOutcome, Game
 from players.models import Player
 from teams.models import Team
 
@@ -38,9 +38,9 @@ def scorers(request, bhv_id):
     return render(request, 'teams/scorers.html', {'team': team, 'players': players})
 
 
-def penalties(request, bhv_id):
+def offenders(request, bhv_id):
     team = get_object_or_404(Team, bhv_id=bhv_id)
-    players = Player.objects \
+    team_offenders = Player.objects \
         .filter(team=team) \
         .annotate(games=Count('score')) \
         .annotate(warnings=Count('score__warning_time')) \
@@ -49,10 +49,10 @@ def penalties(request, bhv_id):
                   Count('score__second_suspension_time') +
                   Count('score__third_suspension_time')) \
         .annotate(disqualifications=Count('score__disqualification_time')) \
-        .annotate(penalty_points=F('warnings') + 2 * F('suspensions') + 3 * F('disqualifications')) \
-        .order_by('-penalty_points')
-    add_ranking_place(players, 'penalty_points')
-    return render(request, 'teams/penalties.html', {'team': team, 'players': players})
+        .annotate(offender_points=F('warnings') + 2 * F('suspensions') + 3 * F('disqualifications')) \
+        .order_by('-offender_points')
+    add_ranking_place(offenders, 'offender_points')
+    return render(request, 'teams/offenders.html', {'team': team, 'offenders': offenders})
 
 
 def calendar(_, bhv_id):
@@ -104,9 +104,9 @@ def _create_event(team, game):
 
 def _outcome(game, team):
     mapping = {
-        TeamOutCome.WIN: 'Sieg',
-        TeamOutCome.LOSS: 'Niederlage',
-        TeamOutCome.TIE: 'Unentschieden',
+        TeamOutcome.WIN: 'Sieg',
+        TeamOutcome.LOSS: 'Niederlage',
+        TeamOutcome.TIE: 'Unentschieden',
     }
     o = game.outcome_for(team)
     return mapping.get(o)

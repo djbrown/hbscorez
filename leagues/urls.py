@@ -11,7 +11,7 @@ urlpatterns = [
         path('mannschaften/', teams, name='teams'),
         path('spiele/', games, name='games'),
         path('schützen/', scorers, name='scorers'),
-        path('strafen/', penalties, name='penalties'),
+        path('straffällige/', offenders, name='offenders'),
         path('kalender/', calendar, name='calendar'),
     ])),
 ]

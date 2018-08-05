@@ -1,10 +1,13 @@
+import collections
 from typing import Callable
 
 import requests
 from django.db import transaction
+from django.db.models import Sum, Count, F, Q
+from django.db.models.functions import Coalesce, TruncMonth
 from lxml import html
 
-from games.models import Game
+from games.models import Game, TeamOutcome
 from players.models import Player, Score
 from teams.models import Team
 
@@ -90,3 +93,122 @@ def split_by_number(original_name: str, team: Team, log_fun: Callable = print):
     if not original_player.score_set.all().exists():
         log_fun("DELETING Player (no dangling scores): {}".format(original_player))
         original_player.delete()
+
+
+def league_games(league):
+    games = league.game_set \
+        .annotate(month=TruncMonth('opening_whistle')) \
+        .order_by('opening_whistle')
+    games_by_month = collections.defaultdict(list)
+    for game in games:
+        games_by_month[game.month].append(game)
+    return games_by_month
+
+
+def team_points(team):
+    points = 0
+    for game in Game.objects.filter(Q(home_team=team) | Q(guest_team=team)):
+        outcome = game.outcome_for(team)
+        if outcome == TeamOutcome.WIN:
+            points += 2
+        elif outcome == TeamOutcome.TIE:
+            points += 1
+    return points
+
+
+def top_league_teams(league):
+    teams = league.team_set.all()
+    for team in teams:
+        team.points = team_points(team)
+    add_ranking_place(teams, 'points')
+    teams_by_rank = collections.defaultdict(list)
+    for team in teams:
+        if team.place <= 5:
+            teams_by_rank[team.place].append(team)
+    for team_group in teams_by_rank.values():
+        team_group.sort(key=lambda p: p.name)
+    return teams_by_rank
+
+
+def league_teams_by_rank(league, top: int = 0):
+    teams = league.team_set.all()
+    for team in teams:
+        team.points = team_points(team)
+    add_ranking_place(teams, 'points')
+    teams_by_rank = collections.defaultdict(list)
+    for team in teams:
+        if top == 0 or team.place <= top:
+            teams_by_rank[team.place].append(team)
+    for team_group in teams_by_rank.values():
+        team_group.sort(key=lambda p: p.name)
+    return teams_by_rank
+
+
+def league_scorers(league):
+    scorers = Player.objects \
+        .filter(team__league=league) \
+        .annotate(games=Count('score')) \
+        .filter(games__gt=0) \
+        .annotate(total_goals=Coalesce(Sum('score__goals'), 0)) \
+        .filter(total_goals__gt=0) \
+        .annotate(total_penalty_goals=Sum('score__penalty_goals')) \
+        .annotate(total_field_goals=F('total_goals') - F('total_penalty_goals')) \
+        .order_by('-total_goals')
+    add_ranking_place(scorers, 'total_goals')
+    return scorers
+
+
+def top_league_scorers(league):
+    players = Player.objects \
+        .filter(team__league=league) \
+        .annotate(games=Count('score')) \
+        .filter(games__gt=0) \
+        .annotate(total_goals=Coalesce(Sum('score__goals'), 0)) \
+        .order_by('-total_goals')
+    add_ranking_place(players, 'total_goals')
+    scorers_by_rank = collections.defaultdict(list)
+    for player in players:
+        if player.place <= 5:
+            scorers_by_rank[player.place].append(player)
+    for scorers_group in scorers_by_rank.values():
+        scorers_group.sort(key=lambda p: p.name)
+    return scorers_by_rank
+
+
+def league_offenders(league):
+    offenders = Player.objects \
+        .filter(team__league=league) \
+        .annotate(games=Count('score')) \
+        .annotate(warnings=Count('score__warning_time')) \
+        .annotate(suspensions=
+                  Count('score__first_suspension_time') +
+                  Count('score__second_suspension_time') +
+                  Count('score__third_suspension_time')) \
+        .annotate(disqualifications=Count('score__disqualification_time')) \
+        .annotate(offender_points=F('warnings') + 2 * F('suspensions') + 3 * F('disqualifications')) \
+        .filter(offender_points__gt=0) \
+        .order_by('-offender_points')
+    add_ranking_place(offenders, 'offender_points')
+
+
+def top_league_offenders(league):
+    offenders = Player.objects \
+        .filter(team__league=league) \
+        .annotate(games=Count('score')) \
+        .annotate(warnings=Count('score__warning_time')) \
+        .annotate(suspensions=
+                  Count('score__first_suspension_time') +
+                  Count('score__second_suspension_time') +
+                  Count('score__third_suspension_time')) \
+        .annotate(disqualifications=Count('score__disqualification_time')) \
+        .annotate(offender_points=F('warnings') + 2 * F('suspensions') + 3 * F('disqualifications')) \
+        .filter(offender_points__gt=0) \
+        .order_by('-offender_points')
+    add_ranking_place(offenders, 'offender_points')
+    offenders_by_place = collections.defaultdict(list)
+    for offender in offenders:
+        if offender.place <= 5:
+            offenders_by_place[offender.place].append(offender)
+    for scorers_group in offenders_by_place.values():
+        scorers_group.sort(key=lambda p: p.name)
+    return offenders_by_place

@@ -16,7 +16,7 @@ class GameOutcome(Enum):
     TIE = auto()
 
 
-class TeamOutCome(Enum):
+class TeamOutcome(Enum):
     WIN = auto()
     LOSS = auto()
     TIE = auto()
@@ -79,15 +79,15 @@ class Game(models.Model):
         if self.home_goals == self.guest_goals:
             return GameOutcome.TIE
 
-    def outcome_for(self, team) -> TeamOutCome:
+    def outcome_for(self, team) -> TeamOutcome:
         if self.outcome() == GameOutcome.TIE:
-            return TeamOutCome.TIE
+            return TeamOutcome.TIE
         if team == self.home_team and self.outcome() == GameOutcome.HOME_WIN \
                 or team == self.guest_team and self.outcome() == GameOutcome.AWAY_WIN:
-            return TeamOutCome.WIN
+            return TeamOutcome.WIN
         if team == self.home_team and self.outcome() == GameOutcome.AWAY_WIN \
                 or team == self.guest_team and self.outcome() == GameOutcome.HOME_WIN:
-            return TeamOutCome.LOSS
+            return TeamOutcome.LOSS
 
     def goals_of(self, team):
         if team == self.home_team:

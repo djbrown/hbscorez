@@ -1,6 +1,6 @@
 {% extends 'leagues/base.html' %}
-{% block title %}Strafen - {{ super() }}{% endblock %}
-{% block description %}Ranking der Spieler mit den meisten Strafen in der Liga {{ league.name }}{% endblock %}
+{% block title %}Straffällige - {{ super() }}{% endblock %}
+{% block description %}Ranking der straffälligsten Spieler in der Liga {{ league.name }}{% endblock %}
 {% block content %}
     {{ super() }}
     <nav class="nav nav-pills mb-3">
@@ -8,9 +8,9 @@
         <a class="nav-item nav-link m-1" href="{{ url('leagues:teams', args=[league.bhv_id]) }}">Mannschaften</a>
         <a class="nav-item nav-link m-1" href="{{ url('leagues:games', args=[league.bhv_id]) }}">Spiele</a>
         <a class="nav-item nav-link m-1" href="{{ url('leagues:scorers', args=[league.bhv_id]) }}">Schützen</a>
-        <a class="nav-item nav-link m-1 active" href="#/">Strafen</a>
+        <a class="nav-item nav-link m-1 active" href="#/">Straffällige</a>
     </nav>
-    <h2>Strafen
+    <h2>Straffällige
         <button class="btn btn-outline-primary" type="button" data-toggle="collapse" data-target="#penalty-info"><i
                 class="fas fa-info-circle"></i>
         </button>
