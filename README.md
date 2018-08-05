@@ -32,3 +32,5 @@ HbScorez is powered by Django
 
 ## License
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fdjbrown%2Fhbscorez.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fdjbrown%2Fhbscorez?ref=badge_large)
+
+## [Contribute](CONTRIBUTING.md)
