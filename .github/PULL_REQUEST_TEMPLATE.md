@@ -5,11 +5,11 @@
 <!--- Why is this change required? What problem does it solve? -->
 <!--- If it fixes an open issue, please link to the issue here. -->
 I was always frustrated when...
-- [ ] what were you trying to accomplish?
-- [ ] which step failed?
-- [ ] what should have happened instead?
-- [ ] what should be better?
-- [ ] how does this change affect your goal?
+- what were you trying to accomplish?
+- which step failed?
+- what should have happened instead?
+- what should be better?
+- how does this change affect your goal?
 
 **Optional**
 - alternatives you've considered
