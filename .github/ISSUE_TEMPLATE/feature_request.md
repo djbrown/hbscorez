@@ -1,17 +1,15 @@
----
-name: Feature request
-about: Suggest an idea for this project
+## Context
+I'm always frustrated when ...
+Consider following points:
+- [ ] what are you trying to accomplish?
+- [ ] which feature did you miss?
+- [ ] how has this affected you?
+- [ ] alternatives you've considered*
+- [ ] screenshots*
+- [ ] requester status*: user, developer
+- [ ] version used* (e.g. website, local copy at commit X)
+- [ ] browser* (e.g. Chrome 68, Firefox 61, Safari 11):
+- [ ] OS* (e.g. Windows 10, Ubuntu 18.04, Android 8.0, iOS 11.4.1):
+- [ ] ideas how to implement the addition or change (consider creating a PULL REQUEST)
 
----
-
-**Is your feature request related to a problem? Please describe.**
-A clear and concise description of what the problem is. Ex. I'm always frustrated when [...]
-
-**Describe the solution you'd like**
-A clear and concise description of what you want to happen.
-
-**Describe alternatives you've considered**
-A clear and concise description of any alternative solutions or features you've considered.
-
-**Additional context**
-Add any other context or screenshots about the feature request here.
+\*optional
