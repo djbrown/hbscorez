@@ -14,13 +14,13 @@ from teams.models import Team
 
 def detail(request, bhv_id):
     team = get_object_or_404(Team, bhv_id=bhv_id)
-    return render(request, 'teams/detail.html', {'team': team})
+    return render(request, 'teams/detail.j2', {'team': team})
 
 
 def games(request, bhv_id):
     team = get_object_or_404(Team, bhv_id=bhv_id)
     games = Game.objects.filter(Q(home_team=team) | Q(guest_team=team)).order_by('opening_whistle')
-    return render(request, 'teams/games.html', {'team': team, 'games': games})
+    return render(request, 'teams/games.j2', {'team': team, 'games': games})
 
 
 def scorers(request, bhv_id):
@@ -35,7 +35,7 @@ def scorers(request, bhv_id):
         .annotate(total_field_goals=F('total_goals') - F('total_penalty_goals')) \
         .order_by('-total_goals')
     add_ranking_place(players, 'total_goals')
-    return render(request, 'teams/scorers.html', {'team': team, 'players': players})
+    return render(request, 'teams/scorers.j2', {'team': team, 'players': players})
 
 
 def offenders(request, bhv_id):
@@ -52,7 +52,7 @@ def offenders(request, bhv_id):
         .annotate(offender_points=F('warnings') + 2 * F('suspensions') + 3 * F('disqualifications')) \
         .order_by('-offender_points')
     add_ranking_place(offenders, 'offender_points')
-    return render(request, 'teams/offenders.html', {'team': team, 'offenders': offenders})
+    return render(request, 'teams/offenders.j2', {'team': team, 'offenders': offenders})
 
 
 def calendar(_, bhv_id):
