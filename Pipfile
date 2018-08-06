@@ -11,11 +11,8 @@ lxml = "*"
 icalendar = "*"
 Faker = "*"
 tabula-py = "*"
-"autopep8" = "*"
 
 [dev-packages]
-"flake8" = "*"
-"autopep8" = "*"
 mypy = "*"
 coverage = "*"
 coveralls = "*"
@@ -23,6 +20,8 @@ codecov = "*"
 ptpython = "*"
 pip-licenses = "*"
 pylint = "*"
+"autopep8" = "*"
+"flake8" = "*"
 
 [requires]
 python_version = "3.6"

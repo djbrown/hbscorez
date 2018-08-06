@@ -15,43 +15,47 @@ HbScorez is powered by Django
 [<img src="https://www.djangoproject.com/m/img/logos/django-logo-positive.svg" height="50" alt="Django Logo"/>](https://www.djangoproject.com/)
 
 
-## Requirements
+## Running via Docker
 
-* python3
-* java (>=1.6)
-* pipenv (`$ pip install pipenv`)
+`docker run -p 8001:8000 djbrown/hbscorez`<br/>
+Container is reachable under [0.0.0.0:8001](http://0.0.0.0:8001)
+
+## Running natively
+
+### Requirements
+
+1. python3
+2. pipenv (`pip install pipenv`)
+3. java (>=1.6) for parsing game report PDFs
 
 
-## Installation
+### Installation
 
-`$ pipenv install` (add `--dev` to include development dependencies)
+`pipenv install` (add `--dev` to include development dependencies)<br/>
+`pipenv run python manage.py migrate`
 
-`$ pipenv run python manage.py migrate`
+### Start Application
 
+`pipenv run python manage.py runserver`
 
 ## Testing
 
-`$ pipenv run python manage.py migrate`
+`pipenv run python manage.py test`
 
 with coverage:<br/>
-`$ pipenv run coverage run --branch --source=. --omit=*/migrations/* ./manage.py test`
+`pipenv run coverage run --branch --source=. --omit=*/migrations/* ./manage.py test`
 
 
+## Main Commands
 
-## Initialize Data
+* **setup**: fetch associations, districts, seasons and leagues
+* **import_games**: fetch games and sport halls
+* **import_scores**: fetch players and scores
 
-`$ pipenv run python manage.py setup` ¹
+Execute Commands via `pipenv run python manage.py <COMMAD> <OPTIONS>`.<br/>
+Prepend `docker run <CONTAINER> ` when running via Docker.<br/>
+Append ` -h` to display Command help.
 
-`$ pipenv run python manage.py import_games` ¹
-
-`$ pipenv run python manage.py import_scores` ¹
-
-¹) add `-h` to display help message
-
-
-## Start Application
-
-`$ pipenv run python manage.py runserver`
 
 
 ## License

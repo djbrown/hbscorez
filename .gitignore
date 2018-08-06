@@ -9,3 +9,6 @@
 /.idea/
 /.vscode/
 
+### Tools
+/.mypy_cache/
+
