@@ -7,6 +7,7 @@ install:
 - "curl -H 'Cache-Control: no-cache' https://raw.githubusercontent.com/fossas/fossa-cli/master/install.sh | sudo bash"
 script:
 - pipenv run coverage run --branch --source=. --omit=*/migrations/* ./manage.py test
+- pipenv run mypy .
 after_success:
 - pipenv run codecov
 - pipenv run coveralls

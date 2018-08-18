@@ -5,10 +5,12 @@
 /reports/
 /static/
 
+### Python
+**/__pycache__/
+
 ### IDEs
 /.idea/
 /.vscode/
 
 ### Tools
 /.mypy_cache/
-
