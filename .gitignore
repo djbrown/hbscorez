@@ -6,7 +6,7 @@
 /static/
 
 ### Python
-**/__pycache__/
+__pycache__/
 
 ### IDEs
 /.idea/
