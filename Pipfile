@@ -30,6 +30,7 @@ pylint = "*"
 rope = "*"
 sauceclient = "*"
 selenium = "*"
+pylint-django = "*"
 
 [requires]
 python_version = "3.7"

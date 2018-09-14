@@ -1,5 +1,5 @@
 from django.contrib import admin
 
-from base.models import *
+from .models import Env
 
 admin.site.register(Env)
