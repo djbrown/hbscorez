@@ -5,7 +5,7 @@ name = "pypi"
 
 [packages]
 Django = ">=2.0"
-"Jinja2" = "*"
+Jinja2 = "*"
 requests = "*"
 lxml = "*"
 icalendar = "*"
@@ -13,11 +13,14 @@ Faker = "*"
 tabula-py = "*"
 
 [dev-packages]
+autopep8 = "*"
 bandit = "*"
 codacy-coverage = "*"
 codecov = "*"
 coverage = "*"
 coveralls = "*"
+dparse = {version = "*", extras = ["pipenv"]}
+flake8 = "*"
 mypy = "*"
 pip-licenses = "*"
 prospector = "*"
@@ -27,9 +30,11 @@ pylint = "*"
 rope = "*"
 sauceclient = "*"
 selenium = "*"
-"autopep8" = "*"
-"flake8" = "*"
-"pep8" = "*"
 
 [requires]
-python_version = "3.6"
+python_version = "3.7"
+
+[scripts]
+hbscorez = "python manage.py runserver 0.0.0.0:8000"
+test = "python manage.py test"
+coverage = "coverage run --branch --source=. --omit=*/migrations/* ./manage.py test"

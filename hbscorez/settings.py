@@ -14,14 +14,14 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sitemaps',
-    'associations.apps.AssociationsConfig',
-    'base.apps.BaseConfig',
-    'districts.apps.DistrictsConfig',
-    'games.apps.GamesConfig',
-    'leagues.apps.LeaguesConfig',
-    'players.apps.PlayersConfig',
-    'sports_halls.apps.SportsHallsConfig',
-    'teams.apps.TeamsConfig',
+    'base',
+    'associations',
+    'districts',
+    'leagues',
+    'teams',
+    'games',
+    'players',
+    'sports_halls',
 ]
 
 MIDDLEWARE = [
@@ -94,6 +94,10 @@ USE_L10N = True
 STATIC_URL = '/static/'
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+MEDIA_URL = '/media/'
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'media')
 
 REPORTS_PATH = os.path.join(BASE_DIR, 'reports')
 

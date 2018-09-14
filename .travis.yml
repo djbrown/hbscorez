@@ -1,6 +1,6 @@
 language: python
 python:
-  - '3.6'
+  - 3.7-dev
 install:
   - pip install pipenv
   - pipenv install --dev
@@ -8,11 +8,16 @@ install:
     curl -H 'Cache-Control: no-cache'
     https://raw.githubusercontent.com/fossas/fossa-cli/master/install.sh | sudo
     bash
+addons:
+  sauce_connect: true
 script:
+  - diff ATTRIBUTIONS.md <(pipenv run pip-licenses -csaum)
+  - pipenv run coverage
+  - pipenv run coverage xml
   - >-
-    pipenv run coverage run --branch --source=. --omit=*/migrations/*
-    ./manage.py test
-  - pipenv run mypy .
+    pipenv run mypy -p base -p associations -p districts -p leagues -p teams -p
+    games -p sports_halls -p players
+  - pipenv run flake8
 after_success:
   - pipenv run codecov
   - pipenv run coveralls

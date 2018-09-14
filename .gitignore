@@ -4,6 +4,7 @@
 /media/
 /reports/
 /static/
+/mails/
 
 ### Python
 __pycache__/
@@ -13,4 +14,6 @@ __pycache__/
 /.vscode/
 
 ### Tools
-/.mypy_cache/
+**/.mypy_cache/
+/geckodriver.log
+

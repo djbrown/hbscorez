@@ -41,3 +41,44 @@ The following command will clean your code accordingly: `pipenv run autopep8`
 Also make sure to check messages from the following commands before proposing:
 * `pipenv run mypy hbscorez`
 * `pipenv run flake8`
+
+
+### Testing
+
+Run tests: `pipenv run test`<br/>
+Run coverage: `pipenv run coverage`
+
+#### Test Modules
+* A test module is a module that tests a single source module.
+* A test module is defined in in the `tests` subpackage of the related app.
+* A test module is named `test_<module_name>.py`.
+
+#### Test Cases
+* A test case is a class that tests a single source class.
+* A test case is defined in a test module.
+* A test case is named `Test<TestCaseName>`
+* A test case subclasses `django.test.TestCase`
+
+#### Tests
+* A test is a method that tests a single source function or method.
+* A test is defined in a test case.
+* A test is named `test_<test_name>`.
+
+#### Test Scenarios
+* A test scenario ist a tuple of given input(s) and expected output or behaviour for a source function or method.
+* A test scenario is defined within an unparametrized test or annotated on a parametrized test.
+
+#### Selenium
+* A selenium test case is used to assert a single integrational server client interaction.
+* A selenium test module is defined in the `tests.selenium` subpackage of the related app.
+* A selenium test case subclasses `base.tests.base.SeleniumTestCase`.
+* A selenium test case is only run in CI.
+* A selenium test case can be run locally:
+  * install [Firefox](https://www.mozilla.org/firefox/) and add to PATH
+  * install [geckodriver](https://github.com/mozilla/geckodriver) and add to PATH
+  * set Django setting `SELENIUM = True`
+
+
+
+## JavaScript (:warning: Work in Progress)
+<!-- TODO -->
