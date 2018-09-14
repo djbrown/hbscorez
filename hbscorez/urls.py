@@ -29,7 +29,7 @@ players_dict = {'queryset': Player.objects.get_queryset().order_by('pk')}
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('sitemap..xml', sitemap, {'sitemaps': {
+    path('sitemap.xml', sitemap, {'sitemaps': {
         'associations': GenericSitemap(associations_dict),
         'districts': GenericSitemap(districts_dict),
         'leagues': GenericSitemap(leagues_dict),

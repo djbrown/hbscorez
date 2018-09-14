@@ -34,7 +34,7 @@
 </head>
 <body>
 <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-    <a class="navbar-brand" href="{{ url('home') }}">HbScorez</a>
+    <a class="navbar-brand" href="{{ url('base:home') }}">HbScorez</a>
     <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#navbar">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -62,8 +62,8 @@
             </li>
             <li class="nav-item"><a class="btn btn-block btn-primary" target="_blank"
                                     href="https://redmine.djbrown.de/projects/hbscorez/boards">Forum</a></li>
-            <li class="nav-item"><a class="nav-link" href="{{ url('notice') }}">Impressum</a></li>
-            <li class="nav-item"><a id="privacy" class="nav-link" href="{{ url('privacy') }}">Datenschutz</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{ url('abse:notice') }}">Impressum</a></li>
+            <li class="nav-item"><a id="privacy" class="nav-link" href="{{ url('base:privacy') }}">Datenschutz</a></li>
         </ul>
     </div>
 </nav>
