@@ -13,6 +13,7 @@ import leagues.urls
 import players.urls
 import sports_halls.urls
 import teams.urls
+import users.urls
 from associations.models import Association
 from districts.models import District
 from games.models import Game
@@ -29,6 +30,7 @@ players_dict = {'queryset': Player.objects.get_queryset().order_by('pk')}
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('users/', include(users.urls)),
     path('sitemap.xml', sitemap, {'sitemaps': {
         'associations': GenericSitemap(associations_dict),
         'districts': GenericSitemap(districts_dict),

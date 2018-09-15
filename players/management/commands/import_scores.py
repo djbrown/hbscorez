@@ -1,4 +1,5 @@
 import os
+from typing import Any, Dict
 
 import requests
 import tabula
@@ -7,15 +8,16 @@ from django.core.management import BaseCommand
 from django.db import transaction
 
 from associations.models import Association
-from base import logic
-from base import parsing
+from base import logic, parsing
 from base.middleware import env
 from base.models import Value
+from games.models import Game
 from leagues.models import Season
+from players.models import Player, Score
 
 
 class Command(BaseCommand):
-    options = {}
+    options: Dict[str, Any] = {}
     bugged_reports = [450001, 473097, 497475, 501159, 546059, 562543, 567811, 572051, 598812, 627428, 638260]
 
     def add_arguments(self, parser):
@@ -118,32 +120,46 @@ class Command(BaseCommand):
         for table_row in table_rows[2:]:
             row_data = [cell['text'] for cell in table_row]
 
-            player_name = row_data[1]
-            if not player_name:
-                return
-
-            player_number = row_data[0]
-            if player_number in ('A', 'B', 'C', 'D'):
-                return
-            if player_number == "":
-                self.stdout.write('SKIPPING Score (no player number): {}'.format(player_name))
-                return
-
+            player_number: str = row_data[0]
+            player_name: str = row_data[1]
             # player_year_of_birth = row_data[2]
 
+            if not player_number and not player_name:
+                return
+            if player_number in ('A', 'B', 'C', 'D'):
+                self.stdout.write('SKIPPING Score (coach): {} - {}'.format(player_number, player_name))
+                return
+            if not player_number:
+                self.stdout.write('SKIPPING Score (no player number): {}'.format(player_name))
+                return
+            if not player_name:
+                self.stdout.write('SKIPPING Score (no player name): {}'.format(player_number))
+                return
             try:
-                goals = int(row_data[5])
+                int(player_number)
             except ValueError:
-                goals = 0
-            penalty_tries, penalty_goals = parsing.parse_penalty_data(row_data[6])
-            warning_time = parsing.parse_game_time(row_data[7])
-            first_suspension_time = parsing.parse_game_time(row_data[8])
-            second_suspension_time = parsing.parse_game_time(row_data[9])
-            third_suspension_time = parsing.parse_game_time(row_data[10])
-            disqualification_time = parsing.parse_game_time(row_data[11])
-            report_time = parsing.parse_game_time(row_data[12])
-            team_suspension_time = parsing.parse_game_time(row_data[13])
+                self.stdout.write('SKIPPING Score (invalid player number): {} - {}'.format(player_number, player_name))
+                return
 
-            logic.add_score(game, team, player_name, player_number, goals, penalty_goals, penalty_tries, warning_time,
-                            first_suspension_time, second_suspension_time, third_suspension_time, disqualification_time,
-                            report_time, team_suspension_time, self.stdout.write)
+            player = Player(name=player_name, team=team)
+            score = self.parse_score(player, game, row_data)
+            logic.add_score(score, self.stdout.write)
+
+    def parse_score(self, player: Player, game: Game, row_data)->Score:
+        player_number = int(row_data[0])
+        try:
+            goals = int(row_data[5])
+        except ValueError:
+            self.stdout.write('FIXED Score (goals): {} - {} - {}'.format(player_number, player.name, goals))
+            goals = 0
+        penalty_tries, penalty_goals = parsing.parse_penalty_data(row_data[6])
+
+        return Score(player=player, player_number=int(row_data[0]), game=game, goals=goals,
+                     penalty_tries=penalty_tries, penalty_goals=penalty_goals,
+                     warning_time=parsing.parse_game_time(row_data[7]),
+                     first_suspension_time=parsing.parse_game_time(row_data[8]),
+                     second_suspension_time=parsing.parse_game_time(row_data[9]),
+                     third_suspension_time=parsing.parse_game_time(row_data[10]),
+                     disqualification_time=parsing.parse_game_time(row_data[11]),
+                     report_time=parsing.parse_game_time(row_data[12]),
+                     team_suspension_time=parsing.parse_game_time(row_data[13]))

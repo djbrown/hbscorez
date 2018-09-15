@@ -1,8 +1,9 @@
 from django.http import HttpResponse
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import get_object_or_404, render
 
 from base import logic
 from base.logic import add_ranking_place
+
 from .models import League
 
 
@@ -36,7 +37,7 @@ def scorers(request, bhv_id):
 
 def offenders(request, bhv_id):
     league = get_object_or_404(League, bhv_id=bhv_id)
-    penalty_scorers = logic.league_penalty_scorers(league)
+    penalty_scorers = logic.league_offenders(league)
     add_ranking_place(penalty_scorers, 'penalty_points')
     return render(request, 'leagues/offenders.j2', {'league': league, 'players': penalty_scorers})
 

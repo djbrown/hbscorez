@@ -8,8 +8,8 @@ def _ensure_env(name: str, default: models.Value, force: bool = False) -> models
         if force and match.value is not default.value:
             match.set_value(default)
         return match
-    else:
-        return models.Env.objects.create(name=name, value=default.value)
+
+    return models.Env.objects.create(name=name, value=default.value)
 
 
 UPDATING = _ensure_env("UPDATING", models.Value.FALSE)

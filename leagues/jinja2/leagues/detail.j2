@@ -13,25 +13,22 @@
 <p>Anzahl der Spiele: {{ games_count }}</p>
 <div class="card-deck">
     <div class="card leader-card">
+        <h5 class="card-header">Top 5 Mannschaften</h5>
         <div class="card-body">
-            <h5 class="card-title">Top 5 Mannschaften</h5>
             <ol class="card-text">
                 {% for group in teams.values() %}
                 <li>
                     {% for team in group %}
-                    <a href="{{ url('teams:detail', args=[team.bhv_id]) }} ">{{ team.name }}</a> ({{ team.points }}&nbsp;Punkte)
+                    <a href="{{ url('teams:detail', args=[team.bhv_id]) }} ">{{ team.name }}</a> ({{ team.points }}&nbsp;Punkte)<br />
                     {% endfor %}
                 </li>
                 {% endfor %}
             </ol>
         </div>
-        <div class="card-footer">
-            <small class="text-muted">Last updated 3 mins ago</small>
-        </div>
     </div>
     <div class="card leader-card">
+        <h5 class="card-header">Top 5 Schützen</h5>
         <div class="card-body">
-            <h5 class="card-title">Top 5 Schützen</h5>
             <ol class="card-text">
                 {% for group in scorers.values() %}
                 <li>
@@ -43,13 +40,10 @@
                 {% endfor %}
             </ol>
         </div>
-        <div class="card-footer">
-            <small class="text-muted">Last updated 3 mins ago</small>
-        </div>
     </div>
     <div class="card leader-card">
+        <h5 class="card-header">Top 5 Straffällige</h5>
         <div class="card-body">
-            <h5 class="card-title">Top 5 Straffällige</h5>
             <ol class="card-text">
                 {% for group in offenders.values() %}
                 <li>
@@ -59,9 +53,6 @@
                 </li>
                 {% endfor %}
             </ol>
-        </div>
-        <div class="card-footer">
-            <small class="text-muted">Last updated 3 mins ago</small>
         </div>
     </div>
 </div>

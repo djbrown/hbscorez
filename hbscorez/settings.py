@@ -2,7 +2,7 @@ import os
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-SECRET_KEY = ' '
+SECRET_KEY = ' '  # noqa
 
 DEBUG = True
 
@@ -19,9 +19,11 @@ INSTALLED_APPS = [
     'districts',
     'leagues',
     'teams',
+    'sports_halls',
     'games',
     'players',
-    'sports_halls',
+    'users',
+
 ]
 
 MIDDLEWARE = [
@@ -91,14 +93,35 @@ TIME_ZONE = 'Europe/Berlin'
 
 USE_L10N = True
 
-STATIC_URL = '/static/'
+# static files
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
+STATIC_URL = '/static/'
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
 MEDIA_URL = '/media/'
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'media')
+
+# email
+
+EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
+
+EMAIL_FILE_PATH = os.path.join(BASE_DIR, 'mails')
+
+
+# Auth
+
+LOGIN_REDIRECT_URL = 'users:profile'
+
+LOGIN_URL = 'users:login'
+
+
+# Custom Settings
 
 REPORTS_PATH = os.path.join(BASE_DIR, 'reports')
 
 ROOT_SOURCE_URL = 'https://spo.handball4all.de/'
+
+SELENIUM = True

@@ -3,10 +3,13 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from django.urls import reverse_lazy
 
+from players.models import Player
+
 
 @login_required
 def profile(request):
-    return render(request, 'users/profile.html')
+    players = Player.objects.filter(user=request.user)
+    return render(request=request, template_name='users/profile.html', context={'players': players})
 
 
 class Login(auth_views.LoginView):

@@ -1,9 +1,9 @@
 import collections
-from typing import Callable
+from typing import Callable, Dict, List
 
 import requests
 from django.db import transaction
-from django.db.models import Sum, Count, F, Q
+from django.db.models import Count, F, Q, Sum
 from django.db.models.functions import Coalesce, TruncMonth
 from lxml import html
 
@@ -36,40 +36,28 @@ def add_ranking_place(items: list, field: str):
                 item.place = previous.place
 
 
-def add_score(game: Game, team: Team, player_name: str, player_number: int,
-              goals: int = 0, penalty_goals: int = 0, penalty_tries: int = 0,
-              warning_time: str = None, first_suspension_time: str = None, second_suspension_time: str = None,
-              third_suspension_time: str = None, disqualification_time: str = None, report_time: str = None,
-              team_suspension_time: str = None, log_fun: Callable = print):
-    log_fun('CREATING Score: {} {}'.format(game, player_name))
+def add_score(score: Score, log_fun: Callable = print):
+    log_fun('CREATING Score: {} {}'.format(score.game, score.player.name))
 
-    divided_players = team.player_set.filter(name__regex="^{} \(\d+\)$".format(player_name))
-    duplicate_scores = Score.objects.filter(player__name=player_name, player__team=team, game=game)
-    if divided_players.exists() or duplicate_scores.exists():
-        split_by_number(player_name, team)
-        player_name = '{} ({})'.format(player_name, player_number)
+    if duplicate_player_scores_exist(score):
+        split_by_number(score.player.name, score.player.team)
+        score.player.name = '{} ({})'.format(score.player.name, score.player_number)
 
-    player, created = Player.objects.get_or_create(name=player_name, team=team)
+    player, created = Player.objects.get_or_create(name=score.player.name, team=score.player.team)
     if created:
         log_fun('CREATED Player: {}'.format(player))
     else:
         log_fun('EXISTING Player: {}'.format(player))
 
-    Score.objects.create(
-        player=player,
-        player_number=player_number,
-        game=game,
-        goals=goals,
-        penalty_goals=penalty_goals,
-        penalty_tries=penalty_tries,
-        warning_time=warning_time,
-        first_suspension_time=first_suspension_time,
-        second_suspension_time=second_suspension_time,
-        third_suspension_time=third_suspension_time,
-        disqualification_time=disqualification_time,
-        report_time=report_time,
-        team_suspension_time=team_suspension_time
-    )
+    score.player = player
+    score.save()
+
+
+def duplicate_player_scores_exist(score: Score):
+    divided_players = score.player.team.player_set.filter(name__regex="^{} \(\d+\)$".format(score.player.name))
+    duplicate_scores = Score.objects.filter(player__name=score.player.name, player__team=score.player.team,
+                                            game=score.game)
+    return divided_players.exists() or duplicate_scores.exists()
 
 
 @transaction.atomic
@@ -130,12 +118,12 @@ def top_league_teams(league):
     return teams_by_rank
 
 
-def league_teams_by_rank(league, top: int = 0):
+def league_teams_by_rank(league, top: int = 0) -> Dict[int, List[Team]]:
     teams = league.team_set.all()
     for team in teams:
         team.points = team_points(team)
     add_ranking_place(teams, 'points')
-    teams_by_rank = collections.defaultdict(list)
+    teams_by_rank: Dict[int, List[Team]] = collections.defaultdict(list)
     for team in teams:
         if top == 0 or team.place <= top:
             teams_by_rank[team.place].append(team)
@@ -180,8 +168,7 @@ def league_offenders(league):
         .filter(team__league=league) \
         .annotate(games=Count('score')) \
         .annotate(warnings=Count('score__warning_time')) \
-        .annotate(suspensions=
-                  Count('score__first_suspension_time') +
+        .annotate(suspensions=Count('score__first_suspension_time') +
                   Count('score__second_suspension_time') +
                   Count('score__third_suspension_time')) \
         .annotate(disqualifications=Count('score__disqualification_time')) \
@@ -189,6 +176,13 @@ def league_offenders(league):
         .filter(offender_points__gt=0) \
         .order_by('-offender_points')
     add_ranking_place(offenders, 'offender_points')
+    offenders_by_rank = collections.defaultdict(list)
+    for offender in offenders:
+        if offender.place <= 5:
+            offenders_by_rank[offender.place].append(offender)
+    for scorers_group in offenders_by_rank.values():
+        scorers_group.sort(key=lambda p: p.name)
+    return offenders_by_rank
 
 
 def top_league_offenders(league):
@@ -196,8 +190,7 @@ def top_league_offenders(league):
         .filter(team__league=league) \
         .annotate(games=Count('score')) \
         .annotate(warnings=Count('score__warning_time')) \
-        .annotate(suspensions=
-                  Count('score__first_suspension_time') +
+        .annotate(suspensions=Count('score__first_suspension_time') +
                   Count('score__second_suspension_time') +
                   Count('score__third_suspension_time')) \
         .annotate(disqualifications=Count('score__disqualification_time')) \

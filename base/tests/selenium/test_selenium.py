@@ -14,11 +14,11 @@ class TestSelenium(SeleniumTestCase):
 
 
 # @skip("generates error code 502 bad gatewey in sauce labs")
-    def test_navbar_exists(self):
+    def test_body_exists(self):
         driver = self.driver
         driver.get(self.live_server_url)
-        nav = driver.find_element_by_id('navbar')
-        self.assertIsNotNone(nav)
+        body = driver.find_element_by_tag_name('body')
+        self.assertIsNotNone(body)
 
     def test_w3_org_exists(self):
         driver = self.driver

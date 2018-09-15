@@ -1,6 +1,6 @@
-from django.urls import path, include
+from django.urls import include, path
 
-from .views import *
+from .views import calendar, detail, games, offenders, scorers
 
 app_name = 'teams'
 urlpatterns = [

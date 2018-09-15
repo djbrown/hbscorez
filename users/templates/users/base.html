@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+{% load static base_extras %}<!DOCTYPE html>
 <html lang="de">
 <head>
     <meta charset="UTF-8">
@@ -6,35 +6,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description"
           content="{% block description %}HbScorez ist eine Statistikplattform für diverse Handballigen im deutschsprachigen Raum.{% endblock %}">
-    <link rel="icon" href="{{ static('base/images/favicons/favicon.png') }}">
+    <link rel="icon" href="{% static 'base/images/favicons/favicon.png' %}">
 
     <title>{% block title %}HbScorez{% endblock %}</title>
 
     {% block styles %}
-        <link rel="stylesheet" href="{{ static('base/styles/base.css') }}">
-        <link rel="stylesheet" href="{{ static('base/styles/bootstrap-4.1.1.min.css') }}">
-        <link rel="stylesheet" href="{{ static('base/styles/datatables-1.10.16.min.css') }}">
-        <link rel="stylesheet" href="{{ static('base/styles/animate.css') }}">
-        <link rel="stylesheet" href="{{ static('base/styles/cookieconsent-3.0.3.min.css') }}">
+        <link rel="stylesheet" href="{% static 'base/styles/base.css' %}">
+        <link rel="stylesheet" href="{% static 'base/styles/bootstrap-4.1.1.min.css' %}">
+        <link rel="stylesheet" href="{% static 'base/styles/datatables-1.10.16.min.css' %}">
+        <link rel="stylesheet" href="{% static 'base/styles/animate.css' %}">
+        <link rel="stylesheet" href="{% static 'base/styles/cookieconsent-3.0.3.min.css' %}">
     {% endblock %}
 
     {% block scripts %}
-        <script src="{{ static('base/scripts/jquery-3.3.1.min.js') }}"></script>
-        <script src="{{ static('base/scripts/popper-1.12.9.min.js') }}"></script>
-        <script src="{{ static('base/scripts/bootstrap-4.1.1.min.js') }}"></script>
-        <script src="{{ static('base/scripts/fontawesome-all-5.0.13.min.js') }}"></script>
-        <script src="{{ static('base/scripts/moment-2.22.1.js') }}"></script>
-        <script src="{{ static('base/scripts/cookieconsent-3.0.3.min.js') }}"></script>
-        <script src="{{ static('base/scripts/datatables-1.10.16.min.js') }}"></script>
-        <script src="{{ static('base/scripts/datatables-datetime-moment-1.10.16.js') }}"></script>
+        <script src="{% static 'base/scripts/jquery-3.3.1.min.js' %}"></script>
+        <script src="{% static 'base/scripts/popper-1.12.9.min.js' %}"></script>
+        <script src="{% static 'base/scripts/bootstrap-4.1.1.min.js' %}"></script>
+        <script src="{% static 'base/scripts/fontawesome-all-5.0.13.min.js' %}"></script>
+        <script src="{% static 'base/scripts/moment-2.22.1.js' %}"></script>
+        <script src="{% static 'base/scripts/cookieconsent-3.0.3.min.js' %}"></script>
+        <script src="{% static 'base/scripts/datatables-1.10.16.min.js' %}"></script>
+        <script src="{% static 'base/scripts/datatables-datetime-moment-1.10.16.js' %}"></script>
 
-        <script src="{{ static('base/scripts/datatables-config.js') }}"></script>
-        {#<script src="{{ static('base/scripts/cookieconsent-config.js') }}"></script>#}
+        <script src="{% static 'base/scripts/datatables-config.js' %}"></script>
+        {#<script src="{% static 'base/scripts/cookieconsent-config.js' %}"></script>#}
     {% endblock %}
 </head>
 <body>
 <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-    <a class="navbar-brand" href="{{ url('base:home') }}">HbScorez</a>
+    <a class="navbar-brand" href="{% url 'base:home' %}">HbScorez</a>
     <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#navbar">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -44,7 +44,7 @@
                 <a id="nav-statistics" class="nav-link dropdown-toggle" href="#/" data-toggle="dropdown">Statistik</a>
                 <div class="dropdown-menu">
                     <a class="dropdown-item disabled" href="#/">Tabellen & Begegnungen</a>
-                    <a class="dropdown-item active" href="{{ url('associations:list') }}">Torjäger</a>
+                    <a class="dropdown-item active" href="{% url 'associations:list' %}">Torjäger</a>
                     <a class="dropdown-item disabled" href="#/">Torhüter</a>
                     <a class="dropdown-item disabled" href="#/">Straffällige</a>
                     <a class="dropdown-item disabled" href="#/">Rekorde</a>
@@ -61,21 +61,22 @@
                 <a class="nav-link disabled" href="#/">Dateneintrag</a>
             </li>
             <li class="nav-item"><a class="nav-link btn btn-secondary" target="_blank" href="https://redmine.djbrown.de/projects/hbscorez/boards">Forum</a></li>
-            <li class="nav-item"><a class="nav-link" href="{{ url('base:notice') }}">Impressum</a></li>
-            <li class="nav-item"><a id="privacy" class="nav-link" href="{{ url('base:privacy') }}">Datenschutz</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'base:notice' %}">Impressum</a></li>
+            <li class="nav-item"><a id="privacy" class="nav-link" href="{% url 'base:privacy' %}">Datenschutz</a></li>
         </ul>
-        {% if request.user.is_authenticated %}
-            <div class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle btn btn-secondary" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                {{ request.user.username }}
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="{{ url('users:logout') }}">Abmelden</a>
-                </div>
+        {% if user.is_authenticated %}
+        <div class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle btn btn-secondary" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            {{ user.username }}
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="{% url 'users:logout' %}">Abmelden</a>
             </div>
-        {% else %}
-            <a class="nav-item nac-link btn btn-primary" href="{{ url('users:login') }}">Anmelden</a>
-        {% endif %}
+        </div>
+    {% else %}
+        <a class="nav-item nac-link btn btn-primary" href="{% url 'users:login' %}">Anmelden</a>
+    {% endif %}
+
     </div>
 </nav>
 <div class="container">
@@ -87,7 +88,7 @@
                     <a class="nav-link disabled" href="#/">Tabellen & Begegnungen</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" href="{{ url('associations:list') }}">Torjäger</a>
+                    <a class="nav-link active" href="{% url 'associations:list' %}">Torjäger</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link disabled" href="#/">Torhüter</a>
@@ -104,10 +105,10 @@
             </ul>
         </nav>
         -->
-        {% if request.env["UPDATING"] == "TRUE" %}
+        {% if request.env|get:"UPDATING" == "TRUE" %}
             <div class="col-12">
-                <h3><span class="badge badge-warning animated bounce">Daten werden aktualisiert&nbsp;
-                 <i id="spinner" class="fas fa-spinner"></i> </span></h3>
+                <h3><span class="badge badge-warning animated bounce">Daten werden aktualisiert
+                <i id="spinner" class="fas fa-spinner"></i> </span></h3>
             </div>
         {% endif %}
         <main class="col-sm-12 ml-sm-auto pt-3">
@@ -120,13 +121,13 @@
         <div class="row">
             <div class="footer-item col-sm-5 col-md-3 col-lg-3 col-xl-2">
                 <a href="https://github.com/djbrown/hbscorez" target="_blank">
-                    <img id="github-logo" src="{{ static('base/images/github-logo.png') }}" alt="GitHub Logo"/>
+                    <img id="github-logo" src="{% static 'base/images/github-logo.png' %}" alt="GitHub Logo"/>
                     <span>GitHub<br/>Repo</span>
                 </a>
             </div>
             <div class="footer-item col-sm-5 col-md-3 col-lg-4 col-xl-2">
                 <a href="https://redmine.djbrown.de/projects/hbscorez" target="_blank">
-                    <img id="redmine-logo" src="{{ static('base/images/redmine-logo.png') }}" alt="Redmine Logo"/>
+                    <img id="redmine-logo" src="{% static 'base/images/redmine-logo.png' %}" alt="Redmine Logo"/>
                     <span>Redmine<br/>Projekt</span>
                 </a>
             </div>

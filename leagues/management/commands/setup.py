@@ -3,18 +3,17 @@ from django.core.management import BaseCommand
 from django.db import transaction
 
 from associations.models import Association
-from base import logic
-from base import parsing
+from base import logic, parsing
 from base.middleware import env
 from base.models import Value
 from districts.models import District
-from leagues.models import Season, League
+from leagues.models import League, Season
 from teams.models import Team
 
 
 class Command(BaseCommand):
-    options = {}
-    processed_districts = set()
+    options: dict = {}
+    processed_districts: set = set()
 
     def add_arguments(self, parser):
         parser.add_argument('--youth', action='store_true', help="Include youth teams in setup.")
@@ -137,7 +136,7 @@ class Command(BaseCommand):
             return
 
         team_links = dom.xpath('//table[@class="scoretable"]/tr[position() > 1]/td[3]/a') or \
-                     dom.xpath('//table[@class="scoretable"]/tr[position() > 1]/td[2]/a')
+            dom.xpath('//table[@class="scoretable"]/tr[position() > 1]/td[2]/a')
         if not team_links:
             self.stdout.write('SKIPPING League: {} {} (no team table)'.format(bhv_id, name))
             return

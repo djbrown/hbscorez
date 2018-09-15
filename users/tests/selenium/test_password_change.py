@@ -12,7 +12,7 @@ class TestPasswordChange(SeleniumTestCase):
         User.objects.create_user(username, usermail, oldpass)
 
         self.login(username, oldpass)
-        self.assert_view('index')
+        self.assert_view('users:profile')
 
         self.navigate('users:password_change')
         old_password_textfield = self.driver.find_element_by_name('old_password')

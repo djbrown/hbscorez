@@ -3,7 +3,7 @@ from django.template.defaultfilters import date, time
 from django.urls import reverse
 from jinja2 import Environment
 
-from base.templatetags.scores_extras import *
+from base.templatetags.scores_extras import game_outcome_badge, team_logo_url, team_outcome_badge
 
 
 def environment(**options):
