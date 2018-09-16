@@ -36,9 +36,9 @@ class SeleniumTestCase(LiveServerTestCase):
         class_name = self.__class__.__name__
         method_name = self._testMethodName
         capabilities = {
-            'platform': "Mac OS X 10.9",
+            'platform': "Mac OS X 10.10",
             'browserName': "chrome",
-            'version': "31",
+            'version': "37.0",
             'name': '{}.{}'.format(class_name, method_name),
             'tunnel-identifier': _TUNNEL_ID,
         }
