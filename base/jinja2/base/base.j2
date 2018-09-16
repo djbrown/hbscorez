@@ -17,20 +17,6 @@
         <link rel="stylesheet" href="{{ static('base/styles/animate.css') }}">
         <link rel="stylesheet" href="{{ static('base/styles/cookieconsent-3.0.3.min.css') }}">
     {% endblock %}
-
-    {% block scripts %}
-        <script src="{{ static('base/scripts/jquery-3.3.1.min.js') }}"></script>
-        <script src="{{ static('base/scripts/popper-1.12.9.min.js') }}"></script>
-        <script src="{{ static('base/scripts/bootstrap-4.1.1.min.js') }}"></script>
-        <script src="{{ static('base/scripts/fontawesome-all-5.0.13.min.js') }}"></script>
-        <script src="{{ static('base/scripts/moment-2.22.1.js') }}"></script>
-        <script src="{{ static('base/scripts/cookieconsent-3.0.3.min.js') }}"></script>
-        <script src="{{ static('base/scripts/datatables-1.10.16.min.js') }}"></script>
-        <script src="{{ static('base/scripts/datatables-datetime-moment-1.10.16.js') }}"></script>
-
-        <script src="{{ static('base/scripts/datatables-config.js') }}"></script>
-        {#<script src="{{ static('base/scripts/cookieconsent-config.js') }}"></script>#}
-    {% endblock %}
 </head>
 <body>
 <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
@@ -79,6 +65,7 @@
     </div>
 </nav>
 <div class="container">
+    <div id="alerts"></div>
     <div class="row">
         <!--
         <nav class="col-sm-3 col-md-2 d-none d-sm-block bg-light sidebar">
@@ -133,5 +120,18 @@
         </div>
     </div>
 </footer>
+{% block scripts %}
+    <script src="{{ static('base/scripts/jquery-3.3.1.min.js') }}"></script>
+    <script src="{{ static('base/scripts/popper-1.12.9.min.js') }}"></script>
+    <script src="{{ static('base/scripts/bootstrap-4.1.1.min.js') }}"></script>
+    <script src="{{ static('base/scripts/fontawesome-all-5.0.13.min.js') }}"></script>
+    <script src="{{ static('base/scripts/moment-2.22.1.js') }}"></script>
+    <script src="{{ static('base/scripts/cookieconsent-3.0.3.min.js') }}"></script>
+    <script src="{{ static('base/scripts/datatables-1.10.16.min.js') }}"></script>
+    <script src="{{ static('base/scripts/datatables-datetime-moment-1.10.16.js') }}"></script>
+
+    <script src="{{ static('base/scripts/datatables-config.js') }}"></script>
+    {#<script src="{{ static('base/scripts/cookieconsent-config.js') }}"></script>#}
+{% endblock %}
 </body>
 </html>

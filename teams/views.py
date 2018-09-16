@@ -1,13 +1,13 @@
-from datetime import timedelta, datetime
+from datetime import datetime, timedelta
 
-from django.db.models import Q, Count, F, Sum
+from django.db.models import Count, F, Q, Sum
 from django.db.models.functions import Coalesce
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, render
-from icalendar import vText, Event, Calendar
+from icalendar import Calendar, Event, vText
 
 from base.logic import add_ranking_place
-from games.models import TeamOutcome, Game
+from games.models import Game, TeamOutcome
 from players.models import Player
 from teams.models import Team
 
@@ -44,15 +44,14 @@ def offenders(request, bhv_id):
         .filter(team=team) \
         .annotate(games=Count('score')) \
         .annotate(warnings=Count('score__warning_time')) \
-        .annotate(suspensions=
-                  Count('score__first_suspension_time') +
+        .annotate(suspensions=Count('score__first_suspension_time') +
                   Count('score__second_suspension_time') +
                   Count('score__third_suspension_time')) \
         .annotate(disqualifications=Count('score__disqualification_time')) \
         .annotate(offender_points=F('warnings') + 2 * F('suspensions') + 3 * F('disqualifications')) \
         .order_by('-offender_points')
-    add_ranking_place(offenders, 'offender_points')
-    return render(request, 'teams/offenders.j2', {'team': team, 'offenders': offenders})
+    add_ranking_place(team_offenders, 'offender_points')
+    return render(request, 'teams/offenders.j2', {'team': team, 'offenders': team_offenders})
 
 
 def calendar(_, bhv_id):
@@ -70,7 +69,8 @@ def calendar(_, bhv_id):
             .format(team.name, team.league.season.start_year, team.league.season.start_year + 1,
                     team.league.name, team.league.district.name))
 
-    [cal.add_component(_create_event(team, game)) for game in games]
+    for game in games:
+        cal.add_component(_create_event(team, game))
 
     return HttpResponse(cal.to_ical(), "text/calendar")
 
