@@ -26,7 +26,7 @@ class TestPasswordChange(SeleniumTestCase):
 
         self.assert_view('users:password_change_success')
         success_text = self.driver.find_element_by_tag_name('p').text
-        self.assertEqual(success_text, 'Your password was changed.')
+        self.assertEqual(success_text, 'Dein Passwort wurde geändert.')
 
         self.assertEqual(User.objects.all().count(), 1)
         self.assertFalse(User.objects.first().check_password(oldpass))
