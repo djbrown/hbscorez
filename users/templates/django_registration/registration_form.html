@@ -1,0 +1,41 @@
+{% extends 'users/base.html' %}
+
+{% block title %}Registrieren{% endblock %}
+
+{% block content %}
+<form method="post">{% csrf_token %}
+    <fieldset class="form-group">
+        <label for="username">Username</label>
+        <input name="username" type="text" id="username" placeholder="Username" required
+                class="form-control {% if form.username.errors %}is-invalid{% elif form.username.value %}is-valid{% endif %}"
+                {% if form.username.value %} value="{{ form.username.value }}"{% endif %} />
+        <small class="form-text text-muted">{{ form.username.help_text|safe }}</small>
+        {% if form.username.errors %}<div class="invalid-feedback">{{ form.username.errors }}</div>{% endif %}
+    </fieldset>
+
+    <fieldset class="form-group">
+        <label for="email">E-Mail</label>
+        <input name="email" type="email" id="email" placeholder="beispiel@web.de" required
+                class="form-control {% if form.email.errors %}is-invalid{% elif form.email.value %}is-valid{% endif %}"
+                {% if form.email.value %} value="{{ form.email.value }}"{% endif %} />
+        <small class="form-text text-muted">{{ form.email.help_text|safe }}</small>
+        {% if form.email.errors %}<div class="invalid-feedback">{{ form.email.errors }}</div>{% endif %}
+    </fieldset>
+
+    <fieldset class="form-group">
+        <label for="password1">Passwort</label>
+        <input name="password1" type="password" id="password1" required
+                class="form-control{% if form.errors %} is-invalid{% endif %}" />
+        <small class="form-text text-muted">{{ form.password1.help_text|safe }}</small>
+    </fieldset>
+
+    <fieldset class="form-group">
+        <label for="password2">Passwort bestätigen</label>
+        <input name="password2" type="password" id="password2" required
+                class="form-control{% if form.errors %} is-invalid{% endif %}" />
+        <small class="form-text text-muted">{{ form.password2.help_text|safe }}</small>
+    </fieldset>
+
+    <input type="submit" value="Registrieren" class="btn btn-primary" />
+</form>
+{% endblock %}

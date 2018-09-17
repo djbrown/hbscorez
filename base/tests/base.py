@@ -84,7 +84,7 @@ class SeleniumTestCase(LiveServerTestCase):
         WebDriverWait(self.driver, timeout).until(condition)
 
 
-class _UrlHasChanged(object):
+class _UrlHasChanged():
 
     def __init__(self, url):
         self.old_url = url

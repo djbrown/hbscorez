@@ -15,9 +15,11 @@
 | chardet               | 3.0.4     | GNU Library or Lesser General Public License (LGPL) | Daniel Blanchard                          | https://github.com/chardet/chardet                        |
 | codacy-coverage       | 1.3.11    | MIT License                                         | Codacy                                    | https://github.com/codacy/python-codacy-coverage          |
 | codecov               | 2.0.15    | Apache Software License                             | @codecov                                  | http://github.com/codecov/codecov-python                  |
+| confusable-homoglyphs | 3.2.0     | MIT License                                         | Victor Felder                             | https://github.com/vhf/confusable_homoglyphs              |
 | coverage              | 4.5.1     | Apache Software License                             | Ned Batchelder and 100 others             | https://bitbucket.org/ned/coveragepy                      |
 | coveralls             | 1.5.0     | MIT License                                         | coveralls-clients contributors            | http://github.com/coveralls-clients/coveralls-python      |
 | distro                | 1.3.0     | Apache Software License                             | Nir Cohen                                 | https://github.com/nir0s/distro                           |
+| django-registration   | 3.0       | BSD License                                         | James Bennett                             | https://github.com/ubernostrum/django-registration/       |
 | docopt                | 0.6.2     | MIT License                                         | Vladimir Keleshev                         | http://docopt.org                                         |
 | dodgy                 | 0.1.9     | MIT License                                         | landscape.io                              | https://github.com/landscapeio/dodgy                      |
 | dparse                | 0.4.1     | MIT License                                         | Jannis Gebauer                            | https://github.com/jayfk/dparse                           |
@@ -67,6 +69,7 @@
 | stevedore             | 1.29.0    | Apache Software License                             | OpenStack                                 | https://docs.openstack.org/stevedore/latest/              |
 | tabula-py             | 1.2.0     | MIT License                                         | Aki Ariga                                 | https://github.com/chezou/tabula-py                       |
 | text-unidecode        | 1.2       | Artistic License                                    | Mikhail Korobov                           | https://github.com/kmike/text-unidecode/                  |
+| typed-ast             | 1.1.0     | UNKNOWN                                             | David Fisher                              | https://github.com/python/typed_ast                       |
 | urllib3               | 1.23      | MIT License                                         | Andrey Petrov                             | https://urllib3.readthedocs.io/                           |
 | virtualenv            | 16.0.0    | MIT License                                         | Ian Bicking                               | https://virtualenv.pypa.io/                               |
 | virtualenv-clone      | 0.3.0     | MIT License                                         | Edward George                             | http://github.com/edwardgeorge/virtualenv-clone           |

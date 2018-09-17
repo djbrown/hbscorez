@@ -30,7 +30,8 @@ players_dict = {'queryset': Player.objects.get_queryset().order_by('pk')}
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('users/', include(users.urls)),
+    path('registrierung/', include('django_registration.backends.activation.urls')),
+    path('benutzer/', include(users.urls)),
     path('sitemap.xml', sitemap, {'sitemaps': {
         'associations': GenericSitemap(associations_dict),
         'districts': GenericSitemap(districts_dict),

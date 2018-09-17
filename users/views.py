@@ -14,7 +14,7 @@ def profile(request):
 
 class Login(auth_views.LoginView):
     template_name = 'users/login.html'
-    # redirect_authenticated_user = True
+    redirect_authenticated_user = True
 
 
 class Logout(auth_views.LogoutView):
@@ -32,6 +32,7 @@ class PasswordChangeSuccess(auth_views.PasswordChangeDoneView):
 
 class PasswordReset(auth_views.PasswordResetView):
     email_template_name = 'users/password-reset-email.html'
+    subject_template_name = 'users/password-reset-email-subject.txt'
     success_url = reverse_lazy('users:password_reset_sent')
     template_name = 'users/password-reset.html'
 

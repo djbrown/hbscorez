@@ -14,6 +14,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sitemaps',
+    'django_registration',
     'base',
     'associations',
     'districts',
@@ -111,11 +112,16 @@ EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
 EMAIL_FILE_PATH = os.path.join(BASE_DIR, 'mails')
 
 
-# Auth
+# auth
 
 LOGIN_REDIRECT_URL = 'users:profile'
 
 LOGIN_URL = 'users:login'
+
+
+# django-registration
+
+ACCOUNT_ACTIVATION_DAYS = 3
 
 
 # Custom Settings
@@ -124,4 +130,4 @@ REPORTS_PATH = os.path.join(BASE_DIR, 'reports')
 
 ROOT_SOURCE_URL = 'https://spo.handball4all.de/'
 
-SELENIUM = False
+SELENIUM = True

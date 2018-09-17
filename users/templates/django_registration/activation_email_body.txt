@@ -1,0 +1,16 @@
+{% autoescape off %}
+Hallo {{ user.username }},
+
+vielen Dank für Deine Registrierungsanfrage auf HbScorez!
+
+Gehe auf folgede Seite, um Deine Registrierung abzuschließen:
+{{ scheme }}://{{ site.domain }}{% url 'django_registration_activate' activation_key %}
+Dieser Link verfällt nach {{ expiration_days }} Tagen automatisch.
+
+Diese E-Mail wurde automatisch generiert.
+Für Rückfragen kannst Du gerne die E-Mail Adresse unter {% url 'base:notice' %} verwenden.
+{# TODO: contact form #}
+
+Sportliche Grüße
+Daniel von HbScorez
+{% endautoescape %}
