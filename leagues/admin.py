@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from . import models
+from .models import League, Season
 
-admin.site.register(models.League)
-admin.site.register(models.Season)
+admin.site.register(League)
+admin.site.register(Season)

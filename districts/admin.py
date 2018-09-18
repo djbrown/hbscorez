@@ -1,5 +1,5 @@
 from django.contrib import admin
 
-from . import models
+from .models import District
 
-admin.site.register(models.District)
+admin.site.register(District)

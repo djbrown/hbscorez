@@ -1,5 +1,5 @@
 from django.contrib import admin
 
-from . import models
+from .models import Association
 
-admin.site.register(models.Association)
+admin.site.register(Association)
