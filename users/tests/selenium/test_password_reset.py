@@ -32,6 +32,7 @@ class TestPasswordReset(SeleniumTestCase):
         message: mail.EmailMessage = mail.outbox[0]
         self.assertEqual(message.to, [usermail])
         reactivation_link = message.body.splitlines()[6]
+        print(reactivation_link)
         self.driver.get(reactivation_link)
 
         self.assert_view('users:password_reset_change')
