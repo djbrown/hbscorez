@@ -1,10 +1,11 @@
 from datetime import datetime, timedelta
+from typing import Tuple
 
 from django.test import TestCase
 
 from districts.models import District
 from games.models import Game
-from leagues.models import Season, League
+from leagues.models import League, Season
 from teams.models import Team
 
 
@@ -79,7 +80,7 @@ class FirstLegGameTest(TestCase):
             self.assertEqual(expected, game.is_first_leg())
 
 
-def create_test_game(number, league, home_team, guest_team, should_be_first_leg) -> (Game, bool):
+def create_test_game(number, league, home_team, guest_team, should_be_first_leg) -> Tuple[Game, bool]:
     opening_whistle = datetime.now() + timedelta(weeks=number * 2)
     game = Game.objects.create(number=number, league=league, opening_whistle=opening_whistle,
                                home_team=home_team, guest_team=guest_team, home_goals=0, guest_goals=0,

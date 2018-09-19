@@ -53,8 +53,9 @@ class Game(models.Model):
     def opponent_of(self, team):
         if team == self.home_team:
             return self.guest_team
-        elif team == self.guest_team:
+        if team == self.guest_team:
             return self.home_team
+        raise ValueError('neither home or guest is team: {}'.format(team))
 
     def other_game(self):
         games = Game.objects.filter(home_team__in=(self.home_team, self.guest_team),
@@ -78,6 +79,7 @@ class Game(models.Model):
             return GameOutcome.AWAY_WIN
         if self.home_goals == self.guest_goals:
             return GameOutcome.TIE
+        raise ValueError('no matching outcome')
 
     def outcome_for(self, team) -> TeamOutcome:
         if self.outcome() == GameOutcome.TIE:
@@ -88,6 +90,7 @@ class Game(models.Model):
         if team == self.home_team and self.outcome() == GameOutcome.AWAY_WIN \
                 or team == self.guest_team and self.outcome() == GameOutcome.HOME_WIN:
             return TeamOutcome.LOSS
+        raise ValueError('no matching outcome for team: {}'.format(team))
 
     def goals_of(self, team):
         if team == self.home_team:

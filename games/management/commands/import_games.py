@@ -1,8 +1,9 @@
+from typing import Dict
+
 from django.core.management import BaseCommand
 
 from associations.models import Association
-from base import logic
-from base import parsing
+from base import logic, parsing
 from base.middleware import env
 from base.models import Value
 from games.models import Game
@@ -13,7 +14,7 @@ from teams.models import Team
 
 
 class Command(BaseCommand):
-    options = {}
+    options: Dict = {}
 
     def add_arguments(self, parser):
         parser.add_argument('--associations', '-a', nargs='+', type=int, metavar='orgGrpID',
@@ -126,28 +127,29 @@ class Command(BaseCommand):
 
     def get_sports_hall(self, game_row):
         if len(game_row[3]) != 1:
-            return
+            return None
         link = game_row[3][0]
         number = int(link.text)
         bhv_id = parsing.parse_sports_hall_bhv_id(link)
 
-        if not SportsHall.objects.filter(number=number, bhv_id=bhv_id).exists():
-            url = SportsHall.build_source_url(bhv_id)
-            tree = logic.get_html(url)
+        sports_hall = SportsHall.objects.filter(number=number, bhv_id=bhv_id)
+        if sports_hall.exists():
+            return sports_hall[0]
 
-            table = tree.xpath('//table[@class="gym"]')[0]
-            name = table[0][1][0].text
-            city = table[1][1].text
-            street = table[2][1].text
-            address = street + ", " + city if street else city
-            phone_number = table[3][1].text
+        url = SportsHall.build_source_url(bhv_id)
+        tree = logic.get_html(url)
 
-            latitude, longitude = parsing.parse_coordinates(tree)
+        table = tree.xpath('//table[@class="gym"]')[0]
+        name = table[0][1][0].text
+        city = table[1][1].text
+        street = table[2][1].text
+        address = street + ", " + city if street else city
+        phone_number = table[3][1].text
 
-            sports_hall = SportsHall.objects.create(number=number, name=name, address=address,
-                                                    phone_number=phone_number, latitude=latitude,
-                                                    longitude=longitude, bhv_id=bhv_id)
-            self.stdout.write('CREATED Sports Hall: {}'.format(sports_hall))
-            return sports_hall
-        else:
-            return SportsHall.objects.get(number=number, bhv_id=bhv_id)
+        latitude, longitude = parsing.parse_coordinates(tree)
+
+        sports_hall = SportsHall.objects.create(number=number, name=name, address=address,
+                                                phone_number=phone_number, latitude=latitude,
+                                                longitude=longitude, bhv_id=bhv_id)
+        self.stdout.write('CREATED Sports Hall: {}'.format(sports_hall))
+        return sports_hall
