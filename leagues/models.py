@@ -43,6 +43,6 @@ class League(models.Model):
     @staticmethod
     def is_youth_league(name):
         return re.search('MJ', name) \
-               or re.search('WJ', name) \
-               or re.search('Jugend', name) \
-               or re.search('Mini', name)
+            or re.search('WJ', name) \
+            or re.search('Jugend', name) \
+            or re.search('Mini', name)

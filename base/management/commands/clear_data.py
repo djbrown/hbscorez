@@ -1,6 +1,11 @@
 from django.core.management import BaseCommand
 
-from base.models import *
+from associations.models import Association
+from districts.models import District
+from games.models import Game
+from leagues.models import League
+from players.models import Player, Score
+from teams.models import Team
 
 
 class Command(BaseCommand):
