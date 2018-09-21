@@ -1,4 +1,3 @@
-import typing
 from enum import Enum, auto
 from pathlib import Path
 
@@ -14,12 +13,14 @@ class GameOutcome(Enum):
     HOME_WIN = auto()
     AWAY_WIN = auto()
     TIE = auto()
+    OPEN = auto()
 
 
 class TeamOutcome(Enum):
     WIN = auto()
     LOSS = auto()
     TIE = auto()
+    OPEN = auto()
 
 
 class Game(models.Model):
@@ -68,9 +69,9 @@ class Game(models.Model):
             return True
         return self.opening_whistle < other_game.opening_whistle
 
-    def outcome(self) -> typing.Optional[GameOutcome]:
+    def outcome(self) -> GameOutcome:
         if self.home_goals is None and self.guest_goals is None:
-            return None
+            return GameOutcome.OPEN
         if self.home_goals > self.guest_goals \
                 or self.forfeiting_team == self.guest_team:
             return GameOutcome.HOME_WIN
@@ -82,6 +83,8 @@ class Game(models.Model):
         raise ValueError('no matching outcome')
 
     def outcome_for(self, team) -> TeamOutcome:
+        if self.outcome() == GameOutcome.OPEN:
+            return TeamOutcome.OPEN
         if self.outcome() == GameOutcome.TIE:
             return TeamOutcome.TIE
         if team == self.home_team and self.outcome() == GameOutcome.HOME_WIN \
