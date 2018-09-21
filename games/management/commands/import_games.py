@@ -136,6 +136,9 @@ class Command(BaseCommand):
         if sports_hall.exists():
             return sports_hall[0]
 
+        return self.parse_sports_hall(number, bhv_id)
+
+    def parse_sports_hall(self, number, bhv_id):
         url = SportsHall.build_source_url(bhv_id)
         tree = logic.get_html(url)
 

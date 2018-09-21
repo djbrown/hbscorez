@@ -99,7 +99,7 @@ def parse_forfeiting_team(cell, home_team, guest_team):
         return guest_team
     if cell.text == " (0:2)":
         return home_team
-    raise ValueError('invalid forfeit: {}'.format(cell.text))
+    return None
 
 
 def parse_game_time(text: str) -> Optional[timedelta]:
