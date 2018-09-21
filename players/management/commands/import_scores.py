@@ -150,8 +150,8 @@ class Command(BaseCommand):
         try:
             goals = int(row_data[5])
         except ValueError:
-            self.stdout.write('FIXED Score (goals): {} - {} - {}'.format(player_number, player.name, goals))
             goals = 0
+            self.stdout.write('FIXED Score (goals): {} - {} - {}'.format(player_number, player.name, goals))
         penalty_tries, penalty_goals = parsing.parse_penalty_data(row_data[6])
 
         return Score(player=player, player_number=int(row_data[0]), game=game, goals=goals,
