@@ -21,4 +21,4 @@ after_success:
   - pipenv run codecov
   - pipenv run coveralls
   - pipenv run python-codacy-coverage -r coverage.xml
-  - fossa
+  - pipenv lock -r > requirements.txt && fossa
