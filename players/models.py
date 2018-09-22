@@ -1,4 +1,3 @@
-import faker
 from django.contrib.auth.models import User
 from django.db import models
 from django.urls import reverse
@@ -18,10 +17,10 @@ class Player(models.Model):
     def get_absolute_url(self):
         return reverse('players:detail', kwargs={'pk': self.pk})
 
-    def fake_name(self):
-        factory = faker.Faker('de_DE')
-        factory.seed(self.name)
-        return factory.name()
+    def public_name(self):
+        if self.user is None:
+            return 'Anonym'
+        return self.name
 
 
 class Score(models.Model):

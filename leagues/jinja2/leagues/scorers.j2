@@ -46,7 +46,7 @@
                 {% for scorer in scorers %}
                 <tr>
                     <th scope="row">{{ scorer.place }}</th>
-                    <td><a href="{{ scorer.get_absolute_url() }}">{{ scorer.fake_name() }}</a></td>
+                    <td><a href="{{ scorer.get_absolute_url() }}">{{ scorer.public_name() }}</a></td>
                     <td>
                         {#<img class="table-team-logo" src="{{ team_logo_url(scorer.team) }}" width="25" alt="HbScorez Logo">#}
                         <img class="table-team-logo" src="{{ static('base/images/favicons/favicon.png') }}" width="25"

@@ -1,7 +1,6 @@
 | Name                  | Version   | License                                             | Author                                    | URL                                                       |
 |-----------------------|-----------|-----------------------------------------------------|-------------------------------------------|-----------------------------------------------------------|
 | Django                | 2.1.1     | BSD License                                         | Django Software Foundation                | https://www.djangoproject.com/                            |
-| Faker                 | 0.9.1     | MIT License                                         | joke2k                                    | https://github.com/joke2k/faker                           |
 | GitPython             | 2.1.11    | BSD License                                         | Sebastian Thiel, Michael Trier            | https://github.com/gitpython-developers/GitPython         |
 | Jinja2                | 2.10      | BSD License                                         | Armin Ronacher                            | http://jinja.pocoo.org/                                   |
 | MarkupSafe            | 1.0       | BSD License                                         | Armin Ronacher                            | http://github.com/pallets/markupsafe                      |

@@ -36,7 +36,7 @@
             {% for player in players %}
                 <tr>
                     <th scope="row">{{ player.place }}</th>
-                    <td><a href="{{ player.get_absolute_url() }}">{{ player.fake_name() }}</a></td>
+                    <td><a href="{{ player.get_absolute_url() }}">{{ player.public_name() }}</a></td>
                     <td>{{ player.games }}</td>
                     <td>{{ player.total_goals }}</td>
                     <td>{{ player.total_penalty_goals }}</td>

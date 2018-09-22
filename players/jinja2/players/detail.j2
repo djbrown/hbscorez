@@ -1,5 +1,5 @@
 {% extends 'base/base.j2' %}
-{% block title %}{{ player.fake_name() }} | {{ super() }}{% endblock %}
+{% block title %}{{ player.public_name() }} | {{ super() }}{% endblock %}
 {% block content %}
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{{ url('associations:list') }}">Verbände</a></li>
@@ -18,7 +18,7 @@
                 href="{{ player.team.get_absolute_url() }}">{{ player.team.short_name }}</a>
         </li>
     </ol>
-    <h1>{{ player.fake_name() }}</h1>
+    <h1>{{ player.public_name() }}</h1>
     <div class="card text-white bg-primary mb-3">
         <div class="card-body">
             <p class="card-text">Aus Datenschutzgründen wurde der hier aufgeführte Name <b>zufällig generiert</b>!</p>

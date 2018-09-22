@@ -35,7 +35,7 @@
                 {% for offender in offenders %}
                 <tr>
                     <th scope="row">{{ offender.place }}</th>
-                    <td><a href="{{ player.get_absolute_url() }}">{{ offender.fake_name() }}</a></td>
+                    <td><a href="{{ player.get_absolute_url() }}">{{ offender.public_name() }}</a></td>
                     <td>{{ offender.games }}</td>
                     <td>{{ offender.offender_points }}</td>
                     <td>{{ offender.warnings }}</td>

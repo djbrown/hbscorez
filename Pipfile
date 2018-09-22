@@ -9,7 +9,6 @@ Jinja2 = "*"
 requests = "*"
 lxml = "*"
 icalendar = "*"
-Faker = "*"
 tabula-py = "*"
 django-registration = "*"
 

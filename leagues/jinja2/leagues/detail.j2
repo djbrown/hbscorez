@@ -37,7 +37,7 @@
                 {% for group in scorers.values() %}
                 <li>
                     {% for scorer in group %}
-                    <a href="{{ url('players:detail', args=[scorer.pk]) }} ">{{ scorer.fake_name() }}</a>
+                    <a href="{{ url('players:detail', args=[scorer.pk]) }} ">{{ scorer.public_name() }}</a>
                     ({{ scorer.total_goals }}&nbsp;Tore)<br />
                     {% endfor %}
                 </li>
@@ -52,7 +52,7 @@
                 {% for group in offenders.values() %}
                 <li>
                     {% for offender in group %}
-                    <a href="{{ url('players:detail', args=[offender.pk]) }} ">{{ offender.fake_name() }}</a>
+                    <a href="{{ url('players:detail', args=[offender.pk]) }} ">{{ offender.public_name() }}</a>
                     ({{ offender.offender_points }}&nbsp;Punkte)<br />
                     {% endfor %}
                 </li>
