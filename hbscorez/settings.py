@@ -15,6 +15,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sitemaps',
     'django_registration',
+    'contact_form',
     'base',
     'associations',
     'districts',
@@ -110,6 +111,10 @@ MEDIA_URL = '/media/'
 EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
 
 EMAIL_FILE_PATH = os.path.join(BASE_DIR, 'mails')
+
+DEFAULT_FROM_EMAIL = 'webmaster@localhost'
+
+MANAGERS = [('', DEFAULT_FROM_EMAIL)]
 
 
 # auth

@@ -59,7 +59,7 @@ def calendar(_, bhv_id):
     games = Game.objects.filter(Q(home_team=team) | Q(guest_team=team))
 
     cal = Calendar()
-    cal.add('PRODID', '-//hbscorez.de//Mannschaftskalender 1.0//DE')
+    cal.add('PRODID', '-//HbScorez//Mannschaftskalender 1.0//DE')
     cal.add('VERSION', '2.0')
     cal.add('CALSCALE', 'GREGORIAN')
     cal.add('METHOD', 'PUBLISH')

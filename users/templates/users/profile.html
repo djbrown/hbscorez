@@ -1,10 +1,13 @@
-{% extends "users/base.html" %}
+{% extends "base/base.html" %}
 
-{% block title %}{{ title }}{% endblock %}
-{% block content_title %}<h1>{{ title }}</h1>{% endblock %}
+{% block title %}{{request.user.username }}{% endblock %}
 
 {% block content %}
-<div id="content-main">
-    <h1>{{ request.user }}</h1>
-</div>
+<h1>{{ request.user.username }}</h1>
+
+<p>Letzte Anmeldung: {{ request.user.last_login }}</p>
+
+<p><a id="link-password-reset" href="{% url 'users:password_change' %}">Passwort ändern</a></p>
+
+<p><a id="link-link" href="{% url 'users:link' %}" class="btn btn-success">Spieler verknüpfen</a></p>
 {% endblock %}

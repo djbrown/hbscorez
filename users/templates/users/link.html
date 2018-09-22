@@ -1,0 +1,87 @@
+{% extends "base/base.html" %}
+
+{% block title %}Spieler verknüpfen{% endblock %}
+
+{% block content %}
+<h1>Spieler verknüpfen</h1>
+<p>
+    Wenn Du selbst ein aktiver Handballspieler bist bzw. warst, kannst Du hier Deine aktiven Saisons verknüpfen.<br />
+    Wenn Du Dich verknüpfst, werden Deine Statistiken <strong>für Dich und alle Besucher angezeigt</strong>.<br />
+    Dein Name erscheint dann in allen Dich betreffenden Auswertungen auf HbScorez.
+</p>
+
+<div class="alert alert-warning">
+    <h5>Wichtige Hinweise:</h5>
+    Du kannst Dich nur <strong>einmal für jede Saison</strong> verknüpfen.<br />
+    Bei Problemen kannst Du Dich gerne über das <a href="{% url 'contact_form' %}">Kontaktformular</a> melden.
+</div>
+
+<form method="POST">
+    {% csrf_token %}
+    <fieldset class="form-group">
+        <label for="association">Verband</label>
+        <select id="association" class="form-control">
+            <option>BHV</option>
+        </select>
+    </fieldset>
+
+    <fieldset class="form-group">
+        <label for="district">Bereich</label>
+        <select id="district" class="form-control">
+            <option>BHV-Ligen</option>
+        </select>
+    </fieldset>
+
+
+    <fieldset class="form-group">
+        <label for="season">Saison</label>
+        <select id="season" class="form-control">
+            <option>2018/2019</option>
+        </select>
+    </fieldset>
+
+    <fieldset class="form-group">
+        <label for="league">Liga</label>
+        <select id="league" class="form-control">
+            <option>Verbandsliga Männer</option>
+        </select>
+    </fieldset>
+
+    <fieldset class="form-group">
+        <label for="team">Mannschaft</label>
+        <select name="team" id="team" class="form-control">
+            <option value="437569">TSV Germania Malsch</option>
+        </select>
+    </fieldset>
+
+    <fieldset class="form-group">
+        <label for="name">Spielername</label>
+        <input name="name" type="text" id="name" placeholder="Spielername" required
+                class="form-control {% if form.name.errors %}is-invalid{% endif %}"
+                {% if form.name.value %} value="{{ form.name.value }}"{% endif %} />
+    </fieldset>
+
+    <fieldset class="form-group">
+        Ich bestätige hiermit, ...
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="" id="consent1" required />
+            <label class="form-check-label" for="consent1">dass ich die angegebene Person bin</label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="" id="consent2" required />
+            <label class="form-check-label" for="consent2">dass ich meine Verknüpfung jederzeit löschen kann</label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="" id="consent3" required />
+            <label class="form-check-label" for="consent3">dass Mein Name und meine üb die angegebene Person bin</label>
+        </div>
+    </fieldset>
+    <input type="submit" value="Verknüpfen" class="btn btn-primary"/>
+</form>
+
+<ul>
+    {% for player in request.user.player_set.all %}
+    <li><a href="{% url 'players:detail' player.pk %} ">{{ player.name }}</a></li>
+    {% endfor %}
+</ul>
+{% endblock %}

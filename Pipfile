@@ -11,6 +11,7 @@ lxml = "*"
 icalendar = "*"
 tabula-py = "*"
 django-registration = "*"
+django-contact-form = {version = "*", extras = ["akismet"]}
 
 [dev-packages]
 autopep8 = "*"

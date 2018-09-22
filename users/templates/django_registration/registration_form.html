@@ -1,4 +1,4 @@
-{% extends 'users/base.html' %}
+{% extends 'base/base.html' %}
 
 {% block title %}Registrieren{% endblock %}
 
@@ -16,7 +16,7 @@
 
     <fieldset class="form-group">
         <label for="email">E-Mail</label>
-        <input name="email" type="email" id="email" placeholder="beispiel@web.de" required
+        <input name="email" type="email" id="email" placeholder="E-Mail" required
                 class="form-control {% if form.email.errors %}is-invalid{% elif form.email.value %}is-valid{% endif %}"
                 {% if form.email.value %} value="{{ form.email.value }}"{% endif %} />
         <small class="form-text text-muted">{{ form.email.help_text|safe }}</small>

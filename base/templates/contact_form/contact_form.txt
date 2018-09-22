@@ -1,0 +1,5 @@
+Über das Kontaktformular von HbScorez auf http{% if request.is_secure %}s{% endif %}://{{ site.domain }}{% url 'contact_form' %} ist eine Nachricht eingegangen.
+
+{{ name }} ({{ email }}) schreibt:
+
+{{ body }}

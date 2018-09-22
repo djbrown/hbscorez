@@ -12,6 +12,11 @@ def profile(request):
     return render(request=request, template_name='users/profile.html', context={'players': players})
 
 
+@login_required
+def link(request):
+    return render(request=request, template_name='users/link.html', context={})
+
+
 class Login(auth_views.LoginView):
     template_name = 'users/login.html'
     redirect_authenticated_user = True

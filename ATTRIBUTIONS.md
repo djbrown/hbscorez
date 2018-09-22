@@ -7,6 +7,7 @@
 | PTable                | 0.9.2     | BSD License                                         | Luke Maurits                              | https://github.com/kxxoling/PTable                        |
 | PyYAML                | 3.13      | MIT License                                         | Kirill Simonov                            | http://pyyaml.org/wiki/PyYAML                             |
 | Pygments              | 2.2.0     | BSD License                                         | Georg Brandl                              | http://pygments.org/                                      |
+| akismet               | 1.0.1     | BSD License                                         | Michael Foord and James Bennett           | https://github.com/ubernostrum/akismet                    |
 | astroid               | 2.0.4     | UNKNOWN                                             | Python Code Quality Authority             | https://github.com/PyCQA/astroid                          |
 | autopep8              | 1.4       | MIT License                                         | Hideo Hattori                             | https://github.com/hhatto/autopep8                        |
 | bandit                | 1.5.1     | Apache Software License                             | PyCQA                                     | https://bandit.readthedocs.io/en/latest/                  |
@@ -18,6 +19,7 @@
 | coverage              | 4.5.1     | Apache Software License                             | Ned Batchelder and 100 others             | https://bitbucket.org/ned/coveragepy                      |
 | coveralls             | 1.5.0     | MIT License                                         | coveralls-clients contributors            | http://github.com/coveralls-clients/coveralls-python      |
 | distro                | 1.3.0     | Apache Software License                             | Nir Cohen                                 | https://github.com/nir0s/distro                           |
+| django-contact-form   | 1.6       | BSD License                                         | James Bennett                             | https://github.com/ubernostrum/django-contact-form/       |
 | django-registration   | 3.0       | BSD License                                         | James Bennett                             | https://github.com/ubernostrum/django-registration/       |
 | docopt                | 0.6.2     | MIT License                                         | Vladimir Keleshev                         | http://docopt.org                                         |
 | dodgy                 | 0.1.9     | MIT License                                         | landscape.io                              | https://github.com/landscapeio/dodgy                      |

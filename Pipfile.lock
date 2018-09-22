@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "e99bbc78a242bdb85faf2e8781080972d6588a2247d4b2c5cd5cbcfffaa7f6c3"
+            "sha256": "b01211f026d5787d2f587e7c5219836578933a64a6aa1a039c04463c6410530a"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -16,6 +16,13 @@
         ]
     },
     "default": {
+        "akismet": {
+            "hashes": [
+                "sha256:4e8d113985a357c2b2f732c3f20041dd726d12c1b76a617fa39b14e9efef10f7",
+                "sha256:f038145896f0b5b62ff2790007407ef2f9ffd3c4322728ed3af292dd84efaea8"
+            ],
+            "version": "==1.0.1"
+        },
         "certifi": {
             "hashes": [
                 "sha256:376690d6f16d32f9d1fe8932551d80b23e9d393a8578c5633a2ed39a64861638",
@@ -51,6 +58,14 @@
             ],
             "index": "pypi",
             "version": "==2.1.1"
+        },
+        "django-contact-form": {
+            "hashes": [
+                "sha256:8bebb8d3c4f60264ae98ee616e3718bcf065c4b2fdefd14595f94be53aa4a013",
+                "sha256:9aa7c2b672b4e6efe220ff7220eb0482d851db92436332aa3727242ea3b5cf3b"
+            ],
+            "index": "pypi",
+            "version": "==1.6"
         },
         "django-registration": {
             "hashes": [
@@ -497,7 +512,6 @@
                 "sha256:bb6bd074f853d9bab675942226a785a64d4fc42b5847538755e9573f5b77f63a",
                 "sha256:d4b1aea904ae1488b7060137059642246baae709232f4536ad723ce216e4b540"
             ],
-            "markers": "python_version != '3.0.*' and python_version != '3.1.*' and python_version != '3.3.*' and python_version >= '2.7' and python_version != '3.2.*'",
             "version": "==2018.7.1"
         },
         "prompt-toolkit": {

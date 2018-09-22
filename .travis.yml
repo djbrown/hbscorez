@@ -11,7 +11,6 @@ install:
 addons:
   sauce_connect: true
 script:
-  - diff ATTRIBUTIONS.md <(pipenv run pip-licenses -csaum)
   - pipenv run coverage
   - pipenv run coverage xml
   - >-
@@ -22,4 +21,5 @@ after_success:
   - pipenv run codecov
   - pipenv run coveralls
   - pipenv run python-codacy-coverage -r coverage.xml
+  - diff ATTRIBUTIONS.md <(pipenv run pip-licenses -csaum)
   - pipenv lock -r > requirements.txt && fossa

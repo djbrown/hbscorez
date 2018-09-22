@@ -11,8 +11,8 @@ def dec(value, arg):
 def team_logo_url(team: Team):
     if team.logo:
         return team.logo.url
-    else:
-        return static('base/images/favicons/favicon.png')
+
+    return static('base/images/favicons/favicon.png')
 
 
 def team_outcome_badge(outcome: TeamOutcome):
