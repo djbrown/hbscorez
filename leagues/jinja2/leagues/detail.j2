@@ -10,7 +10,10 @@
     <a class="nav-item nav-link m-1" href="{{ url('leagues:offenders', args=[league.bhv_id]) }}">Straffällige</a>
 </nav>
 <h2>Übersicht</h2>
-<p>Anzahl der Spiele: {{ games_count }}</p>
+<span>{{ games_staged }} von {{ games_count }} Spielen ausgetragen</span>
+<div class="progress mb-3">
+  <div class="progress-bar progress-bar-striped progress-bar-animated" style="width: {{ games_staged / games_count * 100 }}%"></div>
+</div>
 <div class="card-deck">
     <div class="card leader-card">
         <h5 class="card-header">Top 5 Mannschaften</h5>
@@ -19,7 +22,8 @@
                 {% for group in teams.values() %}
                 <li>
                     {% for team in group %}
-                    <a href="{{ url('teams:detail', args=[team.bhv_id]) }} ">{{ team.name }}</a> ({{ team.points }}&nbsp;Punkte)<br />
+                    <a href="{{ url('teams:detail', args=[team.bhv_id]) }} ">{{ team.name }}</a>
+                    ({{ team.points }}&nbsp;Punkte)<br />
                     {% endfor %}
                 </li>
                 {% endfor %}
@@ -33,8 +37,8 @@
                 {% for group in scorers.values() %}
                 <li>
                     {% for scorer in group %}
-                    {{ scorer.fake_name() }}
-                    {{ scorer.fake_name() }}p
+                    <a href="{{ url('players:detail', args=[scorer.pk]) }} ">{{ scorer.fake_name() }}</a>
+                    ({{ scorer.total_goals }}&nbsp;Tore)<br />
                     {% endfor %}
                 </li>
                 {% endfor %}
@@ -47,8 +51,9 @@
             <ol class="card-text">
                 {% for group in offenders.values() %}
                 <li>
-                    {% for scorer in group %}
-                    {{ scorer.fake_name() }}
+                    {% for offender in group %}
+                    <a href="{{ url('players:detail', args=[offender.pk]) }} ">{{ offender.fake_name() }}</a>
+                    ({{ offender.offender_points }}&nbsp;Punkte)<br />
                     {% endfor %}
                 </li>
                 {% endfor %}
