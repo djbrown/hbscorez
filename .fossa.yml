@@ -1,0 +1,11 @@
+version: 1
+cli:
+  server: 'https://app.fossa.io'
+  fetcher: custom
+  project: 'https://github.com/djbrown/hbscorez.git'
+analyze:
+  modules:
+    - name: .
+      type: pip
+      target: .
+      path: .

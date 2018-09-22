@@ -11,6 +11,7 @@ install:
 addons:
   sauce_connect: true
 script:
+  - diff ATTRIBUTIONS.md <(pipenv run pip-licenses -csaum)
   - pipenv run coverage
   - pipenv run coverage xml
   - >-
