@@ -60,7 +60,8 @@
                 </div>
             </div>
         {% else %}
-            <a class="nav-item nac-link btn btn-primary" href="{{ url('users:login') }}">Anmelden</a>
+            <a class="nav-item nav-link btn btn-primary mr-md-2 mr-0 mb-md-0 mb-2" href="{{ url('users:login') }}">Anmelden</a>
+            <a class="nav-item nav-link btn btn-success" href="{{ url('django_registration_register') }}">Registrieren</a>
         {% endif %}
     </div>
 </nav>
