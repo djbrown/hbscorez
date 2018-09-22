@@ -1,6 +1,6 @@
 from django.contrib.staticfiles.templatetags.staticfiles import static
 
-from games.models import TeamOutcome, GameOutcome
+from games.models import GameOutcome, TeamOutcome
 from teams.models import Team
 
 
@@ -28,7 +28,7 @@ def team_outcome_badge(outcome: TeamOutcome):
 
 
 def game_outcome_badge(outcome: GameOutcome):
-    if outcome is None:
+    if outcome is GameOutcome.OPEN:
         return "-"
 
     mapping = {
