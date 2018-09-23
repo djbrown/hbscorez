@@ -1,1 +1,1 @@
-Kontaktformular {{ name }} auf HbScorez
+Nachricht von {{ name }} über HbScorez

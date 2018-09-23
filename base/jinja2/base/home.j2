@@ -1,27 +1,10 @@
 {% extends 'base/base.j2' %}
 {% block title %}Start | {{ super() }}{% endblock %}
 {% block content %}
-<h1>HbScorez entdecken</h1>
-<div class="row text-center placeholders">
-    <div class="col-6 col-sm-3 placeholder">
-        <img src="{{ static('base/images/thumbnail-in-progress.png') }}" width="200"
-             height="200" class="img-fluid rounded-circle" alt="In Bearbeitung">
-        <a class="btn btn-lg btn-block btn-secondary disabled" href="#/">Tabellen & Begegnungen</a>
-    </div>
-    <div class="col-6 col-sm-3 placeholder">
-        <img src="{{ static('base/images/thumbnail-players.png') }}" width="200"
-             height="200" class="img-fluid rounded-circle" alt="Torjäger">
-        <a class="btn btn-lg btn-block btn-primary" href="{{ url('associations:list') }}">Torjäger</a>
-    </div>
-    <div class="col-6 col-sm-3 placeholder">
-        <img src="{{ static('base/images/thumbnail-in-progress.png') }}" width="200"
-             height="200" class="img-fluid rounded-circle" alt="In Bearbeitung">
-        <a class="btn btn-lg btn-block btn-secondary disabled" href="#/">Straffällige</a>
-    </div>
-    <div class="col-6 col-sm-3 placeholder">
-        <img src="{{ static('base/images/thumbnail-in-progress.png') }}" width="200"
-             height="200" class="img-fluid rounded-circle" alt="In Bearbeitung">
-        <a class="btn btn-lg btn-block btn-secondary disabled" href="#/">Rekorde</a>
-    </div>
+<div class="jumbotron mt-5">
+    <h1 class="display-4">Willkommen auf HbScorez!</h1>
+    <hr class="my-4">
+    <p class="lead">HbScorez ist eine Statistikplattform für diverse Handballigen im deutschsprachigen Raum.</p>
+    <a class="btn btn-primary btn-lg" href="{{ url('associations:list') }}">Zu den Statistiken</a>
 </div>
 {% endblock %}

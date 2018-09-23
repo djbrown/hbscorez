@@ -91,11 +91,6 @@ h1 {
  * Dashboard
  */
 
-/* Placeholders */
-.placeholders {
-    padding-bottom: 3rem;
-}
-
 .placeholder img {
     padding-top: 1.5rem;
     padding-bottom: 1.5rem;
@@ -121,30 +116,7 @@ h1 {
 }
 
 #footer {
-    padding: 20px 0 20px 180px;
+    padding-bottom: 20px;
+    padding-top: 20px;
     margin-top: 20px;
-}
-
-.footer-item {
-    display: flex;
-    align-items: center;
-    height: 50px;
-    margin-top: 10px;
-}
-
-#footer img {
-    float: left;
-    height: 50px;
-    margin-right: 5px;
-    width: 50px;
-}
-
-#github-logo {
-    background: #e32581;
-    border-radius: 25%;
-}
-
-#redmine-logo {
-    background: #F3C9B0;
-    border-radius: 25%;
 }
