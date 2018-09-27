@@ -5,6 +5,7 @@ from django.contrib.sitemaps import GenericSitemap
 from django.contrib.sitemaps.views import sitemap
 from django.urls import include, path
 
+import api.urls
 import associations.urls
 import base.urls
 import districts.urls
@@ -49,6 +50,7 @@ urlpatterns = [
     path('spiele/', include(games.urls)),
     path('sporthallen/', include(sports_halls.urls)),
     path('spieler/', include(players.urls)),
+    path('api/', include(api.urls)),
 ]
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

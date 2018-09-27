@@ -1,5 +1,7 @@
 {% extends "base/base.html" %}
 
+{% load static base_extras %}
+
 {% block title %}Spieler verknüpfen{% endblock %}
 
 {% block content %}
@@ -19,39 +21,29 @@
 <form method="POST">
     {% csrf_token %}
     <fieldset class="form-group">
-        <label for="association">Verband</label>
-        <select id="association" class="form-control">
-            <option>BHV</option>
-        </select>
+        <label for="associations">Verband</label>
+        <select id="associations" class="form-control"></select>
     </fieldset>
 
     <fieldset class="form-group">
-        <label for="district">Bereich</label>
-        <select id="district" class="form-control">
-            <option>BHV-Ligen</option>
-        </select>
+        <label for="districts">Bereich</label>
+        <select id="districts" class="form-control"></select>
     </fieldset>
 
 
     <fieldset class="form-group">
-        <label for="season">Saison</label>
-        <select id="season" class="form-control">
-            <option>2018/2019</option>
-        </select>
+        <label for="seasons">Saison</label>
+        <select id="seasons" class="form-control"></select>
     </fieldset>
 
     <fieldset class="form-group">
         <label for="league">Liga</label>
-        <select id="league" class="form-control">
-            <option>Verbandsliga Männer</option>
-        </select>
+        <select id="leagues" class="form-control"></select>
     </fieldset>
 
     <fieldset class="form-group">
-        <label for="team">Mannschaft</label>
-        <select name="team" id="team" class="form-control">
-            <option value="437569">TSV Germania Malsch</option>
-        </select>
+        <label for="teams">Mannschaft</label>
+        <select name="team" id="teams" class="form-control" required></select>
     </fieldset>
 
     <fieldset class="form-group">
@@ -73,7 +65,7 @@
         </div>
         <div class="form-check">
             <input class="form-check-input" type="checkbox" value="" id="consent3" required />
-            <label class="form-check-label" for="consent3">dass Mein Name und meine üb die angegebene Person bin</label>
+            <label class="form-check-label" for="consent3">dass mein Name und meine Statistiken öffentlich auf HbScorez angezeigt werden</label>
         </div>
     </fieldset>
     <input type="submit" value="Verknüpfen" class="btn btn-primary"/>
@@ -84,4 +76,10 @@
     <li><a href="{% url 'players:detail' player.pk %} ">{{ player.name }}</a></li>
     {% endfor %}
 </ul>
+{% endblock %}
+
+
+{% block scripts %}
+{{ block.super }}
+<script src="{% static 'users/scripts/link.js' %}"></script>
 {% endblock %}

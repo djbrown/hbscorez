@@ -30,7 +30,7 @@ class Association(models.Model):
             'Handball Baden-Württemberg': 'HBW',
             'Handballoberliga Rheinland-Pfalz/Saar': 'RPS',
             'Handballverband Rheinhessen': 'HVR',
-            'Handballverband Saar': 'HVS',
+            'Handball-Verband Saar': 'HVS',
             'Handballverband Schleswig-Holstein': 'HVSH',
             'Handballverband Württemberg': 'HVW',
             'Mitteldeutscher Handball-Verband': 'MHV',

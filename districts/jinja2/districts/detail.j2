@@ -15,9 +15,9 @@
     {% for league in district.league_set.order_by('name') %}
     <li><a href="{{ league.get_absolute_url() }}">
         {% if league.abbreviation.upper().startswith("M") %}
-        <i class="fas fa-male" aria-hidden="true"></i>
+        <i class="fas fa-male"></i>
         {% elif league.abbreviation.upper().startswith("F") %}
-        <i class="fas fa-female" aria-hidden="true"></i>
+        <i class="fas fa-female"></i>
         {% endif %}
         {{ league.name }}</a></li>
     {% endfor %}
