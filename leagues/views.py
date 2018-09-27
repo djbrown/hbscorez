@@ -49,11 +49,11 @@ def scorers(request, bhv_id):
 
 def offenders(request, bhv_id):
     league = get_object_or_404(League, bhv_id=bhv_id)
-    penalty_scorers = logic.league_offenders(league)
-    add_ranking_place(penalty_scorers, 'penalty_points')
+    league_offenders = logic.league_offenders(league)
+    add_ranking_place(league_offenders, 'offender_points')
     return render(request, 'leagues/offenders.j2', {
         'league': league,
-        'players': penalty_scorers,
+        'offenders': league_offenders,
     })
 
 

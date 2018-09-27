@@ -1,9 +1,12 @@
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse_lazy
 
 from players.models import Player
+
+from .forms import LinkForm
 
 
 @login_required
@@ -14,7 +17,25 @@ def profile(request):
 
 @login_required
 def link(request):
-    return render(request=request, template_name='users/link.html', context={})
+    if request.method == 'POST':
+        form = LinkForm(request.POST)
+        if form.is_valid():
+            player = form.cleaned_data.get('player')
+            player.user = request.user
+            player.published = True
+            player.save()
+
+            profile_url = reverse_lazy('users:profile')
+            return HttpResponseRedirect(profile_url)
+    else:
+        form = LinkForm()
+
+    return render(request=request, template_name='users/link.html', context={'form': form})
+
+
+class Link(auth_views.LoginView):
+    template_name = 'users/login.html'
+    redirect_authenticated_user = True
 
 
 class Login(auth_views.LoginView):

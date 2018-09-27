@@ -8,6 +8,7 @@ from teams.models import Team
 
 class Player(models.Model):
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    published = models.BooleanField(default=False)
     name = models.TextField()
     team = models.ForeignKey(Team, on_delete=models.CASCADE)
 
@@ -18,7 +19,7 @@ class Player(models.Model):
         return reverse('players:detail', kwargs={'pk': self.pk})
 
     def public_name(self):
-        if self.user is None:
+        if self.user is None or self.published is not True:
             return 'Anonym'
         return self.name
 

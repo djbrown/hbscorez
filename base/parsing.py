@@ -72,7 +72,7 @@ def parse_coordinates(tree) -> Tuple[Optional[str], Optional[str]]:
     raise ValueError('coordinates not found: {}'.format(map_script))
 
 
-def parse_goals(game_row) -> Tuple[int, int]:
+def parse_goals(game_row) -> Tuple[Optional[int], Optional[int]]:
     home_goals = game_row[7].text
     guest_goals = game_row[9].text
     if home_goals and guest_goals:
@@ -84,7 +84,7 @@ def parse_goals(game_row) -> Tuple[int, int]:
         if match:
             return int(match.group(1)), int(match.group(2))
 
-    raise ValueError('no goals found: {}'.format(game_row))
+    return (None, None)
 
 
 def parse_report_number(cell):

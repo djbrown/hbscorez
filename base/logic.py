@@ -176,13 +176,7 @@ def league_offenders(league):
         .filter(offender_points__gt=0) \
         .order_by('-offender_points')
     add_ranking_place(offenders, 'offender_points')
-    offenders_by_rank = collections.defaultdict(list)
-    for offender in offenders:
-        if offender.place <= 5:
-            offenders_by_rank[offender.place].append(offender)
-    for scorers_group in offenders_by_rank.values():
-        scorers_group.sort(key=lambda p: p.name)
-    return offenders_by_rank
+    return offenders
 
 
 def top_league_offenders(league):

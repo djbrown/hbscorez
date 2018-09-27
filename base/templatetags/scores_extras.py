@@ -16,7 +16,7 @@ def team_logo_url(team: Team):
 
 
 def team_outcome_badge(outcome: TeamOutcome):
-    if outcome is None:
+    if outcome is TeamOutcome.OPEN:
         return "-"
 
     mapping = {

@@ -20,6 +20,9 @@
 
 <form method="POST">
     {% csrf_token %}
+
+    <h1>hi</h1>{{form.team}}
+
     <fieldset class="form-group">
         <label for="associations">Verband</label>
         <select id="associations" class="form-control"></select>
@@ -43,14 +46,16 @@
 
     <fieldset class="form-group">
         <label for="teams">Mannschaft</label>
-        <select name="team" id="teams" class="form-control" required></select>
+        <select name="team_bhv_id" id="teams" class="form-control" required></select>
+        {% if form.team_bhv_id.errors %}<div class="invalid-feedback">{{ form.team_bhv_id.errors }}</div>{% endif %}
     </fieldset>
 
     <fieldset class="form-group">
         <label for="name">Spielername</label>
-        <input name="name" type="text" id="name" placeholder="Spielername" required
-                class="form-control {% if form.name.errors %}is-invalid{% endif %}"
-                {% if form.name.value %} value="{{ form.name.value }}"{% endif %} />
+        <input name="player_name" type="text" id="name" placeholder="Spielername" required
+                class="form-control {% if form.player_name.errors %}is-invalid{% endif %}"
+                {% if form.player_name.value %} value="{{ form.player_name.value }}"{% endif %} />
+                {% if form.player_name.errors %}<div class="invalid-feedback">{{ form.player_name.errors }}</div>{% endif %}
     </fieldset>
 
     <fieldset class="form-group">

@@ -11,11 +11,11 @@
         <a class="nav-item nav-link m-1 active" href="#/">Straffällige</a>
     </nav>
     <h2>Straffällige
-        <button class="btn btn-outline-primary" type="button" data-toggle="collapse" data-target="#penalty-info"><i
+        <button class="btn btn-outline-primary" type="button" data-toggle="collapse" data-target="#offender-info"><i
                 class="fas fa-info-circle"></i>
         </button>
     </h2>
-    <div class="collapse mb-2" id="penalty-info">
+    <div class="collapse mb-2" id="offender-info">
         <div class="card card-body">
             Bei der Berechnung der Punktezahl werden Gelbe Karten einfach, 2-Minuten doppelt und Rote Karten dreifach
             aufaddiert.<br/>
@@ -43,21 +43,21 @@
             </tr>
             </thead>
             <tbody>
-            {% for player in players %}
+            {% for offender in offenders %}
                 <tr>
-                    <th scope="row">{{ player.place }}</th>
-                    <td><a href="{{ player.get_absolute_url() }}">{{ player.public_name() }}</a></td>
+                    <th scope="row">{{ offender.place }}</th>
+                    <td><a href="{{ offender.get_absolute_url() }}">{{ offender.public_name() }}</a></td>
                     <td>
-                        {#<img class="table-team-logo" src="{{ team_logo_url(player.team) }}" width="25" alt="HbScorez Logo">#}
+                        {#<img class="table-team-logo" src="{{ team_logo_url(offender.team) }}" width="25" alt="HbScorez Logo">#}
                         <img class="table-team-logo" src="{{ static('base/images/favicons/favicon.png') }}" width="25"
                              alt="HbScorez Logo">
-                        <a href="{{ player.team.get_absolute_url() }}">{{ player.team.short_name }}</a>
+                        <a href="{{ offender.team.get_absolute_url() }}">{{ offender.team.short_name }}</a>
                     </td>
-                    <td>{{ player.games }}</td>
-                    <td>{{ player.penalty_points }}</td>
-                    <td>{{ player.warnings }}</td>
-                    <td>{{ player.suspensions }}</td>
-                    <td>{{ player.disqualifications }}</td>
+                    <td>{{ offender.games }}</td>
+                    <td>{{ offender.offender_points }}</td>
+                    <td>{{ offender.warnings }}</td>
+                    <td>{{ offender.suspensions }}</td>
+                    <td>{{ offender.disqualifications }}</td>
                 </tr>
             {% endfor %}
             </tbody>
