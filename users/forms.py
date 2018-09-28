@@ -27,7 +27,7 @@ class LinkForm(forms.Form):
         except Player.DoesNotExist:
             raise ValidationError('Spieler konnte nicht gefunden werden.')
 
-        if player.user != = None:
+        if player.user is not None:
             raise ValidationError('Spieler wurde bereits verknüpft.')
 
         self.cleaned_data['player'] = player
