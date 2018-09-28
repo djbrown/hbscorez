@@ -8,8 +8,8 @@ urlpatterns = [
         path('', detail, name='detail'),
         # path('spieler/', players, name=players'),
         path('spiele/', games, name='games'),
-        path('schützen/', scorers, name='scorers'),
-        path('straffällige/', offenders, name='offenders'),
+        path('schuetzen/', scorers, name='scorers'),
+        path('straffaellige/', offenders, name='offenders'),
         path('kalender/', calendar, name='calendar'),
     ])),
 ]

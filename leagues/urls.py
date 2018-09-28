@@ -10,8 +10,8 @@ urlpatterns = [
         path('', detail, name='detail'),
         path('mannschaften/', teams, name='teams'),
         path('spiele/', games, name='games'),
-        path('schützen/', scorers, name='scorers'),
-        path('straffällige/', offenders, name='offenders'),
+        path('schuetzen/', scorers, name='scorers'),
+        path('straffaellige/', offenders, name='offenders'),
         path('kalender/', calendar, name='calendar'),
     ])),
 ]
