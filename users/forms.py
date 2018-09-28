@@ -22,13 +22,19 @@ class LinkForm(forms.Form):
     def clean_player_name(self):
         team_bhv_id = self.cleaned_data.get('team_bhv_id')
         player_name = self.cleaned_data.get('player_name')
+
+        try:
+            self.clean_team_bhv_id()
+        except ValidationError:
+            return player_name
+
         try:
             player = Player.objects.get(team__bhv_id=team_bhv_id, name__iexact=player_name)
         except Player.DoesNotExist:
             raise ValidationError('Spieler konnte nicht gefunden werden.')
 
         if player.user is not None:
-            raise ValidationError('Spieler wurde bereits verknüpft.')
+            raise ValidationError('Spieler ist bereits verknüpft.')
 
         self.cleaned_data['player'] = player
 
