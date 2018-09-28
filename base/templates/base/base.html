@@ -32,18 +32,17 @@
                 </li>
             </ul>
             {% if user.is_authenticated %}
-            <div class="nav-item btn-group">
-                <a class="nav-link btn btn-secondary" href="{% url 'users:profile' %}">{{ user.username }}</a>
-                <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown">
+                <div class="nav-item btn-group">
+                    <a class="nav-link btn btn-secondary" href="{% url 'users:profile' %}">{{ user.username }}</a>
+                    <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown"></button>
                     <div class="dropdown-menu dropdown-menu-right">
                         <a class="dropdown-item" href="{% url 'users:logout' %}">Abmelden</a>
                     </div>
                 </div>
-                {% else %}
+            {% else %}
                 <a class="nav-item nav-link btn btn-primary mr-md-2 mr-0 mb-md-0 mb-2" href="{% url 'users:login' %}">Anmelden</a>
                 <a class="nav-item nav-link btn btn-success" href="{% url 'django_registration_register' %}">Registrieren</a>
-                {% endif %}
-            </div>
+            {% endif %}
         </div>
     </nav>
     <div class="bg-light py-3">
