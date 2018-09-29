@@ -11,13 +11,15 @@ $(() => {
     let districtId = null;
     let seasonId = null;
 
-    clearAssociations();
+    if (clear === true) {
+        clearAssociations();
 
-    $.get('/api/associations/', response => {
-        response.associations.sort((a, b) => a.name.localeCompare(b.name)).forEach(association => {
-            $associations.append(`<option value="${association.bhvId}">${association.name} (${association.abbreviation})</option>`);
+        $.get('/api/associations/', response => {
+            response.associations.sort((a, b) => a.name.localeCompare(b.name)).forEach(association => {
+                $associations.append(`<option value="${association.bhvId}">${association.name} (${association.abbreviation})</option>`);
+            });
         });
-    });
+    }
 
     $associations.change(e => {
         associationId = e.target.value;

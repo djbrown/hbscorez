@@ -1,10 +1,16 @@
+from typing import Dict
+
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.decorators import login_required
+from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse_lazy
 
+from associations.models import Association
+from leagues.models import Season
 from players.models import Player
+from teams.models import Team
 
 from .forms import LinkForm
 
@@ -19,6 +25,7 @@ def profile(request):
 def link(request):
     if request.method == 'POST':
         form = LinkForm(request.POST)
+        team = team_from_request_query(request.POST)
         if form.is_valid():
             player = form.cleaned_data.get('player')
             player.user = request.user
@@ -27,10 +34,25 @@ def link(request):
 
             profile_url = reverse_lazy('users:profile')
             return HttpResponseRedirect(profile_url)
-    else:
-        form = LinkForm()
 
-    return render(request=request, template_name='users/link.html', context={'form': form})
+    else:
+        form = LinkForm(user=request.user)
+        team = team_from_request_query(request.GET)
+
+    return render(request=request, template_name='users/link.html', context={
+        'form': form,
+        'team': team,
+        'seasons': Season.objects.all(),
+        'associations': Association.objects.all(),
+    })
+
+
+def team_from_request_query(query)-> Dict:
+    team_bhv_id = query.get('team_bhv_id')
+    try:
+        return Team.objects.get(bhv_id=team_bhv_id)
+    except ObjectDoesNotExist:
+        return None
 
 
 class Link(auth_views.LoginView):
