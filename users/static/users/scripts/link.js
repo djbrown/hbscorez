@@ -32,8 +32,8 @@ $(() => {
     $districts.change(e => {
         districtId = e.target.value;
         clearSeasons();
-        $.get(`/api/districts/${districtId}/seasons/`, response => {
-            response.seasons.sort((a, b) => a.startYear.localeCompare(b.startYear)).forEach(season => {
+        $.get(`/api/seasons/`, response => {
+            response.seasons.sort((a, b) => a.startYear - b.startYear).forEach(season => {
                 $seasons.append(`<option value="${season.startYear}">${season.startYear}</option>`);
             });
         });

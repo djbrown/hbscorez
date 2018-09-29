@@ -31,17 +31,10 @@ def association_districts(_, bhv_id):
     return JsonResponse({'districts': districts})
 
 
-def district_seasons(_, bhv_id):
-    districts = District.objects.filter(bhv_id=bhv_id)
-
-    if not districts.exists():
-        return JsonResponse({'error': 'No matching District found.'}, status=404)
-
-    district = districts[0]
-
+def seasons(_):
     seasons = [{
-        'startYear': s.season.start_year
-    } for s in district.league_set.all()]
+        'startYear': season.start_year
+    } for season in Season.objects.all()]
 
     return JsonResponse({'seasons': seasons})
 
