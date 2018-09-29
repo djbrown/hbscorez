@@ -1,4 +1,5 @@
 from django import forms
+from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 
 from players.models import Player
@@ -9,13 +10,23 @@ class LinkForm(forms.Form):
     team_bhv_id = forms.IntegerField()
     player_name = forms.CharField(max_length=100)
 
+    user: User = None
+
+    def __init__(self, *args, user, **kwargs):
+        self.user = user
+        super(LinkForm, self).__init__(*args, **kwargs)
+
     def clean_team_bhv_id(self):
         team_bhv_id = self.cleaned_data.get('team_bhv_id')
+
         try:
             team = Team.objects.get(bhv_id=team_bhv_id)
         except Team.DoesNotExist:
             raise ValidationError('Mannschaft konnte nicht gefunden werden.')
-        # todo: check if user has no player on current year
+
+        if self.user.player_set.exists():
+            raise ValidationError('Saison ist bereits verknüpft.')
+
         self.cleaned_data['team'] = team
         return team_bhv_id
 

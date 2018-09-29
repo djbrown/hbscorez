@@ -18,7 +18,8 @@ class TestLinkForm(TestCase):
         player = Player.objects.create(name='player name', team=team)
 
         form_data = {'team_bhv_id': team.bhv_id, 'player_name': player.name}
-        form = LinkForm(data=form_data)
+        user = User.objects.create(username='username')
+        form = LinkForm(data=form_data, user=user)
 
         self.assertTrue(form.is_valid())
 
@@ -30,7 +31,8 @@ class TestLinkForm(TestCase):
         Player.objects.create(name='Player Name', team=team)
 
         form_data = {'team_bhv_id': team.bhv_id, 'player_name': 'player name'}
-        form = LinkForm(data=form_data)
+        user = User.objects.create(username='username')
+        form = LinkForm(data=form_data, user=user)
 
         self.assertTrue(form.is_valid())
 
@@ -42,7 +44,8 @@ class TestLinkForm(TestCase):
         player = Player.objects.create(name='player name', team=team)
 
         form_data = {'team_bhv_id': 100, 'player_name': player.name}
-        form = LinkForm(data=form_data)
+        user = User.objects.create(username='username')
+        form = LinkForm(data=form_data, user=user)
 
         self.assertFalse(form.is_valid())
         self.assertEqual(form.errors, {'team_bhv_id': ['Mannschaft konnte nicht gefunden werden.']})
@@ -54,14 +57,16 @@ class TestLinkForm(TestCase):
         team = Team.objects.create(bhv_id=4, league=league)
 
         form_data = {'team_bhv_id': team.bhv_id, 'player_name': 'error'}
-        form = LinkForm(data=form_data)
+        user = User.objects.create(username='username')
+        form = LinkForm(data=form_data, user=user)
 
         self.assertFalse(form.is_valid())
         self.assertEqual(form.errors, {'player_name': ['Spieler konnte nicht gefunden werden.']})
 
     def test_team_and_player_do_not_exist(self):
         form_data = {'team_bhv_id': 100, 'player_name': 'error'}
-        form = LinkForm(data=form_data)
+        user = User.objects.create(username='username')
+        form = LinkForm(data=form_data, user=user)
 
         self.assertFalse(form.is_valid())
         self.assertEqual(form.errors, {'team_bhv_id': ['Mannschaft konnte nicht gefunden werden.']})
@@ -71,11 +76,30 @@ class TestLinkForm(TestCase):
         season = Season.objects.create(start_year=2)
         league = League.objects.create(bhv_id=3, district=district, season=season)
         team = Team.objects.create(bhv_id=4, league=league)
-        user = User.objects.create(username='username')
-        player = Player.objects.create(name='player name', team=team, user=user)
+
+        user1 = User.objects.create(username='username 1')
+        player = Player.objects.create(name='player name', team=team, user=user1)
 
         form_data = {'team_bhv_id': team.bhv_id, 'player_name': player.name}
-        form = LinkForm(data=form_data)
+        user2 = User.objects.create(username='username 2')
+        form = LinkForm(data=form_data, user=user2)
 
         self.assertFalse(form.is_valid())
         self.assertEqual(form.errors, {'player_name': ['Spieler ist bereits verknüpft.']})
+
+    def test_user_already_linked_in_season(self):
+        district = District.objects.create(bhv_id=1)
+        season = Season.objects.create(start_year=2)
+        league = League.objects.create(bhv_id=3, district=district, season=season)
+        team = Team.objects.create(bhv_id=4, league=league)
+
+        user = User.objects.create(username='username')
+        Player.objects.create(name='player name 1', team=team, user=user)
+
+        player = Player.objects.create(name='player name 2', team=team)
+
+        form_data = {'team_bhv_id': team.bhv_id, 'player_name': player.name}
+        form = LinkForm(data=form_data, user=user)
+
+        self.assertFalse(form.is_valid())
+        self.assertEqual(form.errors, {'team_bhv_id': ['Saison ist bereits verknüpft.']})

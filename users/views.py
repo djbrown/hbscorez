@@ -1,5 +1,3 @@
-from typing import Dict
-
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist
@@ -24,7 +22,7 @@ def profile(request):
 @login_required
 def link(request):
     if request.method == 'POST':
-        form = LinkForm(request.POST)
+        form = LinkForm(request.POST, user=request.user)
         team = team_from_request_query(request.POST)
         if form.is_valid():
             player = form.cleaned_data.get('player')
@@ -47,7 +45,7 @@ def link(request):
     })
 
 
-def team_from_request_query(query)-> Dict:
+def team_from_request_query(query):
     team_bhv_id = query.get('team_bhv_id')
     try:
         return Team.objects.get(bhv_id=team_bhv_id)
