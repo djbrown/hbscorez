@@ -6,7 +6,7 @@ app_name = 'users'
 
 urlpatterns = [
     path('profile/', views.profile, name='profile'),
-    path('verknüpfen/', views.link, name='link'),
+    path('verknuepfen/', views.link, name='link'),
 
     path('anmelden/', views.Login.as_view(), name='login'),
     path('abmelden/', views.Logout.as_view(), name='logout'),
