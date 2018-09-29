@@ -51,6 +51,7 @@ $(() => {
 
     $leagues.change(e => {
         const leagueId = e.target.value;
+        clearTeams();
         $.get(`/api/leagues/${leagueId}/teams/`, response => {
             response.teams.sort((a, b) => a.name.localeCompare(b.name)).forEach(team => {
                 $teams.append(`<option value="${team.bhvId}">${team.name}</option>`);
