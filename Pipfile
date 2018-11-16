@@ -34,7 +34,7 @@ selenium = "*"
 pylint-django = "*"
 
 [requires]
-python_version = "3.7"
+python_version = "3.6"
 
 [scripts]
 hbscorez = "python manage.py runserver 0.0.0.0:8000"
