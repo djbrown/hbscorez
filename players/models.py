@@ -2,6 +2,7 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.urls import reverse
 
+from base.middleware import env
 from games.models import Game
 from teams.models import Team
 
@@ -19,9 +20,12 @@ class Player(models.Model):
         return reverse('players:detail', kwargs={'pk': self.pk})
 
     def public_name(self):
-        if self.user is None or self.published is not True:
+        if self.user is not None \
+                or self.published is True \
+                or env.PUBLIC_NAMES is True:
+            return self.name
+        else:
             return 'Anonym'
-        return self.name
 
 
 class Score(models.Model):

@@ -13,6 +13,7 @@ def _ensure_env(name: str, default: models.Value, force: bool = False) -> models
 
 
 UPDATING = _ensure_env("UPDATING", models.Value.FALSE)
+PUBLIC_NAMES = _ensure_env("PUBLIC_NAMES", models.Value.FALSE)
 
 
 class EnvironmentMiddleware:
