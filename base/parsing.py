@@ -24,7 +24,7 @@ def parse_league_bhv_id(link):
 
 
 def parse_district_season_start_year(district_season_heading):
-    matches = re.match("Halle(?:nrunde)? (\d{4})/(\d{4})", district_season_heading)
+    matches = re.match(r"Halle(?:nrunde)? (\d{4})/(\d{4})", district_season_heading)
     return int(matches.group(1)) if matches else None
 
 
@@ -66,7 +66,7 @@ def parse_sports_hall_bhv_id(link):
 def parse_coordinates(tree) -> Tuple[Optional[str], Optional[str]]:
     scripts = tree.xpath('//script')
     map_script = scripts[4].text
-    match = re.search("^   new mxn.LatLonPoint\(([.0-9]+),([.0-9]+)\)\),$", map_script, re.MULTILINE)
+    match = re.search(r"^   new mxn.LatLonPoint\(([.0-9]+),([.0-9]+)\)\),$", map_script, re.MULTILINE)
     if match:
         return match.group(1), match.group(2)
     raise ValueError('coordinates not found: {}'.format(map_script))
@@ -80,7 +80,7 @@ def parse_goals(game_row) -> Tuple[Optional[int], Optional[int]]:
 
     if len(game_row[10]) == 1:
         title = game_row[10][0].get("title", "")
-        match = re.match("SpA\((\d+):(\d+)\)", title)
+        match = re.match(r"SpA\((\d+):(\d+)\)", title)
         if match:
             return int(match.group(1)), int(match.group(2))
 

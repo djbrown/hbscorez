@@ -13,7 +13,6 @@ from teams.models import Team
 
 
 def get_html(url):
-    # time.sleep(1)
     response = requests.get(url)
     response.encoding = 'utf-8'
     return html.fromstring(response.text)
@@ -54,7 +53,7 @@ def add_score(score: Score, log_fun: Callable = print):
 
 
 def duplicate_player_scores_exist(score: Score):
-    divided_players = score.player.team.player_set.filter(name__regex="^{} \(\d+\)$".format(score.player.name))
+    divided_players = score.player.team.player_set.filter(name__regex=r"^{} \(\d+\)$".format(score.player.name))
     duplicate_scores = Score.objects.filter(player__name=score.player.name, player__team=score.player.team,
                                             game=score.game)
     return divided_players.exists() or duplicate_scores.exists()

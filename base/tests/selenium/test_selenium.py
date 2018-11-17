@@ -12,8 +12,6 @@ class TestSelenium(SeleniumTestCase):
         body = self.driver.find_element_by_css_selector('body')
         self.assertIn('This page is a Selenium sandbox', body.text)
 
-
-# @skip("generates error code 502 bad gatewey in sauce labs")
     def test_body_exists(self):
         driver = self.driver
         driver.get(self.live_server_url)

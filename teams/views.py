@@ -44,9 +44,9 @@ def offenders(request, bhv_id):
         .filter(team=team) \
         .annotate(games=Count('score')) \
         .annotate(warnings=Count('score__warning_time')) \
-        .annotate(suspensions=Count('score__first_suspension_time') +
-                  Count('score__second_suspension_time') +
-                  Count('score__third_suspension_time')) \
+        .annotate(suspensions=Count('score__first_suspension_time')
+                  + Count('score__second_suspension_time ')
+                  + Count('score__third_suspension_time')) \
         .annotate(disqualifications=Count('score__disqualification_time')) \
         .annotate(offender_points=F('warnings') + 2 * F('suspensions') + 3 * F('disqualifications')) \
         .order_by('-offender_points')
