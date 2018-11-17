@@ -1,0 +1,4 @@
+search: false
+requirements:
+  - Pipfile
+  - Pipfile.lock
