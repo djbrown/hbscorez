@@ -12,9 +12,14 @@
 <p><a id="link-link" href="{% url 'users:link' %}" class="btn btn-success">Spieler verknüpfen</a></p>
 
 <h5>Verknüpfte Saisons</h5>
-<ul>
-    {% for player in request.user.player_set.all %}
-    <li><a href="{% url 'players:detail' player.pk %}">{{player.team.league.season }} {{ player.name }}</a></li>
-    {% endfor %}
-</ul>
+{% if request.user.player_set.count > 0 %}
+    <ul>
+        {% for player in request.user.player_set.all %}
+        <li><a href="{% url 'players:detail' player.pk %}">{{player.team.league.season }} {{ player.name }}</a></li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>Du hast bisher noch keine Saisons verknüpft</p>
+{% endif %}
+
 {% endblock %}

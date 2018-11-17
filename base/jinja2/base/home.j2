@@ -5,6 +5,17 @@
     <h1 class="display-4">Willkommen auf HbScorez!</h1>
     <hr class="my-4">
     <p class="lead">HbScorez ist eine Statistikplattform für diverse Handballigen im deutschsprachigen Raum.</p>
-    <a class="btn btn-primary btn-lg" href="{{ url('associations:list') }}">Zu den Statistiken</a>
+    <a class="btn btn-outline-primary btn-lg" href="{{ url('associations:list') }}">Zu den Statistiken</a>
+    <hr class="my-4">
+    {% if request.user.is_authenticated %}
+        <h2>Jetzt Deine Statistiken freischalten</h2>
+        <p><a id="link-link" href="{{ url('users:link') }}" class="btn btn-success">Saison verknüpfen</a></p>
+    {% else %}
+        <h2>Jetzt registrieren und Statistiken freischalten</h2>
+        <a class="btn btn-success" href="{{ url('django_registration_register') }}">Registrieren</a>
+        <hr class="my-4">
+        <h3>Du bist bereits registriert?</h3>
+        <a class="btn btn-primary" href="{{ url('users:login') }}">Anmelden</a>
+    {% endif %}
 </div>
 {% endblock %}

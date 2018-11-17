@@ -33,7 +33,7 @@
             </ul>
             {% if request.user.is_authenticated %}
                 <div class="nav-item btn-group">
-                    <a class="nav-link btn btn-secondary" href="{{ url('users:login') }}">{{ request.user.username }}</a>
+                    <a class="nav-link btn btn-secondary" href="{{ url('users:profile') }}">{{ request.user.username }}</a>
                     <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown"></button>
                     <div class="dropdown-menu dropdown-menu-right">
                         <a class="dropdown-item" href="{{ url('users:logout') }}">Abmelden</a>
