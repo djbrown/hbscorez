@@ -131,6 +131,16 @@ def league_teams_by_rank(league, top: int = 0) -> Dict[int, List[Team]]:
     return teams_by_rank
 
 
+def scorer(player: Player):
+    return Player.objects.filter(pk=player.pk) \
+        .annotate(games=Count('score')) \
+        .annotate(total_goals=Coalesce(Sum('score__goals'), 0)) \
+        .annotate(total_penalty_tries=Sum('score__penalty_tries')) \
+        .annotate(total_penalty_goals=Sum('score__penalty_goals')) \
+        .annotate(total_field_goals=F('total_goals') - F('total_penalty_goals')) \
+        .first()
+
+
 def league_scorers(league):
     scorers = Player.objects \
         .filter(team__league=league) \
