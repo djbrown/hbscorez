@@ -1,8 +1,8 @@
+from django.conf import settings
 from django.contrib.auth.models import User
 from django.db import models
 from django.urls import reverse
 
-from base.middleware import env
 from games.models import Game
 from teams.models import Team
 
@@ -22,7 +22,7 @@ class Player(models.Model):
     def public_name(self):
         if self.user is not None \
                 or self.published is True \
-                or env.PUBLIC_NAMES is True:
+                or settings.PUBLIC_NAMES is True:
             return self.name
         else:
             return 'Anonym'
