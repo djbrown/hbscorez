@@ -13,7 +13,7 @@
         <a href="{{ team.league.district.get_absolute_url() }}">{{ team.league.district.name}}</a>
     </li>
     <li class="breadcrumb-item active">
-        <a href="{{ team.league.get_absolute_url() }}">{{ team.league.abbreviation }}</a>
+        <a href="{{ team.league.get_absolute_url() }}">{{ team.league.abbreviation }} {{ team.league.season }} </a>
     </li>
     <li class="breadcrumb-item active"><a>{{ team.short_name }}</a></li>
 </ol>
