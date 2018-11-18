@@ -7,7 +7,7 @@ from leagues.models import Season, League
 class SetupTest(ModelTestCase):
 
     def test__setup__mvl_2016(self):
-        return_code = call_command('setup', '-a 35', '-d 35', '-s 2016', '-l 21666')
+        return_code = call_command('setup', '-a', 35, '-d', 35, '-s', 2016, '-l', 21666)
         self.assertEqual(return_code, None)
 
         season = self.assert_objects(Season)
@@ -20,7 +20,7 @@ class SetupTest(ModelTestCase):
         self.assertEqual(league.season, season)
 
     def test__setup__mvl_2017(self):
-        return_code = call_command('setup', '-a 35', '-d 35', '-s 2017', '-l 26777')
+        return_code = call_command('setup', '-a', 35, '-d', 35, '-s', 2017, '-l', 26777)
         self.assertEqual(return_code, None)
 
         season = self.assert_objects(Season)
@@ -33,7 +33,7 @@ class SetupTest(ModelTestCase):
         self.assertEqual(league.season, season)
 
     def test__setup__mwls_2016(self):
-        return_code = call_command('setup', '-a 3', '-d 3', '-s 2016', '-l 21747')
+        return_code = call_command('setup', '-a', 3, '-d', 3, '-s', 2016, '-l', 21747)
         self.assertEqual(return_code, None)
 
         season = self.assert_objects(Season)
@@ -46,7 +46,7 @@ class SetupTest(ModelTestCase):
         self.assertEqual(league.season, season)
 
     def test__setup__mwls_2017(self):
-        return_code = call_command('setup', '-a 3', '-d 3', '-s 2017', '-l 27505')
+        return_code = call_command('setup', '-a', 3, '-d', 3, '-s', 2017, '-l', 27505)
         self.assertEqual(return_code, None)
 
         season = self.assert_objects(Season)

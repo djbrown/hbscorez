@@ -10,11 +10,11 @@ from leagues.models import League
 class ImportGamesTest(ModelTestCase):
 
     def test__import_games__specific_game(self):
-        return_code = call_command('setup', '-a 35', '-d 35', '-s 2017', '-l 26777')
+        return_code = call_command('setup', '-a', 35, '-d', 35, '-s', 2017, '-l', 26777)
         self.assertEqual(return_code, None)
         league = self.assert_objects(League)
 
-        return_code = call_command('import_games', '-g 210226')
+        return_code = call_command('import_games', '-g', 210226)
         self.assertEqual(return_code, None)
         game = self.assert_objects(Game)
 
@@ -29,7 +29,7 @@ class ImportGamesTest(ModelTestCase):
         self.assertEqual(game.league, league)
 
     def test__import_games__m_vl(self):
-        return_code = call_command('setup', '-a 35', '-d 35', '-s 2017', '-l 26777')
+        return_code = call_command('setup', '-a', 35, '-d', 35, '-s', 2017, '-l', 26777)
         self.assertEqual(return_code, None)
         self.assert_objects(League)
 
@@ -38,6 +38,6 @@ class ImportGamesTest(ModelTestCase):
         self.assert_objects(Game, 182)
 
     def test__import_games__missing_district(self):
-        return_code = call_command('import_games', '-a 35', '-d 0')
+        return_code = call_command('import_games', '-a', 35, '-d', 0)
         self.assertEqual(return_code, None)
         self.assert_objects(Game, 0)
