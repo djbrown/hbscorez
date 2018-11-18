@@ -11,15 +11,20 @@
     <li class="breadcrumb-item active"><a>{{ district.name }}</a></li>
 </ol>
 <h1>{{ district.name }}&nbsp;<a href="{{ district.source_url() }}"><i class="fas fa-link" title="Datenquelle"></i></a></h1>
-<ul>
-    {% for league in district.league_set.order_by('name') %}
-    <li><a href="{{ league.get_absolute_url() }}">
-        {% if league.abbreviation.upper().startswith("M") %}
-        <i class="fas fa-male"></i>
-        {% elif league.abbreviation.upper().startswith("F") %}
-        <i class="fas fa-female"></i>
-        {% endif %}
-        {{ league.name }}</a></li>
+{% for start_year, leagues in leagues.items() %}
+    <h2>{{ start_year }}</h2>
+    <ul>
+    {% for league in leagues %}
+        <li>
+            <a href="{{ league.get_absolute_url() }}">
+            {% if league.abbreviation.upper().startswith("M") %}
+                <i class="fas fa-male"></i>
+            {% elif league.abbreviation.upper().startswith("F") %}
+                <i class="fas fa-female"></i>
+            {% endif %}
+            {{ league.name }}</a>
+        </li>
     {% endfor %}
-</ul>
+    </ul>
+{% endfor %}
 {% endblock %}
