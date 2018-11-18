@@ -25,7 +25,7 @@ class League(models.Model):
     bhv_id = models.IntegerField(unique=True)
 
     class Meta:
-        unique_together = (('name', 'district'), ('abbreviation', 'district'))
+        unique_together = (('name', 'district', 'season'), ('abbreviation', 'district', 'season'))
 
     def __str__(self):
         return '{} {}'.format(self.name, self.season)
