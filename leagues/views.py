@@ -12,13 +12,17 @@ def detail(request, bhv_id):
     top_teams = logic.top_league_teams(league)
     top_league_scorers = logic.top_league_scorers(league)
     top_league_offenders = logic.top_league_offenders(league)
+    games_count = league.game_set.count()
+    games_staged = league.game_set.filter(home_goals__isnull=False, guest_goals__isnull=False).count()
+    games_progress = games_staged / games_count if games_count > 0 else 0
     return render(request, 'leagues/detail.j2', {
         'league': league,
-        'games_count': league.game_set.count(),
-        'games_staged': league.game_set.filter(home_goals__isnull=False, guest_goals__isnull=False).count(),
+        'games_count': games_count,
+        'games_staged': games_staged,
         'teams': top_teams,
         'scorers': top_league_scorers,
         'offenders': top_league_offenders,
+        'games_progress': games_progress,
     })
 
 

@@ -12,7 +12,9 @@
 <h2>Übersicht</h2>
 <span>{{ games_staged }} von {{ games_count }} Spielen ausgetragen</span>
 <div class="progress mb-3">
-  <div class="progress-bar progress-bar-striped progress-bar-animated" style="width: {{ games_staged / games_count * 100 }}%"></div>
+    {% if games_count > 0 %}
+    <div class="progress-bar progress-bar-striped progress-bar-animated" style="width: {{ games_progress * 100 }}%"></div>
+    {% endif %}
 </div>
 <div class="card-deck">
     <div class="card leader-card">
