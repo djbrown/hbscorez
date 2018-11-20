@@ -4,7 +4,7 @@ from django.core.management import call_command
 
 from base.tests.model_test_case import ModelTestCase
 from games.models import Game
-from leagues.models import League
+from leagues.models import League, Season
 
 
 class ImportGamesTest(ModelTestCase):
@@ -41,3 +41,15 @@ class ImportGamesTest(ModelTestCase):
         return_code = call_command('import_games', '-a', 35, '-d', 0)
         self.assertEqual(return_code, None)
         self.assert_objects(Game, 0)
+
+    def test__import_games__m_vl__multiseason(self):
+        return_code = call_command('setup', '-a', 35, '-d', 35, '-s', 2017, 2018, '-l', 26777, 34606)
+        self.assertEqual(return_code, None)
+        self.assert_objects(Season, count=2)
+        leagues = self.assert_objects(League, count=2)
+
+        return_code = call_command('import_games')
+        self.assertEqual(return_code, None)
+
+        for league in leagues:
+            self.assertGreater(league.game_set.count(), 0, msg="league without games: {}".format(league))

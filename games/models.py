@@ -24,7 +24,7 @@ class TeamOutcome(Enum):
 
 
 class Game(models.Model):
-    number = models.IntegerField(unique=True)
+    number = models.IntegerField()
     league = models.ForeignKey(League, on_delete=models.CASCADE)
     opening_whistle = models.DateTimeField(blank=True, null=True)
     sports_hall = models.ForeignKey(SportsHall, on_delete=models.CASCADE, blank=True, null=True)
@@ -36,8 +36,11 @@ class Game(models.Model):
     forfeiting_team = models.ForeignKey(Team, on_delete=models.CASCADE, blank=True, null=True,
                                         related_name='forfeiting_team')
 
+    class Meta:
+        unique_together = ('number', 'league')
+
     def __str__(self):
-        return '{} {} vs. {}'.format(self.number, self.home_team.short_name, self.guest_team.short_name)
+        return '{} {} {} vs. {}'.format(self.number, self.league, self.home_team.short_name, self.guest_team.short_name)
 
     @staticmethod
     def build_report_source_url(report_number):

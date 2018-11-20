@@ -91,7 +91,7 @@ class Command(BaseCommand):
         report_number = parsing.parse_report_number(game_row[10])
         forfeiting_team = parsing.parse_forfeiting_team(game_row[10], home_team, guest_team)
 
-        if not Game.objects.filter(number=number).exists():
+        if not Game.objects.filter(number=number, league__season=league.season).exists():
             self.stdout.write('CREATING Game: {}'.format(number))
             game = Game.objects.create(number=number, league=league,
                                        opening_whistle=opening_whistle, sports_hall=sports_hall,
@@ -101,7 +101,7 @@ class Command(BaseCommand):
             self.stdout.write('CREATED Game: {}'.format(game))
 
         else:
-            self.stdout.write('EXISTING Game: {}'.format(number))
+            self.stdout.write('EXISTING Game: {} {}'.format(number, league))
             game = Game.objects.get(number=number)
             if game.opening_whistle != opening_whistle:
                 self.stdout.write('UPDATING Game opening whistle: {}'.format(game))
