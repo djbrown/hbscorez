@@ -5,6 +5,7 @@ name = "pypi"
 
 [packages]
 Django = ">=2.0"
+psycopg2 = "*"
 Jinja2 = "*"
 requests = "*"
 lxml = "*"
