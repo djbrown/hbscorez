@@ -65,6 +65,8 @@ def parse_sports_hall_bhv_id(link):
 
 def parse_coordinates(tree) -> Tuple[Optional[str], Optional[str]]:
     scripts = tree.xpath('//script')
+    if len(scripts) < 5:
+        return (None, None)
     map_script = scripts[4].text
     match = re.search(r"^   new mxn.LatLonPoint\(([.0-9]+),([.0-9]+)\)\),$", map_script, re.MULTILINE)
     if match:
