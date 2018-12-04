@@ -17,6 +17,11 @@
         <link rel="stylesheet" href="{{ static('base/styles/animate.css') }}">
         <link rel="stylesheet" href="{{ static('base/styles/cookieconsent-3.0.3.min.css') }}">
     {% endblock %}
+
+    {% if MATOMO_URL %}
+        <script>MATOMO_URL = "{{ MATOMO_URL }}";</script>
+        <script src="{{ static('base/scripts/matomo.js') }}"></script>
+    {% endif %}
 </head>
 <body class="bg-dark">
 <nav class="navbar navbar-expand-md navbar-dark sticky-top bg-dark">

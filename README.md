@@ -13,7 +13,8 @@
 <!-- TODO: register on Sauce Labs at https://saucelabs.com/open-source/open-sauce [![Sauce Labs Browsers](https://saucelabs.com/browser-matrix/djbrown-hbscorez.svg)](https://saucelabs.com/u/djbrown-hbscorez) -->
 
 This is the repo for the web application HbScorez running on https://hbscorez.de/.<br/>
-HbScorez is a web application, which processes handball game reports of diverse handball associations, districts, and leagues. It analyzes the player scores and displays the statistics and rankings.
+HbScorez is a web application, which processes handball game reports of diverse handball associations, districts, and leagues.
+It analyzes the player scores and displays the statistics and rankings.
 
 HbScorez is powered by Django
 
@@ -22,8 +23,8 @@ HbScorez is powered by Django
 
 ## Running via Docker
 
-`docker run -p 8001:8000 djbrown/hbscorez`<br/>
-Container is reachable under [0.0.0.0:8001](http://0.0.0.0:8001)
+`docker run -p 8000:8000 djbrown/hbscorez:latest`<br/>
+App is reachable under [127.0.0.1:8000](http://127.0.0.1:8000)
 
 
 ## Running natively
@@ -48,9 +49,30 @@ Container is reachable under [0.0.0.0:8001](http://0.0.0.0:8001)
 * **import_games**: fetch games and sport halls
 * **import_scores**: fetch players and scores
 
-Execute Commands via `pipenv run python manage.py <COMMAD> <OPTIONS>`.<br/>
-Prepend `docker run <CONTAINER> ` when running via Docker.<br/>
-Append ` -h` to display Command help.
+Execute commands via `pipenv run python manage.py <COMMAD> <OPTIONS>`.<br/>
+Prepend `docker run djbrown/hbscorez:latest ` to execute inside Docker container.<br/>
+Append ` -h` to display command help.
+
+
+## Run complete Stack
+
+### Prerequisites
+1. Adjust app settings in `hbscorez/settings_docker_stack.yml` marked with `CHANGEME`
+2. Adjust deployment settings in `docker-stack.yml` marked with `CHANGEME`
+3. Enable Docker Swarm (`docker swarm init`)
+
+### Deploy Stack
+`docker stack deploy --compose-file docker-stack.yml hbscorez`
+
+### Services
+* hbscorez: main Application
+* hbscorezdb: database for hbScorez ([https://www.postgresql.org/](PostgreSQL))
+* static: webserver for static files ([https://nginx.org/](nginx))
+* pgadmin: administration for hbscorezdb ([https://www.pgadmin.org/](pgAdmin))
+* matomo: web analytics for hbscorez ([https://matomo.org/](Matomo))
+* matomodb: database for matomo ([https://matomo.org/](Matomo))
+* traefik: reverse proxy ([https://traefik.io/](Traefik))
+* portainer: Docker management ([https://portainer.io/](Portainer))
 
 
 ## License

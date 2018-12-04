@@ -1,6 +1,7 @@
 ### Project
 /db.sqlite3
-/hbscorez/settings_prod.py
+/hbscorez/settings_docker_stack_prod.py
+/docker-stack-prod.yml
 /media/
 /reports/
 /static/
@@ -16,4 +17,3 @@ __pycache__/
 ### Tools
 **/.mypy_cache/
 /geckodriver.log
-

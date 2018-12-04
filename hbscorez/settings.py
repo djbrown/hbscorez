@@ -1,4 +1,5 @@
 import os
+from typing import Optional
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -52,6 +53,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'base.context_processors.matomo',
             ],
         },
     },
@@ -61,6 +63,9 @@ TEMPLATES = [
         'APP_DIRS': True,
         'OPTIONS': {
             'environment': 'hbscorez.jinja2_env.environment',
+            'context_processors': [
+                'base.context_processors.matomo',
+            ],
         },
     },
 ]
@@ -69,14 +74,6 @@ WSGI_APPLICATION = 'hbscorez.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'hbscorez',
-        'USER': 'hbscorez',
-        'PASSWORD': 'password',
-        'HOST': '127.0.0.1',
-        'PORT': '5432',
-    },
-    'sqlite': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
@@ -146,3 +143,5 @@ ROOT_SOURCE_URL = 'https://spo.handball4all.de/'
 SELENIUM = True
 
 PUBLIC_NAMES = True
+
+MATOMO_URL: Optional[str] = None
