@@ -1,5 +1,6 @@
 import collections
-from typing import Callable, Dict, List
+import operator
+from typing import Callable
 
 import requests
 from django.db import transaction
@@ -107,25 +108,13 @@ def top_league_teams(league):
     teams = league.team_set.all()
     for team in teams:
         team.points = team_points(team)
+    teams = sorted(teams, key=operator.attrgetter('points'), reverse=True)
     add_ranking_place(teams, 'points')
     teams_by_rank = collections.defaultdict(list)
     for team in teams:
         if team.place <= 5:
             teams_by_rank[team.place].append(team)
-    for team_group in teams_by_rank.values():
-        team_group.sort(key=lambda p: p.name)
-    return teams_by_rank
-
-
-def league_teams_by_rank(league, top: int = 0) -> Dict[int, List[Team]]:
-    teams = league.team_set.all()
-    for team in teams:
-        team.points = team_points(team)
-    add_ranking_place(teams, 'points')
-    teams_by_rank: Dict[int, List[Team]] = collections.defaultdict(list)
-    for team in teams:
-        if top == 0 or team.place <= top:
-            teams_by_rank[team.place].append(team)
+            print('{} {} {}'.format(team.place, team.points, team))
     for team_group in teams_by_rank.values():
         team_group.sort(key=lambda p: p.name)
     return teams_by_rank
