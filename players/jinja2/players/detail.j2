@@ -12,7 +12,7 @@
         <li class="breadcrumb-item"><a href="{{ player.team.league.district.get_absolute_url() }}">
             {{ player.team.league.district.name }}</a></li>
         <li class="breadcrumb-item active">
-            <a href="{{ player.team.league.get_absolute_url() }}">{{ player.team.league.abbreviation }} {{ team.league.season }}</a>
+            <a href="{{ player.team.league.get_absolute_url() }}">{{ player.team.league.abbreviation }} {{ player.team.league.season }}</a>
         </li>
         <li class="breadcrumb-item active"><a
                 href="{{ player.team.get_absolute_url() }}">{{ player.team.short_name }}</a>
@@ -46,7 +46,7 @@
                     <td>{{ date(score.game.opening_whistle, 'SHORT_DATE_FORMAT' ) }}</td>
                     <td>{{ time(score.game.opening_whistle) }}</td>
                     <td>
-                        {#<img class="table-team-logo" src="{{ team_logo_url(opponent_team) }}" width="25">#}
+                        {#<img class="table-team-logo" src="{{ player.team_logo_url(opponent_team) }}" width="25">#}
                         <img class="table-team-logo" src="{{ static('base/images/favicons/favicon.png') }}" width="25"
                              alt="HbScorez Logo">
                         <a href="{{ opponent_team.get_absolute_url() }}">{{ opponent_team.short_name }}</a>
