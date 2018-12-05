@@ -102,7 +102,7 @@ class Command(BaseCommand):
 
         else:
             self.stdout.write('EXISTING Game: {} {}'.format(number, league))
-            game = Game.objects.get(number=number)
+            game = Game.objects.get(number=number, league=league)
             if game.opening_whistle != opening_whistle:
                 self.stdout.write('UPDATING Game opening whistle: {}'.format(game))
                 game.opening_whistle = opening_whistle
