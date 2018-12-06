@@ -1,7 +1,7 @@
 import os
 from typing import Optional
 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR: str = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 SECRET_KEY = ' '  # noqa
 
@@ -100,6 +100,7 @@ TIME_ZONE = 'Europe/Berlin'
 
 USE_L10N = True
 
+
 # static files
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
@@ -117,10 +118,6 @@ EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
 
 EMAIL_FILE_PATH = os.path.join(BASE_DIR, 'mails')
 
-DEFAULT_FROM_EMAIL = 'webmaster@localhost'
-
-MANAGERS = [('', DEFAULT_FROM_EMAIL)]
-
 
 # auth
 
@@ -134,11 +131,11 @@ LOGIN_URL = 'users:login'
 ACCOUNT_ACTIVATION_DAYS = 3
 
 
-# Custom Settings
+# custom settings
 
 REPORTS_PATH = os.path.join(BASE_DIR, 'reports')
 
-ROOT_SOURCE_URL = 'https://spo.handball4all.de/'
+ROOT_SOURCE_URL = 'http://spo.handball4all.de/'
 
 SELENIUM = True
 
