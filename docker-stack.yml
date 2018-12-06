@@ -4,6 +4,7 @@ services:
   hbscorez:
     image: djbrown/hbscorez:dev # CHANGEME
     environment:
+      - DJANGO_SETTINGS_MODULE=hbscorez.settings_runtime
       - GUNICORN_WORKERS=5 # CHANGEME
     volumes:
       - /home/djbrown/Projects/hbscorez/hbscorez/settings_docker_stack.py:/settings.py:ro # CHANGEME
@@ -47,6 +48,8 @@ services:
         - traefik.enable=true
         - traefik.port=80
         - traefik.frontend.rule=Host:matomo.hbscorez.localhost # CHANGEME
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
   matomodb:
     image: mariadb:latest
     environment:
@@ -110,5 +113,6 @@ services:
 volumes:
   ? hbscorezdb_data
   ? static_data
+  ? pgadmin_data
   ? matomodb_data
   ? portainer_data
