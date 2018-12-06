@@ -54,27 +54,6 @@ Prepend `docker run djbrown/hbscorez:latest ` to execute inside Docker container
 Append ` -h` to display command help.
 
 
-## Run complete Stack
-
-### Prerequisites
-1. Adjust app settings in `hbscorez/settings_docker_stack.yml` marked with `CHANGEME`
-2. Adjust deployment settings in `docker-stack.yml` marked with `CHANGEME`
-3. Enable Docker Swarm (`docker swarm init`)
-
-### Deploy Stack
-`docker stack deploy --compose-file docker-stack.yml hbscorez`
-
-### Services
-* hbscorez: main Application
-* hbscorezdb: database for hbScorez ([https://www.postgresql.org/](PostgreSQL))
-* static: webserver for static files ([https://nginx.org/](nginx))
-* pgadmin: administration for hbscorezdb ([https://www.pgadmin.org/](pgAdmin))
-* matomo: web analytics for hbscorez ([https://matomo.org/](Matomo))
-* matomodb: database for matomo ([https://matomo.org/](Matomo))
-* traefik: reverse proxy ([https://traefik.io/](Traefik))
-* portainer: Docker management ([https://portainer.io/](Portainer))
-
-
 ## License
 
 The project is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).

@@ -1,7 +1,7 @@
 ### Project
 /db.sqlite3
-/hbscorez/settings_docker_stack_prod.py
-/docker-stack-prod.yml
+/hbscorez/settings_docker_stack*.py
+/docker-stack*.yml
 /media/
 /reports/
 /static/
