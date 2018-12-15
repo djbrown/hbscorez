@@ -1,7 +1,7 @@
 from django.core.management import call_command
 
 from base.tests.model_test_case import ModelTestCase
-from leagues.models import Season, League
+from leagues.models import League, Season
 
 
 class SetupTest(ModelTestCase):
@@ -57,3 +57,9 @@ class SetupTest(ModelTestCase):
         self.assertEqual(league.abbreviation, "M-WL-S")
         self.assertEqual(league.bhv_id, 27505)
         self.assertEqual(league.season, season)
+
+    def test__setup__old_leagues(self):
+        return_code = call_command('setup', '-s', 1999, 2000, 2001, 2003)
+        self.assertEqual(return_code, None)
+
+        self.assert_objects(League, count=0)

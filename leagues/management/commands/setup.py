@@ -96,8 +96,12 @@ class Command(BaseCommand):
             self.stdout.write('SKIPPING District Season (irrelevant): {} {}'.format(district, district_season_heading))
             return
 
+        if start_year <= 2003:
+            self.stdout.write('SKIPPING District Season (too old): {} {}'.format(district, district_season_heading))
+            return
+
         if self.options['seasons'] and start_year not in self.options['seasons']:
-            self.stdout.write('SKIPPING District Season (options): {}'.format(start_year))
+            self.stdout.write('SKIPPING District Season (options): {} {}'.format(district, district_season_heading))
             return
 
         season, season_created = Season.objects.get_or_create(start_year=start_year)
