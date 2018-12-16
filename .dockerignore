@@ -1,18 +1,19 @@
-.github
-.idea
-.mypy_cache
-.vscode
-mails
-reports
-.editorconfig
-.fossa.yml
-.gitignore
-.pyup.yml
-.travis.yml
-ATTRIBUTIONS.md
-db.sqlite3
-Dockerfile
-docker-stack-prod.yml
-geckodriver.log
-LICENSE
-README.md
+### Project
+/db.sqlite3
+/hbscorez/settings_docker_stack*.py
+/docker-stack*.yml
+/media/
+/reports/
+/static/
+/mails/
+
+### Python
+__pycache__/
+
+### IDEs
+/.idea/
+/.vscode/
+
+### Tools
+**/.mypy_cache/
+/geckodriver.log
