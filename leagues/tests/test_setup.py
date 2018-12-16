@@ -3,7 +3,7 @@ from django.core.management import call_command
 from associations.models import Association
 from base.tests.model_test_case import ModelTestCase
 from districts.models import District
-from leagues.models import Season, League
+from leagues.models import League, Season
 
 
 class SetupTest(ModelTestCase):
@@ -43,6 +43,16 @@ class SetupTest(ModelTestCase):
         self.assertEqual(return_code, None)
         self.assert_objects(League, 0)
 
-        for start_year in range(1999, 2018):
+        for start_year in range(2004, 2019):
             exists = Season.objects.filter(start_year=start_year).exists()
-            self.assertTrue(exists, 'Season {} does not exist'.format(start_year))
+            self.assertTrue(exists, 'Season {} should exist'.format(start_year))
+
+    def test__setup__old_leagues(self):
+        return_code = call_command('setup', '-a', 4, '-d', 3, '-l', 0)
+        self.assertEqual(return_code, None)
+
+        self.assert_objects(League, count=0)
+
+        for start_year in range(1999, 2004):
+            exists = Season.objects.filter(start_year=start_year).exists()
+            self.assertFalse(exists, 'Season {} should not exist'.format(start_year))
