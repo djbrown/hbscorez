@@ -1,3 +1,5 @@
+import datetime
+
 from django.conf import settings
 from django.db import models
 from django.urls import reverse
@@ -17,9 +19,9 @@ class District(models.Model):
         return reverse('districts:detail', kwargs={'bhv_id': self.bhv_id})
 
     @staticmethod
-    def build_source_url(bhv_id, date=None):
+    def build_source_url(bhv_id, date: datetime.date = None):
         date_suffix = '&do={}'.format(date) if date else ''
         return settings.ROOT_SOURCE_URL + 'Spielbetrieb/index.php?orgGrpID=1&orgID={}{}'.format(bhv_id, date_suffix)
 
-    def source_url(self, date=None):
+    def source_url(self, date: datetime.date = None):
         return self.build_source_url(self.bhv_id, date)

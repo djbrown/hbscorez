@@ -1,3 +1,5 @@
+import datetime
+
 from django.conf import settings
 from django.core.management import BaseCommand
 from django.db import transaction
@@ -82,26 +84,12 @@ class Command(BaseCommand):
             self.stdout.write('EXISTING District: {}'.format(district))
         self.processed_districts.add(bhv_id)
 
-        seasons_url = District.build_source_url(district.bhv_id, '1990-01-01')
-        seasons_dom = logic.get_html(seasons_url)
-        season_headings = seasons_dom.xpath('//div[@id="results"]/div/a[@name]/h4/text()')
-        season_links = seasons_dom.xpath('//div[@id="results"]/div/a[@href]')
-        seasons = zip(season_headings, season_links)
-        for season_heading, season_link in seasons:
-            self.create_season(season_heading, season_link, district)
+        for start_year in range(2004, datetime.datetime.now().year):
+            self.create_season(district, start_year)
 
-    def create_season(self, district_season_heading, district_season_link, district):
-        start_year = parsing.parse_district_season_start_year(district_season_heading)
-        if start_year is None:
-            self.stdout.write('SKIPPING District Season (irrelevant): {} {}'.format(district, district_season_heading))
-            return
-
-        if start_year <= 2003:
-            self.stdout.write('SKIPPING District Season (too old): {} {}'.format(district, district_season_heading))
-            return
-
+    def create_season(self, district, start_year):
         if self.options['seasons'] and start_year not in self.options['seasons']:
-            self.stdout.write('SKIPPING District Season (options): {} {}'.format(district, district_season_heading))
+            self.stdout.write('SKIPPING District Season (options): {} {}'.format(district, start_year))
             return
 
         season, season_created = Season.objects.get_or_create(start_year=start_year)
@@ -110,7 +98,7 @@ class Command(BaseCommand):
         else:
             self.stdout.write('EXISTING Season: {}'.format(season))
 
-        date = parsing.parse_district_link_date(district_season_link)
+        date = datetime.date(start_year, 9, 1)
         url = District.build_source_url(district.bhv_id, date)
         dom = logic.get_html(url)
         league_links = dom.xpath('//div[@id="results"]/div/table[2]/tr/td[1]/a')
