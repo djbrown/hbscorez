@@ -84,7 +84,7 @@ class Command(BaseCommand):
             self.stdout.write('EXISTING District: {}'.format(district))
         self.processed_districts.add(bhv_id)
 
-        for start_year in range(2004, datetime.datetime.now().year):
+        for start_year in range(2004, datetime.datetime.now().year + 1):
             self.create_season(district, start_year)
 
     def create_season(self, district, start_year):
