@@ -98,7 +98,7 @@ class Command(BaseCommand):
         else:
             self.stdout.write('EXISTING Season: {}'.format(season))
 
-        date = datetime.date(start_year, 9, 1)
+        date = datetime.date(start_year, 10, 1)
         url = District.build_source_url(district.bhv_id, date)
         dom = logic.get_html(url)
         league_links = dom.xpath('//div[@id="results"]/div/table[2]/tr/td[1]/a')
