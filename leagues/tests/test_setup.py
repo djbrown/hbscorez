@@ -56,3 +56,10 @@ class SetupTest(ModelTestCase):
         for start_year in range(1999, 2004):
             exists = Season.objects.filter(start_year=start_year).exists()
             self.assertFalse(exists, 'Season {} should not exist'.format(start_year))
+
+    def test__setup__meisterschaft(self):
+        return_code = call_command('setup', '-a', 3, '-d', 3, '-s', 2009, '-l', 9656, 9657, 10677)
+        self.assertEqual(return_code, None)
+
+        return_code = call_command('import_games')
+        self.assertEqual(return_code, None)
