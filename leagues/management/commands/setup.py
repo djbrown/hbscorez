@@ -141,6 +141,10 @@ class Command(BaseCommand):
             self.stdout.write('SKIPPING League (few games): {} {}'.format(bhv_id, abbreviation))
             return
 
+        if "Platzierungsrunde" in name:
+            self.stdout.write('SKIPPING League (Platzierungsrunde): {} {}'.format(bhv_id, name))
+            return
+
         league, league_created = League.objects.get_or_create(
             name=name, abbreviation=abbreviation, district=district, season=season, bhv_id=bhv_id)
         if league_created:
