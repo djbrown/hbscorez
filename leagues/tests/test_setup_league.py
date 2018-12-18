@@ -57,3 +57,14 @@ class SetupTest(ModelTestCase):
         self.assertEqual(league.abbreviation, "M-WL-S")
         self.assertEqual(league.bhv_id, 27505)
         self.assertEqual(league.season, season)
+
+    def test__setup__mklc2_2007(self):
+        return_code = call_command('setup', '-a', 3, '-d', 7, '-s', 2007, '-l', 7423, 7424)
+        self.assertEqual(return_code, None)
+
+        self.assert_objects(League, count=2)
+        mklc2 = League.objects.get(abbreviation="M-KLC-2")
+        mklc3 = League.objects.get(abbreviation="M-KLC-3")
+
+        self.assertEqual(mklc2.name, "Männer Kreisliga C Staffel 2")
+        self.assertEqual(mklc3.name, "Männer Kreisliga C Staffel 3")
