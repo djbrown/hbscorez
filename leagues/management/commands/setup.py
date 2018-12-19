@@ -149,8 +149,14 @@ class Command(BaseCommand):
             self.stdout.write('SKIPPING League (Meisterschaft): {} {}'.format(bhv_id, name))
             return
 
-        if bhv_id == 7424 and name == "Männer Kreisliga C Staffel 2":
+        if bhv_id == 7424:
             name = "Männer Kreisliga C Staffel 3"
+
+        if bhv_id == 5380:
+            name = "Männer Kreisliga 2-1"
+
+        if bhv_id == 5381:
+            name = "Männer Kreisliga 2-2"
 
         league, league_created = League.objects.get_or_create(
             name=name, abbreviation=abbreviation, district=district, season=season, bhv_id=bhv_id)

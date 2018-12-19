@@ -68,3 +68,14 @@ class SetupTest(ModelTestCase):
 
         self.assertEqual(mklc2.name, "Männer Kreisliga C Staffel 2")
         self.assertEqual(mklc3.name, "Männer Kreisliga C Staffel 3")
+
+    def test__setup__mkl2_2005(self):
+        return_code = call_command('setup', '-a', 3, '-d', 10, '-s', 2005, '-l', 5380, 5381)
+        self.assertEqual(return_code, None)
+
+        self.assert_objects(League, count=2)
+        mkl21 = League.objects.get(abbreviation="M-KL2-1")
+        mkl22 = League.objects.get(abbreviation="M-KL2-2")
+
+        self.assertEqual(mkl21.name, "Männer Kreisliga 2-1")
+        self.assertEqual(mkl22.name, "Männer Kreisliga 2-2")
