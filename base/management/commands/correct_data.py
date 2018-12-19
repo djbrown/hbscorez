@@ -47,7 +47,7 @@ class Command(BaseCommand):
             ("Kevin Langjahr", 34, 1, 0, 0),
             ("Timo Bäuerlein", 62, 2, 0, 0),
         ]
-        self.add_scores(210116, sghh, hcn)
+        self.add_scores(26773, 210116,  sghh, hcn)
         env.UPDATING.set_value(Value.FALSE)
 
     @transaction.atomic
@@ -73,19 +73,16 @@ class Command(BaseCommand):
                 self.stdout.write("CORRECTED Player: {} to {}".format(old_name, new_player))
 
     @transaction.atomic
-    def add_scores(self, game_number, home_data, guest_data):
-        game_matches = Game.objects.filter(number=game_number)
-        if not game_matches.exists():
-            self.stdout.write("SKIPPING Game (not found): {}".format(game_number))
-            return
-
-        game = game_matches[0]
-        if game.score_set.exists():
-            self.stdout.write("SKIPPING Game (existing scores): {}".format(game))
-            return
-
-        self._add_scores(game, game.home_team, home_data)
-        self._add_scores(game, game.guest_team, guest_data)
+    def add_scores(self, league__bhv_id: int, game_number: int,  home_data, guest_data):
+        try:
+            game = Game.objects.get(league__bhv_id=league__bhv_id, number=game_number)
+            if game.score_set.exists():
+                self.stdout.write("SKIPPING Game (existing scores): {}".format(game))
+            else:
+                self._add_scores(game, game.home_team, home_data)
+                self._add_scores(game, game.guest_team, guest_data)
+        except Game.DoesNotExist:
+            self.stdout.write("SKIPPING Game (not found): {} {}".format(league__bhv_id, game_number))
 
     def _add_scores(self, game, team, data: List[Tuple[str, int, int, int, int]]):
         for score_data in data:
