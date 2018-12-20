@@ -2,6 +2,7 @@
 /db.sqlite3
 /hbscorez/settings_docker_stack*.py
 /docker-stack*.yml
+/hbscorez.log
 /media/
 /reports/
 /static/

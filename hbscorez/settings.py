@@ -101,6 +101,51 @@ TIME_ZONE = 'Europe/Berlin'
 USE_L10N = True
 
 
+# logging
+
+LOG_FILE = os.path.join(BASE_DIR, 'hbscorez.log')
+
+LOGGING: dict = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '{levelname:8} {asctime} {module} - {message}',
+            'style': '{',
+        },
+        'simple': {
+            'format': '{levelname:8} {message}',
+            'style': '{',
+        },
+    },
+    'handlers': {
+        'file': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': LOG_FILE,
+            'formatter': 'verbose'
+        },
+        'console': {
+            'level': 'INFO',
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple'
+        },
+    },
+    'loggers': {
+        'hbscorez': {
+            'handlers': ['file'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+        'hbscorez.command': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+    },
+}
+
+
 # static files
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
