@@ -1,6 +1,6 @@
 import collections
+import logging
 import operator
-from typing import Callable
 
 import requests
 from django.db import transaction
@@ -11,6 +11,8 @@ from lxml import html
 from games.models import Game, TeamOutcome
 from players.models import Player, Score
 from teams.models import Team
+
+logger = logging.getLogger('hbscorez')
 
 
 def get_html(url):
@@ -36,8 +38,8 @@ def add_ranking_place(items: list, field: str):
                 item.place = previous.place
 
 
-def add_score(score: Score, log_fun: Callable = print):
-    log_fun('CREATING Score: {} {}'.format(score.game, score.player.name))
+def add_score(score: Score):
+    logger.debug('CREATING Score: {} {}'.format(score.game, score.player.name))
 
     if duplicate_player_scores_exist(score):
         split_by_number(score.player.name, score.player.team)
@@ -45,9 +47,9 @@ def add_score(score: Score, log_fun: Callable = print):
 
     player, created = Player.objects.get_or_create(name=score.player.name, team=score.player.team)
     if created:
-        log_fun('CREATED Player: {}'.format(player))
+        logger.debug('CREATED Player: {}'.format(player))
     else:
-        log_fun('EXISTING Player: {}'.format(player))
+        logger.debug('EXISTING Player: {}'.format(player))
 
     score.player = player
     score.save()
@@ -61,12 +63,12 @@ def duplicate_player_scores_exist(score: Score):
 
 
 @transaction.atomic
-def split_by_number(original_name: str, team: Team, log_fun: Callable = print):
-    log_fun("DIVIDING Player: {} ({})".format(original_name, team))
+def split_by_number(original_name: str, team: Team):
+    logger.info("DIVIDING Player: {} ({})".format(original_name, team))
 
     matches = Player.objects.filter(name=original_name, team=team)
     if not matches.exists():
-        log_fun("SKIPPING Player (not found): {} ({})".format(original_name, team))
+        logger.warning("SKIPPING Player (not found): {} ({})".format(original_name, team))
         return
 
     original_player = matches[0]
@@ -74,12 +76,12 @@ def split_by_number(original_name: str, team: Team, log_fun: Callable = print):
         new_name = "{} ({})".format(original_player.name, score.player_number)
         new_player, created = Player.objects.get_or_create(name=new_name, team=original_player.team)
         if created:
-            log_fun("CREATED Player: {}".format(new_player))
+            logger.debug("CREATED Player: {}".format(new_player))
         score.player = new_player
         score.save()
 
     if not original_player.score_set.all().exists():
-        log_fun("DELETING Player (no dangling scores): {}".format(original_player))
+        logger.debug("DELETING Player (no dangling scores): {}".format(original_player))
         original_player.delete()
 
 
@@ -114,7 +116,6 @@ def top_league_teams(league):
     for team in teams:
         if team.place <= 5:
             teams_by_rank[team.place].append(team)
-            print('{} {} {}'.format(team.place, team.points, team))
     for team_group in teams_by_rank.values():
         team_group.sort(key=lambda p: p.name)
     return teams_by_rank

@@ -1,9 +1,13 @@
+import logging
+
 from django import forms
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 
 from players.models import Player
 from teams.models import Team
+
+logger = logging.getLogger('hbscorez')
 
 
 class LinkForm(forms.Form):
@@ -36,7 +40,8 @@ class LinkForm(forms.Form):
 
         try:
             self.clean_team_bhv_id()
-        except ValidationError:
+        except ValidationError as e:
+            logger.exception(e)
             return player_name
 
         try:

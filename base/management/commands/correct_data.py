@@ -92,4 +92,4 @@ class Command(BaseCommand):
             player = Player(name=score_data[0], team=team)
             score = Score(player=player, player_number=score_data[1], game=game, goals=score_data[2],
                           penalty_tries=score_data[3], penalty_goals=score_data[4])
-            logic.add_score(score=score, log_fun=logger.debug)
+            logic.add_score(score=score)

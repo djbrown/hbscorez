@@ -1,3 +1,4 @@
+import logging
 import os
 from typing import Any, Dict
 
@@ -14,6 +15,8 @@ from base.models import Value
 from games.models import Game
 from leagues.models import Season
 from players.models import Player, Score
+
+logger = logging.getLogger('hbscorez')
 
 
 class Command(BaseCommand):
@@ -49,7 +52,7 @@ class Command(BaseCommand):
 
     def import_association(self, association):
         if self.options['associations'] and association.bhv_id not in self.options['associations']:
-            self.stdout.write('SKIPPING Association: {} (options)'.format(association))
+            logger.debug('SKIPPING Association: {} (options)'.format(association))
             return
 
         for district in association.district_set.all():
@@ -57,7 +60,7 @@ class Command(BaseCommand):
 
     def import_district(self, district):
         if self.options['districts'] and district.bhv_id not in self.options['districts']:
-            self.stdout.write('SKIPPING District: {} (options)'.format(district))
+            logger.debug('SKIPPING District: {} (options)'.format(district))
             return
 
         season_pks = district.league_set.values('season').distinct()
@@ -67,7 +70,7 @@ class Command(BaseCommand):
 
     def import_district_season(self, district, season):
         if self.options['seasons'] and season.start_year not in self.options['seasons']:
-            self.stdout.write('SKIPPING District Season: {} {} (options)'.format(district, season))
+            logger.debug('SKIPPING District Season: {} {} (options)'.format(district, season))
             return
 
         for league in district.league_set.filter(season=season):
@@ -75,7 +78,7 @@ class Command(BaseCommand):
 
     def import_league(self, league):
         if self.options['leagues'] and league.bhv_id not in self.options['leagues']:
-            self.stdout.write('SKIPPING League: {} (options)'.format(league))
+            logger.debug('SKIPPING League: {} (options)'.format(league))
             return
 
         for game in league.game_set.all():
@@ -83,27 +86,27 @@ class Command(BaseCommand):
 
     def import_game(self, game):
         if self.options['games'] and game.number not in self.options['games']:
-            self.stdout.write('SKIPPING Scores (options): {} - {}'.format(game.report_number, game))
+            logger.debug('SKIPPING Game (options): {} - {}'.format(game.report_number, game))
         elif game.report_number is None:
-            self.stdout.write('SKIPPING Scores (no report): {} - {}'.format(game.report_number, game))
+            logger.debug('SKIPPING Gane (no report): {} - {}'.format(game.report_number, game))
         elif game.report_number in self.bugged_reports:
-            self.stdout.write('SKIPPING Report (ignore list): {} - {}'.format(game.report_number, game))
+            logger.debug('SKIPPING Report (ignore list): {} - {}'.format(game.report_number, game))
         elif game.score_set.count() > 0:
             if not self.options['force_update']:
-                self.stdout.write('SKIPPING Scores (existing scores): {} - {}'.format(game.report_number, game))
+                logger.debug('SKIPPING Game (existing scores): {} - {}'.format(game.report_number, game))
             else:
-                self.stdout.write('REIMPORTING Scores: {} - {}'.format(game.report_number, game))
+                logger.info('REIMPORTING Scores: {} - {}'.format(game.report_number, game))
                 game.score_set.delete()
                 self.import_scores(game)
         else:
-            self.stdout.write('IMPORTING Scores: {} - {}'.format(game.report_number, game))
+            logger.info('IMPORTING Scores: {} - {}'.format(game.report_number, game))
             self.import_scores(game)
 
     @transaction.atomic
     def import_scores(self, game):
         response = requests.get(game.report_source_url(), stream=True)
         if int(response.headers.get('Content-Length', default=-1)) == 0:
-            self.stdout.write('SKIPPING Scores (empty report): {} - {}'.format(game.report_number, game))
+            logger.warning('SKIPPING Scores (empty report): {} - {}'.format(game.report_number, game))
             return
 
         game.report_path().write_bytes(response.content)
@@ -127,31 +130,33 @@ class Command(BaseCommand):
             if not player_number and not player_name:
                 return
             if player_number in ('A', 'B', 'C', 'D'):
-                self.stdout.write('SKIPPING Score (coach): {} - {}'.format(player_number, player_name))
+                logger.debug('SKIPPING Score (coach): {} - {}'.format(player_number, player_name))
                 return
             if not player_number:
-                self.stdout.write('SKIPPING Score (no player number): {}'.format(player_name))
+                logger.warn('SKIPPING Score (no player number): {}'.format(player_name))
                 return
             if not player_name:
-                self.stdout.write('SKIPPING Score (no player name): {}'.format(player_number))
+                logger.warn('SKIPPING Score (no player name): {}'.format(player_number))
                 return
             try:
                 int(player_number)
-            except ValueError:
-                self.stdout.write('SKIPPING Score (invalid player number): {} - {}'.format(player_number, player_name))
+            except ValueError as e:
+                logger.exception(e)
+                logger.warn('SKIPPING Score (invalid player number): {} - {}'.format(player_number, player_name))
                 return
 
             player = Player(name=player_name, team=team)
             score = self.parse_score(player, game, row_data)
-            logic.add_score(score, self.stdout.write)
+            logic.add_score(score)
 
     def parse_score(self, player: Player, game: Game, row_data)->Score:
         player_number = int(row_data[0])
         try:
             goals = int(row_data[5])
-        except ValueError:
+        except ValueError as e:
             goals = 0
-            self.stdout.write('FIXED Score (goals): {} - {} - {}'.format(player_number, player.name, goals))
+            logger.exception(e)
+            logger.warn('FIXED Score (goals): {} - {} - {}'.format(player_number, player.name, goals))
         penalty_tries, penalty_goals = parsing.parse_penalty_data(row_data[6])
 
         return Score(player=player, player_number=int(row_data[0]), game=game, goals=goals,
