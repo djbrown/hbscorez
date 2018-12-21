@@ -141,8 +141,8 @@ class Command(BaseCommand):
             try:
                 int(player_number)
             except ValueError as e:
-                logger.exception(e)
-                logger.warn('SKIPPING Score (invalid player number): {} - {}'.format(player_number, player_name))
+                logger.exception(
+                    'invalid Score (invalid player number): {} - {}\n{}'.format(player_number, player_name, e))
                 return
 
             player = Player(name=player_name, team=team)
@@ -151,12 +151,15 @@ class Command(BaseCommand):
 
     def parse_score(self, player: Player, game: Game, row_data)->Score:
         player_number = int(row_data[0])
-        try:
-            goals = int(row_data[5])
-        except ValueError as e:
+        goals_str = row_data[5]
+        if goals_str == '':
             goals = 0
-            logger.exception(e)
-            logger.warn('FIXED Score (goals): {} - {} - {}'.format(player_number, player.name, goals))
+        else:
+            try:
+                goals = int(goals_str)
+            except ValueError as e:
+                goals = 0
+                logger.exception('invalid Score goals: {} - {} - {}\n{}'.format(player_number, player.name, goals, e))
         penalty_tries, penalty_goals = parsing.parse_penalty_data(row_data[6])
 
         return Score(player=player, player_number=int(row_data[0]), game=game, goals=goals,
