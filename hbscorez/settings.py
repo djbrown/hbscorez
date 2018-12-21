@@ -133,12 +133,7 @@ LOGGING: dict = {
     },
     'loggers': {
         'hbscorez': {
-            'handlers': ['file'],
-            'level': 'DEBUG',
-            'propagate': True,
-        },
-        'hbscorez.command': {
-            'handlers': ['console'],
+            'handlers': ['file', 'console'],
             'level': 'DEBUG',
             'propagate': True,
         },
