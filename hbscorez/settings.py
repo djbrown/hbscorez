@@ -103,8 +103,6 @@ USE_L10N = True
 
 # logging
 
-LOG_FILE = os.path.join(BASE_DIR, 'hbscorez.log')
-
 LOGGING: dict = {
     'version': 1,
     'disable_existing_loggers': False,
@@ -122,7 +120,7 @@ LOGGING: dict = {
         'file': {
             'level': 'DEBUG',
             'class': 'logging.FileHandler',
-            'filename': LOG_FILE,
+            'filename': os.path.join(BASE_DIR, 'hbscorez.log'),
             'formatter': 'verbose'
         },
         'console': {
