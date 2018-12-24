@@ -60,8 +60,8 @@ class SeleniumTestCase(LiveServerTestCase):
             sauce_client.jobs.update_job(job_id=self.driver.session_id, build=_TUNNEL_ID,
                                          passed=status)
 
-    def navigate(self, view_name: str):
-        path = reverse(view_name)
+    def navigate(self, view_name: str, *args, **kwargs):
+        path = reverse(view_name, args=args, kwargs=kwargs)
         self.driver.get(self.live_server_url + path)
 
     def assert_view(self, view_name: str):
