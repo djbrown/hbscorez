@@ -1,0 +1,10 @@
+{% extends "base/base.html" %}
+
+
+{% block title %}Registrierung fehlgeschlagen{% endblock %}
+
+{% block content %}
+<h1>Die Registrierung war nicht erfolgreich!</h1>
+<div class="alert alert-danger mt-3">{{ activation_error.message }}</div>
+<p><a class="btn btn-success" href="{% url 'django_registration_register' %}">Erneut Registrieren</a></p>
+{% endblock %}
