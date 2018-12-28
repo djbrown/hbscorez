@@ -29,10 +29,11 @@
         </thead>
         <tbody>
         {% for game in league.game_set.all().order_by('opening_whistle') %}
-        {% set t = time(game.opening_whistle) %}
+        {% set d = date(game.opening_whistle, 'SHORT_DATE_FORMAT') if game.opening_whistle else "-" %}
+        {% set t = time(game.opening_whistle) if game.opening_whistle else "-" %}
         <tr>
             <th scope="row">{{ loop.index }}</th>
-            <td>{{ date(game.opening_whistle, 'SHORT_DATE_FORMAT' ) }}</td>
+            <td>{{ d }}</td>
             <td>{{ t if t != "00:00" else "-" }}</td>
             <td>
                 {#<img class="table-team-logo" src="{{ team_logo_url(opponent) }}" width="25" alt="HbScorez Logo">#}

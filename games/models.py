@@ -70,6 +70,10 @@ class Game(models.Model):
         other_game = self.other_game()
         if not other_game:
             return True
+        if self.opening_whistle is None:
+            return False
+        if other_game.opening_whistle is None:
+            return True
         return self.opening_whistle < other_game.opening_whistle
 
     def outcome(self) -> GameOutcome:

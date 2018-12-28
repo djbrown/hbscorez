@@ -70,7 +70,10 @@ def calendar(_, bhv_id):
                     team.league.name, team.league.district.name))
 
     for game in games:
-        cal.add_component(_create_event(team, game))
+        event = _create_event(team, game)
+        if event is None:
+            continue
+        cal.add_component(event)
 
     return HttpResponse(cal.to_ical(), "text/calendar")
 
@@ -85,6 +88,8 @@ def _create_event(team, game):
     if not game.is_first_leg():
         previous = game.other_game()
         description += '\nHinspiel: {}:{} ({})'.format(previous.home_goals, previous.guest_goals, _outcome(game, team))
+    if game.opening_whistle is None:
+        return
     start = game.opening_whistle
     end = start + timedelta(minutes=90)
     dtstamp = datetime.now()
