@@ -48,7 +48,7 @@
             <td>{{ game_outcome_badge(game.outcome())|safe }}</td>
             <td>{{ game.home_goals or "-" }}</td>
             <td>{{ game.guest_goals or "-" }}</td>
-            <td><a href="#/">{{ game.sports_hall.name }}</a></td>
+            <td><a href="#/">{{ game.sports_hall.name if game.sports_hall else "-" }}</a></td>
             <td><a href="#/">{{ game.number }}</a></td>
         </tr>
         {% endfor %}
