@@ -88,8 +88,7 @@ def _create_event(team, game):
     start = game.opening_whistle
     end = start + timedelta(minutes=90)
     dtstamp = datetime.now()
-    # todo: read location from game.sports_halls / game.location
-    location = game.sports_hall.address
+    location = game.sports_hall.address if game.sports_hall else None
     uid = 'game/{}@hbscorez.de'.format(game.number)
 
     event.add('summary', summary)
@@ -97,7 +96,8 @@ def _create_event(team, game):
     event.add('dtstart', start)
     event.add('dtend', end)
     event.add('dtstamp', dtstamp)
-    event['location'] = vText(location)
+    if location:
+        event['location'] = vText(location)
     event['uid'] = uid
     return event
 
