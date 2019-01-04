@@ -108,8 +108,13 @@ class Command(BaseCommand):
         preflight_date = datetime.date(start_year, 10, 1)
         preflight_url = District.build_source_url(district.bhv_id, preflight_date)
         preflight_dom = logic.get_html(preflight_url)
-        start_link = preflight_dom.xpath(
-            '//table[@class="GamesMenu"]/tr/td[1]/table/tr[2]/td[1]/span/a[@title="Anfang Saison"]')[0]
+        start_links = preflight_dom.xpath(
+            '//table[@class="GamesMenu"]/tr/td[1]/table/tr[2]/td[1]/span/a[@title="Anfang Saison"]')
+        if start_links:
+            start_link = start_links[0]
+        else:
+            logger.debug('SKIPPING District Season (no leagues): {} {}'.format(district, start_year))
+            return
 
         start_date = parsing.parse_link_query_item(start_link, 'do')
         url = District.build_source_url(district.bhv_id, start_date)
