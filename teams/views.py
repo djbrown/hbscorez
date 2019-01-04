@@ -7,7 +7,7 @@ from django.shortcuts import get_object_or_404, render
 from icalendar import Calendar, Event, vText
 
 from base.logic import add_ranking_place
-from games.models import Game, TeamOutcome
+from games.models import Game, Leg, TeamOutcome
 from players.models import Player
 from teams.models import Team
 
@@ -70,32 +70,34 @@ def calendar(_, bhv_id):
                     team.league.name, team.league.district.name))
 
     for game in games:
-        event = _create_event(team, game)
-        if event is None:
+        if game.opening_whistle is None:
             continue
+        event = _create_event(team, game)
         cal.add_component(event)
 
     return HttpResponse(cal.to_ical(), "text/calendar")
 
 
 def _create_event(team, game):
-    event = Event()
-
     venue = 'Heimspiel' if game.home_team == team else 'Auswärtsspiel'
     summary = '{} - {}'.format(venue, game.opponent_of(team).short_name)
-    leg = 'Hinspiel' if game.is_first_leg() else 'Rückspiel'
-    description = '{} gegen {}'.format(leg, game.opponent_of(team).name)
-    if not game.is_first_leg():
-        previous = game.other_game()
-        description += '\nHinspiel: {}:{} ({})'.format(previous.home_goals, previous.guest_goals, _outcome(game, team))
-    if game.opening_whistle is None:
-        return
+
+    leg: Leg = game.leg()
+    leg_title = _leg_title(leg)
+    description = '{} gegen {}'.format(leg_title, game.opponent_of(team).name)
+
+    if leg is Leg.SECOND_LEG:
+        first_leg = game.other_game()
+        description += '\nHinspiel: {}:{} ({})'.format(first_leg.home_goals,
+                                                       first_leg.guest_goals, _outcome(game, team))
+
     start = game.opening_whistle
     end = start + timedelta(minutes=90)
     dtstamp = datetime.now()
     location = game.sports_hall.address if game.sports_hall else None
     uid = 'game/{}@hbscorez.de'.format(game.number)
 
+    event = Event()
     event.add('summary', summary)
     event.add('description', description)
     event.add('dtstart', start)
@@ -105,6 +107,15 @@ def _create_event(team, game):
         event['location'] = vText(location)
     event['uid'] = uid
     return event
+
+
+def _leg_title(leg):
+    mapping = {
+        Leg.FIRST_LEG: "Hinspiel",
+        Leg.SECOND_LEG: "Rückspiel",
+        Leg.UNKNOWN: "Spiel",
+    }
+    return mapping.get(leg)
 
 
 def _outcome(game, team):

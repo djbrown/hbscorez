@@ -23,6 +23,12 @@ class TeamOutcome(Enum):
     OPEN = auto()
 
 
+class Leg(Enum):
+    FIRST_LEG = auto()
+    SECOND_LEG = auto()
+    UNKNOWN = auto()
+
+
 class Game(models.Model):
     number = models.IntegerField()
     league = models.ForeignKey(League, on_delete=models.CASCADE)
@@ -66,15 +72,17 @@ class Game(models.Model):
                                     guest_team__in=(self.home_team, self.guest_team))
         return games.get(~models.Q(number=self.number))
 
-    def is_first_leg(self):
-        other_game = self.other_game()
-        if not other_game:
-            return True
+    def leg(self) -> Leg:
         if self.opening_whistle is None:
-            return False
-        if other_game.opening_whistle is None:
-            return True
-        return self.opening_whistle < other_game.opening_whistle
+            return Leg.UNKNOWN
+
+        other_game = self.other_game()
+        if other_game is None \
+                or other_game.opening_whistle is None:
+            return Leg.UNKNOWN
+
+        first_leg = self.opening_whistle < other_game.opening_whistle
+        return Leg.FIRST_LEG if first_leg else Leg.SECOND_LEG
 
     def outcome(self) -> GameOutcome:
         if self.home_goals is None and self.guest_goals is None:
