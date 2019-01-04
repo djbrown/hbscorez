@@ -10,7 +10,7 @@
 [![Sauce Labs Browsers](https://saucelabs.com/browser-matrix/dan-brown.svg)](https://saucelabs.com/u/dan-brown) -->
 [![FOSSA License Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fdjbrown%2Fhbscorez.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fdjbrown%2Fhbscorez?ref=badge_shield)
 
-<!-- TODO: register on Sauce Labs at https://saucelabs.com/open-source/open-sauce [![Sauce Labs Browsers](https://saucelabs.com/browser-matrix/djbrown-hbscorez.svg)](https://saucelabs.com/u/djbrown-hbscorez) -->
+<!-- TODO:  register on Sauce Labs at https://saucelabs.com/open-source/open-sauce [![Sauce Labs Browsers](https://saucelabs.com/browser-matrix/djbrown-hbscorez.svg)](https://saucelabs.com/u/djbrown-hbscorez) -->
 
 This is the repo for the web application HbScorez running on https://hbscorez.de/.<br/>
 HbScorez is a web application, which processes handball game reports of diverse handball associations, districts, and leagues.
