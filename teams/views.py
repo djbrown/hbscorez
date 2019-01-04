@@ -7,7 +7,7 @@ from django.shortcuts import get_object_or_404, render
 from icalendar import Calendar, Event, vText
 
 from base.logic import add_ranking_place
-from games.models import Game, Leg, TeamOutcome
+from games.models import Game, TeamOutcome
 from players.models import Player
 from teams.models import Team
 
@@ -82,14 +82,13 @@ def _create_event(team, game):
     venue = 'Heimspiel' if game.home_team == team else 'Auswärtsspiel'
     summary = '{} - {}'.format(venue, game.opponent_of(team).short_name)
 
-    leg: Leg = game.leg()
-    leg_title = _leg_title(leg)
+    leg_title = game.leg_title()
     description = '{} gegen {}'.format(leg_title, game.opponent_of(team).name)
 
-    if leg is Leg.SECOND_LEG:
-        first_leg = game.other_game()
-        description += '\nHinspiel: {}:{} ({})'.format(first_leg.home_goals,
-                                                       first_leg.guest_goals, _outcome(game, team))
+    for other in sorted(game.other_games(), key=lambda g: g.opening_whistle):
+        if other.home_goals is not None:
+            description += '\n{}: {}:{} ({})'.format(other.leg_title(), other.home_goals,
+                                                     other.guest_goals, _outcome(other, team))
 
     start = game.opening_whistle
     end = start + timedelta(minutes=90)
@@ -107,15 +106,6 @@ def _create_event(team, game):
         event['location'] = vText(location)
     event['uid'] = uid
     return event
-
-
-def _leg_title(leg):
-    mapping = {
-        Leg.FIRST_LEG: "Hinspiel",
-        Leg.SECOND_LEG: "Rückspiel",
-        Leg.UNKNOWN: "Spiel",
-    }
-    return mapping.get(leg)
 
 
 def _outcome(game, team):

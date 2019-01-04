@@ -24,8 +24,9 @@ class TeamOutcome(Enum):
 
 
 class Leg(Enum):
-    FIRST_LEG = auto()
-    SECOND_LEG = auto()
+    FIRST = auto()
+    BEWTEEN = auto()
+    SECOND = auto()
     UNKNOWN = auto()
 
 
@@ -67,22 +68,45 @@ class Game(models.Model):
             return self.home_team
         raise ValueError('neither home or guest is team: {}'.format(team))
 
-    def other_game(self):
-        games = Game.objects.filter(home_team__in=(self.home_team, self.guest_team),
-                                    guest_team__in=(self.home_team, self.guest_team))
-        return games.get(~models.Q(number=self.number))
+    def other_games(self):
+        return Game.objects.filter(~models.Q(number=self.number),
+                                   home_team__in=(self.home_team, self.guest_team),
+                                   guest_team__in=(self.home_team, self.guest_team))
 
     def leg(self) -> Leg:
         if self.opening_whistle is None:
             return Leg.UNKNOWN
 
-        other_game = self.other_game()
-        if other_game is None \
-                or other_game.opening_whistle is None:
+        other_games = self.other_games()
+        if not other_games \
+                or list(filter(lambda g:  g.opening_whistle is None, other_games)):
             return Leg.UNKNOWN
 
-        first_leg = self.opening_whistle < other_game.opening_whistle
-        return Leg.FIRST_LEG if first_leg else Leg.SECOND_LEG
+        if len(other_games) == 1:
+            first_leg = self.opening_whistle < other_games[0].opening_whistle
+            return Leg.FIRST if first_leg else Leg.SECOND
+
+        elif len(other_games) == 2:
+            if self.opening_whistle < other_games[0].opening_whistle \
+                    and self.opening_whistle < other_games[1].opening_whistle:
+                return Leg.FIRST
+            elif self.opening_whistle > other_games[0].opening_whistle \
+                    and self.opening_whistle > other_games[1].opening_whistle:
+                return Leg.SECOND
+            else:
+                return Leg.BEWTEEN
+
+        else:
+            raise RuntimeError('More than 2 other games found on {}'.format(self))
+
+    def leg_title(self)->str:
+        mapping = {
+            Leg.FIRST: "Hinspiel",
+            Leg.BEWTEEN: "Zwischenspiel",
+            Leg.SECOND: "Rückspiel",
+            Leg.UNKNOWN: "Spiel",
+        }
+        return mapping[self.leg()]
 
     def outcome(self) -> GameOutcome:
         if self.home_goals is None and self.guest_goals is None:
