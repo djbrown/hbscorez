@@ -46,16 +46,20 @@ class Command(BaseCommand):
             self.create_association(link)
 
     def create_association(self, association_link):
-        name = association_link.text
-        abbreviation = Association.get_association_abbreviation(name)
+        name = association_link.text_content()
+        try:
+            abbreviation = Association.get_association_abbreviation(name)
+        except KeyError:
+            logger.warn("No abbreviation for association '{}'".format(name))
+            return
+
         bhv_id = parsing.parse_association_bhv_id(association_link)
 
         if self.options['associations'] and bhv_id not in self.options['associations']:
             logger.debug('SKIPPING Association (options): {} {}'.format(bhv_id, name))
             return
 
-        association, created = Association.objects.get_or_create(name=name, abbreviation=abbreviation,
-                                                                 bhv_id=bhv_id)
+        association, created = Association.objects.get_or_create(name=name, abbreviation=abbreviation, bhv_id=bhv_id)
         if created:
             logger.info('CREATED Association: {}'.format(association))
         else:
