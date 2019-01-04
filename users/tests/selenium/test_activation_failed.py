@@ -2,10 +2,10 @@ import datetime
 import unittest
 
 from django.conf import settings
+from django.contrib.auth.models import User
 from django.core import mail
 
 from base.tests.base import SeleniumTestCase
-from users.models import User
 
 from .test_registration import TestRegistration
 

@@ -28,30 +28,25 @@ class LinkForm(forms.Form):
         except Team.DoesNotExist:
             raise ValidationError('Mannschaft konnte nicht gefunden werden.')
 
-        if self.user.player_set.exists():
-            raise ValidationError('Saison ist bereits verknüpft.')
-
         self.cleaned_data['team'] = team
         return team_bhv_id
 
-    def clean_player_name(self):
-        team_bhv_id = self.cleaned_data.get('team_bhv_id')
+    def clean(self):
+        team = self.cleaned_data.get('team')
         player_name = self.cleaned_data.get('player_name')
 
-        try:
-            self.clean_team_bhv_id()
-        except ValidationError as e:
-            logger.exception(e)
-            return player_name
+        if not team or not player_name:
+            return
 
         try:
-            player = Player.objects.get(team__bhv_id=team_bhv_id, name__iexact=player_name)
+            player = Player.objects.get(team=team, name__iexact=player_name)
         except Player.DoesNotExist:
-            raise ValidationError('Spieler konnte nicht gefunden werden.')
+            self.add_error('player_name', 'Spieler konnte nicht gefunden werden.')
+            return
 
         if player.user is not None:
-            raise ValidationError('Spieler ist bereits verknüpft.')
+            self.add_error('player_name', 'Spieler ist bereits verknüpft.')
+            return
 
         self.cleaned_data['player'] = player
-
-        return player_name
+        return self.cleaned_data

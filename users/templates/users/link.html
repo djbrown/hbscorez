@@ -12,12 +12,6 @@
     Dein Name erscheint dann in allen Dich betreffenden Auswertungen auf HbScorez.
 </p>
 
-<div class="alert alert-warning">
-    <h5>Wichtige Hinweise:</h5>
-    Du kannst Dich nur <strong>einmal für jede Saison</strong> verknüpfen.<br />
-    Bei Problemen kannst Du Dich gerne über das <a href="{% url 'contact_form' %}">Kontaktformular</a> melden.
-</div>
-
 <form method="POST">
     {% csrf_token %}
     <fieldset class="form-group">

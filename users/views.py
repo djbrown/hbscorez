@@ -4,6 +4,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse_lazy
+from django.views.decorators.http import require_POST
 
 from associations.models import Association
 from leagues.models import Season
@@ -15,7 +16,7 @@ from .forms import LinkForm
 
 @login_required
 def profile(request):
-    players = Player.objects.filter(user=request.user)
+    players = Player.objects.filter(user=request.user).order_by('-team__league__season__start_year')
     return render(request=request, template_name='users/profile.html', context={'players': players})
 
 
@@ -43,6 +44,20 @@ def link(request):
         'seasons': Season.objects.all(),
         'associations': Association.objects.all(),
     })
+
+
+@login_required
+@require_POST
+def unlink(request):
+    player_pk = request.POST.get('player')
+    if player_pk is not None:
+        player = Player.objects.get(pk=player_pk)
+        if player.user == request.user:
+            player.published = False
+            player.save()
+
+    profile_url = reverse_lazy('users:profile')
+    return HttpResponseRedirect(profile_url)
 
 
 def team_from_request_query(query):

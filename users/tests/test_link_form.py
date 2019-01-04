@@ -87,19 +87,22 @@ class TestLinkForm(TestCase):
         self.assertFalse(form.is_valid())
         self.assertEqual(form.errors, {'player_name': ['Spieler ist bereits verknüpft.']})
 
-    def test_user_already_linked_in_season(self):
+    def test_multiple_seasons(self):
         district = District.objects.create(bhv_id=1)
-        season = Season.objects.create(start_year=2)
-        league = League.objects.create(bhv_id=3, district=district, season=season)
-        team = Team.objects.create(bhv_id=4, league=league)
+        seasonA = Season.objects.create(start_year=2)
+        seasonB = Season.objects.create(start_year=3)
+        leagueA = League.objects.create(bhv_id=4, district=district, season=seasonA)
+        leagueB = League.objects.create(bhv_id=5, district=district, season=seasonB)
+        teamA = Team.objects.create(bhv_id=6, league=leagueA)
+        teamB = Team.objects.create(bhv_id=7, league=leagueB)
+
+        player_name = 'player name'
 
         user = User.objects.create(username='username')
-        Player.objects.create(name='player name 1', team=team, user=user)
+        Player.objects.create(name=player_name, team=teamA, user=user)
+        player = Player.objects.create(name=player_name, team=teamB)
 
-        player = Player.objects.create(name='player name 2', team=team)
-
-        form_data = {'team_bhv_id': team.bhv_id, 'player_name': player.name}
+        form_data = {'team_bhv_id': teamB.bhv_id, 'player_name': player.name}
         form = LinkForm(data=form_data, user=user)
 
-        self.assertFalse(form.is_valid())
-        self.assertEqual(form.errors, {'team_bhv_id': ['Saison ist bereits verknüpft.']})
+        self.assertTrue(form.is_valid())
