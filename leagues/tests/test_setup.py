@@ -63,3 +63,29 @@ class SetupTest(ModelTestCase):
 
         return_code = call_command('import_games')
         self.assertEqual(return_code, None)
+
+
+class StartDate(ModelTestCase):
+    def test_first_hit(self):
+        return_code = call_command('setup', '-a', 80, '-d', 80, '-s',  2018, '-l',  34744)
+        self.assertEqual(return_code, None)
+
+        self.assert_objects(League, count=1)
+
+    def test_first_hit_multiseason(self):
+        return_code = call_command('setup', '-a', 80, '-d', 80, '-s', 2017, 2018, '-l', 27265, 34744)
+        self.assertEqual(return_code, None)
+
+        self.assert_objects(League, count=2)
+
+    def test_later_hit(self):
+        return_code = call_command('setup', '-a', 81, '-d', 81, '-s',  2018, '-l', 37511)
+        self.assertEqual(return_code, None)
+
+        self.assert_objects(League, count=1)
+
+    def test_later_hit_multiseason(self):
+        return_code = call_command('setup', '-a', 81, '-d', 81, '-s', 2017, 2018, '-l', 30859, 37511)
+        self.assertEqual(return_code, None)
+
+        self.assert_objects(League, count=2)
