@@ -84,11 +84,11 @@ class Command(BaseCommand):
         for game in league.game_set.all():
             self.import_game(game)
 
-    def import_game(self, game):
+    def import_game(self, game: Game):
         if self.options['games'] and game.number not in self.options['games']:
             logger.debug('SKIPPING Game (options): {} - {}'.format(game.report_number, game))
         elif game.report_number is None:
-            logger.debug('SKIPPING Gane (no report): {} - {}'.format(game.report_number, game))
+            logger.debug('SKIPPING Game (no report): {} - {}'.format(game.report_number, game))
         elif game.report_number in self.bugged_reports:
             logger.debug('SKIPPING Report (ignore list): {} - {}'.format(game.report_number, game))
         elif game.score_set.count() > 0:
@@ -98,6 +98,8 @@ class Command(BaseCommand):
                 logger.info('REIMPORTING Scores: {} - {}'.format(game.report_number, game))
                 game.score_set.delete()
                 self.import_scores(game)
+        elif game.forfeiting_team is not None:
+            logger.debug('SKIPPING Game (forfeit): {} - {}'.format(game.report_number, game))
         else:
             logger.info('IMPORTING Scores: {} - {}'.format(game.report_number, game))
             self.import_scores(game)
@@ -106,7 +108,7 @@ class Command(BaseCommand):
     def import_scores(self, game):
         response = requests.get(game.report_source_url(), stream=True)
         if int(response.headers.get('Content-Length', default=-1)) == 0:
-            logger.warning('SKIPPING Scores (empty report): {} - {}'.format(game.report_number, game))
+            logger.warning('SKIPPING Scores (empty report file): {} - {}'.format(game.report_number, game))
             return
 
         game.report_path().write_bytes(response.content)

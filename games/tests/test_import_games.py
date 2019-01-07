@@ -53,3 +53,19 @@ class ImportGamesTest(ModelTestCase):
 
         for league in leagues:
             self.assertGreater(league.game_set.count(), 0, msg="league without games: {}".format(league))
+
+
+class Forfeit(ModelTestCase):
+    def test_forfeit_with_report(self):
+        return_code = call_command('setup', '-a', 3, '-d', 10, '-s', 2018, '-l', 35537)
+        self.assertEqual(return_code, None)
+
+        return_code = call_command('import_games', '-g', 60201)
+        self.assertEqual(return_code, None)
+
+        game: Game = self.assert_objects(Game)
+        self.assertEqual(game.number, 60201)
+        self.assertEqual(game.report_number, 710203)
+        self.assertEqual(game.home_goals, 0)
+        self.assertEqual(game.guest_goals, 0)
+        self.assertEqual(game.forfeiting_team, game.guest_team)

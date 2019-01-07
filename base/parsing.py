@@ -97,9 +97,9 @@ def parse_report_number(cell):
 
 
 def parse_forfeiting_team(cell, home_team, guest_team):
-    if cell.text == " (2:0)":
+    if cell.text == " (2:0)" or len(cell) > 0 and cell[0].tail == " (2:0)":
         return guest_team
-    if cell.text == " (0:2)":
+    if cell.text == " (0:2)" or len(cell) > 0 and cell[0].tail == " (0:2)":
         return home_team
     return None
 
