@@ -756,10 +756,10 @@
         },
         "virtualenv-clone": {
             "hashes": [
-                "sha256:06c5a8bc77f3ed0ad130a690e623e27e07b6599dbdbf83e089cc3a2c6b191da0",
-                "sha256:afce268508aa5596c90dda234abe345deebc401a57d287bcbd76baa140a1aa58"
+                "sha256:fedbb2ee2e72f26fefadf677a0a27994f2b91ca893ccc1b42e1f4ad50bfd0ab2",
+                "sha256:3427df72d55523755a8e37270de5a63363f6f2c506bf8407f19cc580ebad8085"
             ],
-            "version": "==0.4.0"
+            "version": "==0.5.0"
         },
         "wcwidth": {
             "hashes": [
