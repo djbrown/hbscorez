@@ -38,9 +38,12 @@ def link(request):
         form = LinkForm(user=request.user)
         team = team_from_request_query(request.GET)
 
+    leagues = team.league.district.league_set.filter(season=team.league.season)
+
     return render(request=request, template_name='users/link.html', context={
         'form': form,
         'team': team,
+        'leagues': leagues,
         'seasons': Season.objects.all(),
         'associations': Association.objects.all(),
     })

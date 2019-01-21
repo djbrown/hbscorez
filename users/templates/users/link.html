@@ -18,7 +18,7 @@
         <label for="associations">Verband</label>
         <select id="associations" class="form-control">
             {% for a in associations %}
-            <option value="{{ a.bhv_id }}" {% if a == association %}selected{% endif %}>{{ a.name }} ({{ a.abbreviation }})</option>
+            <option value="{{ a.bhv_id }}" {% if a == team.league.district.associations.all.0 %}selected{% endif %}>{{ a.name }} ({{ a.abbreviation }})</option>
             {% endfor %}
         </select>
     </fieldset>
@@ -28,7 +28,7 @@
         <select id="districts" class="form-control">
             {% if team %}
             {% for d in team.league.district.associations.first.district_set.all %}
-            <option value="{{ d.bhv_id }}" {% if d == district %}selected{% endif %}>{{ d.name }}</option>
+            <option value="{{ d.bhv_id }}" {% if d == team.league.district %}selected{% endif %}>{{ d.name }}</option>
             {% endfor %}
             {% endif %}
             </select>
@@ -38,7 +38,7 @@
         <label for="seasons">Saison</label>
         <select id="seasons" class="form-control">
             {% for s in seasons %}
-            <option value="{{ s.start_year }}" {% if s == season %}selected{% endif %}>{{ s }}</option>
+            <option value="{{ s.start_year }}" {% if s == team.league.season %}selected{% endif %}>{{ s }}</option>
             {% endfor %}
         </select>
     </fieldset>
@@ -47,8 +47,8 @@
         <label for="league">Liga</label>
         <select id="leagues" class="form-control">
             {% if team %}
-            {% for l in team.league.district.league_set.all %}
-            <option value="{{ l.bhv_id }}" {% if l == league %}selected{% endif %}>{{ l.name }} ({{ l.abbreviation }})</option>
+            {% for l in leagues %}
+            <option value="{{ l.bhv_id }}" {% if l == team.league %}selected{% endif %}>{{ l.name }} ({{ l.abbreviation }})</option>
             {% endfor %}
             {% endif %}
         </select>
