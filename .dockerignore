@@ -1,20 +1,24 @@
-### Project
-/db.sqlite3
-/hbscorez/settings_docker_stack*.py
-/docker-stack*.yml
-/hbscorez.log
-/media/
-/reports/
-/static/
-/mails/
-
-### Python
-__pycache__/
-
-### IDEs
-/.idea/
-/.vscode/
-
-### Tools
+**/__pycache__/
+.github/
+.idea/
 **/.mypy_cache/
-/geckodriver.log
+.vscode/
+mails/
+media/
+reports/
+static/
+
+.editorconfig
+.fossa.yml
+.gitignore
+.pyup.yml
+.travis.yml
+ATTRIBUTIONS.md
+db.sqlite3
+docker-stack*.yml
+Dockerfile
+geckodriver.log
+hbscorez.log
+hbscorez/settings_docker_stack*.py
+LICENSE
+README.md
