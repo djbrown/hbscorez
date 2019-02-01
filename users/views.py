@@ -38,7 +38,7 @@ def link(request):
         form = LinkForm(user=request.user)
         team = team_from_request_query(request.GET)
 
-    leagues = team.league.district.league_set.filter(season=team.league.season)
+    leagues = team.league.district.league_set.filter(season=team.league.season) if team else []
 
     return render(request=request, template_name='users/link.html', context={
         'form': form,
