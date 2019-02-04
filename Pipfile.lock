@@ -46,10 +46,10 @@
         },
         "distro": {
             "hashes": [
-                "sha256:224041cef9600e72d19ae41ba006e71c05c4dc802516da715d7fda55ba3d8742",
-                "sha256:6ec8e539cf412830e5ccf521aecf879f2c7fcf60ce446e33cd16eef1ed8a0158"
+                "sha256:eedf82a470ebe7d010f1872c17237c79ab04097948800029994fa458e52fb4b4",
+                "sha256:362dde65d846d23baee4b5c058c8586f219b5a54be1cf5fc6ff55c4578392f57"
             ],
-            "version": "==1.3.0"
+            "version": "==1.4.0"
         },
         "django": {
             "hashes": [
