@@ -24,6 +24,7 @@
                 <th>Tore</th>
                 <th>Gegentore</th>
                 <th>Halle</th>
+                <th>Zuschauer</th>
                 <th>Details</th>
             </tr>
             </thead>
@@ -46,6 +47,7 @@
                     <td>{{ game.goals_of(team) if game.goals_of(team) != None else "-" }}</td>
                     <td>{{ game.goals_of(opponent) if game.goals_of(opponent)!= None else "-" }}</td>
                     <td><a href="#/">{{ game.sports_hall.name if game.sports_hall else "-"}}</a></td>
+                    <td>{{ game.spectators or "-" }}</td>
                     <td><a href="#/">{{ game.number }}</a></td>
                 </tr>
             {% endfor %}
@@ -60,6 +62,7 @@
                 <th>Tore</th>
                 <th>Gegentore</th>
                 <th>Halle</th>
+                <th>Zuschauer</th>
                 <th>Details</th>
             </tr>
             </tfoot>

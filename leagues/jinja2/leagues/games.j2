@@ -24,6 +24,7 @@
             <th>Heim</th>
             <th>Gast</th>
             <th>Halle</th>
+            <th>Zuschauer</th>
             <th>Details</th>
         </tr>
         </thead>
@@ -50,6 +51,7 @@
             <td>{{ game.home_goals or "-" }}</td>
             <td>{{ game.guest_goals or "-" }}</td>
             <td><a href="#/">{{ game.sports_hall.name if game.sports_hall else "-" }}</a></td>
+            <td>{{ game.spectators or "-" }}</td>
             <td><a href="#/">{{ game.number }}</a></td>
         </tr>
         {% endfor %}
@@ -65,6 +67,7 @@
             <th>Heim</th>
             <th>Gast</th>
             <th>Halle</th>
+            <th>Zuschauer</th>
             <th>Details</th>
         </tr>
         </tfoot>
