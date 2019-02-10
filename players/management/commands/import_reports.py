@@ -15,6 +15,9 @@ from base.models import Value
 from games.models import Game
 from leagues.models import Season
 from players.models import Player, Score
+from teams.models import Team
+
+from . import parse_report
 
 logger = logging.getLogger('hbscorez')
 
@@ -95,32 +98,36 @@ class Command(BaseCommand):
             if not self.options['force_update']:
                 logger.debug('SKIPPING Game (existing scores): {} - {}'.format(game.report_number, game))
             else:
-                logger.info('REIMPORTING Scores: {} - {}'.format(game.report_number, game))
-                game.score_set.delete()
-                self.import_scores(game)
+                logger.info('REIMPORTING Report: {} - {}'.format(game.report_number, game))
+                game.score_set.all().delete()
+                self.import_report(game)
         elif game.forfeiting_team is not None:
             logger.debug('SKIPPING Game (forfeit): {} - {}'.format(game.report_number, game))
         else:
-            logger.info('IMPORTING Scores: {} - {}'.format(game.report_number, game))
-            self.import_scores(game)
+            logger.info('IMPORTING Report: {} - {}'.format(game.report_number, game))
+            self.import_report(game)
 
     @transaction.atomic
-    def import_scores(self, game):
+    def import_report(self, game: Game):
         response = requests.get(game.report_source_url(), stream=True)
         if int(response.headers.get('Content-Length', default=-1)) == 0:
-            logger.warning('SKIPPING Scores (empty report file): {} - {}'.format(game.report_number, game))
+            logger.warning('SKIPPING Report (empty file): {} - {}'.format(game.report_number, game))
             return
 
         game.report_path().write_bytes(response.content)
-        path = str(game.report_path())
-        scores_pdf = tabula.read_pdf(path, output_format='json', **{'pages': 2, 'lattice': True})
 
-        self.add_scores(scores_pdf[0], game=game, team=game.home_team)
-        self.add_scores(scores_pdf[1], game=game, team=game.guest_team)
+        path = str(game.report_path())
+        tables = tabula.read_pdf(path, output_format='json', **{'pages': [1, 2], 'lattice': True})
+
+        game.spectators = parse_report.parse_spectators(tables[0])
+        game.save()
+
+        self.import_scores(tables[2], game=game, team=game.home_team)
+        self.import_scores(tables[3], game=game, team=game.guest_team)
 
         os.remove(path)
 
-    def add_scores(self, table, game, team):
+    def import_scores(self, table, game: Game, team: Team):
         table_rows = table['data']
         for table_row in table_rows[2:]:
             row_data = [cell['text'] for cell in table_row]

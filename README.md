@@ -47,7 +47,7 @@ App is reachable under [127.0.0.1:8000](http://127.0.0.1:8000)
 
 * **setup**: fetch associations, districts, seasons and leagues
 * **import_games**: fetch games and sport halls
-* **import_scores**: fetch players and scores
+* **import_reports**: fetch, parse and import game report data (players, scores, spectator count)
 
 Execute commands via `pipenv run python manage.py <COMMAD> <OPTIONS>`.<br/>
 Prepend `docker run djbrown/hbscorez:latest ` to execute inside Docker container.<br/>
