@@ -100,7 +100,7 @@ class Game(models.Model):
         else:
             raise RuntimeError('More than 2 other games found on {}'.format(self))
 
-    def leg_title(self)->str:
+    def leg_title(self) -> str:
         mapping = {
             Leg.FIRST: "Hinspiel",
             Leg.BEWTEEN: "Zwischenspiel",

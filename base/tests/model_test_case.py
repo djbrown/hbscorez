@@ -8,4 +8,4 @@ class ModelTestCase(TestCase):
 
         objects = model.objects.filter(**filters)
         self.assertEqual(len(objects), count)
-        return objects[0] if count is 1 else objects
+        return objects[0] if count == 1 else objects

@@ -158,7 +158,7 @@ class Command(BaseCommand):
             score = self.parse_score(player, game, row_data)
             logic.add_score(score)
 
-    def parse_score(self, player: Player, game: Game, row_data)->Score:
+    def parse_score(self, player: Player, game: Game, row_data) -> Score:
         player_number = int(row_data[0])
         goals_str = row_data[5]
         if goals_str == '':
