@@ -1,0 +1,33 @@
+import logging
+import time
+from datetime import timedelta
+from typing import List
+
+import requests
+
+from games.models import Game
+
+MAX_RETRY_DURATION: timedelta = timedelta(hours=3)
+RETRY_DURATIONS: List[timedelta] = [
+    timedelta(seconds=10),
+    timedelta(seconds=30),
+    timedelta(minutes=1),
+    timedelta(minutes=5),
+    timedelta(minutes=30),
+    timedelta(hours=1),
+    MAX_RETRY_DURATION
+]
+
+logger = logging.getLogger('hbscorez')
+
+
+def fetch_report(game: Game):
+    for retry_duration in RETRY_DURATIONS:
+        try:
+            return requests.get(game.report_source_url(), stream=True)
+        except requests.exceptions.ConnectionError as e:
+            logger.warn(f'Could not fetch report {game}')
+            if retry_duration == MAX_RETRY_DURATION:
+                raise e
+            logger.debug(f'Now wating for {retry_duration}')
+            time.sleep(retry_duration.total_seconds())

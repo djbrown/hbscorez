@@ -2,7 +2,6 @@ import logging
 import os
 from typing import Any, Dict
 
-import requests
 import tabula
 from django.conf import settings
 from django.core.management import BaseCommand
@@ -12,6 +11,7 @@ from associations.models import Association
 from base import logic, parsing
 from base.middleware import env
 from base.models import Value
+from fetch_report import fetch_report
 from games.models import Game
 from leagues.models import Season
 from players.models import Player, Score
@@ -109,7 +109,7 @@ class Command(BaseCommand):
 
     @transaction.atomic
     def import_report(self, game: Game):
-        response = requests.get(game.report_source_url(), stream=True)
+        response = fetch_report(game)
         if int(response.headers.get('Content-Length', default=-1)) == 0:
             logger.warning('SKIPPING Report (empty file): {} - {}'.format(game.report_number, game))
             return
