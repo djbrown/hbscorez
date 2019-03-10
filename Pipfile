@@ -39,7 +39,7 @@ pylint-django = "*"
 python_version = "3.7"
 
 [scripts]
-hbscorez = "python manage.py runserver 0.0.0.0:8000"
+hbscorez = "python manage.py runserver"
 test = "python manage.py test"
 coverage = "coverage run --branch --source=. --omit=*/migrations/* ./manage.py test"
 delmig = "find . -path \"*/migrations/*.py\" -not -name \"__init__.py\" -delete"
