@@ -25,7 +25,7 @@
             <th>Gast</th>
             <th>Halle</th>
             <th>Zuschauer</th>
-            <th>Details</th>
+            <th>PDF</th>
         </tr>
         </thead>
         <tbody>
@@ -52,7 +52,7 @@
             <td>{{ game.guest_goals or "-" }}</td>
             <td><a href="#/">{{ game.sports_hall.name if game.sports_hall else "-" }}</a></td>
             <td>{{ game.spectators or "-" }}</td>
-            <td><a href="#/">{{ game.number }}</a></td>
+            <td><a href="{{ game.report_source_url() }}"><i class="fas fa-link" title="Datenquelle"></i></a></td>
         </tr>
         {% endfor %}
         </tbody>
@@ -68,7 +68,7 @@
             <th>Gast</th>
             <th>Halle</th>
             <th>Zuschauer</th>
-            <th>Details</th>
+            <th>PDF</th>
         </tr>
         </tfoot>
     </table>
