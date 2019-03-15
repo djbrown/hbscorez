@@ -1,7 +1,8 @@
 import os
 from typing import Optional
 
-BASE_DIR: str = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+SRC_DIR: str = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+ROOT_DIR: str = os.path.dirname(SRC_DIR)
 
 SECRET_KEY = ' '  # noqa
 
@@ -75,7 +76,7 @@ WSGI_APPLICATION = 'hbscorez.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'NAME': os.path.join(ROOT_DIR, 'db.sqlite3'),
     }
 }
 
@@ -120,7 +121,7 @@ LOGGING: dict = {
         'file': {
             'level': 'DEBUG',
             'class': 'logging.FileHandler',
-            'filename': os.path.join(BASE_DIR, 'hbscorez.log'),
+            'filename': os.path.join(ROOT_DIR, 'hbscorez.log'),
             'formatter': 'verbose'
         },
         'console': {
@@ -141,11 +142,11 @@ LOGGING: dict = {
 
 # static files
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_ROOT = os.path.join(ROOT_DIR, 'static')
 
 STATIC_URL = '/static/'
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = os.path.join(ROOT_DIR, 'media')
 
 MEDIA_URL = '/media/'
 
@@ -154,7 +155,7 @@ MEDIA_URL = '/media/'
 
 EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
 
-EMAIL_FILE_PATH = os.path.join(BASE_DIR, 'mails')
+EMAIL_FILE_PATH = os.path.join(ROOT_DIR, 'mails')
 
 
 # auth
@@ -171,7 +172,7 @@ ACCOUNT_ACTIVATION_DAYS = 3
 
 # custom settings
 
-REPORTS_PATH = os.path.join(BASE_DIR, 'reports')
+REPORTS_PATH = os.path.join(ROOT_DIR, 'reports')
 
 ROOT_SOURCE_URL = 'http://spo.handball4all.de/'
 

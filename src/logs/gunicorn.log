@@ -1,0 +1,7 @@
+[2019-03-15 23:34:34 +0100] [23095] [INFO] Starting gunicorn 19.9.0
+[2019-03-15 23:34:34 +0100] [23095] [INFO] Listening at: http://127.0.0.1:8000 (23095)
+[2019-03-15 23:34:34 +0100] [23095] [INFO] Using worker: sync
+[2019-03-15 23:34:34 +0100] [23105] [INFO] Booting worker with pid: 23105
+[2019-03-15 23:35:10 +0100] [23095] [INFO] Handling signal: int
+[2019-03-15 23:35:10 +0100] [23105] [INFO] Worker exiting (pid: 23105)
+[2019-03-15 23:35:10 +0100] [23095] [INFO] Shutting down: Master
