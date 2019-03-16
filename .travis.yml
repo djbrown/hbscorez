@@ -12,11 +12,9 @@ install:
 addons:
   sauce_connect: true
 script:
-  - pipenv run coverage
+  - pipenv run hbcoverage
   - pipenv run coverage xml
-  - >-
-    pipenv run mypy -p base -p associations -p districts -p leagues -p teams -p
-    games -p sports_halls -p players
+  - pipenv run mypy src
   - pipenv run flake8
 after_success:
   - pipenv run codecov

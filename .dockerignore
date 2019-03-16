@@ -3,22 +3,25 @@
 .idea/
 **/.mypy_cache/
 .vscode/
+logs
 mails/
 media/
 reports/
 static/
 
+.coverage
 .editorconfig
 .fossa.yml
 .gitignore
 .pyup.yml
 .travis.yml
 ATTRIBUTIONS.md
+coverage.xml
 db.sqlite3
 docker-stack*.yml
 Dockerfile
 geckodriver.log
 hbscorez.log
-hbscorez/settings_docker_stack*.py
+src/hbscorez/settings_docker_stack*.py
 LICENSE
 README.md

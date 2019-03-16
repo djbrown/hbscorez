@@ -40,6 +40,6 @@ python_version = "3.7"
 
 [scripts]
 hbscorez = "python src/manage.py runserver"
-test = "python src/manage.py test"
-coverage = "coverage run --branch --source=. --omit=src/*/migrations/* src/manage.py test"
+hbtest = "python src/manage.py test"
+hbcoverage = "coverage run --branch --source=src --omit=src/*/migrations/* src/manage.py test src"
 delmig = "find . -path \"src/*/migrations/*.py\" -not -name \"__init__.py\" -delete"

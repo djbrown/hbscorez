@@ -2,11 +2,14 @@
 .idea/
 **/.mypy_cache/
 .vscode/
+logs
 mails/
 media/
 reports/
 static/
 
+.coverage
+coverage.xml
 db.sqlite3
 docker-stack*.yml
 geckodriver.log
