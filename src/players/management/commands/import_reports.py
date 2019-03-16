@@ -11,13 +11,13 @@ from associations.models import Association
 from base import logic, parsing
 from base.middleware import env
 from base.models import Value
-from fetch_report import fetch_report
 from games.models import Game
 from leagues.models import Season
 from players.models import Player, Score
 from teams.models import Team
 
 from . import parse_report
+from .fetch_report import fetch_report
 
 logger = logging.getLogger('hbscorez')
 
