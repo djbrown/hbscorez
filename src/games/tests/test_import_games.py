@@ -69,3 +69,17 @@ class Forfeit(ModelTestCase):
         self.assertEqual(game.home_goals, 0)
         self.assertEqual(game.guest_goals, 0)
         self.assertEqual(game.forfeiting_team, game.guest_team)
+
+    def test_forfeit_without_report(self):
+        return_code = call_command('setup', '-a', 35, '-d', 35, '-s', 2018, '-l', 34606)
+        self.assertEqual(return_code, None)
+
+        return_code = call_command('import_games', '-g', 210348)
+        self.assertEqual(return_code, None)
+
+        game: Game = self.assert_objects(Game)
+        self.assertEqual(game.number, 210348)
+        self.assertEqual(game.report_number, None)
+        self.assertEqual(game.home_goals, 0)
+        self.assertEqual(game.guest_goals, 0)
+        self.assertEqual(game.forfeiting_team, game.guest_team)

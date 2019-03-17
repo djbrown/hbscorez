@@ -4,6 +4,8 @@ from datetime import datetime, timedelta
 from typing import Match, Optional, Tuple
 from urllib.parse import parse_qs, urlsplit
 
+import lxml
+
 
 def parse_link_query_item(link, query_key):
     href = link.get('href')
@@ -97,9 +99,10 @@ def parse_report_number(cell):
 
 
 def parse_forfeiting_team(cell, home_team, guest_team):
-    if cell.text == " (2:0)" or len(cell) > 0 and cell[0].tail == " (2:0)":
+    text = str(lxml.html.tostring(cell))
+    if "2:0" in text:
         return guest_team
-    if cell.text == " (0:2)" or len(cell) > 0 and cell[0].tail == " (0:2)":
+    if "0:2" in text:
         return home_team
     return None
 
