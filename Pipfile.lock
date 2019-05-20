@@ -59,15 +59,11 @@
             "version": "==2.2.1"
         },
         "django-contact-form": {
-            "extras": [
-                "akismet"
-            ],
             "hashes": [
-                "sha256:8bebb8d3c4f60264ae98ee616e3718bcf065c4b2fdefd14595f94be53aa4a013",
-                "sha256:9aa7c2b672b4e6efe220ff7220eb0482d851db92436332aa3727242ea3b5cf3b"
+                "sha256:b42b7e04d6af3318b8427c1eaf62385ec66da252aa79b607ee55d956c7af4a2d",
+                "sha256:c31f73faa13f52efa81ac95f41007f3a84eca617f92773a1bed7ca90c61cb3ed"
             ],
-            "index": "pypi",
-            "version": "==1.6"
+            "version": "==1.7"
         },
         "django-registration": {
             "hashes": [
