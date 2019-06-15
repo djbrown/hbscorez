@@ -5,15 +5,15 @@ name = "pypi"
 
 [packages]
 Django = ">=2.0"
-psycopg2 = "*"
-psycopg2-binary = "*"
-Jinja2 = "*"
-requests = "*"
-lxml = "*"
-icalendar = "*"
-tabula-py = "*"
 django-registration = "*"
 django-contact-form = {version = "*", extras = ["akismet"]}
+icalendar = "*"
+lxml = "*"
+Jinja2 = "*"
+psycopg2 = "*"
+psycopg2-binary = "*"
+requests = "*"
+tabula-py = "*"
 
 [dev-packages]
 autopep8 = "*"
@@ -30,16 +30,16 @@ pip-licenses = "*"
 ptpython = "*"
 pylama = "*"
 pylint = "*"
+pylint-django = "*"
 rope = "*"
 sauceclient = "*"
 selenium = "*"
-pylint-django = "*"
 
 [requires]
 python_version = "3.7"
 
 [scripts]
 hbscorez = "python src/manage.py runserver"
-hbtest = "python src/manage.py test"
+hbtest = "python src/manage.py test src"
 hbcoverage = "coverage run --branch --source=src --omit=src/*/migrations/* src/manage.py test src"
 delmig = "find . -path \"src/*/migrations/*.py\" -not -name \"__init__.py\" -delete"
