@@ -3,7 +3,7 @@ from django.shortcuts import render, get_object_or_404
 from .models import Association
 
 
-def list(request):
+def show_all(request):
     associations = Association.objects.all()
     return render(request, 'associations/list.j2', {'associations': associations})
 
