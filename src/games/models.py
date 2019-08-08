@@ -80,25 +80,24 @@ class Game(models.Model):
 
         other_games = self.other_games()
         if not other_games \
-                or list(filter(lambda g:  g.opening_whistle is None, other_games)):
+                or list(filter(lambda g: g.opening_whistle is None, other_games)):
             return Leg.UNKNOWN
 
         if len(other_games) == 1:
             first_leg = self.opening_whistle < other_games[0].opening_whistle
             return Leg.FIRST if first_leg else Leg.SECOND
 
-        elif len(other_games) == 2:
+        if len(other_games) == 2:
             if self.opening_whistle < other_games[0].opening_whistle \
                     and self.opening_whistle < other_games[1].opening_whistle:
                 return Leg.FIRST
-            elif self.opening_whistle > other_games[0].opening_whistle \
+            if self.opening_whistle > other_games[0].opening_whistle \
                     and self.opening_whistle > other_games[1].opening_whistle:
                 return Leg.SECOND
-            else:
-                return Leg.BEWTEEN
 
-        else:
-            raise RuntimeError('More than 2 other games found on {}'.format(self))
+            return Leg.BEWTEEN
+
+        raise RuntimeError('More than 2 other games found on {}'.format(self))
 
     def leg_title(self) -> str:
         mapping = {

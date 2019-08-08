@@ -67,7 +67,7 @@ class SetupTest(ModelTestCase):
 
 class StartDate(ModelTestCase):
     def test_first_hit(self):
-        return_code = call_command('setup', '-a', 80, '-d', 80, '-s',  2018, '-l',  34744)
+        return_code = call_command('setup', '-a', 80, '-d', 80, '-s', 2018, '-l', 34744)
         self.assertEqual(return_code, None)
 
         self.assert_objects(League, count=1)
@@ -79,7 +79,7 @@ class StartDate(ModelTestCase):
         self.assert_objects(League, count=2)
 
     def test_later_hit(self):
-        return_code = call_command('setup', '-a', 81, '-d', 81, '-s',  2018, '-l', 37511)
+        return_code = call_command('setup', '-a', 81, '-d', 81, '-s', 2018, '-l', 37511)
         self.assertEqual(return_code, None)
 
         self.assert_objects(League, count=1)
