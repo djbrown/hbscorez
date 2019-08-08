@@ -39,7 +39,7 @@ def add_ranking_place(items: list, field: str):
 
 
 def add_score(score: Score):
-    logger.debug('CREATING Score: {} {}'.format(score.game, score.player.name))
+    logger.debug('CREATING Score: %s %s', score.game, score.player.name)
 
     if duplicate_player_scores_exist(score):
         split_by_number(score.player.name, score.player.team)
@@ -47,9 +47,9 @@ def add_score(score: Score):
 
     player, created = Player.objects.get_or_create(name=score.player.name, team=score.player.team)
     if created:
-        logger.debug('CREATED Player: {}'.format(player))
+        logger.debug('CREATED Player: %s', player)
     else:
-        logger.debug('EXISTING Player: {}'.format(player))
+        logger.debug('EXISTING Player: %s', player)
 
     score.player = player
     score.save()
@@ -64,11 +64,11 @@ def duplicate_player_scores_exist(score: Score):
 
 @transaction.atomic
 def split_by_number(original_name: str, team: Team):
-    logger.info("DIVIDING Player: {} ({})".format(original_name, team))
+    logger.info("DIVIDING Player: %s (%s)", original_name, team)
 
     matches = Player.objects.filter(name=original_name, team=team)
     if not matches.exists():
-        logger.warning("SKIPPING Player (not found): {} ({})".format(original_name, team))
+        logger.warning("SKIPPING Player (not found): %s (%s)", original_name, team)
         return
 
     original_player = matches[0]
@@ -76,12 +76,12 @@ def split_by_number(original_name: str, team: Team):
         new_name = "{} ({})".format(original_player.name, score.player_number)
         new_player, created = Player.objects.get_or_create(name=new_name, team=original_player.team)
         if created:
-            logger.debug("CREATED Player: {}".format(new_player))
+            logger.debug("CREATED Player: %s", new_player)
         score.player = new_player
         score.save()
 
     if not original_player.score_set.all().exists():
-        logger.debug("DELETING Player (no dangling scores): {}".format(original_player))
+        logger.debug("DELETING Player (no dangling scores): %s", original_player)
         original_player.delete()
 
 

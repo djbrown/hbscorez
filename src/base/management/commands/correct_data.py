@@ -60,19 +60,19 @@ class Command(BaseCommand):
             old_player = Player.objects.get(name=old_name, team__bhv_id=team_bhv_id)
             new_player, created = Player.objects.get_or_create(name=new_name, team=old_player.team)
             if old_player == new_player:
-                logger.info("skip Player (old equals new): {}".format(new_player))
+            logger.info('skip Player (old equals new): %s', new_player)
             else:
                 if created:
-                    logger.debug("CREATED Player: {}".format(new_player))
+                logger.debug('CREATED Player: %s', new_player)
                 else:
-                    logger.debug("EXISTING Player: {}".format(new_player))
+                logger.debug('EXISTING Player: %s', new_player)
                 for score in old_player.score_set.all():
                     score.player = new_player
                     score.save()
                 old_player.delete()
-                logger.info("moved Player: {} to {}".format(old_name, new_player))
+            logger.info('moved Player: %s to %s', old_name, new_player)
         except Player.DoesNotExist:
-            logger.warning("skip Player (not found): {} ({})".format(old_name, team_bhv_id))
+        logger.warning('skip Player (not found): %s (%s)', old_name, team_bhv_id)
 
     @transaction.atomic
     def add_scores(self, league__bhv_id: int, game_number: int,  home_data, guest_data):
@@ -80,12 +80,12 @@ class Command(BaseCommand):
         try:
             game = Game.objects.get(league__bhv_id=league__bhv_id, number=game_number)
             if game.score_set.exists():
-                logger.warning("skip Game (existing scores): {}".format(game))
+            logger.warning('skip Game (existing scores): %s', game)
             else:
                 self._add_scores(game, game.home_team, home_data)
                 self._add_scores(game, game.guest_team, guest_data)
         except Game.DoesNotExist:
-            logger.warning("skip Game (not found): {} {}".format(league__bhv_id, game_number))
+        logger.warning('skip Game (not found): %s %s', league__bhv_id, game_number)
 
     def _add_scores(self, game, team, data: List[Tuple[str, int, int, int, int]]):
         for score_data in data:

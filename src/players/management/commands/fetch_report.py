@@ -26,8 +26,8 @@ def fetch_report(game: Game):
         try:
             return requests.get(game.report_source_url(), stream=True)
         except requests.exceptions.ConnectionError as e:
-            logger.warn(f'Could not fetch report {game}')
+            logger.warning('Could not fetch report %s', game)
             if retry_duration == MAX_RETRY_DURATION:
                 raise e
-            logger.debug(f'Now wating for {retry_duration}')
+            logger.debug('Now wating for %s', retry_duration)
             time.sleep(retry_duration.total_seconds())
