@@ -1,12 +1,12 @@
 **/__pycache__/
 .idea/
 **/.mypy_cache/
-.vscode/
-logs
-mails/
-media/
-reports/
-static/
+/.vscode/
+/logs
+/mails/
+/media/
+/reports/
+/static/
 
 .coverage
 coverage.xml
