@@ -17,9 +17,9 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         env.UPDATING.set_value(Value.TRUE)
-        self.rename_player(387733, "Philip Noske", "Philipp Noske")
-        self.rename_player(387733, "Frieder Schwarb", "Frieder Schwab")
-        self.rename_player(387733, "Patrick Dederich", "Patrick Dederichs")
+        rename_player(387733, "Philip Noske", "Philipp Noske")
+        rename_player(387733, "Frieder Schwarb", "Frieder Schwab")
+        rename_player(387733, "Patrick Dederich", "Patrick Dederichs")
         sghh = [
             ("David Krypczyk", 1, 0, 0, 0),
             ("Jakob Steinhilper", 4, 0, 0, 0),
@@ -50,46 +50,50 @@ class Command(BaseCommand):
             ("Kevin Langjahr", 34, 1, 0, 0),
             ("Timo Bäuerlein", 62, 2, 0, 0),
         ]
-        self.add_scores(26773, 210116,  sghh, hcn)
+        add_scores(26773, 210116, sghh, hcn)
         env.UPDATING.set_value(Value.FALSE)
 
-    @transaction.atomic
-    def rename_player(self, team_bhv_id, old_name, new_name):
-        logger.info("rename Player '{}' ({}) to '{}'".format(old_name, team_bhv_id, new_name))
-        try:
-            old_player = Player.objects.get(name=old_name, team__bhv_id=team_bhv_id)
-            new_player, created = Player.objects.get_or_create(name=new_name, team=old_player.team)
-            if old_player == new_player:
+
+@transaction.atomic
+def rename_player(team_bhv_id, old_name, new_name):
+    logger.info("rename Player '%s' (%s) to '%s'", old_name, team_bhv_id, new_name)
+    try:
+        old_player = Player.objects.get(name=old_name, team__bhv_id=team_bhv_id)
+        new_player, created = Player.objects.get_or_create(name=new_name, team=old_player.team)
+        if old_player == new_player:
             logger.info('skip Player (old equals new): %s', new_player)
-            else:
-                if created:
+        else:
+            if created:
                 logger.debug('CREATED Player: %s', new_player)
-                else:
+            else:
                 logger.debug('EXISTING Player: %s', new_player)
-                for score in old_player.score_set.all():
-                    score.player = new_player
-                    score.save()
-                old_player.delete()
+            for score in old_player.score_set.all():
+                score.player = new_player
+                score.save()
+            old_player.delete()
             logger.info('moved Player: %s to %s', old_name, new_player)
-        except Player.DoesNotExist:
+    except Player.DoesNotExist:
         logger.warning('skip Player (not found): %s (%s)', old_name, team_bhv_id)
 
-    @transaction.atomic
-    def add_scores(self, league__bhv_id: int, game_number: int,  home_data, guest_data):
-        logger.info("add Scores {} {}".format(league__bhv_id, game_number))
-        try:
-            game = Game.objects.get(league__bhv_id=league__bhv_id, number=game_number)
-            if game.score_set.exists():
+
+@transaction.atomic
+def add_scores(league__bhv_id: int, game_number: int, home_data, guest_data):
+
+    logger.info('add Scores %s %s', league__bhv_id, game_number)
+    try:
+        game = Game.objects.get(league__bhv_id=league__bhv_id, number=game_number)
+        if game.score_set.exists():
             logger.warning('skip Game (existing scores): %s', game)
-            else:
-                self._add_scores(game, game.home_team, home_data)
-                self._add_scores(game, game.guest_team, guest_data)
-        except Game.DoesNotExist:
+        else:
+            _add_scores(game, game.home_team, home_data)
+            _add_scores(game, game.guest_team, guest_data)
+    except Game.DoesNotExist:
         logger.warning('skip Game (not found): %s %s', league__bhv_id, game_number)
 
-    def _add_scores(self, game, team, data: List[Tuple[str, int, int, int, int]]):
-        for score_data in data:
-            player = Player(name=score_data[0], team=team)
-            score = Score(player=player, player_number=score_data[1], game=game, goals=score_data[2],
-                          penalty_tries=score_data[3], penalty_goals=score_data[4])
-            logic.add_score(score=score)
+
+def _add_scores(game, team, data: List[Tuple[str, int, int, int, int]]):
+    for score_data in data:
+        player = Player(name=score_data[0], team=team)
+        score = Score(player=player, player_number=score_data[1], game=game, goals=score_data[2],
+                      penalty_tries=score_data[3], penalty_goals=score_data[4])
+        logic.add_score(score=score)
