@@ -37,7 +37,7 @@ class Association(models.Model):
             'Oberliga Hamburg - Schleswig-Holstein': 'HHSH',
             'Südbadischer Handballverband': 'SHV',
             'Vorarlberger Handballverband': 'VHV',
-            #'Mitteldeutscher Handball-Verband': 'MHV',
-            #'Thüringer Handball-Verband': 'THV',
+            # 'Mitteldeutscher Handball-Verband': 'MHV',
+            # 'Thüringer Handball-Verband': 'THV',
         }
         return association_abbreviations[association_name]
