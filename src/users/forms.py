@@ -7,7 +7,7 @@ from django.core.exceptions import ValidationError
 from players.models import Player
 from teams.models import Team
 
-logger = logging.getLogger('hbscorez')
+LOGGER = logging.getLogger('hbscorez')
 
 
 class LinkForm(forms.Form):
@@ -36,17 +36,17 @@ class LinkForm(forms.Form):
         player_name = self.cleaned_data.get('player_name')
 
         if not team or not player_name:
-            return
+            return None
 
         try:
             player = Player.objects.get(team=team, name__iexact=player_name)
         except Player.DoesNotExist:
             self.add_error('player_name', 'Spieler konnte nicht gefunden werden.')
-            return
+            return None
 
         if player.user is not None:
             self.add_error('player_name', 'Spieler ist bereits verknüpft.')
-            return
+            return None
 
         self.cleaned_data['player'] = player
         return self.cleaned_data

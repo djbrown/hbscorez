@@ -5,5 +5,5 @@ def parse_spectators(table) -> Optional[int]:
     specs: str = table['data'][4][2]['text']
     if specs == 'k.A.':
         return None
-    else:
-        return int(specs)
+
+    return int(specs)

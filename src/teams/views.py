@@ -19,8 +19,8 @@ def detail(request, bhv_id):
 
 def games(request, bhv_id):
     team = get_object_or_404(Team, bhv_id=bhv_id)
-    games = Game.objects.filter(Q(home_team=team) | Q(guest_team=team)).order_by('opening_whistle')
-    return render(request, 'teams/games.j2', {'team': team, 'games': games})
+    team_games = Game.objects.filter(Q(home_team=team) | Q(guest_team=team)).order_by('opening_whistle')
+    return render(request, 'teams/games.j2', {'team': team, 'games': team_games})
 
 
 def scorers(request, bhv_id):
@@ -56,7 +56,7 @@ def offenders(request, bhv_id):
 
 def calendar(_, bhv_id):
     team = get_object_or_404(Team, bhv_id=bhv_id)
-    games = Game.objects.filter(Q(home_team=team) | Q(guest_team=team))
+    team_games = Game.objects.filter(Q(home_team=team) | Q(guest_team=team))
 
     cal = Calendar()
     cal.add('PRODID', '-//HbScorez//Mannschaftskalender 1.0//DE')
@@ -69,7 +69,7 @@ def calendar(_, bhv_id):
             .format(team.name, team.league.season.start_year, team.league.season.start_year + 1,
                     team.league.name, team.league.district.name))
 
-    for game in games:
+    for game in team_games:
         if game.opening_whistle is None:
             continue
         event = _create_event(team, game)
@@ -114,8 +114,8 @@ def _outcome(game, team):
         TeamOutcome.LOSS: 'Niederlage',
         TeamOutcome.TIE: 'Unentschieden',
     }
-    o = game.outcome_for(team)
-    return mapping.get(o)
+    outcome = game.outcome_for(team)
+    return mapping.get(outcome)
 
 
 def _display(cal):

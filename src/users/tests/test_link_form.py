@@ -89,20 +89,20 @@ class TestLinkForm(TestCase):
 
     def test_multiple_seasons(self):
         district = District.objects.create(bhv_id=1)
-        seasonA = Season.objects.create(start_year=2)
-        seasonB = Season.objects.create(start_year=3)
-        leagueA = League.objects.create(bhv_id=4, district=district, season=seasonA)
-        leagueB = League.objects.create(bhv_id=5, district=district, season=seasonB)
-        teamA = Team.objects.create(bhv_id=6, league=leagueA)
-        teamB = Team.objects.create(bhv_id=7, league=leagueB)
+        season_a = Season.objects.create(start_year=2)
+        season_b = Season.objects.create(start_year=3)
+        league_a = League.objects.create(bhv_id=4, district=district, season=season_a)
+        league_b = League.objects.create(bhv_id=5, district=district, season=season_b)
+        team_a = Team.objects.create(bhv_id=6, league=league_a)
+        team_b = Team.objects.create(bhv_id=7, league=league_b)
 
         player_name = 'player name'
 
         user = User.objects.create(username='username')
-        Player.objects.create(name=player_name, team=teamA, user=user)
-        player = Player.objects.create(name=player_name, team=teamB)
+        Player.objects.create(name=player_name, team=team_a, user=user)
+        player = Player.objects.create(name=player_name, team=team_b)
 
-        form_data = {'team_bhv_id': teamB.bhv_id, 'player_name': player.name}
+        form_data = {'team_bhv_id': team_b.bhv_id, 'player_name': player.name}
         form = LinkForm(data=form_data, user=user)
 
         self.assertTrue(form.is_valid())

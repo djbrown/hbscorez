@@ -14,8 +14,8 @@ class Forfeit(ModelTestCase):
         return_code = call_command('import_games', '-g', 60201)
         self.assertEqual(return_code, None)
 
-        m: Mock
-        with patch('players.management.commands.import_reports.Command.import_report') as m:
+        mock: Mock
+        with patch('players.management.commands.import_reports.Command.import_report') as mock:
             return_code = call_command('import_reports')
             self.assertEqual(return_code, None)
-            m.assert_not_called()
+            mock.assert_not_called()

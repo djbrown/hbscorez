@@ -13,7 +13,7 @@ from districts.models import District
 from leagues.models import League, Season
 from teams.models import Team
 
-logger = logging.getLogger('hbscorez')
+LOGGER = logging.getLogger('hbscorez')
 
 
 class Command(BaseCommand):
@@ -50,20 +50,20 @@ class Command(BaseCommand):
         try:
             abbreviation = Association.get_association_abbreviation(name)
         except KeyError:
-            logger.warning("No abbreviation for association '%s'", name)
+            LOGGER.warning("No abbreviation for association '%s'", name)
             return
 
         bhv_id = parsing.parse_association_bhv_id(association_link)
 
         if self.options['associations'] and bhv_id not in self.options['associations']:
-            logger.debug('SKIPPING Association (options): %s %s', bhv_id, name)
+            LOGGER.debug('SKIPPING Association (options): %s %s', bhv_id, name)
             return
 
         association, created = Association.objects.get_or_create(name=name, abbreviation=abbreviation, bhv_id=bhv_id)
         if created:
-            logger.info('CREATED Association: %s', association)
+            LOGGER.info('CREATED Association: %s', association)
         else:
-            logger.info('EXISTING Association: %s', association)
+            LOGGER.info('EXISTING Association: %s', association)
 
         url = association.source_url()
         dom = logic.get_html(url)
@@ -76,19 +76,19 @@ class Command(BaseCommand):
         bhv_id = int(district_item.get('value'))
 
         if self.options['districts'] and bhv_id not in self.options['districts']:
-            logger.debug('SKIPPING District (options): %s %s', bhv_id, name)
+            LOGGER.debug('SKIPPING District (options): %s %s', bhv_id, name)
             return
 
         district, created = District.objects.get_or_create(name=name, bhv_id=bhv_id)
         district.associations.add(association)
         if bhv_id in self.processed_districts:
-            logger.debug('SKIPPING District: %s %s (already processed)', bhv_id, name)
+            LOGGER.debug('SKIPPING District: %s %s (already processed)', bhv_id, name)
             return
 
         if created:
-            logger.info('CREATED District: %s', district)
+            LOGGER.info('CREATED District: %s', district)
         else:
-            logger.info('EXISTING District: %s', district)
+            LOGGER.info('EXISTING District: %s', district)
         self.processed_districts.add(bhv_id)
 
         for start_year in range(2004, datetime.now().year + 1):
@@ -96,24 +96,24 @@ class Command(BaseCommand):
 
     def create_season(self, district, start_year):
         if self.options['seasons'] and start_year not in self.options['seasons']:
-            logger.debug('SKIPPING District Season (options): %s %s', district, start_year)
+            LOGGER.debug('SKIPPING District Season (options): %s %s', district, start_year)
             return
 
         season, season_created = Season.objects.get_or_create(start_year=start_year)
         if season_created:
-            logger.info('CREATED Season: %s', season)
+            LOGGER.info('CREATED Season: %s', season)
         else:
-            logger.info('EXISTING Season: %s', season)
+            LOGGER.info('EXISTING Season: %s', season)
 
         for start_date in [date(start_year, 10, 1) + timedelta(days=10*n) for n in range(4)]:
-            logger.debug('trying District Season: %s %s %s', district, season, start_date)
+            LOGGER.debug('trying District Season: %s %s %s', district, season, start_date)
             url = District.build_source_url(district.bhv_id, start_date)
             dom = logic.get_html(url)
             league_links = dom.xpath('//div[@id="results"]/div/table[2]/tr/td[1]/a')
             if league_links:
                 break
         else:
-            logger.warning('District Season without Leagues: %s %s', district, season)
+            LOGGER.warning('District Season without Leagues: %s %s', district, season)
             return
 
         for league_link in league_links:
@@ -125,11 +125,11 @@ class Command(BaseCommand):
         bhv_id = parsing.parse_league_bhv_id(league_link)
 
         if self.options['leagues'] and bhv_id not in self.options['leagues']:
-            logger.debug('SKIPPING League (options): %s %s', bhv_id, abbreviation)
+            LOGGER.debug('SKIPPING League (options): %s %s', bhv_id, abbreviation)
             return
 
         if abbreviation[:1] in ['m', 'w', 'g', 'u'] and not self.options['youth']:
-            logger.debug('SKIPPING League (youth league): %s %s', bhv_id, abbreviation)
+            LOGGER.debug('SKIPPING League (youth league): %s %s', bhv_id, abbreviation)
             return
 
         url = League.build_source_url(bhv_id)
@@ -138,29 +138,29 @@ class Command(BaseCommand):
         name = parsing.parse_league_name(dom)
 
         if League.is_youth_league(name) and not self.options['youth']:
-            logger.debug('SKIPPING League (youth league): %s %s', bhv_id, name)
+            LOGGER.debug('SKIPPING League (youth league): %s %s', bhv_id, name)
             return
 
         team_links = dom.xpath('//table[@class="scoretable"]/tr[position() > 1]/td[3]/a') or \
             dom.xpath('//table[@class="scoretable"]/tr[position() > 1]/td[2]/a')
         if not team_links:
-            logger.debug('SKIPPING League: %s %s (no team table)', bhv_id, name)
+            LOGGER.debug('SKIPPING League: %s %s (no team table)', bhv_id, name)
             return
 
         game_rows = parsing.parse_game_rows(dom)
         if not game_rows:
-            logger.debug('SKIPPING League (no games): %s %s', bhv_id, name)
+            LOGGER.debug('SKIPPING League (no games): %s %s', bhv_id, name)
             return
         if len(game_rows) < len(team_links) * (len(team_links) - 1):
-            logger.debug('SKIPPING League (few games): %s %s', bhv_id, abbreviation)
+            LOGGER.debug('SKIPPING League (few games): %s %s', bhv_id, abbreviation)
             return
 
         if "Platzierungsrunde" in name:
-            logger.debug('SKIPPING League (Platzierungsrunde): %s %s', bhv_id, name)
+            LOGGER.debug('SKIPPING League (Platzierungsrunde): %s %s', bhv_id, name)
             return
 
         if "Meister" in name:
-            logger.debug('SKIPPING League (Meisterschaft): %s %s', bhv_id, name)
+            LOGGER.debug('SKIPPING League (Meisterschaft): %s %s', bhv_id, name)
             return
 
         if bhv_id == 7424:
@@ -175,26 +175,27 @@ class Command(BaseCommand):
         league, league_created = League.objects.get_or_create(
             name=name, abbreviation=abbreviation, district=district, season=season, bhv_id=bhv_id)
         if league_created:
-            logger.info('CREATED League: %s', league)
+            LOGGER.info('CREATED League: %s', league)
         else:
-            logger.info('EXISTING League: %s', league)
+            LOGGER.info('EXISTING League: %s', league)
 
         for team_link in team_links:
-            self.create_team(team_link, league)
+            create_team(team_link, league)
 
-    def create_team(self, link, league):
-        bhv_id = parsing.parse_team_bhv_id(link)
-        name = link.text
 
-        url = Team.build_source_url(league.bhv_id, bhv_id)
-        dom = logic.get_html(url)
-        game_rows = parsing.parse_game_rows(dom)
-        short_team_names = [c.text for game_row in game_rows for c in game_row.xpath('td')[4:7:2]]
-        short_team_name = max(set(short_team_names), key=short_team_names.count)
+def create_team(link, league):
+    bhv_id = parsing.parse_team_bhv_id(link)
+    name = link.text
 
-        team, created = Team.objects.get_or_create(
-            name=name, short_name=short_team_name, league=league, bhv_id=bhv_id)
-        if created:
-            logger.info('CREATED Team: %s', team)
-        else:
-            logger.info('EXISTING Team: %s', team)
+    url = Team.build_source_url(league.bhv_id, bhv_id)
+    dom = logic.get_html(url)
+    game_rows = parsing.parse_game_rows(dom)
+    short_team_names = [c.text for game_row in game_rows for c in game_row.xpath('td')[4:7:2]]
+    short_team_name = max(set(short_team_names), key=short_team_names.count)
+
+    team, created = Team.objects.get_or_create(
+        name=name, short_name=short_team_name, league=league, bhv_id=bhv_id)
+    if created:
+        LOGGER.info('CREATED Team: %s', team)
+    else:
+        LOGGER.info('EXISTING Team: %s', team)

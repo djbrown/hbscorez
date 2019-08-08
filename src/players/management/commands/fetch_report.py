@@ -18,16 +18,16 @@ RETRY_DURATIONS: List[timedelta] = [
     MAX_RETRY_DURATION
 ]
 
-logger = logging.getLogger('hbscorez')
+LOGGER = logging.getLogger('hbscorez')
 
 
 def fetch_report(game: Game):
     for retry_duration in RETRY_DURATIONS:
         try:
             return requests.get(game.report_source_url(), stream=True)
-        except requests.exceptions.ConnectionError as e:
-            logger.warning('Could not fetch report %s', game)
+        except requests.exceptions.ConnectionError as ex:
+            LOGGER.warning('Could not fetch report %s', game)
             if retry_duration == MAX_RETRY_DURATION:
-                raise e
-            logger.debug('Now wating for %s', retry_duration)
+                raise ex
+            LOGGER.debug('Now wating for %s', retry_duration)
             time.sleep(retry_duration.total_seconds())

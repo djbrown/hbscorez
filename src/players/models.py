@@ -23,8 +23,8 @@ class Player(models.Model):
         if self.user is not None and self.published is True \
                 or settings.PUBLIC_NAMES is True:
             return self.name
-        else:
-            return 'Anonym'
+
+        return 'Anonym'
 
 
 class Score(models.Model):

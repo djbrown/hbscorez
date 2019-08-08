@@ -10,7 +10,7 @@ from base.models import Value
 from games.models import Game
 from players.models import Player, Score
 
-logger = logging.getLogger('hbscorez.command')
+LOGGER = logging.getLogger('hbscorez.command')
 
 
 class Command(BaseCommand):
@@ -56,39 +56,39 @@ class Command(BaseCommand):
 
 @transaction.atomic
 def rename_player(team_bhv_id, old_name, new_name):
-    logger.info("rename Player '%s' (%s) to '%s'", old_name, team_bhv_id, new_name)
+    LOGGER.info("rename Player '%s' (%s) to '%s'", old_name, team_bhv_id, new_name)
     try:
         old_player = Player.objects.get(name=old_name, team__bhv_id=team_bhv_id)
         new_player, created = Player.objects.get_or_create(name=new_name, team=old_player.team)
         if old_player == new_player:
-            logger.info('skip Player (old equals new): %s', new_player)
+            LOGGER.info('skip Player (old equals new): %s', new_player)
         else:
             if created:
-                logger.debug('CREATED Player: %s', new_player)
+                LOGGER.debug('CREATED Player: %s', new_player)
             else:
-                logger.debug('EXISTING Player: %s', new_player)
+                LOGGER.debug('EXISTING Player: %s', new_player)
             for score in old_player.score_set.all():
                 score.player = new_player
                 score.save()
             old_player.delete()
-            logger.info('moved Player: %s to %s', old_name, new_player)
+            LOGGER.info('moved Player: %s to %s', old_name, new_player)
     except Player.DoesNotExist:
-        logger.warning('skip Player (not found): %s (%s)', old_name, team_bhv_id)
+        LOGGER.warning('skip Player (not found): %s (%s)', old_name, team_bhv_id)
 
 
 @transaction.atomic
 def add_scores(league__bhv_id: int, game_number: int, home_data, guest_data):
 
-    logger.info('add Scores %s %s', league__bhv_id, game_number)
+    LOGGER.info('add Scores %s %s', league__bhv_id, game_number)
     try:
         game = Game.objects.get(league__bhv_id=league__bhv_id, number=game_number)
         if game.score_set.exists():
-            logger.warning('skip Game (existing scores): %s', game)
+            LOGGER.warning('skip Game (existing scores): %s', game)
         else:
             _add_scores(game, game.home_team, home_data)
             _add_scores(game, game.guest_team, guest_data)
     except Game.DoesNotExist:
-        logger.warning('skip Game (not found): %s %s', league__bhv_id, game_number)
+        LOGGER.warning('skip Game (not found): %s %s', league__bhv_id, game_number)
 
 
 def _add_scores(game, team, data: List[Tuple[str, int, int, int, int]]):
