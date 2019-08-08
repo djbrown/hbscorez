@@ -87,7 +87,7 @@ class Command(BaseCommand):
             return
 
         opening_whistle = parsing.parse_opening_whistle(game_row[2].text)
-        sports_hall = self.get_sports_hall(game_row)
+        sports_hall = get_sports_hall(game_row)
         home_team = Team.objects.get(league=league, short_name=game_row[4].text)
         guest_team = Team.objects.get(league=league, short_name=game_row[6].text)
         home_goals, guest_goals = parsing.parse_goals(game_row)
@@ -128,34 +128,36 @@ class Command(BaseCommand):
                 game.forfeiting_team = forfeiting_team
             game.save()
 
-    def get_sports_hall(self, game_row):
-        if len(game_row[3]) != 1:
-            return None
-        link = game_row[3][0]
-        number = int(link.text)
-        bhv_id = parsing.parse_sports_hall_bhv_id(link)
 
-        sports_hall = SportsHall.objects.filter(number=number, bhv_id=bhv_id)
-        if sports_hall.exists():
-            return sports_hall[0]
+def get_sports_hall(game_row):
+    if len(game_row[3]) != 1:
+        return None
+    link = game_row[3][0]
+    number = int(link.text)
+    bhv_id = parsing.parse_sports_hall_bhv_id(link)
 
-        return self.parse_sports_hall(number, bhv_id)
+    sports_hall = SportsHall.objects.filter(number=number, bhv_id=bhv_id)
+    if sports_hall.exists():
+        return sports_hall[0]
 
-    def parse_sports_hall(self, number, bhv_id):
-        url = SportsHall.build_source_url(bhv_id)
-        tree = logic.get_html(url)
+    return parse_sports_hall(number, bhv_id)
 
-        table = tree.xpath('//table[@class="gym"]')[0]
-        name = table[0][1][0].text
-        city = table[1][1].text
-        street = table[2][1].text
-        address = street + ", " + city if street else city
-        phone_number = table[3][1].text
 
-        latitude, longitude = parsing.parse_coordinates(tree)
+def parse_sports_hall(number, bhv_id):
+    url = SportsHall.build_source_url(bhv_id)
+    tree = logic.get_html(url)
 
-        sports_hall = SportsHall.objects.create(number=number, name=name, address=address,
-                                                phone_number=phone_number, latitude=latitude,
-                                                longitude=longitude, bhv_id=bhv_id)
-        logger.info('CREATED Sports Hall: %s', sports_hall)
-        return sports_hall
+    table = tree.xpath('//table[@class="gym"]')[0]
+    name = table[0][1][0].text
+    city = table[1][1].text
+    street = table[2][1].text
+    address = street + ", " + city if street else city
+    phone_number = table[3][1].text
+
+    latitude, longitude = parsing.parse_coordinates(tree)
+
+    sports_hall = SportsHall.objects.create(number=number, name=name, address=address,
+                                            phone_number=phone_number, latitude=latitude,
+                                            longitude=longitude, bhv_id=bhv_id)
+    logger.info('CREATED Sports Hall: %s', sports_hall)
+    return sports_hall
