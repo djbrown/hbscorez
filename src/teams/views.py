@@ -84,6 +84,7 @@ def _create_event(team, game):
 
     leg_title = game.leg_title()
     description = '{} gegen {}'.format(leg_title, game.opponent_of(team).name)
+    description += f'in {game.sports_hall}' if game.sports_hall else None
 
     for other in sorted(game.other_games(), key=lambda g: g.opening_whistle):
         if other.home_goals is not None:
