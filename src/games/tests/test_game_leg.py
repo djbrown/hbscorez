@@ -49,7 +49,7 @@ class NormalGames(TestCase):
         expected = [(team_1, team_2, Leg.FIRST), (team_3, team_4, Leg.FIRST), (team_2, team_1, Leg.SECOND),
                     (team_1, team_3, Leg.FIRST), (team_2, team_4, Leg.FIRST), (team_1, team_4, Leg.FIRST),
                     (team_2, team_3, Leg.FIRST), (team_4, team_1, Leg.SECOND), (team_4, team_3, Leg.SECOND),
-                    (team_3, team_1, Leg.SECOND), (team_4, team_2, Leg.SECOND), (team_3, team_2, Leg.SECOND)
+                    (team_3, team_1, Leg.SECOND), (team_4, team_2, Leg.SECOND), (team_3, team_2, Leg.SECOND),
                     ]
 
         test_data = [create_test_game(number, league, *vals) for number, vals in enumerate(expected)]
