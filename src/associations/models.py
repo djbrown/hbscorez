@@ -35,6 +35,7 @@ class Association(models.Model):
             'Handballverband Westfalen': 'HVWF',
             'Handballverband Württemberg': 'HVW',
             'Oberliga Hamburg - Schleswig-Holstein': 'HHSH',
+            'Pfälzer Handballverband': 'PfHV',
             'Südbadischer Handballverband': 'SHV',
             'Vorarlberger Handballverband': 'VHV',
             # 'Mitteldeutscher Handball-Verband': 'MHV',
