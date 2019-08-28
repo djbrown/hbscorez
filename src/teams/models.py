@@ -10,6 +10,7 @@ class Team(models.Model):
     short_name = models.TextField()
     league = models.ForeignKey(League, on_delete=models.CASCADE)
     bhv_id = models.IntegerField(unique=True)
+    retirement = models.DateField(blank=True, null=True)
 
     # logo = models.ImageField(upload_to=os.path.join(settings.MEDIA_ROOT, 'club-logos'))
 

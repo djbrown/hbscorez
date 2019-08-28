@@ -141,8 +141,7 @@ class Command(BaseCommand):
             LOGGER.debug('SKIPPING League (youth league): %s %s', bhv_id, name)
             return
 
-        team_links = dom.xpath('//table[@class="scoretable"]/tr[position() > 1]/td[3]/a') or \
-            dom.xpath('//table[@class="scoretable"]/tr[position() > 1]/td[2]/a')
+        team_links = parsing.parse_team_links(dom)
         if not team_links:
             LOGGER.debug('SKIPPING League: %s %s (no team table)', bhv_id, name)
             return
@@ -181,6 +180,13 @@ class Command(BaseCommand):
 
         for team_link in team_links:
             create_team(team_link, league)
+
+        retirements = parsing.parse_retirements(dom)
+        for team_name, retirement_date in retirements:
+            team = Team.objects.get(league=league, name=team_name)
+            LOGGER.info('RETIRING team %s on %s', team, retirement_date)
+            team.retirement = retirement_date
+            team.save()
 
 
 def create_team(link, league):
