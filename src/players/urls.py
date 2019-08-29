@@ -5,7 +5,7 @@ from .views import detail
 app_name = 'players'
 
 urlpatterns = [
-    path('<int:pk>/', include([
+    path('<int:key>/', include([
         path('', detail, name='detail'),
     ])),
 ]

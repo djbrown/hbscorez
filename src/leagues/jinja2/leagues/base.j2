@@ -17,4 +17,9 @@
     <h1>{{ league.name }} {{ league.season.start_year }}/{{ league.season.start_year + 1 }}
         <a href="{{ league.source_url() }}"><i class="fas fa-link" title="Datenquelle"></i></a>
     </h1>
+    {% for team in league.team_set.filter(retirement__isnull=False).order_by('retirement') %}
+    <div class="alert alert-warning" role="alert">
+        <a href="{{ team.get_absolute_url() }}">{{ team.name }}</a> wurde am {{ date(team.retirement) }} zurückgezogen.
+    </div>
+    {% endfor %}
 {% endblock %}

@@ -17,7 +17,7 @@ class Player(models.Model):
         return '{} {}'.format(self.name, self.team.short_name)
 
     def get_absolute_url(self):
-        return reverse('players:detail', kwargs={'pk': self.pk})
+        return reverse('players:detail', kwargs={'key': self.pk})
 
     def public_name(self):
         if self.user is not None and self.published is True \

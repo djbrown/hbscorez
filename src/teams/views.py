@@ -78,7 +78,7 @@ def calendar(_, bhv_id):
     return HttpResponse(cal.to_ical(), "text/calendar")
 
 
-def _create_event(team, game):
+def _create_event(team, game: Game):
     venue = 'Heimspiel' if game.home_team == team else 'Auswärtsspiel'
     summary = '{} - {}'.format(venue, game.opponent_of(team).short_name)
 
@@ -86,7 +86,8 @@ def _create_event(team, game):
     description = '{} gegen {}'.format(leg_title, game.opponent_of(team).name)
     description += f'in {game.sports_hall}' if game.sports_hall else None
 
-    for other in sorted(game.other_games(), key=lambda g: g.opening_whistle):
+    dated_games = game.other_games().filter(opening_whistle__isnull=False)
+    for other in sorted(dated_games, key=lambda g: g.opening_whistle):
         if other.home_goals is not None:
             description += '\n{}: {}:{} ({})'.format(other.leg_title(), other.home_goals,
                                                      other.guest_goals, _outcome(other, team))

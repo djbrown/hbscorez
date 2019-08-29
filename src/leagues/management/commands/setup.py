@@ -184,9 +184,10 @@ class Command(BaseCommand):
         retirements = parsing.parse_retirements(dom)
         for team_name, retirement_date in retirements:
             team = Team.objects.get(league=league, name=team_name)
-            LOGGER.info('RETIRING team %s on %s', team, retirement_date)
-            team.retirement = retirement_date
-            team.save()
+            if team.retirement != retirement_date:
+                team.retirement = retirement_date
+                LOGGER.info('RETIRING team %s on %s', team, retirement_date)
+                team.save()
 
 
 def create_team(link, league):
