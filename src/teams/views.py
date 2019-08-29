@@ -85,7 +85,7 @@ def _create_event(team, game: Game):
     leg_title = game.leg_title()
     description = '{} gegen {}'.format(leg_title, game.opponent_of(team).name)
     if game.sports_hall:
-        description += '\n' + str(game.sports_hall)
+        description += '\nSporthalle: ' + str(game.sports_hall.name)
 
     dated_games = game.other_games().filter(opening_whistle__isnull=False)
     for other in sorted(dated_games, key=lambda g: g.opening_whistle):
