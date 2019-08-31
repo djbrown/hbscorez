@@ -21,15 +21,16 @@ class Command(BaseCommand):
     processed_districts: set = set()
 
     def add_arguments(self, parser):
-        parser.add_argument('--youth', action='store_true', help="Include youth teams in setup.")
-        parser.add_argument(
-            '--associations', '-a', nargs='+', type=int, metavar='orgGrpID', help="IDs of Associations to be setup.")
-        parser.add_argument(
-            '--districts', '-d', nargs='+', type=int, metavar='orgID', help="IDs of Districts to be setup.")
-        parser.add_argument(
-            '--seasons', '-s', nargs='+', type=int, metavar='start_year', help="Start Years of Seasons to be setup.")
-        parser.add_argument(
-            '--leagues', '-l', nargs='+', type=int, metavar='score', help="IDs of Leagues to be setup.")
+        parser.add_argument('--associations', '-a', nargs='+', type=int, metavar='orgGrpID',
+                            help="IDs of Associations.")
+        parser.add_argument('--districts', '-d', nargs='+', type=int, metavar='orgID',
+                            help="IDs of Districts.")
+        parser.add_argument('--seasons', '-s', nargs='+', type=int, metavar='start year',
+                            help="Start Years of Seasons.")
+        parser.add_argument('--leagues', '-l', nargs='+', type=int, metavar='score/sGID',
+                            help="IDs of Leagues.")
+        parser.add_argument('--youth', action='store_true',
+                            help="Include youth leagues.")
 
     def handle(self, *args, **options):
         self.options = options
@@ -137,7 +138,7 @@ class Command(BaseCommand):
 
         name = parsing.parse_league_name(dom)
 
-        if League.is_youth_league(name) and not self.options['youth']:
+        if League.is_youth_league(abbreviation) and not self.options['youth']:
             LOGGER.debug('SKIPPING League (youth league): %s %s', bhv_id, name)
             return
 

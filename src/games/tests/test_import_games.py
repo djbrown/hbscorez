@@ -5,6 +5,7 @@ from django.core.management import call_command
 from base.tests.model_test_case import ModelTestCase
 from games.models import Game
 from leagues.models import League, Season
+from leagues.tests import test_setup_league
 
 
 class ImportGamesTest(ModelTestCase):
@@ -83,3 +84,22 @@ class Forfeit(ModelTestCase):
         self.assertEqual(game.home_goals, 0)
         self.assertEqual(game.guest_goals, 0)
         self.assertEqual(game.forfeiting_team, game.guest_team)
+
+
+class Youth(ModelTestCase):
+    def test_youth(self):
+        test_setup_league.Youth.test_youth(self)
+
+        return_code = call_command('import_games', '--youth')
+        self.assertEqual(return_code, None)
+
+        league: League = self.assert_objects(League)
+        self.assertGreater(league.game_set.count(), 0)
+
+    def test_no_youth(self):
+        test_setup_league.Youth.test_youth(self)
+
+        return_code = call_command('import_games')
+        self.assertEqual(return_code, None)
+
+        self.assert_objects(Game, count=0)

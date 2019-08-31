@@ -7,8 +7,9 @@ from associations.models import Association
 from base import logic, parsing
 from base.middleware import env
 from base.models import Value
+from districts.models import District
 from games.models import Game
-from leagues.models import Season
+from leagues.models import League, Season
 from players.models import Score
 from sports_halls.models import SportsHall
 from teams.models import Team
@@ -21,15 +22,17 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
         parser.add_argument('--associations', '-a', nargs='+', type=int, metavar='orgGrpID',
-                            help="orgGrpIDs of Associations whose games shall be imported.")
+                            help="IDs of Associations.")
         parser.add_argument('--districts', '-d', nargs='+', type=int, metavar='orgID',
-                            help="orgIDs of Districts whose games shall be imported.")
-        parser.add_argument('--seasons', '-s', nargs='+', type=int, metavar='start_year',
-                            help="Start Years of Seasons to be setup.")
-        parser.add_argument('--leagues', '-l', nargs='+', type=int, metavar='score',
-                            help="sGIDs of Leagues whose games shall be imported.")
+                            help="IDs of Districts.")
+        parser.add_argument('--seasons', '-s', nargs='+', type=int, metavar='start year',
+                            help="Start Years of Seasons.")
+        parser.add_argument('--leagues', '-l', nargs='+', type=int, metavar='score/sGID',
+                            help="IDs of Leagues.")
+        parser.add_argument('--youth', action='store_true',
+                            help="Include youth leagues.")
         parser.add_argument('--games', '-g', nargs='+', type=int, metavar='game number',
-                            help="numbers of Games to be imported.")
+                            help="numbers of Games.")
 
     def handle(self, *args, **options):
         self.options = options
@@ -41,7 +44,7 @@ class Command(BaseCommand):
         for association in Association.objects.all():
             self.import_association(association)
 
-    def import_association(self, association):
+    def import_association(self, association: Association):
         if self.options['associations'] and association.bhv_id not in self.options['associations']:
             LOGGER.debug('SKIPPING Association: %s (options)', association)
             return
@@ -49,7 +52,7 @@ class Command(BaseCommand):
         for district in association.district_set.all():
             self.import_district(district)
 
-    def import_district(self, district):
+    def import_district(self, district: District):
         if self.options['districts'] and district.bhv_id not in self.options['districts']:
             LOGGER.debug('SKIPPING District: %s (options)', district)
             return
@@ -59,7 +62,7 @@ class Command(BaseCommand):
         for season in seasons:
             self.import_district_season(district, season)
 
-    def import_district_season(self, district, season):
+    def import_district_season(self, district: District, season: Season):
         if self.options['seasons'] and season.start_year not in self.options['seasons']:
             LOGGER.debug('SKIPPING District Season: %s %s (options)', district, season)
             return
@@ -67,9 +70,13 @@ class Command(BaseCommand):
         for league in district.league_set.filter(season=season):
             self.import_league(league)
 
-    def import_league(self, league):
+    def import_league(self, league: League):
         if self.options['leagues'] and league.bhv_id not in self.options['leagues']:
             LOGGER.debug('SKIPPING League: %s (options)', league)
+            return
+
+        if league.youth and not self.options['youth']:
+            LOGGER.debug('SKIPPING League (youth league): %s', league)
             return
 
         tree = logic.get_html(league.source_url())
@@ -78,7 +85,7 @@ class Command(BaseCommand):
         for game_row in game_rows:
             self.import_game(game_row, league)
 
-    def import_game(self, game_row, league):
+    def import_game(self, game_row, league: League):
         # league_abbreviation = game_row[0].text
         number = int(game_row[1].text)
 
