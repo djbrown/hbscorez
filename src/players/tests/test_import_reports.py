@@ -3,6 +3,8 @@ from unittest.mock import Mock, patch
 from django.core.management import call_command
 
 from base.tests.model_test_case import ModelTestCase
+from games.tests import test_import_games
+from players.models import Player, Score
 
 
 class Forfeit(ModelTestCase):
@@ -19,3 +21,14 @@ class Forfeit(ModelTestCase):
             return_code = call_command('import_reports')
             self.assertEqual(return_code, None)
             mock.assert_not_called()
+
+
+class Youth(ModelTestCase):
+    def test_youth(self):
+        test_import_games.Youth.test_youth(self)
+
+        return_code = call_command('import_reports')
+        self.assertEqual(return_code, None)
+
+        self.assert_objects(Score, count=0)
+        self.assert_objects(Player, count=0)
