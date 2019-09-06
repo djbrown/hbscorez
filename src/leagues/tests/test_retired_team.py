@@ -9,6 +9,7 @@ from lxml import html
 from base.parsing import parse_retirements
 from base.tests.model_test_case import ModelTestCase
 from teams.models import Team
+from players.models import Player, Score
 
 
 def read_html(file):
@@ -38,7 +39,7 @@ class ParseRetiredTeamTest(TestCase):
 
 
 class RetiredTeamTest(ModelTestCase):
-    def test_reired_team(self):
+    def test_retired_team(self):
         call_command('setup', '-a', 3, '-d', 4, '-s', 2018, '-l', 35068)
         call_command('import_games')
         self.assert_objects(Team, 16)
@@ -47,7 +48,7 @@ class RetiredTeamTest(ModelTestCase):
         retired_team = self.assert_objects(Team, filters={'retirement': retirement})
         self.assertEqual(retired_team.name, 'TV 1893 Neuhausen/E.')
 
-    def test_another_reired_team(self):
+    def test_another_retired_team(self):
         call_command('setup', '-a', 3, '-d', 7, '-s', 2017, '-l', 28454)
         call_command('import_games')
         self.assert_objects(Team, 5)
@@ -55,3 +56,21 @@ class RetiredTeamTest(ModelTestCase):
         retirement = date(2018, 3, 1)
         retired_team = self.assert_objects(Team, filters={'retirement': retirement})
         self.assertEqual(retired_team.name, 'TSG Stuttgart')
+
+    def test_retirement_during_season(self):
+        call_command('setup', '-a', 3, '-d', 7, '-s', 2017, '-l', 28454)
+        team = self.assert_objects(Team, filters={'retirement__isnull': False})
+        team.retirement = None
+        team.save()
+
+        call_command('import_games', '-g', '30901')
+        call_command('import_reports')
+
+        self.assertGreater(team.player_set.count(), 0)
+        self.assertGreater(Score.objects.filter(player__team=team).count(), 0)
+
+        call_command('setup', '-a', 3, '-d', 7, '-s', 2017, '-l', 28454)
+        call_command('import_reports')
+        team = self.assert_objects(Team, filters={'retirement__isnull': False})
+        self.assertGreater(team.player_set.count(), 0)
+        self.assertEqual(Score.objects.filter(player__team=team).count(), 0)
