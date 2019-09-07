@@ -105,7 +105,7 @@ class Command(BaseCommand):
         else:
             LOGGER.info('EXISTING Season: %s', season)
 
-        for start_date in [date(start_year, 10, 1) + timedelta(days=10*n) for n in range(4)]:
+        for start_date in [date(start_year, 10, 1) + timedelta(days=10 * n) for n in range(4)]:
             LOGGER.debug('trying District Season: %s %s %s', district, season, start_date)
             url = District.build_source_url(district.bhv_id, start_date)
             dom = logic.get_html(url)

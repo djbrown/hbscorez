@@ -171,12 +171,14 @@ ACCOUNT_ACTIVATION_DAYS = 3
 
 # custom settings
 
+PUBLIC_NAMES = True
+
+MATOMO_URL: Optional[str] = None
+
 REPORTS_PATH = os.path.join(ROOT_DIR, 'reports')
 
 ROOT_SOURCE_URL = 'http://spo.handball4all.de/'
 
 SELENIUM = True
 
-PUBLIC_NAMES = True
-
-MATOMO_URL: Optional[str] = None
+SELENIUM_TIMEOUT = 3

@@ -4,18 +4,18 @@ about: Create a bug report to help me improve
 
 ---
 
-**Description**
+# Description
 - what were you trying to accomplish?
 - which step failed?
 - what should have happened instead?
 
-**Steps to reproduce**
+# Steps to reproduce
 1. go to '...'
 2. click on '....'
 3. scroll down to '....'
 4. see error / incorrect result '...'
 
-**Optional**
+# Optional
 - relevant screenshots
 - requester status: user, developer
 - version used (e.g. website, local copy at commit X)

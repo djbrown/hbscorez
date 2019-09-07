@@ -78,7 +78,7 @@ class SeleniumTestCase(LiveServerTestCase):
         )
 
     @contextmanager
-    def wait(self, timeout=1):
+    def wait(self, timeout=settings.SELENIUM_TIMEOUT):
         condition = _UrlHasChanged(self.driver.current_url)
         yield
         WebDriverWait(self.driver, timeout).until(condition)

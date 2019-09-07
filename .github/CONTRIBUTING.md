@@ -39,7 +39,7 @@ You can contribute to this Project using any IDE, Editor or Terminal you like, a
 The following command will clean your code accordingly: `pipenv run autopep8`
 
 Also make sure to check messages from the following commands before proposing:
-* `pipenv run mypy hbscorez`
+* `pipenv run mypy src`
 * `pipenv run flake8`
 
 
@@ -77,6 +77,7 @@ Run coverage: `pipenv run hbcoverage`
   * install [Firefox](https://www.mozilla.org/firefox/) and add to PATH
   * install [geckodriver](https://github.com/mozilla/geckodriver) and add to PATH
   * set Django setting `SELENIUM = True`
+  * set Django setting `SELENIUM_TIMEOUT` according to the local processing power
 
 
 
