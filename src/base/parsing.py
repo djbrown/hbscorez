@@ -35,6 +35,33 @@ def parse_league_name(tree):
     return heading.split(' - ')[0]
 
 
+def parse_team_links(tree):
+    return tree.xpath('//table[@class="scoretable"]/tr[position() > 1]/td[3]/a') or \
+        tree.xpath('//table[@class="scoretable"]/tr[position() > 1]/td[2]/a')
+
+
+def parse_retirements(tree):
+    retirements = []
+    paragraphs = tree.xpath('//table[@class="scoretable"]/following::div[following::table[@class="gametable"]]')
+    for paragraph in paragraphs:
+        text = paragraph.text_content()
+        matches = re.match(r"(?:Der|Die) (.*) hat.* ([0123]\d\.[012]\d\.\d{2,4}).* zurückgezogen.*", text)
+        if matches:
+            team_name = matches.group(1)
+
+            def date_from_text(text):
+                for date_format in ['%d.%m.%y', '%d.%m.%Y']:
+                    try:
+                        return datetime.strptime(text, date_format).date()
+                    except ValueError:
+                        pass
+                raise ValueError('no date format is valid')
+
+            retirement_date = date_from_text(matches.group(2))
+            retirements.append((team_name, retirement_date))
+    return retirements
+
+
 def parse_team_bhv_id(link):
     return int(parse_link_query_item(link, 'teamID'))
 

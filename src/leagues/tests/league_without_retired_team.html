@@ -1,0 +1,587 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Pragma" content="no-cache">
+<link rel="shortcut icon" href="/icons/allgemein/favicon-h4all.ico">
+<title>Handball4all - /Spielbetrieb/index.php</title>
+<link rel="stylesheet" type="text/css" href="/css/style_all.css">
+<!-- faktor.io tag (required) --><script async src="https://config-prod.choice.faktor.io/aee73a65-e5a1-4fd9-afce-1b3921028b0f/faktor.js"></script><!-- google ad manager tag (required) --><script async="async" src="https://www.googletagservices.com/tag/js/gpt.js"></script><!-- your ad tag --><script async="async" src="https://handball4all.h5v.eu/23/moli_e968f6d4732043a3282e.js"></script><script>
+// initialize a command queue for the lazy ad slots
+window.moli_afterRequestAds = window.moli_afterRequestAds || [];
+
+window.moli = window.moli || {que: []};
+window.moli.que.push(function (moliAdTag) {
+    moliAdTag.enableSinglePageApp();
+    moliAdTag.afterRequestAds(function () {
+        var callbacks = window.moli_afterRequestAds || [];
+        for (var i = 0; i < callbacks.length; i++) {
+            callbacks[i]();
+        }
+        window.moli_afterRequestAds = {
+            push: function (callback) {
+                callback()
+            }
+        };
+    });
+
+    // trigger ads
+    moliAdTag.requestAds();
+});
+</script>
+    </head><body class="tundra"><div id="screen" >
+<div id="kopf" >
+<table class="logozeile"><tr>
+<td class="logoz"><div style="width:175px"><img src="/icons/allgemein/h4a_logo_153_50.gif" width="153" height="50" alt="H4All-Logo"></div></td>
+<td class="alert"> </td><td class="adv"></td></tr></table>
+      <div id="navi" >
+       <div class="navilevel" >
+        <div id="naviLevel0" >
+        
+      <div class="naviselect0"><a href="/Spielbetrieb/?m=14">_SPIELBETRIEB</a></div>
+      <div class="navinotselect0"><a href="http://meinh4a.handball4all.de?m=108">_LOGIN</a></div>&#160;
+        </div>
+       </div>
+       <div class="navilevel" >
+        <div id="naviLevel1" >
+        
+      <div class="naviselect1"><a href="/Spielbetrieb/?m=15">_ERGEBNISSE/TABELLEN</a></div>
+      <div class="navinotselect1"><a href="/misc/page.php?m=114&page=34">_DOWNLOADS</a></div>&#160;
+        </div>
+       </div>
+       <div id="menuhilfen" >
+        
+       </div>
+      </div>
+    </div>
+    <div id="haupt" >
+     <div class="TMB" style="{width:100%}">
+     <table border="0" cellpadding="0" cellspacing="0" width="100%"><tr>
+     <td class="haupt0">
+      <div id="results0" >
+       <div id="results" >
+       <div style="margin: 9px 9px 0px 5px; text-align: center"><div style="margin-bottom: 9px"><div id="h4a_header"> <script> window.moli_afterRequestAds = window.moli_afterRequestAds || [];window.moli_afterRequestAds.push(function () { window.dispatchEvent(new window.Event('ad.h4a_header')); }); </script></div></div>              <table border="0" class="GamesMenu" cellspacing="0"><tr><td align="center"><table border="0"><tr><td colspan="2" align="center">Anzeige</td></tr><tr><td><span class="Button"><a href="?orgGrpID=1&score=35068">Nur aktuelle Spiele</a></span> </td><td><span class="ButtonDeakt">Zur&uuml;ck</span> </td></tr></table></td>
+<td class="GamesMenuTrenn" align="center"><table border="0"><tr><td colspan="2" align="center">Bereich</td><tr><td valign="middle"></td></tr></table></td>
+<td class="GamesMenuTrenn" align="center"><table border="0"><tr><td colspan="3" align="center">Vereins-Nr.:</td></tr><tr><form action="/Spielbetrieb/index.php" id="clubselect" name="clubselect" method="post"><input type="hidden" name="A" value="g_club"><input type="hidden" name="orgGrpID" value="1"><input type="hidden" name="score" value="35068"><td valign="middle"><input type="integer" name="club" id="club" value="" size="7" maxlength="7"  style="{font-size:10px}"></td><td><input type="hidden" name="hvwsubmit" value="club"><input class="Button" name="submit" type="submit" value="Los" title="Spiele dieses Vereins anzeigen"></td></form><form action="/Spielbetrieb/index.php" id="clubHelp" name="clubHelp" method="post"><input type="hidden" name="A" value="g_club"><input type="hidden" name="orgGrpID" value="1"><input type="hidden" name="score" value="35068"><td valign="middle"><input type="hidden" name="hvwsubmit" value="clubhelp"><input class="Button" name="submit" type="submit" value="?" title="Vereinsauswahl anzeigen"></td></form></tr></table></td>
+<td class="GamesMenuTrenn" align="center"><table border="0"><tr><td colspan="3" align="center">Hallen-Nr.:</td></tr><tr><form action="/Spielbetrieb/index.php" id="gymnasiumselect" name="gymnasiumselect" method="post"><input type="hidden" name="A" value="g_gym"><input type="hidden" name="orgGrpID" value="1"><input type="hidden" name="score" value="35068"><td valign="middle"><input type="integer" name="gymnasium" id="gymnasium" value="" size="10" maxlength="10"  style="{font-size:10px}"></td><td><input type="hidden" name="hvwsubmit" value="gymnasium"><input class="Button" name="submit" type="submit" value="Los" title="Spiele dieser Halle anzeigen"></td></form><form action="/Spielbetrieb/index.php" id="gymnasiumHelp" name="gymnasiumHelp" method="post"><input type="hidden" name="A" value="g_gym"><input type="hidden" name="orgGrpID" value="1"><input type="hidden" name="score" value="35068"><td valign="middle"><input type="hidden" name="hvwsubmit" value="gymnasiumhelp"><input class="Button" name="submit" type="submit" value="?" title="Hallenauswahl anzeigen"></td></form></tr></table></td>
+</tr></table>
+
+       <h1>Handball Baden-Württemberg<br>Männer Baden-Württemberg Oberliga - Hallenrunde 2018/2019</h1>
+<!-- * ScoreTable() * Start ************** -->
+<!-- * ScoreTableHead() ****************** -->
+<div align="center" style="margin:10px 0px 10px 0px ;"><h1>Aktueller Tabellenstand</h1>
+<table border="0" cellspacing="0" cellpadding="0" class="scoretable"><colgroup>
+                <col span="1" align="center" >
+		<col span="1" align="center">
+                <col span="1" align="left">
+                <col span="2" align="center">        
+                <col span="5" align="right">        
+                <col span="1" align="center">        
+                <col span="2" align="left">
+                <col span="1" align="right">        
+                <col span="1" align="center">        
+                <col span="1" align="left">
+        </colgroup><tr class="rge"><th>Platz</th><th align="left"> </th><th align="left">Mannschaft</th><th>Spiele</th><th align="center">S</th><th align="center">U</th><th align="center">N</th><th colspan="3" align="center"><b>Tore</th><th colspan="3" align="center">Punkte</th></tr><tr class="rug">
+			<td class="gac"><b>1</b></td>
+			<td><a href="http://www.im-dienste-des-spiels.de" target="_new" border="0"><img border="0" src="/icons/idds/whistle_black.gif" title="Unterst&uuml;tzer der Aktion im-dienste-des-spiels"></a></td>
+			<td><a href="?orgGrpID=1&score=35068&teamID=441049">TSV 1899 Blaustein</a></td>
+			<td class="gac">28</td>
+			<td class="gac">19</td>
+			<td class="gac">4</td>
+			<td class="gac">5</td>
+			<td class="gasr">854</td>
+			<td class="gac" style="padding:0">:</td>
+			<td class="gasl">749</td>
+			<td class="gasr">42</td>
+			<td class="gac" style="padding:0">:</td>
+			<td class="gasl">14</td>
+			</tr><tr class="rge">
+			<td class="gac"><b>2</b></td>
+			<td> </td>
+			<td><a href="?orgGrpID=1&score=35068&teamID=441040">TV Plochingen</a></td>
+			<td class="gac">28</td>
+			<td class="gac">18</td>
+			<td class="gac">4</td>
+			<td class="gac">6</td>
+			<td class="gasr">867</td>
+			<td class="gac" style="padding:0">:</td>
+			<td class="gasl">817</td>
+			<td class="gasr">40</td>
+			<td class="gac" style="padding:0">:</td>
+			<td class="gasl">16</td>
+			</tr><tr class="rug">
+			<td class="gac"><b>3</b></td>
+			<td> </td>
+			<td><a href="?orgGrpID=1&score=35068&teamID=441076">HSG Konstanz 2</a></td>
+			<td class="gac">28</td>
+			<td class="gac">18</td>
+			<td class="gac">1</td>
+			<td class="gac">9</td>
+			<td class="gasr">805</td>
+			<td class="gac" style="padding:0">:</td>
+			<td class="gasl">782</td>
+			<td class="gasr">37</td>
+			<td class="gac" style="padding:0">:</td>
+			<td class="gasl">19</td>
+			</tr><tr class="rge">
+			<td class="gac"><b>4</b></td>
+			<td> </td>
+			<td><a href="?orgGrpID=1&score=35068&teamID=441079">SG Köndringen/Teningen</a></td>
+			<td class="gac">28</td>
+			<td class="gac">17</td>
+			<td class="gac">2</td>
+			<td class="gac">9</td>
+			<td class="gasr">840</td>
+			<td class="gac" style="padding:0">:</td>
+			<td class="gasl">798</td>
+			<td class="gasr">36</td>
+			<td class="gac" style="padding:0">:</td>
+			<td class="gasl">20</td>
+			</tr><tr class="rug">
+			<td class="gac"><b>5</b></td>
+			<td> </td>
+			<td><a href="?orgGrpID=1&score=35068&teamID=441064">SG Pforzheim/Eutingen</a></td>
+			<td class="gac">28</td>
+			<td class="gac">16</td>
+			<td class="gac">3</td>
+			<td class="gac">9</td>
+			<td class="gasr">775</td>
+			<td class="gac" style="padding:0">:</td>
+			<td class="gasl">711</td>
+			<td class="gasr">35</td>
+			<td class="gac" style="padding:0">:</td>
+			<td class="gasl">21</td>
+			</tr><tr class="rge">
+			<td class="gac"><b>6</b></td>
+			<td><a href="http://www.im-dienste-des-spiels.de" target="_new" border="0"><img border="0" src="/icons/idds/whistle_black.gif" title="Unterst&uuml;tzer der Aktion im-dienste-des-spiels"></a></td>
+			<td><a href="?orgGrpID=1&score=35068&teamID=441070">TV Bittenfeld 1898 2</a></td>
+			<td class="gac">28</td>
+			<td class="gac">14</td>
+			<td class="gac">3</td>
+			<td class="gac">11</td>
+			<td class="gasr">858</td>
+			<td class="gac" style="padding:0">:</td>
+			<td class="gasl">840</td>
+			<td class="gasr">31</td>
+			<td class="gac" style="padding:0">:</td>
+			<td class="gasl">25</td>
+			</tr><tr class="rug">
+			<td class="gac"><b>7</b></td>
+			<td> </td>
+			<td><a href="?orgGrpID=1&score=35068&teamID=441025">TSG Söflingen</a></td>
+			<td class="gac">28</td>
+			<td class="gac">12</td>
+			<td class="gac">5</td>
+			<td class="gac">11</td>
+			<td class="gasr">811</td>
+			<td class="gac" style="padding:0">:</td>
+			<td class="gasl">822</td>
+			<td class="gasr">29</td>
+			<td class="gac" style="padding:0">:</td>
+			<td class="gasl">27</td>
+			</tr><tr class="rge">
+			<td class="gac"><b>8</b></td>
+			<td><a href="http://www.im-dienste-des-spiels.de" target="_new" border="0"><img border="0" src="/icons/idds/whistle_black.gif" title="Unterst&uuml;tzer der Aktion im-dienste-des-spiels"></a></td>
+			<td><a href="?orgGrpID=1&score=35068&teamID=441067">Neckarsulmer Sport-Union</a></td>
+			<td class="gac">28</td>
+			<td class="gac">13</td>
+			<td class="gac">2</td>
+			<td class="gac">13</td>
+			<td class="gasr">787</td>
+			<td class="gac" style="padding:0">:</td>
+			<td class="gasl">789</td>
+			<td class="gasr">28</td>
+			<td class="gac" style="padding:0">:</td>
+			<td class="gasl">28</td>
+			</tr><tr class="rug">
+			<td class="gac"><b>9</b></td>
+			<td><a href="http://www.im-dienste-des-spiels.de" target="_new" border="0"><img border="0" src="/icons/idds/whistle_black.gif" title="Unterst&uuml;tzer der Aktion im-dienste-des-spiels"></a></td>
+			<td><a href="?orgGrpID=1&score=35068&teamID=441043">SG H2Ku Herrenberg</a></td>
+			<td class="gac">28</td>
+			<td class="gac">14</td>
+			<td class="gac">0</td>
+			<td class="gac">14</td>
+			<td class="gasr">845</td>
+			<td class="gac" style="padding:0">:</td>
+			<td class="gasl">822</td>
+			<td class="gasr">28</td>
+			<td class="gac" style="padding:0">:</td>
+			<td class="gasl">28</td>
+			</tr><tr class="rge">
+			<td class="gac"><b>10</b></td>
+			<td><a href="http://www.im-dienste-des-spiels.de" target="_new" border="0"><img border="0" src="/icons/idds/whistle_black.gif" title="Unterst&uuml;tzer der Aktion im-dienste-des-spiels"></a></td>
+			<td><a href="?orgGrpID=1&score=35068&teamID=441046">TSV 1866 Weinsberg</a></td>
+			<td class="gac">28</td>
+			<td class="gac">12</td>
+			<td class="gac">3</td>
+			<td class="gac">13</td>
+			<td class="gasr">811</td>
+			<td class="gac" style="padding:0">:</td>
+			<td class="gasl">782</td>
+			<td class="gasr">27</td>
+			<td class="gac" style="padding:0">:</td>
+			<td class="gasl">29</td>
+			</tr><tr class="rug">
+			<td class="gac"><b>11</b></td>
+			<td><a href="http://www.im-dienste-des-spiels.de" target="_new" border="0"><img border="0" src="/icons/idds/whistle_black.gif" title="Unterst&uuml;tzer der Aktion im-dienste-des-spiels"></a></td>
+			<td><a href="?orgGrpID=1&score=35068&teamID=441088">TSV Zizishausen</a></td>
+			<td class="gac">28</td>
+			<td class="gac">11</td>
+			<td class="gac">3</td>
+			<td class="gac">14</td>
+			<td class="gasr">837</td>
+			<td class="gac" style="padding:0">:</td>
+			<td class="gasl">864</td>
+			<td class="gasr">25</td>
+			<td class="gac" style="padding:0">:</td>
+			<td class="gasl">31</td>
+			</tr><tr class="rge">
+			<td class="gac"><b>12</b></td>
+			<td><a href="http://www.im-dienste-des-spiels.de" target="_new" border="0"><img border="0" src="/icons/idds/whistle_black.gif" title="Unterst&uuml;tzer der Aktion im-dienste-des-spiels"></a></td>
+			<td><a href="?orgGrpID=1&score=35068&teamID=441061">TV Weilstetten</a></td>
+			<td class="gac">28</td>
+			<td class="gac">10</td>
+			<td class="gac">2</td>
+			<td class="gac">16</td>
+			<td class="gasr">798</td>
+			<td class="gac" style="padding:0">:</td>
+			<td class="gasl">822</td>
+			<td class="gasr">22</td>
+			<td class="gac" style="padding:0">:</td>
+			<td class="gasl">34</td>
+			</tr><tr class="rug">
+			<td class="gac"><b>13</b></td>
+			<td> </td>
+			<td><a href="?orgGrpID=1&score=35068&teamID=441058">TuS Steißlingen</a></td>
+			<td class="gac">28</td>
+			<td class="gac">10</td>
+			<td class="gac">2</td>
+			<td class="gac">16</td>
+			<td class="gasr">797</td>
+			<td class="gac" style="padding:0">:</td>
+			<td class="gasl">822</td>
+			<td class="gasr">22</td>
+			<td class="gac" style="padding:0">:</td>
+			<td class="gasl">34</td>
+			</tr><tr class="rge">
+			<td class="gac"><b>14</b></td>
+			<td><a href="http://www.im-dienste-des-spiels.de" target="_new" border="0"><img border="0" src="/icons/idds/whistle_black.gif" title="Unterst&uuml;tzer der Aktion im-dienste-des-spiels"></a></td>
+			<td><a href="?orgGrpID=1&score=35068&teamID=441055">SV Remshalden</a></td>
+			<td class="gac">28</td>
+			<td class="gac">5</td>
+			<td class="gac">1</td>
+			<td class="gac">22</td>
+			<td class="gasr">725</td>
+			<td class="gac" style="padding:0">:</td>
+			<td class="gasl">834</td>
+			<td class="gasr">11</td>
+			<td class="gac" style="padding:0">:</td>
+			<td class="gasl">45</td>
+			</tr><tr class="rug">
+			<td class="gac"><b>15</b></td>
+			<td> </td>
+			<td><a href="?orgGrpID=1&score=35068&teamID=441073">SG Heddesheim</a></td>
+			<td class="gac">28</td>
+			<td class="gac">3</td>
+			<td class="gac">1</td>
+			<td class="gac">24</td>
+			<td class="gasr">677</td>
+			<td class="gac" style="padding:0">:</td>
+			<td class="gasl">833</td>
+			<td class="gasr">7</td>
+			<td class="gac" style="padding:0">:</td>
+			<td class="gasl">49</td>
+			</tr><tr class="rge">
+			<td class="gac"><b>16</b></td>
+			<td> </td>
+			<td><a href="?orgGrpID=1&score=35068&teamID=441085">TV 1893 Neuhausen/E.</a></td>
+			<td class="gac">0</td>
+			<td class="gac">0</td>
+			<td class="gac">0</td>
+			<td class="gac">0</td>
+			<td class="gasr">0</td>
+			<td class="gac" style="padding:0">:</td>
+			<td class="gasl">0</td>
+			<td class="gasr">0</td>
+			<td class="gac" style="padding:0">:</td>
+			<td class="gasl">0</td>
+			</tr></TABLE></div><!-- * ScoreTableFoot() ****************** --><div align="center" style="margin:10px 0px 10px 0px;"><span class="scorefoot">Diese Tabelle wurde nach dem direkten Vergleich berechnet.<br>Fehlt bei einer Mannschaft die Platzierungsziffer, so ist sie mit der/den vorderen Mannschaften auf dem gleichen Platz.</span></div><!-- * ScoreTable() * End **************** -->
+       <div class="TMB">Letzte Aktualisierung: So, 05.05.2019, 19:44:48h</div>
+       <table border="0" width="100%" cellspacing="0" cellpadding="3" class="gametable">
+       <colgroup>
+       <col width="11%" align="left">
+       <col width="7%" align="center">
+       <col width="19%" align="center">
+       <col width="7%" align="center">
+       <col width="19%" align="left">
+       <col width="2%" align="center">
+       <col width="19%" align="left">
+       <col width="4%" align="center">
+       <col width="1%" align="center">
+       <col width="4%" align="center">
+       <col width="7%" align="center">
+       </colgroup>
+       <tr class="rge">
+       <th align="left">Staffel</th>
+       <th align="center">Nr.</th>
+       <th align="center">Wann</th>
+       <th align="center">H-Nr.</th>
+       <th align="left">Heim</th>
+       <th align="center"> </th>
+       <th align="left">Gast</th>
+       <th colspan="3" align="center">Ergebnis</th>
+       <th align="center">Bem.</th>
+       </tr>
+       	<tr class="rug"><td class="gal">M-BWOL</td><td>201005</td><td>Sa, 08.09.18, 20:00h</td><td><a href="?orgGrpID=1&gymID=217">4040</a></td><td class="gal">TV Plochingen</td><td>-</td><td class="gal">HSG Konstanz 2</td><td>24</td><td>:</td><td>27</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=658043" target="_blank">PI</a>  </td></tr>
+       	<tr class="rge"><td class="gal">M-BWOL</td><td>201003</td><td>Sa, 08.09.18, 20:00h</td><td><a href="?orgGrpID=1&gymID=298">6028</a></td><td class="gal">H2Ku Herrenb.</td><td>-</td><td class="gal">NSU Neckarsulm</td><td>22</td><td>:</td><td>25</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=658044" target="_blank">PI</a>  </td></tr>
+       	<tr class="rug"><td class="gal">M-BWOL</td><td>201001</td><td>Sa, 08.09.18, 20:00h</td><td><a href="?orgGrpID=1&gymID=341">7004</a></td><td class="gal">TV Weilstetten</td><td>-</td><td class="gal">SV Remshalden</td><td>29</td><td>:</td><td>26</td><td>  </td></tr>
+       	<tr class="rge"><td class="gal">M-BWOL</td><td>201007</td><td>Sa, 08.09.18, 20:00h</td><td><a href="?orgGrpID=1&gymID=744">10107</a></td><td class="gal">TuS Steißling.</td><td>-</td><td class="gal">TV Bittenfeld 2</td><td>25</td><td>:</td><td>33</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=658055" target="_blank">PI</a>  </td></tr>
+       	<tr class="rug"><td class="gal">M-BWOL</td><td>201008</td><td>So, 09.09.18, 17:00h</td><td><a href="?orgGrpID=1&gymID=45">1050</a></td><td class="gal">TSV Weinsberg</td><td>-</td><td class="gal">SG Könd/Tening</td><td>29</td><td>:</td><td>28</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=659151" target="_blank">PI</a>  </td></tr>
+       	<tr class="rge"><td class="gal">M-BWOL</td><td>201002</td><td>So, 09.09.18, 17:00h</td><td><a href="?orgGrpID=1&gymID=213">4035</a></td><td class="gal">TSV Zizishaus.</td><td>-</td><td class="gal">TSV Blaustein</td><td>34</td><td>:</td><td>34</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=659148" target="_blank">PI</a>  </td></tr>
+       	<tr class="rug"><td class="gal">M-BWOL</td><td>201006</td><td>So, 09.09.18, 17:30h</td><td><a href="?orgGrpID=1&gymID=493">24007</a></td><td class="gal">SG Heddesheim</td><td>-</td><td class="gal">TSG Söflingen</td><td>29</td><td>:</td><td>30</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=659240" target="_blank">PI</a>  </td></tr>
+       	<tr class="rge"><td class="gal">M-BWOL</td><td>201009</td><td>Sa, 15.09.18, 17:30h</td><td><a href="?orgGrpID=1&gymID=521">10097</a></td><td class="gal">HSG Konstanz 2</td><td>-</td><td class="gal">TSV Weinsberg</td><td>26</td><td>:</td><td>24</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=661044" target="_blank">PI</a>  </td></tr>
+       	<tr class="rug"><td class="gal">M-BWOL</td><td>201012</td><td>Sa, 15.09.18, 18:00h</td><td><a href="?orgGrpID=1&gymID=135">3017</a></td><td class="gal">SV Remshalden</td><td>-</td><td class="gal">TV Plochingen</td><td>25</td><td>:</td><td>31</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=661229" target="_blank">PI</a>  </td></tr>
+       	<tr class="rge"><td class="gal">M-BWOL</td><td>201011</td><td>Sa, 15.09.18, 19:30h</td><td><a href="?orgGrpID=1&gymID=123">3003</a></td><td class="gal">TV Bittenfeld 2</td><td>-</td><td class="gal">SG Heddesheim</td><td>35</td><td>:</td><td>26</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=662404" target="_blank">PI</a>  </td></tr>
+       	<tr class="rug"><td class="gal">M-BWOL</td><td>201015</td><td>Sa, 15.09.18, 20:00h</td><td><a href="?orgGrpID=1&gymID=33">1037</a></td><td class="gal">NSU Neckarsulm</td><td>-</td><td class="gal">TSV Zizishaus.</td><td>33</td><td>:</td><td>26</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=661616" target="_blank">PI</a>  </td></tr>
+       	<tr class="rge"><td class="gal">M-BWOL</td><td>201014</td><td>Sa, 15.09.18, 20:00h</td><td><a href="?orgGrpID=1&gymID=401">8024</a></td><td class="gal">TSV Blaustein</td><td>-</td><td class="gal">TuS Steißling.</td><td>28</td><td>:</td><td>22</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=661634" target="_blank">PI</a>  </td></tr>
+       	<tr class="rug"><td class="gal">M-BWOL</td><td>201016</td><td>Sa, 15.09.18, 20:00h</td><td><a href="?orgGrpID=1&gymID=495">10066</a></td><td class="gal">SG Könd/Tening</td><td>-</td><td class="gal">SG PF/Eutingen</td><td>16</td><td>:</td><td>26</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=661605" target="_blank">PI</a>  </td></tr>
+       	<tr class="rge"><td class="gal">M-BWOL</td><td>201010</td><td>So, 16.09.18, 17:30h</td><td><a href="?orgGrpID=1&gymID=457">8082</a></td><td class="gal">TSG Söflingen</td><td>-</td><td class="gal">TV Weilstetten</td><td>29</td><td>:</td><td>28</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=663538" target="_blank">PI</a>  </td></tr>
+       	<tr class="rug"><td class="gal">M-BWOL</td><td>201020</td><td>Sa, 22.09.18, 20:00h</td><td><a href="?orgGrpID=1&gymID=217">4040</a></td><td class="gal">TV Plochingen</td><td>-</td><td class="gal">TSG Söflingen</td><td>30</td><td>:</td><td>25</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=666329" target="_blank">PI</a>  </td></tr>
+       	<tr class="rge"><td class="gal">M-BWOL</td><td>201017</td><td>Sa, 22.09.18, 20:00h</td><td><a href="?orgGrpID=1&gymID=341">7004</a></td><td class="gal">TV Weilstetten</td><td>-</td><td class="gal">TV Bittenfeld 2</td><td>35</td><td>:</td><td>29</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=666288" target="_blank">PI</a>  </td></tr>
+       	<tr class="rug"><td class="gal">M-BWOL</td><td>201023</td><td>Sa, 22.09.18, 20:00h</td><td><a href="?orgGrpID=1&gymID=744">10107</a></td><td class="gal">TuS Steißling.</td><td>-</td><td class="gal">NSU Neckarsulm</td><td>28</td><td>:</td><td>25</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=666332" target="_blank">PI</a>  </td></tr>
+       	<tr class="rge"><td class="gal">M-BWOL</td><td>201022</td><td>Sa, 22.09.18, 20:00h</td><td><a href="?orgGrpID=1&gymID=2273">25018</a></td><td class="gal">SG PF/Eutingen</td><td>-</td><td class="gal">HSG Konstanz 2</td><td>19</td><td>:</td><td>22</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=666358" target="_blank">PI</a>  </td></tr>
+       	<tr class="rug"><td class="gal">M-BWOL</td><td>201019</td><td>So, 23.09.18, 17:00h</td><td><a href="?orgGrpID=1&gymID=45">1050</a></td><td class="gal">TSV Weinsberg</td><td>-</td><td class="gal">SV Remshalden</td><td>34</td><td>:</td><td>17</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=668554" target="_blank">PI</a>  </td></tr>
+       	<tr class="rge"><td class="gal">M-BWOL</td><td>201024</td><td>So, 23.09.18, 17:30h</td><td><a href="?orgGrpID=1&gymID=493">24007</a></td><td class="gal">SG Heddesheim</td><td>-</td><td class="gal">TSV Blaustein</td><td>29</td><td>:</td><td>27</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=668605" target="_blank">PI</a>  </td></tr>
+       	<tr class="rug"><td class="gal">M-BWOL</td><td>201021</td><td>So, 23.09.18, 18:00h</td><td><a href="?orgGrpID=1&gymID=298">6028</a></td><td class="gal">H2Ku Herrenb.</td><td>-</td><td class="gal">SG Könd/Tening</td><td>27</td><td>:</td><td>22</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=668859" target="_blank">PI</a>  </td></tr>
+       	<tr class="rge"><td class="gal">M-BWOL</td><td>201025</td><td>Sa, 29.09.18, 19:30h</td><td><a href="?orgGrpID=1&gymID=123">3003</a></td><td class="gal">TV Bittenfeld 2</td><td>-</td><td class="gal">TV Plochingen</td><td>32</td><td>:</td><td>28</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=670897" target="_blank">PI</a>  </td></tr>
+       	<tr class="rug"><td class="gal">M-BWOL</td><td>201027</td><td>Sa, 29.09.18, 20:00h</td><td><a href="?orgGrpID=1&gymID=495">10066</a></td><td class="gal">SG Könd/Tening</td><td>-</td><td class="gal">TSV Zizishaus.</td><td>42</td><td>:</td><td>28</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=671046" target="_blank">PI</a>  </td></tr>
+       	<tr class="rge"><td class="gal">M-BWOL</td><td>201031</td><td>So, 30.09.18, 17:00h</td><td><a href="?orgGrpID=1&gymID=33">1037</a></td><td class="gal">NSU Neckarsulm</td><td>-</td><td class="gal">SG Heddesheim</td><td>28</td><td>:</td><td>25</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=672211" target="_blank">PI</a>  </td></tr>
+       	<tr class="rug"><td class="gal">M-BWOL</td><td>201029</td><td>So, 30.09.18, 17:00h</td><td><a href="?orgGrpID=1&gymID=135">3017</a></td><td class="gal">SV Remshalden</td><td>-</td><td class="gal">SG PF/Eutingen</td><td>22</td><td>:</td><td>29</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=672251" target="_blank">PI</a>  </td></tr>
+       	<tr class="rge"><td class="gal">M-BWOL</td><td>201028</td><td>So, 30.09.18, 17:00h</td><td><a href="?orgGrpID=1&gymID=521">10097</a></td><td class="gal">HSG Konstanz 2</td><td>-</td><td class="gal">H2Ku Herrenb.</td><td>33</td><td>:</td><td>30</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=672284" target="_blank">PI</a>  </td></tr>
+       	<tr class="rug"><td class="gal">M-BWOL</td><td>201030</td><td>So, 30.09.18, 17:30h</td><td><a href="?orgGrpID=1&gymID=457">8082</a></td><td class="gal">TSG Söflingen</td><td>-</td><td class="gal">TSV Weinsberg</td><td>30</td><td>:</td><td>26</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=672309" target="_blank">PI</a>  </td></tr>
+       	<tr class="rge"><td class="gal">M-BWOL</td><td>201034</td><td>Mi, 03.10.18, 16:30h</td><td><a href="?orgGrpID=1&gymID=744">10107</a></td><td class="gal">TuS Steißling.</td><td>-</td><td class="gal">SG Heddesheim</td><td>30</td><td>:</td><td>22</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=672911" target="_blank">PI</a>  </td></tr>
+       	<tr class="rug"><td class="gal">M-BWOL</td><td>201036</td><td>Mi, 03.10.18, 17:00h</td><td><a href="?orgGrpID=1&gymID=45">1050</a></td><td class="gal">TSV Weinsberg</td><td>-</td><td class="gal">TSV Zizishaus.</td><td>30</td><td>:</td><td>27</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=672999" target="_blank">PI</a>  </td></tr>
+       	<tr class="rge"><td class="gal">M-BWOL</td><td>201033</td><td>Mi, 03.10.18, 17:00h</td><td><a href="?orgGrpID=1&gymID=135">3017</a></td><td class="gal">SV Remshalden</td><td>-</td><td class="gal">HSG Konstanz 2</td><td>20</td><td>:</td><td>29</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=673019" target="_blank">PI</a>  </td></tr>
+       	<tr class="rug"><td class="gal">M-BWOL</td><td>201035</td><td>Mi, 03.10.18, 17:00h</td><td><a href="?orgGrpID=1&gymID=401">8024</a></td><td class="gal">TSV Blaustein</td><td>-</td><td class="gal">NSU Neckarsulm</td><td>27</td><td>:</td><td>20</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=672997" target="_blank">PI</a>  </td></tr>
+       	<tr class="rge"><td class="gal">M-BWOL</td><td>201037</td><td>Mi, 03.10.18, 17:00h</td><td><a href="?orgGrpID=1&gymID=2273">25018</a></td><td class="gal">SG PF/Eutingen</td><td>-</td><td class="gal">H2Ku Herrenb.</td><td>26</td><td>:</td><td>27</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=673032" target="_blank">PI</a>  </td></tr>
+       	<tr class="rug"><td class="gal">M-BWOL</td><td>201040</td><td>Mi, 03.10.18, 17:30h</td><td><a href="?orgGrpID=1&gymID=457">8082</a></td><td class="gal">TSG Söflingen</td><td>-</td><td class="gal">TV Bittenfeld 2</td><td>28</td><td>:</td><td>31</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=673047" target="_blank">PI</a>  </td></tr>
+       	<tr class="rge"><td class="gal">M-BWOL</td><td>201039</td><td>Mi, 03.10.18, 18:00h</td><td><a href="?orgGrpID=1&gymID=217">4040</a></td><td class="gal">TV Plochingen</td><td>-</td><td class="gal">TV Weilstetten</td><td>31</td><td>:</td><td>27</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=673098" target="_blank">PI</a>  </td></tr>
+       	<tr class="rug"><td class="gal">M-BWOL</td><td>201047</td><td>Sa, 06.10.18, 20:00h</td><td><a href="?orgGrpID=1&gymID=45">1050</a></td><td class="gal">TSV Weinsberg</td><td>-</td><td class="gal">TV Bittenfeld 2</td><td>26</td><td>:</td><td>26</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=674428" target="_blank">PI</a>  </td></tr>
+       	<tr class="rge"><td class="gal">M-BWOL</td><td>201042</td><td>Sa, 06.10.18, 20:00h</td><td><a href="?orgGrpID=1&gymID=217">4040</a></td><td class="gal">TV Plochingen</td><td>-</td><td class="gal">TSV Blaustein</td><td>33</td><td>:</td><td>33</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=674463" target="_blank">PI</a>  </td></tr>
+       	<tr class="rug"><td class="gal">M-BWOL</td><td>201041</td><td>Sa, 06.10.18, 20:00h</td><td><a href="?orgGrpID=1&gymID=298">6028</a></td><td class="gal">H2Ku Herrenb.</td><td>-</td><td class="gal">SV Remshalden</td><td>39</td><td>:</td><td>25</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=674431" target="_blank">PI</a>  </td></tr>
+       	<tr class="rge"><td class="gal">M-BWOL</td><td>201043</td><td>Sa, 06.10.18, 20:00h</td><td><a href="?orgGrpID=1&gymID=341">7004</a></td><td class="gal">TV Weilstetten</td><td>-</td><td class="gal">NSU Neckarsulm</td><td>27</td><td>:</td><td>22</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=674334" target="_blank">PI</a>  </td></tr>
+       	<tr class="rug"><td class="gal">M-BWOL</td><td>201048</td><td>So, 07.10.18, 16:30h</td><td><a href="?orgGrpID=1&gymID=744">10107</a></td><td class="gal">TuS Steißling.</td><td>-</td><td class="gal">SG Könd/Tening</td><td>37</td><td>:</td><td>27</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=675301" target="_blank">PI</a>  </td></tr>
+       	<tr class="rge"><td class="gal">M-BWOL</td><td>201045</td><td>So, 07.10.18, 17:00h</td><td><a href="?orgGrpID=1&gymID=213">4035</a></td><td class="gal">TSV Zizishaus.</td><td>-</td><td class="gal">HSG Konstanz 2</td><td>29</td><td>:</td><td>32</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=675428" target="_blank">PI</a>  </td></tr>
+       	<tr class="rug"><td class="gal">M-BWOL</td><td>201056</td><td>Sa, 13.10.18, 17:30h</td><td><a href="?orgGrpID=1&gymID=521">10097</a></td><td class="gal">HSG Konstanz 2</td><td>-</td><td class="gal">TuS Steißling.</td><td>31</td><td>:</td><td>28</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=676884" target="_blank">PI</a>  </td></tr>
+       	<tr class="rge"><td class="gal">M-BWOL</td><td>201053</td><td>Sa, 13.10.18, 18:00h</td><td><a href="?orgGrpID=1&gymID=135">3017</a></td><td class="gal">SV Remshalden</td><td>-</td><td class="gal">TSV Zizishaus.</td><td>24</td><td>:</td><td>34</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=677022" target="_blank">PI</a>  </td></tr>
+       	<tr class="rug"><td class="gal">M-BWOL</td><td>201051</td><td>Sa, 13.10.18, 20:00h</td><td><a href="?orgGrpID=1&gymID=401">8024</a></td><td class="gal">TSV Blaustein</td><td>-</td><td class="gal">TSV Weinsberg</td><td>30</td><td>:</td><td>25</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=677387" target="_blank">PI</a>  </td></tr>
+       	<tr class="rge"><td class="gal">M-BWOL</td><td>201049</td><td>Sa, 13.10.18, 20:00h</td><td><a href="?orgGrpID=1&gymID=495">10066</a></td><td class="gal">SG Könd/Tening</td><td>-</td><td class="gal">SG Heddesheim</td><td>36</td><td>:</td><td>16</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=677368" target="_blank">PI</a>  </td></tr>
+       	<tr class="rug"><td class="gal">M-BWOL</td><td>201050</td><td>So, 14.10.18, 17:00h</td><td><a href="?orgGrpID=1&gymID=33">1037</a></td><td class="gal">NSU Neckarsulm</td><td>-</td><td class="gal">TV Plochingen</td><td>28</td><td>:</td><td>31</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=678615" target="_blank">PI</a>  </td></tr>
+       	<tr class="rge"><td class="gal">M-BWOL</td><td>201055</td><td>So, 14.10.18, 17:00h</td><td><a href="?orgGrpID=1&gymID=123">3003</a></td><td class="gal">TV Bittenfeld 2</td><td>-</td><td class="gal">SG PF/Eutingen</td><td>19</td><td>:</td><td>28</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=678610" target="_blank">PI</a>  </td></tr>
+       	<tr class="rug"><td class="gal">M-BWOL</td><td>201054</td><td>So, 14.10.18, 17:30h</td><td><a href="?orgGrpID=1&gymID=457">8082</a></td><td class="gal">TSG Söflingen</td><td>-</td><td class="gal">H2Ku Herrenb.</td><td>34</td><td>:</td><td>29</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=678685" target="_blank">PI</a>  </td></tr>
+       	<tr class="rge"><td class="gal">M-BWOL</td><td>201059</td><td>Fr, 19.10.18, 20:15h</td><td><a href="?orgGrpID=1&gymID=2273">25018</a></td><td class="gal">SG PF/Eutingen</td><td>-</td><td class="gal">TSV Blaustein</td><td>21</td><td>:</td><td>28</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=679097" target="_blank">PI</a>  </td></tr>
+       	<tr class="rug"><td class="gal">M-BWOL</td><td>201064</td><td>Sa, 20.10.18, 19:00h</td><td><a href="?orgGrpID=1&gymID=213">4035</a></td><td class="gal">TSV Zizishaus.</td><td>-</td><td class="gal">TSG Söflingen</td><td>29</td><td>:</td><td>28</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=680750" target="_blank">PI</a>  </td></tr>
+       	<tr class="rge"><td class="gal">M-BWOL</td><td>201062</td><td>Sa, 20.10.18, 19:30h</td><td><a href="?orgGrpID=1&gymID=493">24007</a></td><td class="gal">SG Heddesheim</td><td>-</td><td class="gal">HSG Konstanz 2</td><td>27</td><td>:</td><td>28</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=680808" target="_blank">PI</a>  </td></tr>
+       	<tr class="rug"><td class="gal">M-BWOL</td><td>201177</td><td>Sa, 20.10.18, 20:00h</td><td><a href="?orgGrpID=1&gymID=32">1036</a></td><td class="gal">NSU Neckarsulm</td><td>-</td><td class="gal">TSV Weinsberg</td><td>27</td><td>:</td><td>31</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=680969" target="_blank">PI</a>  </td></tr>
+       	<tr class="rge"><td class="gal">M-BWOL</td><td>201058</td><td>Sa, 20.10.18, 20:00h</td><td><a href="?orgGrpID=1&gymID=298">6028</a></td><td class="gal">H2Ku Herrenb.</td><td>-</td><td class="gal">TV Bittenfeld 2</td><td>44</td><td>:</td><td>33</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=680960" target="_blank">PI</a>  </td></tr>
+       	<tr class="rug"><td class="gal">M-BWOL</td><td>201061</td><td>Sa, 20.10.18, 20:00h</td><td><a href="?orgGrpID=1&gymID=341">7004</a></td><td class="gal">TV Weilstetten</td><td>-</td><td class="gal">SG Könd/Tening</td><td>26</td><td>:</td><td>33</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=680929" target="_blank">PI</a>  </td></tr>
+       	<tr class="rge"><td class="gal">M-BWOL</td><td>201063</td><td>Sa, 20.10.18, 20:00h</td><td><a href="?orgGrpID=1&gymID=744">10107</a></td><td class="gal">TuS Steißling.</td><td>-</td><td class="gal">SV Remshalden</td><td>31</td><td>:</td><td>27</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=680986" target="_blank">PI</a>  </td></tr>
+       	<tr class="rug"><td class="gal">M-BWOL</td><td>201067</td><td>Sa, 27.10.18, 17:30h</td><td><a href="?orgGrpID=1&gymID=521">10097</a></td><td class="gal">HSG Konstanz 2</td><td>-</td><td class="gal">TV Weilstetten</td><td>28</td><td>:</td><td>29</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=684238" target="_blank">PI</a>  </td></tr>
+       	<tr class="rge"><td class="gal">M-BWOL</td><td>201072</td><td>Sa, 27.10.18, 19:30h</td><td><a href="?orgGrpID=1&gymID=123">3003</a></td><td class="gal">TV Bittenfeld 2</td><td>-</td><td class="gal">TSV Zizishaus.</td><td>29</td><td>:</td><td>34</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=684701" target="_blank">PI</a>  </td></tr>
+       	<tr class="rug"><td class="gal">M-BWOL</td><td>201065</td><td>Sa, 27.10.18, 19:30h</td><td><a href="?orgGrpID=1&gymID=457">8082</a></td><td class="gal">TSG Söflingen</td><td>-</td><td class="gal">TuS Steißling.</td><td>32</td><td>:</td><td>32</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=684719" target="_blank">PI</a>  </td></tr>
+       	<tr class="rge"><td class="gal">M-BWOL</td><td>201071</td><td>Sa, 27.10.18, 20:00h</td><td><a href="?orgGrpID=1&gymID=401">8024</a></td><td class="gal">TSV Blaustein</td><td>-</td><td class="gal">H2Ku Herrenb.</td><td>33</td><td>:</td><td>28</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=684891" target="_blank">PI</a>  </td></tr>
+       	<tr class="rug"><td class="gal">M-BWOL</td><td>201068</td><td>Sa, 27.10.18, 20:00h</td><td><a href="?orgGrpID=1&gymID=495">10066</a></td><td class="gal">SG Könd/Tening</td><td>-</td><td class="gal">TV Plochingen</td><td>27</td><td>:</td><td>25</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=684981" target="_blank">PI</a>  </td></tr>
+       	<tr class="rge"><td class="gal">M-BWOL</td><td>201070</td><td>So, 28.10.18, 17:00h</td><td><a href="?orgGrpID=1&gymID=33">1037</a></td><td class="gal">NSU Neckarsulm</td><td>-</td><td class="gal">SG PF/Eutingen</td><td>21</td><td>:</td><td>33</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=686615" target="_blank">PI</a>  </td></tr>
+       	<tr class="rug"><td class="gal">M-BWOL</td><td>201066</td><td>So, 28.10.18, 17:00h</td><td><a href="?orgGrpID=1&gymID=135">3017</a></td><td class="gal">SV Remshalden</td><td>-</td><td class="gal">SG Heddesheim</td><td>22</td><td>:</td><td>24</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=686597" target="_blank">PI</a>  </td></tr>
+       	<tr class="rge"><td class="gal">M-BWOL</td><td>201074</td><td>Do, 01.11.18, 14:30h</td><td><a href="?orgGrpID=1&gymID=521">10097</a></td><td class="gal">HSG Konstanz 2</td><td>-</td><td class="gal">TSV Blaustein</td><td>20</td><td>:</td><td>29</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=687256" target="_blank">PI</a>  </td></tr>
+       	<tr class="rug"><td class="gal">M-BWOL</td><td>201046</td><td>Do, 01.11.18, 17:00h</td><td><a href="?orgGrpID=1&gymID=2273">25018</a></td><td class="gal">SG PF/Eutingen</td><td>-</td><td class="gal">TSG Söflingen</td><td>32</td><td>:</td><td>33</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=687398" target="_blank">PI</a>  </td></tr>
+       	<tr class="rge"><td class="gal">M-BWOL</td><td>201077</td><td>Sa, 03.11.18, 19:30h</td><td><a href="?orgGrpID=1&gymID=123">3003</a></td><td class="gal">TV Bittenfeld 2</td><td>-</td><td class="gal">SG Könd/Tening</td><td>28</td><td>:</td><td>31</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=688963" target="_blank">PI</a>  </td></tr>
+       	<tr class="rug"><td class="gal">M-BWOL</td><td>201079</td><td>Sa, 03.11.18, 20:00h</td><td><a href="?orgGrpID=1&gymID=217">4040</a></td><td class="gal">TV Plochingen</td><td>-</td><td class="gal">TSV Zizishaus.</td><td>36</td><td>:</td><td>34</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=689134" target="_blank">PI</a>  </td></tr>
+       	<tr class="rge"><td class="gal">M-BWOL</td><td>201075</td><td>Sa, 03.11.18, 20:00h</td><td><a href="?orgGrpID=1&gymID=341">7004</a></td><td class="gal">TV Weilstetten</td><td>-</td><td class="gal">H2Ku Herrenb.</td><td>25</td><td>:</td><td>34</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=689116" target="_blank">PI</a>  </td></tr>
+       	<tr class="rug"><td class="gal">M-BWOL</td><td>201080</td><td>Sa, 03.11.18, 20:00h</td><td><a href="?orgGrpID=1&gymID=744">10107</a></td><td class="gal">TuS Steißling.</td><td>-</td><td class="gal">TSV Weinsberg</td><td>28</td><td>:</td><td>19</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=689165" target="_blank">PI</a>  </td></tr>
+       	<tr class="rge"><td class="gal">M-BWOL</td><td>201076</td><td>So, 04.11.18, 17:00h</td><td><a href="?orgGrpID=1&gymID=135">3017</a></td><td class="gal">SV Remshalden</td><td>-</td><td class="gal">NSU Neckarsulm</td><td>32</td><td>:</td><td>29</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=690975" target="_blank">PI</a>  </td></tr>
+       	<tr class="rug"><td class="gal">M-BWOL</td><td>201073</td><td>So, 04.11.18, 17:30h</td><td><a href="?orgGrpID=1&gymID=493">24007</a></td><td class="gal">SG Heddesheim</td><td>-</td><td class="gal">SG PF/Eutingen</td><td>25</td><td>:</td><td>30</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=691040" target="_blank">PI</a>  </td></tr>
+       	<tr class="rge"><td class="gal">M-BWOL</td><td>201081</td><td>Sa, 10.11.18, 20:00h</td><td><a href="?orgGrpID=1&gymID=45">1050</a></td><td class="gal">TSV Weinsberg</td><td>-</td><td class="gal">TV Plochingen</td><td>30</td><td>:</td><td>30</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=693856" target="_blank">PI</a>  </td></tr>
+       	<tr class="rug"><td class="gal">M-BWOL</td><td>201084</td><td>Sa, 10.11.18, 20:00h</td><td><a href="?orgGrpID=1&gymID=298">6028</a></td><td class="gal">H2Ku Herrenb.</td><td>-</td><td class="gal">SG Heddesheim</td><td>29</td><td>:</td><td>27</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=693892" target="_blank">PI</a>  </td></tr>
+       	<tr class="rge"><td class="gal">M-BWOL</td><td>201082</td><td>Sa, 10.11.18, 20:00h</td><td><a href="?orgGrpID=1&gymID=401">8024</a></td><td class="gal">TSV Blaustein</td><td>-</td><td class="gal">SV Remshalden</td><td>30</td><td>:</td><td>22</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=693852" target="_blank">PI</a>  </td></tr>
+       	<tr class="rug"><td class="gal">M-BWOL</td><td>201085</td><td>Sa, 10.11.18, 20:00h</td><td><a href="?orgGrpID=1&gymID=495">10066</a></td><td class="gal">SG Könd/Tening</td><td>-</td><td class="gal">HSG Konstanz 2</td><td>42</td><td>:</td><td>30</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=693846" target="_blank">PI</a>  </td></tr>
+       	<tr class="rge"><td class="gal">M-BWOL</td><td>201088</td><td>Sa, 10.11.18, 20:00h</td><td><a href="?orgGrpID=1&gymID=2273">25018</a></td><td class="gal">SG PF/Eutingen</td><td>-</td><td class="gal">TuS Steißling.</td><td>29</td><td>:</td><td>24</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=693863" target="_blank">PI</a>  </td></tr>
+       	<tr class="rug"><td class="gal">M-BWOL</td><td>201087</td><td>So, 11.11.18, 17:00h</td><td><a href="?orgGrpID=1&gymID=33">1037</a></td><td class="gal">NSU Neckarsulm</td><td>-</td><td class="gal">TSG Söflingen</td><td>34</td><td>:</td><td>29</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=696151" target="_blank">PI</a>  </td></tr>
+       	<tr class="rge"><td class="gal">M-BWOL</td><td>201083</td><td>So, 11.11.18, 17:00h</td><td><a href="?orgGrpID=1&gymID=213">4035</a></td><td class="gal">TSV Zizishaus.</td><td>-</td><td class="gal">TV Weilstetten</td><td>30</td><td>:</td><td>30</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=696171" target="_blank">PI</a>  </td></tr>
+       	<tr class="rug"><td class="gal">M-BWOL</td><td>201090</td><td>Sa, 17.11.18, 18:00h</td><td><a href="?orgGrpID=1&gymID=457">8082</a></td><td class="gal">TSG Söflingen</td><td>-</td><td class="gal">TSV Blaustein</td><td>29</td><td>:</td><td>31</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=698838" target="_blank">PI</a>  </td></tr>
+       	<tr class="rge"><td class="gal">M-BWOL</td><td>201092</td><td>Sa, 17.11.18, 19:30h</td><td><a href="?orgGrpID=1&gymID=123">3003</a></td><td class="gal">TV Bittenfeld 2</td><td>-</td><td class="gal">NSU Neckarsulm</td><td>33</td><td>:</td><td>20</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=699048" target="_blank">PI</a>  </td></tr>
+       	<tr class="rug"><td class="gal">M-BWOL</td><td>201095</td><td>Sa, 17.11.18, 20:00h</td><td><a href="?orgGrpID=1&gymID=217">4040</a></td><td class="gal">TV Plochingen</td><td>-</td><td class="gal">SG PF/Eutingen</td><td>27</td><td>:</td><td>29</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=699243" target="_blank">PI</a>  </td></tr>
+       	<tr class="rge"><td class="gal">M-BWOL</td><td>201091</td><td>Sa, 17.11.18, 20:00h</td><td><a href="?orgGrpID=1&gymID=341">7004</a></td><td class="gal">TV Weilstetten</td><td>-</td><td class="gal">TSV Weinsberg</td><td>28</td><td>:</td><td>25</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=699185" target="_blank">PI</a>  </td></tr>
+       	<tr class="rug"><td class="gal">M-BWOL</td><td>201093</td><td>So, 18.11.18, 16:30h</td><td><a href="?orgGrpID=1&gymID=744">10107</a></td><td class="gal">TuS Steißling.</td><td>-</td><td class="gal">H2Ku Herrenb.</td><td>33</td><td>:</td><td>38</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=701304" target="_blank">PI</a>  </td></tr>
+       	<tr class="rge"><td class="gal">M-BWOL</td><td>201094</td><td>So, 18.11.18, 17:00h</td><td><a href="?orgGrpID=1&gymID=135">3017</a></td><td class="gal">SV Remshalden</td><td>-</td><td class="gal">SG Könd/Tening</td><td>25</td><td>:</td><td>32</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=701479" target="_blank">PI</a>  </td></tr>
+       	<tr class="rug"><td class="gal">M-BWOL</td><td>201096</td><td>So, 18.11.18, 17:30h</td><td><a href="?orgGrpID=1&gymID=493">24007</a></td><td class="gal">SG Heddesheim</td><td>-</td><td class="gal">TSV Zizishaus.</td><td>24</td><td>:</td><td>28</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=701548" target="_blank">PI</a>  </td></tr>
+       	<tr class="rge"><td class="gal">M-BWOL</td><td>201103</td><td>Sa, 24.11.18, 20:00h</td><td><a href="?orgGrpID=1&gymID=33">1037</a></td><td class="gal">NSU Neckarsulm</td><td>-</td><td class="gal">HSG Konstanz 2</td><td>29</td><td>:</td><td>29</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=704287" target="_blank">PI</a>  </td></tr>
+       	<tr class="rug"><td class="gal">M-BWOL</td><td>201100</td><td>Sa, 24.11.18, 20:00h</td><td><a href="?orgGrpID=1&gymID=401">8024</a></td><td class="gal">TSV Blaustein</td><td>-</td><td class="gal">TV Bittenfeld 2</td><td>30</td><td>:</td><td>37</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=704276" target="_blank">PI</a>  </td></tr>
+       	<tr class="rge"><td class="gal">M-BWOL</td><td>201098</td><td>Sa, 24.11.18, 20:00h</td><td><a href="?orgGrpID=1&gymID=495">10066</a></td><td class="gal">SG Könd/Tening</td><td>-</td><td class="gal">TSG Söflingen</td><td>35</td><td>:</td><td>28</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=704297" target="_blank">PI</a>  </td></tr>
+       	<tr class="rug"><td class="gal">M-BWOL</td><td>201097</td><td>Sa, 24.11.18, 20:00h</td><td><a href="?orgGrpID=1&gymID=2273">25018</a></td><td class="gal">SG PF/Eutingen</td><td>-</td><td class="gal">TV Weilstetten</td><td>32</td><td>:</td><td>28</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=704256" target="_blank">PI</a>  </td></tr>
+       	<tr class="rge"><td class="gal">M-BWOL</td><td>201104</td><td>So, 25.11.18, 17:00h</td><td><a href="?orgGrpID=1&gymID=45">1050</a></td><td class="gal">TSV Weinsberg</td><td>-</td><td class="gal">SG Heddesheim</td><td>33</td><td>:</td><td>25</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=706126" target="_blank">PI</a>  </td></tr>
+       	<tr class="rug"><td class="gal">M-BWOL</td><td>201101</td><td>So, 25.11.18, 17:00h</td><td><a href="?orgGrpID=1&gymID=213">4035</a></td><td class="gal">TSV Zizishaus.</td><td>-</td><td class="gal">TuS Steißling.</td><td>29</td><td>:</td><td>28</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=706095" target="_blank">PI</a>  </td></tr>
+       	<tr class="rge"><td class="gal">M-BWOL</td><td>201099</td><td>So, 25.11.18, 17:00h</td><td><a href="?orgGrpID=1&gymID=298">6028</a></td><td class="gal">H2Ku Herrenb.</td><td>-</td><td class="gal">TV Plochingen</td><td>31</td><td>:</td><td>34</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=706124" target="_blank">PI</a>  </td></tr>
+       	<tr class="rug"><td class="gal">M-BWOL</td><td>201110</td><td>Sa, 01.12.18, 19:30h</td><td><a href="?orgGrpID=1&gymID=123">3003</a></td><td class="gal">TV Bittenfeld 2</td><td>-</td><td class="gal">SV Remshalden</td><td>42</td><td>:</td><td>23</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=708716" target="_blank">PI</a>  </td></tr>
+       	<tr class="rge"><td class="gal">M-BWOL</td><td>201109</td><td>Sa, 01.12.18, 19:30h</td><td><a href="?orgGrpID=1&gymID=457">8082</a></td><td class="gal">TSG Söflingen</td><td>-</td><td class="gal">HSG Konstanz 2</td><td>34</td><td>:</td><td>26</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=708720" target="_blank">PI</a>  </td></tr>
+       	<tr class="rug"><td class="gal">M-BWOL</td><td>201107</td><td>Sa, 01.12.18, 20:00h</td><td><a href="?orgGrpID=1&gymID=217">4040</a></td><td class="gal">TV Plochingen</td><td>-</td><td class="gal">SG Heddesheim</td><td>36</td><td>:</td><td>27</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=708876" target="_blank">PI</a>  </td></tr>
+       	<tr class="rge"><td class="gal">M-BWOL</td><td>201106</td><td>Sa, 01.12.18, 20:00h</td><td><a href="?orgGrpID=1&gymID=298">6028</a></td><td class="gal">H2Ku Herrenb.</td><td>-</td><td class="gal">TSV Zizishaus.</td><td>34</td><td>:</td><td>28</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=708883" target="_blank">PI</a>  </td></tr>
+       	<tr class="rug"><td class="gal">M-BWOL</td><td>201108</td><td>Sa, 01.12.18, 20:00h</td><td><a href="?orgGrpID=1&gymID=341">7004</a></td><td class="gal">TV Weilstetten</td><td>-</td><td class="gal">TuS Steißling.</td><td>29</td><td>:</td><td>27</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=708877" target="_blank">PI</a>  </td></tr>
+       	<tr class="rge"><td class="gal">M-BWOL</td><td>201105</td><td>Sa, 01.12.18, 20:00h</td><td><a href="?orgGrpID=1&gymID=2273">25018</a></td><td class="gal">SG PF/Eutingen</td><td>-</td><td class="gal">TSV Weinsberg</td><td>29</td><td>:</td><td>27</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=708846" target="_blank">PI</a>  </td></tr>
+       	<tr class="rug"><td class="gal">M-BWOL</td><td>201120</td><td>Sa, 08.12.18, 20:00h</td><td><a href="?orgGrpID=1&gymID=45">1050</a></td><td class="gal">TSV Weinsberg</td><td>-</td><td class="gal">H2Ku Herrenb.</td><td>25</td><td>:</td><td>28</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=713321" target="_blank">PI</a>  </td></tr>
+       	<tr class="rge"><td class="gal">M-BWOL</td><td>201113</td><td>Sa, 08.12.18, 20:00h</td><td><a href="?orgGrpID=1&gymID=401">8024</a></td><td class="gal">TSV Blaustein</td><td>-</td><td class="gal">SG Könd/Tening</td><td>27</td><td>:</td><td>27</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=713326" target="_blank">PI</a>  </td></tr>
+       	<tr class="rug"><td class="gal">M-BWOL</td><td>201115</td><td>So, 09.12.18, 14:30h</td><td><a href="?orgGrpID=1&gymID=521">10097</a></td><td class="gal">HSG Konstanz 2</td><td>-</td><td class="gal">TV Bittenfeld 2</td><td>26</td><td>:</td><td>28</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=714476" target="_blank">PI</a>  </td></tr>
+       	<tr class="rge"><td class="gal">M-BWOL</td><td>201118</td><td>So, 09.12.18, 16:30h</td><td><a href="?orgGrpID=1&gymID=744">10107</a></td><td class="gal">TuS Steißling.</td><td>-</td><td class="gal">TV Plochingen</td><td>32</td><td>:</td><td>29</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=715000" target="_blank">PI</a>  </td></tr>
+       	<tr class="rug"><td class="gal">M-BWOL</td><td>201116</td><td>So, 09.12.18, 17:00h</td><td><a href="?orgGrpID=1&gymID=135">3017</a></td><td class="gal">SV Remshalden</td><td>-</td><td class="gal">TSG Söflingen</td><td>24</td><td>:</td><td>25</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=715172" target="_blank">PI</a>  </td></tr>
+       	<tr class="rge"><td class="gal">M-BWOL</td><td>201119</td><td>So, 09.12.18, 17:00h</td><td><a href="?orgGrpID=1&gymID=213">4035</a></td><td class="gal">TSV Zizishaus.</td><td>-</td><td class="gal">SG PF/Eutingen</td><td>26</td><td>:</td><td>30</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=715155" target="_blank">PI</a>  </td></tr>
+       	<tr class="rug"><td class="gal">M-BWOL</td><td>201117</td><td>So, 09.12.18, 17:30h</td><td><a href="?orgGrpID=1&gymID=493">24007</a></td><td class="gal">SG Heddesheim</td><td>-</td><td class="gal">TV Weilstetten</td><td>29</td><td>:</td><td>20</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=715236" target="_blank">PI</a>  </td></tr>
+       	<tr class="rge"><td class="gal">M-BWOL</td><td>201125</td><td>Sa, 15.12.18, 17:30h</td><td><a href="?orgGrpID=1&gymID=521">10097</a></td><td class="gal">HSG Konstanz 2</td><td>-</td><td class="gal">TV Plochingen</td><td>28</td><td>:</td><td>29</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=717275" target="_blank">PI</a>  </td></tr>
+       	<tr class="rug"><td class="gal">M-BWOL</td><td>201122</td><td>Sa, 15.12.18, 20:00h</td><td><a href="?orgGrpID=1&gymID=401">8024</a></td><td class="gal">TSV Blaustein</td><td>-</td><td class="gal">TSV Zizishaus.</td><td>36</td><td>:</td><td>30</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=717605" target="_blank">PI</a>  </td></tr>
+       	<tr class="rge"><td class="gal">M-BWOL</td><td>201128</td><td>Sa, 15.12.18, 20:00h</td><td><a href="?orgGrpID=1&gymID=495">10066</a></td><td class="gal">SG Könd/Tening</td><td>-</td><td class="gal">TSV Weinsberg</td><td>35</td><td>:</td><td>31</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=717602" target="_blank">PI</a>  </td></tr>
+       	<tr class="rug"><td class="gal">M-BWOL</td><td>201123</td><td>So, 16.12.18, 17:00h</td><td><a href="?orgGrpID=1&gymID=33">1037</a></td><td class="gal">NSU Neckarsulm</td><td>-</td><td class="gal">H2Ku Herrenb.</td><td>36</td><td>:</td><td>33</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=719316" target="_blank">PI</a>  </td></tr>
+       	<tr class="rge"><td class="gal">M-BWOL</td><td>201127</td><td>So, 16.12.18, 17:00h</td><td><a href="?orgGrpID=1&gymID=123">3003</a></td><td class="gal">TV Bittenfeld 2</td><td>-</td><td class="gal">TuS Steißling.</td><td>39</td><td>:</td><td>36</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=719374" target="_blank">PI</a>  </td></tr>
+       	<tr class="rug"><td class="gal">M-BWOL</td><td>201121</td><td>So, 16.12.18, 17:00h</td><td><a href="?orgGrpID=1&gymID=135">3017</a></td><td class="gal">SV Remshalden</td><td>-</td><td class="gal">TV Weilstetten</td><td>29</td><td>:</td><td>35</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=719346" target="_blank">PI</a>  </td></tr>
+       	<tr class="rge"><td class="gal">M-BWOL</td><td>201126</td><td>So, 16.12.18, 17:30h</td><td><a href="?orgGrpID=1&gymID=457">8082</a></td><td class="gal">TSG Söflingen</td><td>-</td><td class="gal">SG Heddesheim</td><td>27</td><td>:</td><td>19</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=719415" target="_blank">PI</a>  </td></tr>
+       	<tr class="rug"><td class="gal">M-BWOL</td><td>201132</td><td>Sa, 22.12.18, 18:00h</td><td><a href="?orgGrpID=1&gymID=217">4040</a></td><td class="gal">TV Plochingen</td><td>-</td><td class="gal">SV Remshalden</td><td>28</td><td>:</td><td>28</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=720517" target="_blank">PI</a>  </td></tr>
+       	<tr class="rge"><td class="gal">M-BWOL</td><td>201131</td><td>Sa, 22.12.18, 18:00h</td><td><a href="?orgGrpID=1&gymID=493">24007</a></td><td class="gal">SG Heddesheim</td><td>-</td><td class="gal">TV Bittenfeld 2</td><td>27</td><td>:</td><td>27</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=720515" target="_blank">PI</a>  </td></tr>
+       	<tr class="rug"><td class="gal">M-BWOL</td><td>201130</td><td>Sa, 22.12.18, 20:00h</td><td><a href="?orgGrpID=1&gymID=341">7004</a></td><td class="gal">TV Weilstetten</td><td>-</td><td class="gal">TSG Söflingen</td><td>34</td><td>:</td><td>27</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=720632" target="_blank">PI</a>  </td></tr>
+       	<tr class="rge"><td class="gal">M-BWOL</td><td>201134</td><td>Sa, 22.12.18, 20:00h</td><td><a href="?orgGrpID=1&gymID=744">10107</a></td><td class="gal">TuS Steißling.</td><td>-</td><td class="gal">TSV Blaustein</td><td>26</td><td>:</td><td>32</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=720648" target="_blank">PI</a>  </td></tr>
+       	<tr class="rug"><td class="gal">M-BWOL</td><td>201136</td><td>Sa, 22.12.18, 20:00h</td><td><a href="?orgGrpID=1&gymID=2273">25018</a></td><td class="gal">SG PF/Eutingen</td><td>-</td><td class="gal">SG Könd/Tening</td><td>29</td><td>:</td><td>24</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=720654" target="_blank">PI</a>  </td></tr>
+       	<tr class="rge"><td class="gal">M-BWOL</td><td>201129</td><td>So, 23.12.18, 17:00h</td><td><a href="?orgGrpID=1&gymID=45">1050</a></td><td class="gal">TSV Weinsberg</td><td>-</td><td class="gal">HSG Konstanz 2</td><td>36</td><td>:</td><td>24</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=720771" target="_blank">PI</a>  </td></tr>
+       	<tr class="rug"><td class="gal">M-BWOL</td><td>201135</td><td>So, 23.12.18, 17:00h</td><td><a href="?orgGrpID=1&gymID=213">4035</a></td><td class="gal">TSV Zizishaus.</td><td>-</td><td class="gal">NSU Neckarsulm</td><td>33</td><td>:</td><td>29</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=720765" target="_blank">PI</a>  </td></tr>
+       	<tr class="rge"><td class="gal">M-BWOL</td><td>201057</td><td>So, 13.01.19, 17:00h</td><td><a href="?orgGrpID=1&gymID=45">1050</a></td><td class="gal">TSV Weinsberg</td><td>-</td><td class="gal">NSU Neckarsulm</td><td>24</td><td>:</td><td>26</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=723260" target="_blank">PI</a>  </td></tr>
+       	<tr class="rug"><td class="gal">M-BWOL</td><td>201152</td><td>So, 13.01.19, 17:00h</td><td><a href="?orgGrpID=1&gymID=341">7004</a></td><td class="gal">TV Weilstetten</td><td>-</td><td class="gal">TSV Blaustein</td><td>24</td><td>:</td><td>28</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=723169" target="_blank">PI</a>  </td></tr>
+       	<tr class="rge"><td class="gal">M-BWOL</td><td>201032</td><td>Fr, 18.01.19, 20:00h</td><td><a href="?orgGrpID=1&gymID=401">8024</a></td><td class="gal">TSV Blaustein</td><td>-</td><td class="gal">TV Weilstetten</td><td>32</td><td>:</td><td>27</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=723934" target="_blank">PI</a>  </td></tr>
+       	<tr class="rug"><td class="gal">M-BWOL</td><td>201142</td><td>Fr, 18.01.19, 20:00h</td><td><a href="?orgGrpID=1&gymID=521">10097</a></td><td class="gal">HSG Konstanz 2</td><td>-</td><td class="gal">SG PF/Eutingen</td><td>34</td><td>:</td><td>30</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=723937" target="_blank">PI</a>  </td></tr>
+       	<tr class="rge"><td class="gal">M-BWOL</td><td>201139</td><td>Sa, 26.01.19, 18:00h</td><td><a href="?orgGrpID=1&gymID=135">3017</a></td><td class="gal">SV Remshalden</td><td>-</td><td class="gal">TSV Weinsberg</td><td>28</td><td>:</td><td>32</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=729097" target="_blank">PI</a>  </td></tr>
+       	<tr class="rug"><td class="gal">M-BWOL</td><td>201140</td><td>Sa, 26.01.19, 19:00h</td><td><a href="?orgGrpID=1&gymID=457">8082</a></td><td class="gal">TSG Söflingen</td><td>-</td><td class="gal">TV Plochingen</td><td>31</td><td>:</td><td>31</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=727225" target="_blank">PI</a>  </td></tr>
+       	<tr class="rge"><td class="gal">M-BWOL</td><td>201137</td><td>Sa, 26.01.19, 19:30h</td><td><a href="?orgGrpID=1&gymID=123">3003</a></td><td class="gal">TV Bittenfeld 2</td><td>-</td><td class="gal">TV Weilstetten</td><td>34</td><td>:</td><td>32</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=727314" target="_blank">PI</a>  </td></tr>
+       	<tr class="rug"><td class="gal">M-BWOL</td><td>201141</td><td>Sa, 26.01.19, 20:00h</td><td><a href="?orgGrpID=1&gymID=495">10066</a></td><td class="gal">SG Könd/Tening</td><td>-</td><td class="gal">H2Ku Herrenb.</td><td>27</td><td>:</td><td>26</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=727509" target="_blank">PI</a>  </td></tr>
+       	<tr class="rge"><td class="gal">M-BWOL</td><td>201143</td><td>So, 27.01.19, 17:00h</td><td><a href="?orgGrpID=1&gymID=33">1037</a></td><td class="gal">NSU Neckarsulm</td><td>-</td><td class="gal">TuS Steißling.</td><td>23</td><td>:</td><td>23</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=729016" target="_blank">PI</a>  </td></tr>
+       	<tr class="rug"><td class="gal">M-BWOL</td><td>201150</td><td>Sa, 02.02.19, 20:00h</td><td><a href="?orgGrpID=1&gymID=45">1050</a></td><td class="gal">TSV Weinsberg</td><td>-</td><td class="gal">TSG Söflingen</td><td>24</td><td>:</td><td>32</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=731650" target="_blank">PI</a>  </td></tr>
+       	<tr class="rge"><td class="gal">M-BWOL</td><td>201147</td><td>Sa, 02.02.19, 20:00h</td><td><a href="?orgGrpID=1&gymID=213">4035</a></td><td class="gal">TSV Zizishaus.</td><td>-</td><td class="gal">SG Könd/Tening</td><td>32</td><td>:</td><td>28</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=731654" target="_blank">PI</a>  </td></tr>
+       	<tr class="rug"><td class="gal">M-BWOL</td><td>201145</td><td>Sa, 02.02.19, 20:00h</td><td><a href="?orgGrpID=1&gymID=217">4040</a></td><td class="gal">TV Plochingen</td><td>-</td><td class="gal">TV Bittenfeld 2</td><td>38</td><td>:</td><td>36</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=731664" target="_blank">PI</a>  </td></tr>
+       	<tr class="rge"><td class="gal">M-BWOL</td><td>201148</td><td>Sa, 02.02.19, 20:00h</td><td><a href="?orgGrpID=1&gymID=298">6028</a></td><td class="gal">H2Ku Herrenb.</td><td>-</td><td class="gal">HSG Konstanz 2</td><td>29</td><td>:</td><td>28</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=731657" target="_blank">PI</a>  </td></tr>
+       	<tr class="rug"><td class="gal">M-BWOL</td><td>201149</td><td>Sa, 02.02.19, 20:00h</td><td><a href="?orgGrpID=1&gymID=2273">25018</a></td><td class="gal">SG PF/Eutingen</td><td>-</td><td class="gal">SV Remshalden</td><td>30</td><td>:</td><td>24</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=731636" target="_blank">PI</a>  </td></tr>
+       	<tr class="rge"><td class="gal">M-BWOL</td><td>201151</td><td>So, 03.02.19, 17:30h</td><td><a href="?orgGrpID=1&gymID=493">24007</a></td><td class="gal">SG Heddesheim</td><td>-</td><td class="gal">NSU Neckarsulm</td><td>25</td><td>:</td><td>31</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=733915" target="_blank">PI</a>  </td></tr>
+       	<tr class="rug"><td class="gal">M-BWOL</td><td>201160</td><td>Sa, 09.02.19, 19:30h</td><td><a href="?orgGrpID=1&gymID=123">3003</a></td><td class="gal">TV Bittenfeld 2</td><td>-</td><td class="gal">TSG Söflingen</td><td>30</td><td>:</td><td>30</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=736466" target="_blank">PI</a>  </td></tr>
+       	<tr class="rge"><td class="gal">M-BWOL</td><td>201154</td><td>Sa, 09.02.19, 19:30h</td><td><a href="?orgGrpID=1&gymID=493">24007</a></td><td class="gal">SG Heddesheim</td><td>-</td><td class="gal">TuS Steißling.</td><td>21</td><td>:</td><td>29</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=736482" target="_blank">PI</a>  </td></tr>
+       	<tr class="rug"><td class="gal">M-BWOL</td><td>201157</td><td>Sa, 09.02.19, 20:00h</td><td><a href="?orgGrpID=1&gymID=298">6028</a></td><td class="gal">H2Ku Herrenb.</td><td>-</td><td class="gal">SG PF/Eutingen</td><td>30</td><td>:</td><td>26</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=736663" target="_blank">PI</a>  </td></tr>
+       	<tr class="rge"><td class="gal">M-BWOL</td><td>201159</td><td>Sa, 09.02.19, 20:00h</td><td><a href="?orgGrpID=1&gymID=341">7004</a></td><td class="gal">TV Weilstetten</td><td>-</td><td class="gal">TV Plochingen</td><td>27</td><td>:</td><td>28</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=736669" target="_blank">PI</a>  </td></tr>
+       	<tr class="rug"><td class="gal">M-BWOL</td><td>201155</td><td>So, 10.02.19, 17:00h</td><td><a href="?orgGrpID=1&gymID=33">1037</a></td><td class="gal">NSU Neckarsulm</td><td>-</td><td class="gal">TSV Blaustein</td><td>25</td><td>:</td><td>22</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=738663" target="_blank">PI</a>  </td></tr>
+       	<tr class="rge"><td class="gal">M-BWOL</td><td>201156</td><td>So, 10.02.19, 17:00h</td><td><a href="?orgGrpID=1&gymID=213">4035</a></td><td class="gal">TSV Zizishaus.</td><td>-</td><td class="gal">TSV Weinsberg</td><td>34</td><td>:</td><td>30</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=738720" target="_blank">PI</a>  </td></tr>
+       	<tr class="rug"><td class="gal">M-BWOL</td><td>201153</td><td>So, 10.02.19, 17:00h</td><td><a href="?orgGrpID=1&gymID=521">10097</a></td><td class="gal">HSG Konstanz 2</td><td>-</td><td class="gal">SV Remshalden</td><td>30</td><td>:</td><td>21</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=738668" target="_blank">PI</a>  </td></tr>
+       	<tr class="rge"><td class="gal">M-BWOL</td><td>201168</td><td>Fr, 15.02.19, 20:30h</td><td><a href="?orgGrpID=1&gymID=495">10066</a></td><td class="gal">SG Könd/Tening</td><td>-</td><td class="gal">TuS Steißling.</td><td>35</td><td>:</td><td>27</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=739206" target="_blank">PI</a>  </td></tr>
+       	<tr class="rug"><td class="gal">M-BWOL</td><td>201165</td><td>Sa, 16.02.19, 17:30h</td><td><a href="?orgGrpID=1&gymID=521">10097</a></td><td class="gal">HSG Konstanz 2</td><td>-</td><td class="gal">TSV Zizishaus.</td><td>30</td><td>:</td><td>29</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=741472" target="_blank">PI</a>  </td></tr>
+       	<tr class="rge"><td class="gal">M-BWOL</td><td>201167</td><td>Sa, 16.02.19, 19:30h</td><td><a href="?orgGrpID=1&gymID=123">3003</a></td><td class="gal">TV Bittenfeld 2</td><td>-</td><td class="gal">TSV Weinsberg</td><td>33</td><td>:</td><td>27</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=742210" target="_blank">PI</a>  </td></tr>
+       	<tr class="rug"><td class="gal">M-BWOL</td><td>201162</td><td>Sa, 16.02.19, 20:00h</td><td><a href="?orgGrpID=1&gymID=401">8024</a></td><td class="gal">TSV Blaustein</td><td>-</td><td class="gal">TV Plochingen</td><td>29</td><td>:</td><td>34</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=742465" target="_blank">PI</a>  </td></tr>
+       	<tr class="rge"><td class="gal">M-BWOL</td><td>201163</td><td>So, 17.02.19, 17:00h</td><td><a href="?orgGrpID=1&gymID=33">1037</a></td><td class="gal">NSU Neckarsulm</td><td>-</td><td class="gal">TV Weilstetten</td><td>33</td><td>:</td><td>29</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=745675" target="_blank">PI</a>  </td></tr>
+       	<tr class="rug"><td class="gal">M-BWOL</td><td>201161</td><td>So, 17.02.19, 17:00h</td><td><a href="?orgGrpID=1&gymID=135">3017</a></td><td class="gal">SV Remshalden</td><td>-</td><td class="gal">H2Ku Herrenb.</td><td>31</td><td>:</td><td>29</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=745687" target="_blank">PI</a>  </td></tr>
+       	<tr class="rge"><td class="gal">M-BWOL</td><td>201166</td><td>So, 17.02.19, 17:30h</td><td><a href="?orgGrpID=1&gymID=457">8082</a></td><td class="gal">TSG Söflingen</td><td>-</td><td class="gal">SG PF/Eutingen</td><td>23</td><td>:</td><td>23</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=745792" target="_blank">PI</a>  </td></tr>
+       	<tr class="rug"><td class="gal">M-BWOL</td><td>201171</td><td>Sa, 23.02.19, 20:00h</td><td><a href="?orgGrpID=1&gymID=45">1050</a></td><td class="gal">TSV Weinsberg</td><td>-</td><td class="gal">TSV Blaustein</td><td>20</td><td>:</td><td>29</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=749713" target="_blank">PI</a>  </td></tr>
+       	<tr class="rge"><td class="gal">M-BWOL</td><td>201170</td><td>Sa, 23.02.19, 20:00h</td><td><a href="?orgGrpID=1&gymID=217">4040</a></td><td class="gal">TV Plochingen</td><td>-</td><td class="gal">NSU Neckarsulm</td><td>32</td><td>:</td><td>29</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=749701" target="_blank">PI</a>  </td></tr>
+       	<tr class="rug"><td class="gal">M-BWOL</td><td>201176</td><td>Sa, 23.02.19, 20:00h</td><td><a href="?orgGrpID=1&gymID=744">10107</a></td><td class="gal">TuS Steißling.</td><td>-</td><td class="gal">HSG Konstanz 2</td><td>25</td><td>:</td><td>27</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=749752" target="_blank">PI</a>  </td></tr>
+       	<tr class="rge"><td class="gal">M-BWOL</td><td>201175</td><td>Sa, 23.02.19, 20:00h</td><td><a href="?orgGrpID=1&gymID=2273">25018</a></td><td class="gal">SG PF/Eutingen</td><td>-</td><td class="gal">TV Bittenfeld 2</td><td>32</td><td>:</td><td>18</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=749710" target="_blank">PI</a>  </td></tr>
+       	<tr class="rug"><td class="gal">M-BWOL</td><td>201173</td><td>So, 24.02.19, 17:00h</td><td><a href="?orgGrpID=1&gymID=213">4035</a></td><td class="gal">TSV Zizishaus.</td><td>-</td><td class="gal">SV Remshalden</td><td>30</td><td>:</td><td>29</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=752647" target="_blank">PI</a>  </td></tr>
+       	<tr class="rge"><td class="gal">M-BWOL</td><td>201169</td><td>So, 24.02.19, 17:30h</td><td><a href="?orgGrpID=1&gymID=493">24007</a></td><td class="gal">SG Heddesheim</td><td>-</td><td class="gal">SG Könd/Tening</td><td>28</td><td>:</td><td>29</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=752722" target="_blank">PI</a>  </td></tr>
+       	<tr class="rug"><td class="gal">M-BWOL</td><td>201174</td><td>So, 24.02.19, 18:00h</td><td><a href="?orgGrpID=1&gymID=298">6028</a></td><td class="gal">H2Ku Herrenb.</td><td>-</td><td class="gal">TSG Söflingen</td><td>26</td><td>:</td><td>25</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=752884" target="_blank">PI</a>  </td></tr>
+       	<tr class="rge"><td class="gal">M-BWOL</td><td>201144</td><td>Sa, 02.03.19, 17:00h</td><td><a href="?orgGrpID=1&gymID=401">8024</a></td><td class="gal">TSV Blaustein</td><td>-</td><td class="gal">SG Heddesheim</td><td>35</td><td>:</td><td>21</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=754081" target="_blank">PI</a>  </td></tr>
+       	<tr class="rug"><td class="gal">M-BWOL</td><td>201111</td><td>Sa, 02.03.19, 18:30h</td><td><a href="?orgGrpID=1&gymID=495">10066</a></td><td class="gal">SG Könd/Tening</td><td>-</td><td class="gal">NSU Neckarsulm</td><td>29</td><td>:</td><td>28</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=754243" target="_blank">PI</a>  </td></tr>
+       	<tr class="rge"><td class="gal">M-BWOL</td><td>201182</td><td>Sa, 09.03.19, 15:00h</td><td><a href="?orgGrpID=1&gymID=521">10097</a></td><td class="gal">HSG Konstanz 2</td><td>-</td><td class="gal">SG Heddesheim</td><td>30</td><td>:</td><td>21</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=757161" target="_blank">PI</a>  </td></tr>
+       	<tr class="rug"><td class="gal">M-BWOL</td><td>201183</td><td>Sa, 09.03.19, 18:00h</td><td><a href="?orgGrpID=1&gymID=135">3017</a></td><td class="gal">SV Remshalden</td><td>-</td><td class="gal">TuS Steißling.</td><td>28</td><td>:</td><td>24</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=758636" target="_blank">PI</a>  </td></tr>
+       	<tr class="rge"><td class="gal">M-BWOL</td><td>201178</td><td>Sa, 09.03.19, 19:30h</td><td><a href="?orgGrpID=1&gymID=123">3003</a></td><td class="gal">TV Bittenfeld 2</td><td>-</td><td class="gal">H2Ku Herrenb.</td><td>32</td><td>:</td><td>27</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=759046" target="_blank">PI</a>  </td></tr>
+       	<tr class="rug"><td class="gal">M-BWOL</td><td>201184</td><td>Sa, 09.03.19, 19:30h</td><td><a href="?orgGrpID=1&gymID=457">8082</a></td><td class="gal">TSG Söflingen</td><td>-</td><td class="gal">TSV Zizishaus.</td><td>30</td><td>:</td><td>24</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=759051" target="_blank">PI</a>  </td></tr>
+       	<tr class="rge"><td class="gal">M-BWOL</td><td>201179</td><td>Sa, 09.03.19, 20:00h</td><td><a href="?orgGrpID=1&gymID=401">8024</a></td><td class="gal">TSV Blaustein</td><td>-</td><td class="gal">SG PF/Eutingen</td><td>25</td><td>:</td><td>25</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=759396" target="_blank">PI</a>  </td></tr>
+       	<tr class="rug"><td class="gal">M-BWOL</td><td>201181</td><td>Sa, 09.03.19, 20:00h</td><td><a href="?orgGrpID=1&gymID=495">10066</a></td><td class="gal">SG Könd/Tening</td><td>-</td><td class="gal">TV Weilstetten</td><td>30</td><td>:</td><td>22</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=759361" target="_blank">PI</a>  </td></tr>
+       	<tr class="rge"><td class="gal">M-BWOL</td><td>201191</td><td>Sa, 16.03.19, 20:00h</td><td><a href="?orgGrpID=1&gymID=298">6028</a></td><td class="gal">H2Ku Herrenb.</td><td>-</td><td class="gal">TSV Blaustein</td><td>28</td><td>:</td><td>33</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=770121" target="_blank">PI</a>  </td></tr>
+       	<tr class="rug"><td class="gal">M-BWOL</td><td>201187</td><td>Sa, 16.03.19, 20:00h</td><td><a href="?orgGrpID=1&gymID=341">7004</a></td><td class="gal">TV Weilstetten</td><td>-</td><td class="gal">HSG Konstanz 2</td><td>27</td><td>:</td><td>29</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=776166" target="_blank">PI</a>  </td></tr>
+       	<tr class="rge"><td class="gal">M-BWOL</td><td>201185</td><td>Sa, 16.03.19, 20:00h</td><td><a href="?orgGrpID=1&gymID=744">10107</a></td><td class="gal">TuS Steißling.</td><td>-</td><td class="gal">TSG Söflingen</td><td>34</td><td>:</td><td>37</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=770181" target="_blank">PI</a>  </td></tr>
+       	<tr class="rug"><td class="gal">M-BWOL</td><td>201190</td><td>Sa, 16.03.19, 20:00h</td><td><a href="?orgGrpID=1&gymID=2273">25018</a></td><td class="gal">SG PF/Eutingen</td><td>-</td><td class="gal">NSU Neckarsulm</td><td>23</td><td>:</td><td>28</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=770211" target="_blank">PI</a>  </td></tr>
+       	<tr class="rge"><td class="gal">M-BWOL</td><td>201188</td><td>Sa, 16.03.19, 20:30h</td><td><a href="?orgGrpID=1&gymID=217">4040</a></td><td class="gal">TV Plochingen</td><td>-</td><td class="gal">SG Könd/Tening</td><td>36</td><td>:</td><td>33</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=770336" target="_blank">PI</a>  </td></tr>
+       	<tr class="rug"><td class="gal">M-BWOL</td><td>201192</td><td>So, 17.03.19, 17:00h</td><td><a href="?orgGrpID=1&gymID=213">4035</a></td><td class="gal">TSV Zizishaus.</td><td>-</td><td class="gal">TV Bittenfeld 2</td><td>34</td><td>:</td><td>37</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=775151" target="_blank">PI</a>  </td></tr>
+       	<tr class="rge"><td class="gal">M-BWOL</td><td>201186</td><td>So, 17.03.19, 17:30h</td><td><a href="?orgGrpID=1&gymID=493">24007</a></td><td class="gal">SG Heddesheim</td><td>-</td><td class="gal">SV Remshalden</td><td>15</td><td>:</td><td>27</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=775331" target="_blank">PI</a>  </td></tr>
+       	<tr class="rug"><td class="gal">M-BWOL</td><td>201196</td><td>Sa, 23.03.19, 20:00h</td><td><a href="?orgGrpID=1&gymID=33">1037</a></td><td class="gal">NSU Neckarsulm</td><td>-</td><td class="gal">SV Remshalden</td><td>31</td><td>:</td><td>27</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=782621" target="_blank">PI</a>  </td></tr>
+       	<tr class="rge"><td class="gal">M-BWOL</td><td>201199</td><td>Sa, 23.03.19, 20:00h</td><td><a href="?orgGrpID=1&gymID=213">4035</a></td><td class="gal">TSV Zizishaus.</td><td>-</td><td class="gal">TV Plochingen</td><td>28</td><td>:</td><td>32</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=782736" target="_blank">PI</a>  </td></tr>
+       	<tr class="rug"><td class="gal">M-BWOL</td><td>201195</td><td>Sa, 23.03.19, 20:00h</td><td><a href="?orgGrpID=1&gymID=298">6028</a></td><td class="gal">H2Ku Herrenb.</td><td>-</td><td class="gal">TV Weilstetten</td><td>28</td><td>:</td><td>29</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=782651" target="_blank">PI</a>  </td></tr>
+       	<tr class="rge"><td class="gal">M-BWOL</td><td>201194</td><td>Sa, 23.03.19, 20:00h</td><td><a href="?orgGrpID=1&gymID=401">8024</a></td><td class="gal">TSV Blaustein</td><td>-</td><td class="gal">HSG Konstanz 2</td><td>36</td><td>:</td><td>29</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=782681" target="_blank">PI</a>  </td></tr>
+       	<tr class="rug"><td class="gal">M-BWOL</td><td>201197</td><td>Sa, 23.03.19, 20:00h</td><td><a href="?orgGrpID=1&gymID=495">10066</a></td><td class="gal">SG Könd/Tening</td><td>-</td><td class="gal">TV Bittenfeld 2</td><td>32</td><td>:</td><td>31</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=782666" target="_blank">PI</a>  </td></tr>
+       	<tr class="rge"><td class="gal">M-BWOL</td><td>201193</td><td>Sa, 23.03.19, 20:00h</td><td><a href="?orgGrpID=1&gymID=2273">25018</a></td><td class="gal">SG PF/Eutingen</td><td>-</td><td class="gal">SG Heddesheim</td><td>28</td><td>:</td><td>24</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=782711" target="_blank">PI</a>  </td></tr>
+       	<tr class="rug"><td class="gal">M-BWOL</td><td>201200</td><td>So, 24.03.19, 17:00h</td><td><a href="?orgGrpID=1&gymID=45">1050</a></td><td class="gal">TSV Weinsberg</td><td>-</td><td class="gal">TuS Steißling.</td><td>35</td><td>:</td><td>23</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=788191" target="_blank">PI</a>  </td></tr>
+       	<tr class="rge"><td class="gal">M-BWOL</td><td>201205</td><td>Sa, 30.03.19, 17:30h</td><td><a href="?orgGrpID=1&gymID=521">10097</a></td><td class="gal">HSG Konstanz 2</td><td>-</td><td class="gal">SG Könd/Tening</td><td>40</td><td>:</td><td>28</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=793796" target="_blank">PI</a>  </td></tr>
+       	<tr class="rug"><td class="gal">M-BWOL</td><td>201201</td><td>Sa, 30.03.19, 20:00h</td><td><a href="?orgGrpID=1&gymID=217">4040</a></td><td class="gal">TV Plochingen</td><td>-</td><td class="gal">TSV Weinsberg</td><td>31</td><td>:</td><td>41</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=795391" target="_blank">PI</a>  </td></tr>
+       	<tr class="rge"><td class="gal">M-BWOL</td><td>201203</td><td>Sa, 30.03.19, 20:00h</td><td><a href="?orgGrpID=1&gymID=341">7004</a></td><td class="gal">TV Weilstetten</td><td>-</td><td class="gal">TSV Zizishaus.</td><td>33</td><td>:</td><td>33</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=795406" target="_blank">PI</a>  </td></tr>
+       	<tr class="rug"><td class="gal">M-BWOL</td><td>201208</td><td>Sa, 30.03.19, 20:00h</td><td><a href="?orgGrpID=1&gymID=744">10107</a></td><td class="gal">TuS Steißling.</td><td>-</td><td class="gal">SG PF/Eutingen</td><td>31</td><td>:</td><td>26</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=795451" target="_blank">PI</a>  </td></tr>
+       	<tr class="rge"><td class="gal">M-BWOL</td><td>201202</td><td>So, 31.03.19, 17:00h</td><td><a href="?orgGrpID=1&gymID=135">3017</a></td><td class="gal">SV Remshalden</td><td>-</td><td class="gal">TSV Blaustein</td><td>33</td><td>:</td><td>34</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=800001" target="_blank">PI</a>  </td></tr>
+       	<tr class="rug"><td class="gal">M-BWOL</td><td>201207</td><td>So, 31.03.19, 17:30h</td><td><a href="?orgGrpID=1&gymID=457">8082</a></td><td class="gal">TSG Söflingen</td><td>-</td><td class="gal">NSU Neckarsulm</td><td>34</td><td>:</td><td>33</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=800161" target="_blank">PI</a>  </td></tr>
+       	<tr class="rge"><td class="gal">M-BWOL</td><td>201204</td><td>So, 31.03.19, 17:30h</td><td><a href="?orgGrpID=1&gymID=493">24007</a></td><td class="gal">SG Heddesheim</td><td>-</td><td class="gal">H2Ku Herrenb.</td><td>25</td><td>:</td><td>32</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=800181" target="_blank">PI</a>  </td></tr>
+       	<tr class="rug"><td class="gal">M-BWOL</td><td>201212</td><td>Fr, 05.04.19, 20:30h</td><td><a href="?orgGrpID=1&gymID=33">1037</a></td><td class="gal">NSU Neckarsulm</td><td>-</td><td class="gal">TV Bittenfeld 2</td><td>34</td><td>:</td><td>27</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=801411" target="_blank">PI</a>  </td></tr>
+       	<tr class="rge"><td class="gal">M-BWOL</td><td>201211</td><td>Sa, 06.04.19, 20:00h</td><td><a href="?orgGrpID=1&gymID=45">1050</a></td><td class="gal">TSV Weinsberg</td><td>-</td><td class="gal">TV Weilstetten</td><td>33</td><td>:</td><td>26</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=805386" target="_blank">PI</a>  </td></tr>
+       	<tr class="rug"><td class="gal">M-BWOL</td><td>201213</td><td>Sa, 06.04.19, 20:00h</td><td><a href="?orgGrpID=1&gymID=298">6028</a></td><td class="gal">H2Ku Herrenb.</td><td>-</td><td class="gal">TuS Steißling.</td><td>29</td><td>:</td><td>27</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=805566" target="_blank">PI</a>  </td></tr>
+       	<tr class="rge"><td class="gal">M-BWOL</td><td>201210</td><td>Sa, 06.04.19, 20:00h</td><td><a href="?orgGrpID=1&gymID=401">8024</a></td><td class="gal">TSV Blaustein</td><td>-</td><td class="gal">TSG Söflingen</td><td>36</td><td>:</td><td>21</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=805576" target="_blank">PI</a>  </td></tr>
+       	<tr class="rug"><td class="gal">M-BWOL</td><td>201214</td><td>Sa, 06.04.19, 20:00h</td><td><a href="?orgGrpID=1&gymID=495">10066</a></td><td class="gal">SG Könd/Tening</td><td>-</td><td class="gal">SV Remshalden</td><td>30</td><td>:</td><td>29</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=805541" target="_blank">PI</a>  </td></tr>
+       	<tr class="rge"><td class="gal">M-BWOL</td><td>201215</td><td>Sa, 06.04.19, 20:00h</td><td><a href="?orgGrpID=1&gymID=2273">25018</a></td><td class="gal">SG PF/Eutingen</td><td>-</td><td class="gal">TV Plochingen</td><td>24</td><td>:</td><td>28</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=805561" target="_blank">PI</a>  </td></tr>
+       	<tr class="rug"><td class="gal">M-BWOL</td><td>201216</td><td>So, 07.04.19, 17:00h</td><td><a href="?orgGrpID=1&gymID=213">4035</a></td><td class="gal">TSV Zizishaus.</td><td>-</td><td class="gal">SG Heddesheim</td><td>29</td><td>:</td><td>25</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=808281" target="_blank">PI</a>  </td></tr>
+       	<tr class="rge"><td class="gal">M-BWOL</td><td>201223</td><td>Sa, 13.04.19, 17:30h</td><td><a href="?orgGrpID=1&gymID=521">10097</a></td><td class="gal">HSG Konstanz 2</td><td>-</td><td class="gal">NSU Neckarsulm</td><td>27</td><td>:</td><td>25</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=810831" target="_blank">PI</a>  </td></tr>
+       	<tr class="rug"><td class="gal">M-BWOL</td><td>201220</td><td>Sa, 13.04.19, 19:30h</td><td><a href="?orgGrpID=1&gymID=123">3003</a></td><td class="gal">TV Bittenfeld 2</td><td>-</td><td class="gal">TSV Blaustein</td><td>31</td><td>:</td><td>34</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=811641" target="_blank">PI</a>  </td></tr>
+       	<tr class="rge"><td class="gal">M-BWOL</td><td>201224</td><td>Sa, 13.04.19, 19:30h</td><td><a href="?orgGrpID=1&gymID=493">24007</a></td><td class="gal">SG Heddesheim</td><td>-</td><td class="gal">TSV Weinsberg</td><td>25</td><td>:</td><td>33</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=811526" target="_blank">PI</a>  </td></tr>
+       	<tr class="rug"><td class="gal">M-BWOL</td><td>201219</td><td>Sa, 13.04.19, 20:00h</td><td><a href="?orgGrpID=1&gymID=217">4040</a></td><td class="gal">TV Plochingen</td><td>-</td><td class="gal">H2Ku Herrenb.</td><td>30</td><td>:</td><td>24</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=811941" target="_blank">PI</a>  </td></tr>
+       	<tr class="rge"><td class="gal">M-BWOL</td><td>201217</td><td>Sa, 13.04.19, 20:00h</td><td><a href="?orgGrpID=1&gymID=341">7004</a></td><td class="gal">TV Weilstetten</td><td>-</td><td class="gal">SG PF/Eutingen</td><td>26</td><td>:</td><td>30</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=811936" target="_blank">PI</a>  </td></tr>
+       	<tr class="rug"><td class="gal">M-BWOL</td><td>201221</td><td>Sa, 13.04.19, 20:00h</td><td><a href="?orgGrpID=1&gymID=744">10107</a></td><td class="gal">TuS Steißling.</td><td>-</td><td class="gal">TSV Zizishaus.</td><td>28</td><td>:</td><td>25</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=811951" target="_blank">PI</a>  </td></tr>
+       	<tr class="rge"><td class="gal">M-BWOL</td><td>201218</td><td>So, 14.04.19, 14:30h</td><td><a href="?orgGrpID=1&gymID=457">8082</a></td><td class="gal">TSG Söflingen</td><td>-</td><td class="gal">SG Könd/Tening</td><td>26</td><td>:</td><td>26</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=812611" target="_blank">PI</a>  </td></tr>
+       	<tr class="rug"><td class="gal">M-BWOL</td><td>201231</td><td>So, 28.04.19, 17:00h</td><td><a href="?orgGrpID=1&gymID=33">1037</a></td><td class="gal">NSU Neckarsulm</td><td>-</td><td class="gal">SG Könd/Tening</td><td>35</td><td>:</td><td>28</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=817206" target="_blank">PI</a>  </td></tr>
+       	<tr class="rge"><td class="gal">M-BWOL</td><td>201225</td><td>So, 28.04.19, 17:00h</td><td><a href="?orgGrpID=1&gymID=45">1050</a></td><td class="gal">TSV Weinsberg</td><td>-</td><td class="gal">SG PF/Eutingen</td><td>25</td><td>:</td><td>25</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=817176" target="_blank">PI</a>  </td></tr>
+       	<tr class="rug"><td class="gal">M-BWOL</td><td>201230</td><td>So, 28.04.19, 17:00h</td><td><a href="?orgGrpID=1&gymID=135">3017</a></td><td class="gal">SV Remshalden</td><td>-</td><td class="gal">TV Bittenfeld 2</td><td>24</td><td>:</td><td>26</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=817131" target="_blank">PI</a>  </td></tr>
+       	<tr class="rge"><td class="gal">M-BWOL</td><td>201226</td><td>So, 28.04.19, 17:00h</td><td><a href="?orgGrpID=1&gymID=213">4035</a></td><td class="gal">TSV Zizishaus.</td><td>-</td><td class="gal">H2Ku Herrenb.</td><td>34</td><td>:</td><td>32</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=817201" target="_blank">PI</a>  </td></tr>
+       	<tr class="rug"><td class="gal">M-BWOL</td><td>201229</td><td>So, 28.04.19, 17:00h</td><td><a href="?orgGrpID=1&gymID=521">10097</a></td><td class="gal">HSG Konstanz 2</td><td>-</td><td class="gal">TSG Söflingen</td><td>33</td><td>:</td><td>32</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=817186" target="_blank">PI</a>  </td></tr>
+       	<tr class="rge"><td class="gal">M-BWOL</td><td>201228</td><td>So, 28.04.19, 17:00h</td><td><a href="?orgGrpID=1&gymID=744">10107</a></td><td class="gal">TuS Steißling.</td><td>-</td><td class="gal">TV Weilstetten</td><td>32</td><td>:</td><td>31</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=817181" target="_blank">PI</a>  </td></tr>
+       	<tr class="rug"><td class="gal">M-BWOL</td><td>201227</td><td>So, 28.04.19, 17:00h</td><td><a href="?orgGrpID=1&gymID=493">24007</a></td><td class="gal">SG Heddesheim</td><td>-</td><td class="gal">TV Plochingen</td><td>25</td><td>:</td><td>29</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=817216" target="_blank">PI</a>  </td></tr>
+       	<tr class="rge"><td class="gal">M-BWOL</td><td>201235</td><td>So, 05.05.19, 17:00h</td><td><a href="?orgGrpID=1&gymID=123">3003</a></td><td class="gal">TV Bittenfeld 2</td><td>-</td><td class="gal">HSG Konstanz 2</td><td>22</td><td>:</td><td>29</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=821786" target="_blank">PI</a>  </td></tr>
+       	<tr class="rug"><td class="gal">M-BWOL</td><td>201238</td><td>So, 05.05.19, 17:00h</td><td><a href="?orgGrpID=1&gymID=217">4040</a></td><td class="gal">TV Plochingen</td><td>-</td><td class="gal">TuS Steißling.</td><td>36</td><td>:</td><td>27</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=821876" target="_blank">PI</a>  </td></tr>
+       	<tr class="rge"><td class="gal">M-BWOL</td><td>201240</td><td>So, 05.05.19, 17:00h</td><td><a href="?orgGrpID=1&gymID=298">6028</a></td><td class="gal">H2Ku Herrenb.</td><td>-</td><td class="gal">TSV Weinsberg</td><td>32</td><td>:</td><td>36</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=821811" target="_blank">PI</a>  </td></tr>
+       	<tr class="rug"><td class="gal">M-BWOL</td><td>201237</td><td>So, 05.05.19, 17:00h</td><td><a href="?orgGrpID=1&gymID=341">7004</a></td><td class="gal">TV Weilstetten</td><td>-</td><td class="gal">SG Heddesheim</td><td>35</td><td>:</td><td>21</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=821766" target="_blank">PI</a>  </td></tr>
+       	<tr class="rge"><td class="gal">M-BWOL</td><td>201236</td><td>So, 05.05.19, 17:00h</td><td><a href="?orgGrpID=1&gymID=457">8082</a></td><td class="gal">TSG Söflingen</td><td>-</td><td class="gal">SV Remshalden</td><td>22</td><td>:</td><td>33</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=821801" target="_blank">PI</a>  </td></tr>
+       	<tr class="rug"><td class="gal">M-BWOL</td><td>201233</td><td>So, 05.05.19, 17:00h</td><td><a href="?orgGrpID=1&gymID=495">10066</a></td><td class="gal">SG Könd/Tening</td><td>-</td><td class="gal">TSV Blaustein</td><td>28</td><td>:</td><td>26</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=821816" target="_blank">PI</a>  </td></tr>
+       	<tr class="rge"><td class="gal">M-BWOL</td><td>201239</td><td>So, 05.05.19, 17:00h</td><td><a href="?orgGrpID=1&gymID=2273">25018</a></td><td class="gal">SG PF/Eutingen</td><td>-</td><td class="gal">TSV Zizishaus.</td><td>31</td><td>:</td><td>26</td><td><a href="http://spo.handball4all.de/misc/sboPublicReports.php?sGID=821776" target="_blank">PI</a>  </td></tr>
+       	<tr class="rug"><td class="gal">M-BWOL</td><td>201004</td><td>&#160;</td><td>&#160;</td><td class="gal">SG PF/Eutingen</td><td>-</td><td class="gal">TV N'hausen/E.</td><td></td><td>:</td><td></td><td>  </td></tr>
+       	<tr class="rge"><td class="gal">M-BWOL</td><td>201013</td><td>&#160;</td><td>&#160;</td><td class="gal">TV N'hausen/E.</td><td>-</td><td class="gal">H2Ku Herrenb.</td><td></td><td>:</td><td></td><td>  </td></tr>
+       	<tr class="rug"><td class="gal">M-BWOL</td><td>201018</td><td>&#160;</td><td>&#160;</td><td class="gal">TSV Zizishaus.</td><td>-</td><td class="gal">TV N'hausen/E.</td><td></td><td>:</td><td></td><td>  </td></tr>
+       	<tr class="rge"><td class="gal">M-BWOL</td><td>201026</td><td>&#160;</td><td>&#160;</td><td class="gal">TV N'hausen/E.</td><td>-</td><td class="gal">TuS Steißling.</td><td></td><td>:</td><td></td><td>  </td></tr>
+       	<tr class="rug"><td class="gal">M-BWOL</td><td>201038</td><td>&#160;</td><td>&#160;</td><td class="gal">TV N'hausen/E.</td><td>-</td><td class="gal">SG Könd/Tening</td><td></td><td>:</td><td></td><td>  </td></tr>
+       	<tr class="rge"><td class="gal">M-BWOL</td><td>201044</td><td>&#160;</td><td>&#160;</td><td class="gal">SG Heddesheim</td><td>-</td><td class="gal">TV N'hausen/E.</td><td></td><td>:</td><td></td><td>  </td></tr>
+       	<tr class="rug"><td class="gal">M-BWOL</td><td>201052</td><td>&#160;</td><td>&#160;</td><td class="gal">TV N'hausen/E.</td><td>-</td><td class="gal">TV Weilstetten</td><td></td><td>:</td><td></td><td>  </td></tr>
+       	<tr class="rge"><td class="gal">M-BWOL</td><td>201060</td><td>&#160;</td><td>&#160;</td><td class="gal">TV Plochingen</td><td>-</td><td class="gal">TV N'hausen/E.</td><td></td><td>:</td><td></td><td>  </td></tr>
+       	<tr class="rug"><td class="gal">M-BWOL</td><td>201069</td><td>&#160;</td><td>&#160;</td><td class="gal">TV N'hausen/E.</td><td>-</td><td class="gal">TSV Weinsberg</td><td></td><td>:</td><td></td><td>  </td></tr>
+       	<tr class="rge"><td class="gal">M-BWOL</td><td>201078</td><td>&#160;</td><td>&#160;</td><td class="gal">TSG Söflingen</td><td>-</td><td class="gal">TV N'hausen/E.</td><td></td><td>:</td><td></td><td>  </td></tr>
+       	<tr class="rug"><td class="gal">M-BWOL</td><td>201086</td><td>&#160;</td><td>&#160;</td><td class="gal">TV N'hausen/E.</td><td>-</td><td class="gal">TV Bittenfeld 2</td><td></td><td>:</td><td></td><td>  </td></tr>
+       	<tr class="rge"><td class="gal">M-BWOL</td><td>201089</td><td>&#160;</td><td>&#160;</td><td class="gal">HSG Konstanz 2</td><td>-</td><td class="gal">TV N'hausen/E.</td><td></td><td>:</td><td></td><td>  </td></tr>
+       	<tr class="rug"><td class="gal">M-BWOL</td><td>201102</td><td>&#160;</td><td>&#160;</td><td class="gal">TV N'hausen/E.</td><td>-</td><td class="gal">SV Remshalden</td><td></td><td>:</td><td></td><td>  </td></tr>
+       	<tr class="rge"><td class="gal">M-BWOL</td><td>201112</td><td>&#160;</td><td>&#160;</td><td class="gal">TV N'hausen/E.</td><td>-</td><td class="gal">TSV Blaustein</td><td></td><td>:</td><td></td><td>  </td></tr>
+       	<tr class="rug"><td class="gal">M-BWOL</td><td>201114</td><td>&#160;</td><td>&#160;</td><td class="gal">NSU Neckarsulm</td><td>-</td><td class="gal">TV N'hausen/E.</td><td></td><td>:</td><td></td><td>  </td></tr>
+       	<tr class="rge"><td class="gal">M-BWOL</td><td>201124</td><td>&#160;</td><td>&#160;</td><td class="gal">TV N'hausen/E.</td><td>-</td><td class="gal">SG PF/Eutingen</td><td></td><td>:</td><td></td><td>  </td></tr>
+       	<tr class="rug"><td class="gal">M-BWOL</td><td>201133</td><td>&#160;</td><td>&#160;</td><td class="gal">H2Ku Herrenb.</td><td>-</td><td class="gal">TV N'hausen/E.</td><td></td><td>:</td><td></td><td>  </td></tr>
+       	<tr class="rge"><td class="gal">M-BWOL</td><td>201138</td><td>&#160;</td><td>&#160;</td><td class="gal">TV N'hausen/E.</td><td>-</td><td class="gal">TSV Zizishaus.</td><td></td><td>:</td><td></td><td>  </td></tr>
+       	<tr class="rug"><td class="gal">M-BWOL</td><td>201146</td><td>&#160;</td><td>&#160;</td><td class="gal">TuS Steißling.</td><td>-</td><td class="gal">TV N'hausen/E.</td><td></td><td>:</td><td></td><td>  </td></tr>
+       	<tr class="rge"><td class="gal">M-BWOL</td><td>201158</td><td>&#160;</td><td>&#160;</td><td class="gal">SG Könd/Tening</td><td>-</td><td class="gal">TV N'hausen/E.</td><td></td><td>:</td><td></td><td>  </td></tr>
+       	<tr class="rug"><td class="gal">M-BWOL</td><td>201164</td><td>&#160;</td><td>&#160;</td><td class="gal">TV N'hausen/E.</td><td>-</td><td class="gal">SG Heddesheim</td><td></td><td>:</td><td></td><td>  </td></tr>
+       	<tr class="rge"><td class="gal">M-BWOL</td><td>201172</td><td>&#160;</td><td>&#160;</td><td class="gal">TV Weilstetten</td><td>-</td><td class="gal">TV N'hausen/E.</td><td></td><td>:</td><td></td><td>  </td></tr>
+       	<tr class="rug"><td class="gal">M-BWOL</td><td>201180</td><td>&#160;</td><td>&#160;</td><td class="gal">TV N'hausen/E.</td><td>-</td><td class="gal">TV Plochingen</td><td></td><td>:</td><td></td><td>  </td></tr>
+       	<tr class="rge"><td class="gal">M-BWOL</td><td>201189</td><td>&#160;</td><td>&#160;</td><td class="gal">TSV Weinsberg</td><td>-</td><td class="gal">TV N'hausen/E.</td><td></td><td>:</td><td></td><td>  </td></tr>
+       	<tr class="rug"><td class="gal">M-BWOL</td><td>201198</td><td>&#160;</td><td>&#160;</td><td class="gal">TV N'hausen/E.</td><td>-</td><td class="gal">TSG Söflingen</td><td></td><td>:</td><td></td><td>  </td></tr>
+       	<tr class="rge"><td class="gal">M-BWOL</td><td>201206</td><td>&#160;</td><td>&#160;</td><td class="gal">TV Bittenfeld 2</td><td>-</td><td class="gal">TV N'hausen/E.</td><td></td><td>:</td><td></td><td>  </td></tr>
+       	<tr class="rug"><td class="gal">M-BWOL</td><td>201209</td><td>&#160;</td><td>&#160;</td><td class="gal">TV N'hausen/E.</td><td>-</td><td class="gal">HSG Konstanz 2</td><td></td><td>:</td><td></td><td>  </td></tr>
+       	<tr class="rge"><td class="gal">M-BWOL</td><td>201222</td><td>&#160;</td><td>&#160;</td><td class="gal">SV Remshalden</td><td>-</td><td class="gal">TV N'hausen/E.</td><td></td><td>:</td><td></td><td>  </td></tr>
+       	<tr class="rug"><td class="gal">M-BWOL</td><td>201232</td><td>&#160;</td><td>&#160;</td><td class="gal">TSV Blaustein</td><td>-</td><td class="gal">TV N'hausen/E.</td><td></td><td>:</td><td></td><td>  </td></tr>
+       	<tr class="rge"><td class="gal">M-BWOL</td><td>201234</td><td>&#160;</td><td>&#160;</td><td class="gal">TV N'hausen/E.</td><td>-</td><td class="gal">NSU Neckarsulm</td><td></td><td>:</td><td></td><td>  </td></tr>
+</table><div style="margin: 9px 0px; text-align: center"><p><a href="https://www.handball2go.de/index.php?ref=29&affiliate_banner_id=7" target="_blank"><img src="https://www.handball2go.de/affiliate_show_banner.php?ref=29&affiliate_banner_id=7" border="0" alt="Handballshop" height="130"></a></p><div id="h4a_footer"> <script> window.moli_afterRequestAds = window.moli_afterRequestAds || [];window.moli_afterRequestAds.push(function () { window.dispatchEvent(new window.Event('ad.h4a_footer')); }); </script></div></div></div>
+
+       </div>
+      </div>
+     </td><td class="hauptShortcut0"><div style="width:160px; padding-top:8px"><div id="h4a_sidebar_right_spo"> <script> window.moli_afterRequestAds = window.moli_afterRequestAds || [];window.moli_afterRequestAds.push(function () { window.dispatchEvent(new window.Event('ad.h4a_sidebar_right_spo')); }); </script></div></div></td></tr></table>
+     </div>
+    </div>
+   <div class="h4afooter"><span><a target="_blank" href="https://www.handball4all.de/home/unternehmen/datenschutz/">Datenschutz</a></span><span><a target="blank" href="https://www.handball4all.de/home/unternehmen/impressum/">Impressum</a></span></div>
+   </div>
+  <!-- Dauer: 0.114 --></body>
+ </html>

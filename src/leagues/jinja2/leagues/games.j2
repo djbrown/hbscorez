@@ -52,7 +52,15 @@
             <td>{{ game.guest_goals or "-" }}</td>
             <td><a href="#/">{{ game.sports_hall.name if game.sports_hall else "-" }}</a></td>
             <td>{{ game.spectators or "-" }}</td>
-            <td><a href="{{ game.report_source_url() }}"><i class="fas fa-link" title="Datenquelle"></i></a></td>
+            <td>
+                {% if game.report_source_url() %}
+                <a href="{{ game.report_source_url() }}">
+                    <i class="fas fa-link" title="Datenquelle"></i>
+                </a>
+                {% else %}
+                -
+                {% endif %}
+            </td>
         </tr>
         {% endfor %}
         </tbody>
