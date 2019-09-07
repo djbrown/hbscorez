@@ -96,8 +96,8 @@ class Command(BaseCommand):
             LOGER.debug('SKIPPING Report (ignore list): %s - %s', game.report_number, game)
         elif game.home_team.retirement is not None or game.guest_team.retirement is not None:
             if game.score_set.count() > 0:
-                game.score_set.all().delete()
                 LOGER.info('DELETING Game Scores (retired team): %s - %s', game.report_number, game)
+                game.score_set.all().delete()
             else:
                 LOGER.debug('SKIPPING Game (retired team): %s - %s', game.report_number, game)
         elif game.score_set.count() > 0:

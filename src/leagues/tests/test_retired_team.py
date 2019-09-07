@@ -62,9 +62,9 @@ class RetiredTeamTest(ModelTestCase):
         team = self.assert_objects(Team, filters={'retirement__isnull': False})
         team.retirement = None
         team.save()
-
         call_command('import_games', '-g', '30901')
         call_command('import_reports')
+        other_teams_scores_count_before = Score.objects.exclude(player__team=team).count()
 
         self.assertGreater(team.player_set.count(), 0)
         self.assertGreater(Score.objects.filter(player__team=team).count(), 0)
@@ -72,5 +72,8 @@ class RetiredTeamTest(ModelTestCase):
         call_command('setup', '-a', 3, '-d', 7, '-s', 2017, '-l', 28454)
         call_command('import_reports')
         team = self.assert_objects(Team, filters={'retirement__isnull': False})
+        other_teams_scores_count_after = Score.objects.exclude(player__team=team).count()
+
         self.assertGreater(team.player_set.count(), 0)
         self.assertEqual(Score.objects.filter(player__team=team).count(), 0)
+        self.assertGreater(other_teams_scores_count_before, other_teams_scores_count_after)
