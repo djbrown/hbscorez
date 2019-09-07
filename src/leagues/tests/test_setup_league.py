@@ -79,3 +79,18 @@ class SetupTest(ModelTestCase):
 
         self.assertEqual(mkl21.name, "Männer Kreisliga 2-1")
         self.assertEqual(mkl22.name, "Männer Kreisliga 2-2")
+
+
+class Youth(ModelTestCase):
+    def test_youth(self):
+        return_code = call_command('setup', '-a', 35, '-d', 35, '-s', 2019, '-l', 46921, '--youth')
+        self.assertEqual(return_code, None)
+
+        league: League = self.assert_objects(League)
+        self.assertTrue(league.youth)
+
+    def test_no_youth(self):
+        return_code = call_command('setup', '-a', 35, '-d', 35, '-s', 2019, '-l', 46921)
+        self.assertEqual(return_code, None)
+
+        self.assert_objects(League, count=0)

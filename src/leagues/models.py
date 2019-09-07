@@ -40,9 +40,14 @@ class League(models.Model):
     def source_url(self):
         return self.build_source_url(self.bhv_id)
 
+    @property
+    def youth(self) -> bool:
+        return self.is_youth_league(self.abbreviation)
+
     @staticmethod
-    def is_youth_league(name):
-        return re.search('MJ', name) \
-            or re.search('WJ', name) \
-            or re.search('Jugend', name) \
-            or re.search('Mini', name)
+    def is_youth_league(abbreviation: str) -> bool:
+        ret = re.search('mJ', abbreviation) \
+            or re.search('wJ', abbreviation) \
+            or re.search('Jugend', abbreviation) \
+            or re.search('Mini', abbreviation)
+        return bool(ret)
