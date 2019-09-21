@@ -103,3 +103,10 @@ class Youth(ModelTestCase):
         self.assertEqual(return_code, None)
 
         self.assert_objects(Game, count=0)
+
+
+class BuggedGameRows(ModelTestCase):
+    def test_additional_heading_row(self):
+        call_command('setup', '-a', 3, '-d', 8, '-s', 2019, '-l', 46786)
+        call_command('import_games', '-g', 41013)
+        self.assert_objects(Game)
