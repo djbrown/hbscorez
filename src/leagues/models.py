@@ -28,7 +28,7 @@ class League(models.Model):
         unique_together = (('name', 'district', 'season'), ('abbreviation', 'district', 'season'))
 
     def __str__(self):
-        return '{} {}'.format(self.name, self.season)
+        return '{} {} {}'.format(self.bhv_id, self.name, self.season)
 
     def get_absolute_url(self):
         return reverse('leagues:detail', kwargs={'bhv_id': self.bhv_id})

@@ -32,7 +32,7 @@ def parse_district_season_start_year(district_season_heading):
 
 def parse_league_name(tree):
     heading = tree.xpath('//*[@id="results"]/div/h1/text()[2]')[0]
-    return heading.split(' - ')[0]
+    return heading.rsplit(' - ', 1)[0]
 
 
 def parse_team_links(tree):
@@ -94,7 +94,7 @@ def parse_sports_hall_bhv_id(link):
 
 def parse_coordinates(tree) -> Tuple[Optional[str], Optional[str]]:
     scripts = tree.xpath('//script')
-    if len(scripts) < 5:
+    if len(scripts) < 9:
         return (None, None)
     map_script = scripts[8].text
     match = re.search(r"^   new mxn.LatLonPoint\(([.0-9]+),([.0-9]+)\)\),$", map_script, re.MULTILINE)
