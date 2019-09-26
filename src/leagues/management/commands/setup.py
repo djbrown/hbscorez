@@ -31,6 +31,8 @@ class Command(BaseCommand):
                             help="IDs of Leagues.")
         parser.add_argument('--youth', action='store_true',
                             help="Include youth leagues.")
+        parser.add_argument('--skip-teams', action='store_true',
+                            help="Skip processing Teams.")
 
     def handle(self, *args, **options):
         self.options = options
@@ -129,48 +131,43 @@ class Command(BaseCommand):
             LOGGER.debug('SKIPPING League (options): %s %s', bhv_id, abbreviation)
             return
 
-        if abbreviation[:1] in ['m', 'w', 'g', 'u'] and not self.options['youth']:
-            LOGGER.debug('SKIPPING League (youth league): %s %s', bhv_id, abbreviation)
+        if abbreviation == 'TEST':
+            LOGGER.debug('SKIPPING League (test league): %s %s', bhv_id, abbreviation)
             return
 
         url = League.build_source_url(bhv_id)
         dom = logic.get_html(url)
-
         name = parsing.parse_league_name(dom)
 
-        if League.is_youth_league(abbreviation) and not self.options['youth']:
-            LOGGER.debug('SKIPPING League (youth league): %s %s', bhv_id, name)
+        if any(n in name for n in ['Platzierungsrunde', 'Meister', 'Freiwurf', 'Maxi', 'turnier', 'wettbewerb']):
+            LOGGER.debug('SKIPPING League (name): %s %s', bhv_id, name)
             return
 
         team_links = parsing.parse_team_links(dom)
         if not team_links:
-            LOGGER.debug('SKIPPING League: %s %s (no team table)', bhv_id, name)
+            LOGGER.debug('SKIPPING League (no team table): %s %s', bhv_id, name)
             return
 
         game_rows = parsing.parse_game_rows(dom)
         if not game_rows:
             LOGGER.debug('SKIPPING League (no games): %s %s', bhv_id, name)
             return
+
         if len(game_rows) < len(team_links) * (len(team_links) - 1):
             LOGGER.debug('SKIPPING League (few games): %s %s', bhv_id, abbreviation)
             return
 
-        if "Platzierungsrunde" in name:
-            LOGGER.debug('SKIPPING League (Platzierungsrunde): %s %s', bhv_id, name)
+        name = {
+            5380: "Männer Kreisliga 2-1",
+            5381: "Männer Kreisliga 2-2",
+            7424: "Männer Kreisliga C Staffel 3",
+            50351: "gemischte Jugend D Kreisliga A Staffel 1",
+            52853: "männliche Jugend C Bezirksliga Staffel 2",
+        }.get(bhv_id, name)
+
+        if League.is_youth(abbreviation, name) and not self.options['youth']:
+            LOGGER.debug('SKIPPING League (youth league): %s %s %s', bhv_id, abbreviation, name)
             return
-
-        if "Meister" in name:
-            LOGGER.debug('SKIPPING League (Meisterschaft): %s %s', bhv_id, name)
-            return
-
-        if bhv_id == 7424:
-            name = "Männer Kreisliga C Staffel 3"
-
-        if bhv_id == 5380:
-            name = "Männer Kreisliga 2-1"
-
-        if bhv_id == 5381:
-            name = "Männer Kreisliga 2-2"
 
         league, league_created = League.objects.get_or_create(
             name=name, abbreviation=abbreviation, district=district, season=season, bhv_id=bhv_id)
@@ -178,6 +175,9 @@ class Command(BaseCommand):
             LOGGER.info('CREATED League: %s', league)
         else:
             LOGGER.info('EXISTING League: %s', league)
+
+        if self.options['skip_teams']:
+            return
 
         for team_link in team_links:
             create_team(team_link, league)

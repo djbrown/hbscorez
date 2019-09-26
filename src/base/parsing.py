@@ -107,7 +107,10 @@ def parse_goals(game_row) -> Tuple[Optional[int], Optional[int]]:
     home_goals = game_row[7].text
     guest_goals = game_row[9].text
     if home_goals and guest_goals:
-        return int(home_goals), int(guest_goals)
+        home_goals = home_goals.strip()
+        guest_goals = guest_goals.strip()
+        if home_goals and guest_goals:
+            return int(home_goals), int(guest_goals)
 
     if len(game_row[10]) == 1:
         title = game_row[10][0].get("title", "")
