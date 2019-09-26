@@ -3,9 +3,8 @@ import sys
 import unittest
 from contextlib import contextmanager
 
-# import requests
 from django.conf import settings
-from django.test import LiveServerTestCase
+from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from django.urls import ResolverMatch, resolve, reverse
 from sauceclient import SauceClient
 from selenium.webdriver import Firefox, Remote
@@ -21,7 +20,7 @@ _SAUCE_KEY = os.environ.get("SAUCE_ACCESS_KEY")
 
 @unittest.skipUnless(settings.SELENIUM is True or _CI,
                      'Selenium test cases are only run in CI or if configured explicitly.')
-class SeleniumTestCase(LiveServerTestCase):
+class SeleniumTestCase(StaticLiveServerTestCase):
 
     def setUp(self):
         if _CI:

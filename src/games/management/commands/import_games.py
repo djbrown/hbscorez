@@ -86,11 +86,16 @@ class Command(BaseCommand):
             self.import_game(game_row, league)
 
     def import_game(self, game_row, league: League):
+
+        if game_row[1].text == 'Nr.':
+            LOGGER.debug('SKIPPING Row (heading)')
+            return
+
         # league_abbreviation = game_row[0].text
         number = int(game_row[1].text)
 
         if self.options['games'] and number not in self.options['games']:
-            LOGGER.debug('SKIPPING Game: %s (options)', number)
+            LOGGER.debug('SKIPPING Game (options): %s', number)
             return
 
         opening_whistle = parsing.parse_opening_whistle(game_row[2].text)

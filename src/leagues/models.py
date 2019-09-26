@@ -1,5 +1,3 @@
-import re
-
 from django.conf import settings
 from django.core import validators
 from django.db import models
@@ -28,7 +26,7 @@ class League(models.Model):
         unique_together = (('name', 'district', 'season'), ('abbreviation', 'district', 'season'))
 
     def __str__(self):
-        return '{} {}'.format(self.name, self.season)
+        return '{} {} {}'.format(self.bhv_id, self.name, self.season)
 
     def get_absolute_url(self):
         return reverse('leagues:detail', kwargs={'bhv_id': self.bhv_id})
@@ -42,12 +40,19 @@ class League(models.Model):
 
     @property
     def youth(self) -> bool:
-        return self.is_youth_league(self.abbreviation)
+        return self.is_youth(self.abbreviation, self.name)
 
     @staticmethod
-    def is_youth_league(abbreviation: str) -> bool:
-        ret = re.search('mJ', abbreviation) \
-            or re.search('wJ', abbreviation) \
-            or re.search('Jugend', abbreviation) \
-            or re.search('Mini', abbreviation)
-        return bool(ret)
+    def is_youth(abbreviation: str, name: str) -> bool:
+        if name in ['Kreisliga A', 'Kreisliga B Nord', 'Kreisliga B Süd']:
+            return False
+
+        youth_match = abbreviation[:1] in ['m', 'w', 'g', 'u', 'U'] \
+            or any(n in name for n in ['Jugend', 'Jgd', 'Mini', 'Jungen', 'Mädchen',
+                                       'Jongen', 'Meedercher', 'weiblich', 'männlich'])
+        adult_match = any(n in name for n in ['Männer', 'Frauen', 'Herren', 'Damen',
+                                              'Hären', 'Dammen', 'Senioren', 'Seniorinnen'])
+
+        if youth_match == adult_match:
+            raise ValueError(f'Youth undecidable: {abbreviation} {name}')
+        return youth_match

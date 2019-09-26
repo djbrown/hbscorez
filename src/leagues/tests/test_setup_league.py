@@ -94,3 +94,14 @@ class Youth(ModelTestCase):
         self.assertEqual(return_code, None)
 
         self.assert_objects(League, count=0)
+
+
+class LongLeagueNames(ModelTestCase):
+
+    def test_youth(self):
+        return_code = call_command('setup', '-a', 83, '-d', 83, '-s', 2019, '-l', 45646, 45651, '--youth')
+        self.assertEqual(return_code, None)
+
+        leagues = self.assert_objects(League, count=2).order_by('name')
+        self.assertEqual(leagues[0].name, 'männliche Jgd. B - Kreisklasse')
+        self.assertEqual(leagues[1].name, 'männliche Jgd. B - Rheinhessenliga')
