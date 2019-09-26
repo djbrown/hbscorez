@@ -1,105 +1,113 @@
-{% load static base_extras %}<!DOCTYPE html>
+{% load static base_extras %}
+<!DOCTYPE html>
 <html lang="de">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description"
-          content="{% block description %}HbScorez ist eine Statistikplattform für diverse Handballigen im deutschsprachigen Raum.{% endblock %}">
+        content="{% block description %}HbScorez ist eine Statistikplattform für diverse Handballigen im deutschsprachigen Raum.{% endblock %}">
     <link rel="icon" href="{% static 'base/images/favicons/favicon.png' %}">
 
     <title>{% block title %}HbScorez{% endblock %}</title>
 
     {% block styles %}
-        <link rel="stylesheet" href="{% static 'base/styles/base.css' %}">
-        <link rel="stylesheet" href="{% static 'base/styles/bootstrap-4.1.1.min.css' %}">
-        <link rel="stylesheet" href="{% static 'base/styles/datatables-1.10.16.min.css' %}">
-        <link rel="stylesheet" href="{% static 'base/styles/animate.css' %}">
-        <link rel="stylesheet" href="{% static 'base/styles/cookieconsent-3.0.3.min.css' %}">
+    <link rel="stylesheet" href="{% static 'base/styles/base.css' %}">
+    <link rel="stylesheet" href="{% static 'base/styles/bootstrap-4.3.1.min.css' %}">
+    <link rel="stylesheet" href="{% static 'base/styles/datatables-1.10.18.min.css' %}">
+    <link rel="stylesheet" href="{% static 'base/styles/animate-3.7.2.min.css' %}">
+    <link rel="stylesheet" href="{% static 'base/styles/cookieconsent-3.1.1.min.css' %}">
     {% endblock %}
 
     {% if MATOMO_URL %}
-        <script>MATOMO_URL = "{{ MATOMO_URL }}";</script>
-        <script src="{% static 'base/scripts/matomo.js' %}"></script>
+    <script>MATOMO_URL = "{{ MATOMO_URL }}";</script>
+    <script src="{% static 'base/scripts/matomo.js' %}"></script>
     {% endif %}
 </head>
+
 <body class="bg-dark">
-<nav class="navbar navbar-expand-md navbar-dark sticky-top bg-dark">
-    <div class="container">
-        <a class="navbar-brand" href="{% url 'base:home' %}">HbScorez</a>
-        <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#navbar">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbar">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'associations:list' %}">Statistik</a>
-                </li>
-            </ul>
-            {% if user.is_authenticated %}
+    <nav class="navbar navbar-expand-md navbar-dark sticky-top bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'base:home' %}">HbScorez</a>
+            <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#navbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbar">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'associations:list' %}">Statistik</a>
+                    </li>
+                </ul>
+                {% if user.is_authenticated %}
                 <div class="nav-item btn-group">
                     <a class="nav-link btn btn-secondary" href="{% url 'users:profile' %}">{{ user.username }}</a>
-                    <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown"></button>
+                    <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split"
+                        data-toggle="dropdown"></button>
                     <div class="dropdown-menu dropdown-menu-right">
                         <a class="dropdown-item" href="{% url 'users:logout' %}">Abmelden</a>
                     </div>
                 </div>
-            {% else %}
-                <a class="nav-item nav-link btn btn-primary mr-md-2 mr-0 mb-md-0 mb-2" href="{% url 'users:login' %}">Anmelden</a>
-                <a class="nav-item nav-link btn btn-success" href="{% url 'django_registration_register' %}">Registrieren</a>
-            {% endif %}
+                {% else %}
+                <a class="nav-item nav-link btn btn-primary mr-md-2 mr-0 mb-md-0 mb-2"
+                    href="{% url 'users:login' %}">Anmelden</a>
+                <a class="nav-item nav-link btn btn-success"
+                    href="{% url 'django_registration_register' %}">Registrieren</a>
+                {% endif %}
+            </div>
         </div>
-    </div>
-</nav>
+    </nav>
     <div class="bg-light py-3">
         <div class="container">
             <div id="alerts"></div>
             <div class="row">
                 {% if request.env|get:"UPDATING" == "TRUE" %}
                 <div class="col-12">
-                <h3>
-                    <span class="badge badge-warning animated bounce">
-                        Daten werden aktualisiert&nbsp;
-                        <i id="spinner" class="fas fa-spinner"></i>
-                    </span>
-                </h3>
+                    <h3>
+                        <span class="badge badge-warning animated bounce">
+                            Daten werden aktualisiert&nbsp;
+                            <i id="spinner" class="fas fa-spinner"></i>
+                        </span>
+                    </h3>
+                </div>
+                {% endif %}
+                <main class="col-sm-12 ml-sm-auto">
+                    {% block content %}{% endblock %}
+                </main>
             </div>
-            {% endif %}
-            <main class="col-sm-12 ml-sm-auto">
-                {% block content %}{% endblock %}
-            </main>
         </div>
     </div>
-</div>
 
-<footer>
-    <nav class="container navbar navbar-expand-md navbar-dark">
-        <ul class="navbar-nav">
-            <li class="nav-item"><a class="nav-link" href="{% url 'contact_form' %}">Kontakt</a></li>
-            <li class="nav-item"><a class="nav-link" href="{% url 'base:notice' %}">Impressum</a></li>
-            <li class="nav-item"><a id="privacy" class="nav-link" href="{% url 'base:privacy' %}">Datenschutz</a></li>
-            <li class="nav-item"><a class="nav-link" target="_blank"
-                    href="https://github.com/djbrown/hbscorez">Quellcode</a></li>
-            <li class="nav-item"><a class="nav-link" target="_blank"
-                    href="https://redmine.djbrown.de/projects/hbscorez">Projektmanagement</a></li>
-            <li class="nav-item"><a class="nav-link" target="_blank"
-                    href="https://redmine.djbrown.de/projects/hbscorez/boards">Forum</a></li>
-        </ul>
-    </nav>
-</footer>
+    <footer>
+        <nav class="container navbar navbar-expand-md navbar-dark">
+            <ul class="navbar-nav">
+                <li class="nav-item"><a class="nav-link" href="{% url 'contact_form' %}">Kontakt</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'base:notice' %}">Impressum</a></li>
+                <li class="nav-item"><a id="privacy" class="nav-link" href="{% url 'base:privacy' %}">Datenschutz</a>
+                </li>
+                <li class="nav-item"><a class="nav-link" target="_blank"
+                        href="https://github.com/djbrown/hbscorez">Quellcode</a></li>
+                <li class="nav-item"><a class="nav-link" target="_blank"
+                        href="https://redmine.djbrown.de/projects/hbscorez">Projektmanagement</a></li>
+                <li class="nav-item"><a class="nav-link" target="_blank"
+                        href="https://redmine.djbrown.de/projects/hbscorez/boards">Forum</a></li>
+            </ul>
+        </nav>
+    </footer>
 
-{% block scripts %}
-    <script src="{% static 'base/scripts/jquery-3.3.1.min.js' %}"></script>
-    <script src="{% static 'base/scripts/popper-1.12.9.min.js' %}"></script>
-    <script src="{% static 'base/scripts/bootstrap-4.1.1.min.js' %}"></script>
-    <script src="{% static 'base/scripts/fontawesome-all-5.0.13.min.js' %}"></script>
-    <script src="{% static 'base/scripts/moment-2.22.1.js' %}"></script>
-    <script src="{% static 'base/scripts/cookieconsent-3.0.3.min.js' %}"></script>
-    <script src="{% static 'base/scripts/datatables-1.10.16.min.js' %}"></script>
-    <script src="{% static 'base/scripts/datatables-datetime-moment-1.10.16.js' %}"></script>
+    {% block scripts %}
+    <script src="{% static 'base/scripts/jquery-3.4.1.min.js' %}"></script>
+    <script src="{% static 'base/scripts/popper-1.15.0.min.js' %}"></script>
+    <script src="{% static 'base/scripts/bootstrap-4.3.1.min.js' %}"></script>
+    <script src="{% static 'base/scripts/fa-all-5.11.2.min.js' %}"></script>
+    <script src="{% static 'base/scripts/moment-2.24.0.min.js' %}"></script>
+    <script src="{% static 'base/scripts/cookieconsent-3.1.1.min.js' %}"></script>
+    <script src="{% static 'base/scripts/datatables-1.10.18.min.js' %}"></script>
+    <script src="{% static 'base/scripts/datatables-datetime-moment-1.10.18.js' %}"></script>
 
     <script src="{% static 'base/scripts/datatables-config.js' %}"></script>
     {#<script src="{% static 'base/scripts/cookieconsent-config.js' %}"></script>#}
-{% endblock %}
+    {% endblock %}
 </body>
+
 </html>
