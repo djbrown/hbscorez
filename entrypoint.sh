@@ -22,7 +22,7 @@ if [[ -z "${GUNICORN_WORKERS}" ]]; then
 else
     pipenv run python src/manage.py collectstatic --noinput
     exec pipenv run gunicorn hbscorez.wsgi:application \
-        --chdir src
+        --chdir src \
         --name hbscorez_django \
         --bind 0.0.0.0:8000 \
         --workers $GUNICORN_WORKERS \

@@ -10,9 +10,11 @@ reports/
 static/
 
 .coverage
+.dockerignore
 .editorconfig
 .fossa.yml
 .gitignore
+.pylintrc
 .pyup.yml
 .travis.yml
 ATTRIBUTIONS.md
@@ -25,3 +27,4 @@ hbscorez.log
 src/hbscorez/settings_docker_stack*.py
 LICENSE
 README.md
+setup.cfg

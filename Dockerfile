@@ -5,11 +5,7 @@ WORKDIR /code
 
 RUN pip install pipenv==2018.11.26
 RUN apt-get update \
-    && apt-get install -y --no-install-recommends  \
-        default-jre \
-        fonts-liberation \
-        gsfonts \
-        locales \
+    && apt-get install -y --no-install-recommends default-jre fonts-liberation gsfonts locales \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
@@ -21,7 +17,5 @@ COPY Pipfile.lock .
 RUN pipenv install --skip-lock gunicorn==19.9.0
 
 COPY . .
-
-EXPOSE 8000
 
 ENTRYPOINT ["./entrypoint.sh"]
