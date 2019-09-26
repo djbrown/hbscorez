@@ -22,4 +22,6 @@ RUN pipenv install --skip-lock gunicorn==19.9.0
 
 COPY . .
 
+EXPOSE 8000
+
 ENTRYPOINT ["./entrypoint.sh"]
