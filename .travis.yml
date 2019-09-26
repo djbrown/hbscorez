@@ -20,5 +20,5 @@ after_success:
   - pipenv run codecov
   - pipenv run coveralls
   - pipenv run python-codacy-coverage -r coverage.xml
-  - diff ATTRIBUTIONS.md <(pipenv run pip-licenses -csaum)
+  - diff ATTRIBUTIONS.md <(pipenv run pip-licenses -sau --from classifier -f markdown)
   - pipenv lock -r > requirements.txt && fossa
