@@ -50,8 +50,9 @@ class League(models.Model):
         youth_match = abbreviation[:1] in ['m', 'w', 'g', 'u', 'U'] \
             or any(n in name for n in ['Jugend', 'Jgd', 'Mini', 'Jungen', 'Mädchen',
                                        'Jongen', 'Meedercher', 'weiblich', 'männlich'])
-        adult_match = any(n in name for n in ['Männer', 'Frauen', 'Herren', 'Damen',
-                                              'Hären', 'Dammen', 'Senioren', 'Seniorinnen'])
+        adult_match = abbreviation[:1] in ['M', 'F'] \
+            or any(n in name for n in ['Männer', 'Frauen', 'Herren', 'Damen',
+                                       'Hären', 'Dammen', 'Senioren', 'Seniorinnen'])
 
         if youth_match == adult_match:
             raise ValueError(f'Youth undecidable: {abbreviation} {name}')

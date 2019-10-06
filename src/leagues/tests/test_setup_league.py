@@ -80,6 +80,14 @@ class SetupTest(ModelTestCase):
         self.assertEqual(mkl21.name, "Männer Kreisliga 2-1")
         self.assertEqual(mkl22.name, "Männer Kreisliga 2-2")
 
+    def test_special_olympics_2019(self):
+        return_code = call_command('setup', '-a', 35, '-d', 35, '-s', 2019, '-l', 53980)
+        self.assertEqual(return_code, None)
+
+        league = self.assert_objects(League)
+        self.assertEqual(league.name, 'Spielrunde Special Olympics')
+        self.assertEqual(league.abbreviation, 'M-SO')
+
 
 class Youth(ModelTestCase):
     def test_youth(self):
@@ -97,7 +105,6 @@ class Youth(ModelTestCase):
 
 
 class LongLeagueNames(ModelTestCase):
-
     def test_youth(self):
         return_code = call_command('setup', '-a', 83, '-d', 83, '-s', 2019, '-l', 45646, 45651, '--youth')
         self.assertEqual(return_code, None)
