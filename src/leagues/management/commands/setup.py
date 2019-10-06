@@ -99,7 +99,7 @@ class Command(BaseCommand):
 
     def create_season(self, district, start_year):
         if self.options['seasons'] and start_year not in self.options['seasons']:
-            LOGGER.debug('SKIPPING District Season (options): %s %s', district, start_year)
+            LOGGER.debug('SKIPPING Season (options): %s', start_year)
             return
 
         season, season_created = Season.objects.get_or_create(start_year=start_year)
@@ -184,7 +184,11 @@ class Command(BaseCommand):
 
         retirements = parsing.parse_retirements(dom)
         for team_name, retirement_date in retirements:
-            team = Team.objects.get(league=league, name=team_name)
+            try:
+                team = Team.objects.get(league=league, name=team_name)
+            except Team.DoesNotExist:
+                LOGGER.warn('RETIRING team not found: %s %s', team_name, league)
+                continue
             if team.retirement != retirement_date:
                 team.retirement = retirement_date
                 LOGGER.info('RETIRING team %s on %s', team, retirement_date)

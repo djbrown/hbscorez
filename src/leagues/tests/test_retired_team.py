@@ -77,3 +77,7 @@ class RetiredTeamTest(ModelTestCase):
         self.assertGreater(team.player_set.count(), 0)
         self.assertEqual(Score.objects.filter(player__team=team).count(), 0)
         self.assertGreater(other_teams_scores_count_before, other_teams_scores_count_after)
+
+    def test_nonexisting_retired_team(self):
+        call_command('setup', '-a', 3, '-d', 7, '-s', 2019, '-l', 48708)
+        self.assert_objects(League)
