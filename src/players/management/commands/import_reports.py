@@ -24,7 +24,11 @@ LOGGER = logging.getLogger('hbscorez')
 
 class Command(BaseCommand):
     options: Dict[str, Any] = {}
-    bugged_reports = [450001, 473097, 497475, 501159, 546059, 562543, 567811, 572051, 598812, 627428, 638260]
+    bugged_reports = [
+        450001, 473097, 497475, 501159, 546059, 562543, 567811, 572051, 598812, 627428, 638260,  # 2018
+        893364, 891069,  # 2019
+    ]
+    bugged_associations = [78]
 
     def add_arguments(self, parser):
         parser.add_argument('--associations', '-a', nargs='+', type=int, metavar='orgGrpID',
@@ -60,6 +64,10 @@ class Command(BaseCommand):
             LOGGER.debug('SKIPPING Association: %s (options)', association)
             return
 
+        if association.bhv_id in self.bugged_associations:
+            LOGGER.debug('SKIPPING Association (ignore list): %s', association)
+            return
+
         for district in association.district_set.all():
             self.import_district(district)
 
@@ -86,7 +94,7 @@ class Command(BaseCommand):
             LOGGER.debug('SKIPPING League: %s (options)', league)
             return
 
-        if league.youth:
+        if league.youth and not self.options['youth']:
             LOGGER.debug('SKIPPING League (youth league): %s', league)
             return
 
