@@ -33,9 +33,11 @@
                 <th>Uhrzeit</th>
                 <th>Gegner</th>
                 <th>Ort</th>
+                <th>Nr.</th>
                 <th>Tore</th>
                 <th>7m</th>
                 <th>Feldt.</th>
+                <th>PDF</th>
             </tr>
             </thead>
             <tbody>
@@ -52,9 +54,15 @@
                         <a href="{{ opponent_team.get_absolute_url() }}">{{ opponent_team.short_name }}</a>
                     </td>
                     <td>{{ 'Heim' if score.game.home_team == player.team else 'Auswärts' }}</td>
+                    <td>{{ score.player_number }}</td>
                     <td>{{ score.goals or 0 }}</td>
                     <td>{{ score.penalty_goals or 0 }}</td>
                     <td>{{ score.goals - score.penalty_goals }}</td>
+                    <td>
+                        <a href="{{ score.game.report_source_url() }}">
+                            <i class="fas fa-link" title="Datenquelle"></i>
+                        </a>
+                    </td>
                 </tr>
             {% endfor %}
             </tbody>
@@ -65,9 +73,11 @@
                 <th>Uhrzeit</th>
                 <th>Gegner</th>
                 <th>Ort</th>
+                <th>Nr.</th>
                 <th>Tore</th>
                 <th>7m</th>
                 <th>Feldt.</th>
+                <th>PDF</th>
             </tr>
             </tfoot>
         </table>

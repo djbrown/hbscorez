@@ -23,8 +23,17 @@ def games(request, bhv_id):
     return render(request, 'teams/games.j2', {'team': team, 'games': team_games})
 
 
+def players(request, bhv_id):
+    # todo: change view to show portraits and summary data
+    team = get_object_or_404(Team, bhv_id=bhv_id)
+    players = Player.objects \
+        .filter(team=team) \
+        .annotate(games=Count('score')) \
+        .order_by('name')
+    return render(request, 'teams/players.j2', {'team': team, 'players': players})
+
+
 def scorers(request, bhv_id):
-    # todo: change view to show portraits and summary data of the players (not scorers data)
     team = get_object_or_404(Team, bhv_id=bhv_id)
     players = Player.objects \
         .filter(team=team) \
@@ -49,6 +58,7 @@ def offenders(request, bhv_id):
                   + Count('score__third_suspension_time')) \
         .annotate(disqualifications=Count('score__disqualification_time')) \
         .annotate(offender_points=F('warnings') + 2 * F('suspensions') + 3 * F('disqualifications')) \
+        .filter(offender_points__gt=0) \
         .order_by('-offender_points')
     add_ranking_place(team_offenders, 'offender_points')
     return render(request, 'teams/offenders.j2', {'team': team, 'offenders': team_offenders})

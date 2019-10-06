@@ -6,8 +6,8 @@
     {{ super() }}
     <nav class="nav nav-pills mb-3">
         <a class="nav-item nav-link m-1" href="{{ url('teams:detail', args=[team.bhv_id]) }}">Übersicht</a>
-        <a class="nav-item nav-link m-1 disabled">Spieler</a>
         <a class="nav-item nav-link m-1" href="{{ url('teams:games', args=[team.bhv_id]) }}">Spiele</a>
+        <a class="nav-item nav-link m-1" href="{{ url('teams:players', args=[team.bhv_id]) }}">Spieler</a>
         <a class="nav-item nav-link m-1" href="{{ url('teams:scorers', args=[team.bhv_id]) }}">Schützen</a>
         <a class="nav-item nav-link m-1 active" href="#/">Straffällige</a>
     </nav>

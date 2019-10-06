@@ -1,0 +1,39 @@
+{% extends 'teams/base.j2' %}
+{% block title %}Spieler - {{ super() }}{% endblock %}
+{% block description %}Spielerliste der Mannschaft '{{ team.name }}' in der Liga '{{ team.league.name }}' des Bereichs
+    '{{ team.league.district.name }}'{% endblock %}
+{% block content %}
+    {{ super() }}
+    <nav class="nav nav-pills mb-3">
+        <a class="nav-item nav-link m-1" href="{{ url('teams:detail', args=[team.bhv_id]) }}">Übersicht</a>
+        <a class="nav-item nav-link m-1 active" href="#/">Spieler</a>
+        <a class="nav-item nav-link m-1" href="{{ url('teams:games', args=[team.bhv_id]) }}">Spiele</a>
+        <a class="nav-item nav-link m-1" href="{{ url('teams:scorers', args=[team.bhv_id]) }}">Schützen</a>
+        <a class="nav-item nav-link m-1" href="{{ url('teams:offenders', args=[team.bhv_id]) }}">Straffällige</a>
+    </nav>
+    <h2>Spieler</h2>
+    <div class="table-responsive">
+        <table id="data-table" class="table table-sm table-striped">
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Sp.</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for player in players %}
+                <tr>
+                    <th scope="row"><a href="{{ player.get_absolute_url() }}">{{ player.public_name() }}</a></th>
+                    <td>{{ player.games }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+            <tfoot>
+            <tr>
+                <th>Name</th>
+                <th>Sp.</th>
+            </tr>
+            </tfoot>
+        </table>
+    </div>
+{% endblock %}
