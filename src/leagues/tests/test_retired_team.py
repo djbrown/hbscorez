@@ -10,6 +10,7 @@ from base.parsing import parse_retirements
 from base.tests.model_test_case import ModelTestCase
 from teams.models import Team
 from players.models import Score
+from leagues.models import League
 
 
 def read_html(file):
