@@ -590,12 +590,10 @@
         },
         "ptpython": {
             "hashes": [
-                "sha256:51a74abe931f692360a32d650c2ba1ca329c08f3ed9b1de8abcd1164e0b0a6a7",
-                "sha256:938ee050e37d61c138dbbeb21383dfef8b9ed4ffb453a5f34041f42025bf5042",
-                "sha256:ebe9d68ea7532ec8ab306d4bdc7ec393701cd9bbd6eff0aa3067c821f99264d4"
+                "sha256:0977f56c934789d9955839ef71268148858f826fda49b267cb377ac7501a897b",
+                "sha256:90e24040e82de4abae0bbe6e352d59ae6657e14e1154e742c0038679361b052f"
             ],
-            "index": "pypi",
-            "version": "==2.0.4"
+            "version": "==2.0.6"
         },
         "pycodestyle": {
             "hashes": [
