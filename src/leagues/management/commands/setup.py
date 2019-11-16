@@ -44,19 +44,26 @@ class Command(BaseCommand):
     def create_associations(self):
         url = settings.ROOT_SOURCE_URL
         dom = logic.get_html(url)
-        links = dom.xpath('//div[@id="main-content"]/div/ul/li/a')
-        for link in links:
-            self.create_association(link)
+        portal_urls = dom.xpath('//div[@id="main-content"]//table[@summary]/tbody/tr/td[1]/a/@href')
+        for portal_url in portal_urls:
+            bhv_id = self.get_association_bhv_id(portal_url)
+            self.create_association(bhv_id)
 
-    def create_association(self, association_link):
-        name = association_link.text_content()
+    def get_association_bhv_id(self, association_portal_url: str) -> int:
+        dom = logic.get_html(association_portal_url)
+        [bhv_id] = dom.xpath('//div[@id="app"]/@data-og-id')
+        return int(bhv_id)
+
+    def create_association(self, bhv_id):
+        url = Association.build_source_url(bhv_id)
+        dom = logic.get_html(url)
+
+        name = parsing.parse_league_name(dom)
         try:
             abbreviation = Association.get_association_abbreviation(name)
         except KeyError:
             LOGGER.warning("No abbreviation for association '%s'", name)
             return
-
-        bhv_id = parsing.parse_association_bhv_id(association_link)
 
         if self.options['associations'] and bhv_id not in self.options['associations']:
             LOGGER.debug('SKIPPING Association (options): %s %s', bhv_id, name)
@@ -68,8 +75,6 @@ class Command(BaseCommand):
         else:
             LOGGER.info('EXISTING Association: %s', association)
 
-        url = association.source_url()
-        dom = logic.get_html(url)
         items = dom.xpath('//select[@name="orgID"]/option[position()>1]')
         for item in items:
             self.create_district(item, association)
