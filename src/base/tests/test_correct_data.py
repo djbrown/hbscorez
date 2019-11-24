@@ -10,7 +10,7 @@ from players.models import Score
 
 class ImportGamesTest(ModelTestCase):
 
-    def test__210116_sghh_hcn(self):
+    def test_game_210116_sghh_hcn(self):
         return_code = call_command('setup', '-a', 35, '-d', 35, '-s', 2017, '-l', 26773)
         self.assertEqual(return_code, None)
         league = self.assert_objects(League)
