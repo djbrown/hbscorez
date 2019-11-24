@@ -35,3 +35,29 @@ class ImportGamesTest(ModelTestCase):
         self.assertEqual(return_code, None)
 
         self.assert_objects(Score, 26)
+
+    def test_game_96781(self):
+        return_code = call_command('setup', '-a', 3, '-d', 3, '-s', 2019, '-l', 45956)
+        self.assertEqual(return_code, None)
+        league = self.assert_objects(League)
+
+        return_code = call_command('import_games', '-g', 96781)
+        self.assertEqual(return_code, None)
+        game = self.assert_objects(Game)
+
+        self.assertEqual(game.number, 96781)
+        self.assertEqual(game.opening_whistle, datetime.datetime(2019, 9, 14, 19, 00))
+        self.assertEqual(game.home_team.short_name, 'TV Weingarten')
+        self.assertEqual(game.guest_team.short_name, 'SG Argental')
+        self.assertEqual(game.home_goals, 19)
+        self.assertEqual(game.guest_goals, 23)
+        self.assertIsNone(game.report_number)
+        self.assertEqual(game.sports_hall.number, 8092)
+        self.assertEqual(game.league, league)
+
+        self.assert_objects(Score, 0)
+
+        return_code = call_command('correct_data')
+        self.assertEqual(return_code, None)
+
+        self.assert_objects(Score, 27)

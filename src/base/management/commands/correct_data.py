@@ -20,6 +20,7 @@ class Command(BaseCommand):
         env.UPDATING.set_value(Value.TRUE)
         fix_game_387733()
         fix_game_210116()
+        fix_game_96781()
         env.UPDATING.set_value(Value.FALSE)
 
 
@@ -115,3 +116,38 @@ def fix_game_210116():
         "Timo Bäuerlein": _score(62, 2),
     }
     add_scores(26773, 210116, sghh, hcn)
+
+
+def fix_game_96781():
+    tvw = {
+        "Johanna Jassinger": _score(3),
+        "Katinka Karolyi": _score(4),
+        "Nicola Mayer-Rosa": _score(5, 1, warning_time=time(15)),
+        "Julia Müller": _score(8),
+        "Ann-Kathrin Kübler": _score(10, 1),
+        "Amela Celahmetovic": _score(11),
+        "Stephanie Schneider": _score(13, 5, warning_time=time(11)),
+        "Lea Frankenhauser": _score(14, 6),
+        "Nicole Monika Spänle": _score(16),
+        "Nadja Meier": _score(17, 1),
+        "Barbara Koch": _score(18, 4, 1, 1),
+        "Matilda Obermeier": _score(24),
+        "Jeannette Pfahl": _score(25),
+        "Miriam Borrmann": _score(76, 1, 1, 1),
+    }
+    sga = {
+        "Wiebke Krause": _score(1),
+        "Lydia Hepp": _score(2, 1, first_suspension_time=time(50, 21)),
+        "Dalin Kozok": _score(5, 2, warning_time=time(9), first_suspension_time=time(21, 36)),
+        "Katharina Stellmacher": _score(6, first_suspension_time=time(27, 16)),
+        "Jessica Mayer": _score(7, 1),
+        "Selina Haack": _score(8, 2, warning_time=time(6)),
+        "Janina Hirscher": _score(9, 8),
+        "Leonie Wölfle": _score(13, 1),
+        "Ramona Endraß": _score(14, 7, warning_time=time(14), first_suspension_time=time(40, 37)),
+        "Lisa Dreher": _score(17),
+        "Cathrin Müller": _score(16),
+        "Annika Duttle": _score(15, 1),
+        "Ann-Kathrin Messner": _score(19),
+    }
+    add_scores(league__bhv_id=45956, game_number=96781, home_score_data=tvw, guest_score_data=sga)
