@@ -26,7 +26,7 @@ class Command(BaseCommand):
     options: Dict[str, Any] = {}
     bugged_reports = [
         450001, 473097, 497475, 501159, 546059, 562543, 567811, 572051, 598812, 627428, 638260,  # 2018
-        893364, 891069,  # 2019
+        893364, 891069, 995291,  # 2019
     ]
     bugged_associations = [78]
 
