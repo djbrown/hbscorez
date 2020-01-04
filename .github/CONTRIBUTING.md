@@ -32,6 +32,9 @@ This Project uses [Pipenv](https://github.com/pypa/pipenv/) for managing Python 
 Install new dependencies from pypi via `pipenv install <PACKAGE>`.
 Add `--dev` flag for development dependencies.
 
+:warning: pylint is currenctly not installable via pipenv (see pypa/pipenv#2284 and pypa/pipenv#3827)
+In order to use pylint you have to run `pipenv install --dev --skip-lock pylint pylint-django`
+
 
 ## Style Guide
 

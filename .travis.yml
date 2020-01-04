@@ -4,7 +4,8 @@ python:
 dist: xenial
 install:
   - pip install pipenv
-  - pipenv install --dev
+  - pipenv install --dev --deploy
+  - pipenv install --dev --skip-lock pylint pylint-django
   - >-
     curl -H 'Cache-Control: no-cache'
     https://raw.githubusercontent.com/fossas/fossa-cli/master/install.sh | sudo

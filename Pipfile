@@ -4,9 +4,9 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-Django = ">=2.0"
+Django = "~=2.0"
 django-registration = "*"
-django-contact-form = {version = "*", extras = ["akismet"]}
+django-contact-form = {version = "*",extras = ["akismet"]}
 icalendar = "*"
 lxml = "*"
 Jinja2 = "*"
@@ -22,15 +22,15 @@ codacy-coverage = "*"
 codecov = "*"
 coverage = "*"
 coveralls = "*"
-dparse = {version = "*", extras = ["pipenv"]}
+dparse = {version = "*",extras = ["pipenv"]}
 flake8 = "*"
 mypy = "*"
 pip-licenses = "*"
 # prospector = "*"
 ptpython = "*"
 pylama = "*"
-pylint = "*"
-pylint-django = "*"
+#pylint = "*"
+#pylint-django = "*"
 rope = "*"
 sauceclient = "*"
 selenium = "*"

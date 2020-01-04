@@ -14,7 +14,8 @@ RUN echo "de_DE.UTF-8 UTF-8" >> /etc/locale.gen \
 
 COPY Pipfile .
 COPY Pipfile.lock .
-RUN pipenv install --skip-lock gunicorn==19.9.0
+RUN pipenv install --deploy
+RUN pipenv install --skip-lock gunicorn==20.0.4
 
 COPY . .
 
