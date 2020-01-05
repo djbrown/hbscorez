@@ -181,6 +181,8 @@ REPORTS_PATH = os.path.join(ROOT_DIR, 'reports')
 
 ROOT_SOURCE_URL = 'http://spo.handball4all.de/'
 
+NEW_ROOT_SOURCE_URL = 'https://www.handball4all.de/'
+
 SELENIUM = True
 
 SELENIUM_TIMEOUT = 3

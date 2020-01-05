@@ -42,10 +42,11 @@ class Command(BaseCommand):
         env.UPDATING.set_value(Value.FALSE)
 
     def create_associations(self):
-        url = settings.ROOT_SOURCE_URL
+        url = settings.NEW_ROOT_SOURCE_URL
         dom = logic.get_html(url)
-        portal_urls = dom.xpath('//div[@id="main-content"]//table[@summary]/tbody/tr/td[1]/a/@href')
-        for portal_url in portal_urls:
+        portal_paths = dom.xpath('//div[@id="main-content"]//table[@summary]/tbody/tr/td[1]/a/@href')
+        for portal_path in portal_paths:
+            portal_url = portal_path if portal_path.startswith('http') else settings.NEW_ROOT_SOURCE_URL + portal_path
             bhv_id = self.get_association_bhv_id(portal_url)
             self.create_association(bhv_id)
 
@@ -192,7 +193,7 @@ class Command(BaseCommand):
             try:
                 team = Team.objects.get(league=league, name=team_name)
             except Team.DoesNotExist:
-                LOGGER.warn('RETIRING team not found: %s %s', team_name, league)
+                LOGGER.warning('RETIRING team not found: %s %s', team_name, league)
                 continue
             if team.retirement != retirement_date:
                 team.retirement = retirement_date
