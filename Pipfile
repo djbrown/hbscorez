@@ -4,7 +4,7 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-Django = "~=2.0"
+Django = "~=2.2.0"
 django-registration = "*"
 django-contact-form = {version = "*",extras = ["akismet"]}
 icalendar = "*"
