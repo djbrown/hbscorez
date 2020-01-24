@@ -1,5 +1,6 @@
 import logging
 import os
+from pathlib import Path
 from typing import Any, Dict
 
 import tabula
@@ -120,24 +121,32 @@ class Command(BaseCommand):
             else:
                 LOGGER.info('REIMPORTING Report: %s - %s', game.report_number, game)
                 game.score_set.all().delete()
-                import_report(game)
+                import_game(game)
         elif game.forfeiting_team is not None:
             LOGGER.debug('SKIPPING Game (forfeit): %s - %s', game.report_number, game)
         else:
             LOGGER.info('IMPORTING Report: %s - %s', game.report_number, game)
-            import_report(game)
+            import_game(game)
 
 
 @transaction.atomic
-def import_report(game: Game):
+def import_game(game: Game):
+    path = Path(settings.REPORTS_PATH).joinpath(str(game.report_number) + '.pdf')
+    download_report(game, path)
+    import_report(game, str(path))
+    os.remove(path)
+
+
+def download_report(game: Game, path: Path):
     response = fetch_report(game)
     if int(response.headers.get('Content-Length', default=-1)) == 0:
         LOGGER.warning('SKIPPING Report (empty file): %s - %s', game.report_number, game)
         return
 
-    game.report_path().write_bytes(response.content)
+    path.write_bytes(response.content)
 
-    path = str(game.report_path())
+
+def import_report(game: Game, path: str):
     tables = tabula.read_pdf(path, output_format='json', **{'pages': [1, 2], 'lattice': True})
 
     game.spectators = parse_report.parse_spectators(tables[0])
@@ -145,8 +154,6 @@ def import_report(game: Game):
 
     import_scores(tables[2], game=game, team=game.home_team)
     import_scores(tables[3], game=game, team=game.guest_team)
-
-    os.remove(path)
 
 
 def import_scores(table, game: Game, team: Team):

@@ -1,5 +1,4 @@
 from enum import Enum, auto
-from pathlib import Path
 
 from django.conf import settings
 from django.db import models
@@ -58,9 +57,6 @@ class Game(models.Model):
         if self.report_number is None:
             return None
         return self.build_report_source_url(self.report_number)
-
-    def report_path(self):
-        return Path(settings.REPORTS_PATH).joinpath(str(self.report_number) + '.pdf')
 
     def opponent_of(self, team):
         if team == self.home_team:
