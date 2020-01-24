@@ -15,6 +15,7 @@ fi
 
 export PYTHONUNBUFFERED=1
 pipenv run python src/manage.py migrate || { echo "could not apply migrations. stopping startup.. "; exit 5; }
+pipenv run python src/manage.py correct_data || { echo "could not correct_data. stopping startup.. "; exit 6; }
 
 if [[ -z "${GUNICORN_WORKERS}" ]]; then
     echo "no gunicorn workers specified -> running with dev server"
