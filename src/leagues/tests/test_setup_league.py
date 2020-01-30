@@ -103,6 +103,12 @@ class Youth(ModelTestCase):
 
         self.assert_objects(League, count=0)
 
+    def test_mini(self):
+        return_code = call_command('setup', '-a', 56, '-d', 61, '-s', 2019, '-l', 55811, '--youth')
+        self.assertEqual(return_code, None)
+
+        self.assert_objects(League)
+
 
 class LongLeagueNames(ModelTestCase):
     def test_youth(self):

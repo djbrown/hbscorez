@@ -47,6 +47,9 @@ class League(models.Model):
         if name in ['Kreisliga A', 'Kreisliga B Nord', 'Kreisliga B Süd']:
             return False
 
+        if 'Mini' in name:
+            return True
+
         youth_match = abbreviation[:1] in ['m', 'w', 'g', 'u', 'U'] \
             or any(n in name for n in ['Jugend', 'Jgd', 'Mini', 'Jungen', 'Mädchen',
                                        'Jongen', 'Meedercher', 'weiblich', 'männlich'])
