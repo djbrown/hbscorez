@@ -17,7 +17,7 @@ static/
 .pylintrc
 .pyup.yml
 .travis.yml
-ATTRIBUTIONS.md
+ATTRIBUTIONS.csv
 coverage.xml
 db.sqlite3
 docker-stack*.yml
