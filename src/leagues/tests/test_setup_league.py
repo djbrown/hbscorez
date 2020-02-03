@@ -118,3 +118,11 @@ class LongLeagueNames(ModelTestCase):
         leagues = self.assert_objects(League, count=2).order_by('name')
         self.assertEqual(leagues[0].name, 'männliche Jgd. B - Kreisklasse')
         self.assertEqual(leagues[1].name, 'männliche Jgd. B - Rheinhessenliga')
+
+
+class Pokal(ModelTestCase):
+    def test_fpokk_2019(self):
+        return_code = call_command('setup', '-a', 56, '-d', 62, '-s', 2019, '-l', 45411)
+        self.assertEqual(return_code, None)
+
+        self.assert_objects(League, count=0)
