@@ -21,6 +21,7 @@ class Command(BaseCommand):
         fix_game_387733()
         fix_game_210116()
         fix_game_96781()
+        fix_game_201059()
         env.UPDATING.set_value(Value.FALSE)
 
 
@@ -151,3 +152,40 @@ def fix_game_96781():
         "Ann-Kathrin Messner": _score(19),
     }
     add_scores(league__bhv_id=45956, game_number=96781, home_score_data=tvw, guest_score_data=sga)
+
+
+def fix_game_201059():
+    tsgs = {
+        "Bartlomiej Pawlak": _score(1),
+        "Tim Kaulitz": _score(2, 3),
+        "Kevin Kraft": _score(3, 1, first_suspension_time=time(43, 23)),
+        "Andreas Schaaf": _score(5, 1, 1, 1),
+        "Moritz Lächler": _score(9),
+        "Moritz Bittner": _score(10),
+        "Niko Henke": _score(12),
+        "Alexander Schramm": _score(17),
+        "Mathias Salger": _score(18, 2),
+        "Leo Vesligaj": _score(22, 2, warning_time=time(30)),
+        "Lukas Francik": _score(23, warning_time=time(27)),
+        "Martin Mäck": _score(26),
+        "Bastian Klett": _score(28, 4, 5, 4, warning_time=time(4), first_suspension_time=time(29, 22),
+                                second_suspension_time=time(34, 26)),
+        "Philipp Eberhardt": _score(98, 1),
+    }
+    hcn = {
+        "Xaver Nitzke": _score(3, 4, first_suspension_time=time(37, 53)),
+        "Vincent von Witzleben": _score(6),
+        "Georg Kern": _score(7, 1, warning_time=time(5)),
+        "Philipp Karasinski": _score(11, 3, first_suspension_time=time(55, 57)),
+        "Findan Krettek": _score(12),
+        "Raphael Blum": _score(13, 1),
+        "Florin Panazan": _score(16),
+        "Jonas Kraus": _score(18, 1),
+        "Marius Angrick": _score(19, 1, warning_time=time(32)),
+        "Nikolaj Unser": _score(22),
+        "Felix Kracht": _score(23, 2, 1, 1, first_suspension_time=time(22, 42)),
+        "Phil Burkhardt": _score(31, 1),
+        "Marco Langjahr": _score(32, 8),
+        "Timo Bäuerlein": _score(62, 2),
+    }
+    add_scores(league__bhv_id=45166, game_number=201059, home_score_data=tsgs, guest_score_data=hcn)
