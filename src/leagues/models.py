@@ -44,7 +44,7 @@ class League(models.Model):
 
     @staticmethod
     def is_youth(abbreviation: str, name: str) -> bool:
-        if name in ['Kreisliga A', 'Kreisliga B Nord', 'Kreisliga B Süd']:
+        if name in ['Kreisliga A', 'Kreisliga B Nord', 'Kreisliga B Süd', 'Spielrunde Special Olympics']:
             return False
 
         if 'Mini' in name:
