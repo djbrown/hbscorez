@@ -7,9 +7,7 @@ $(() => {
     const $leagues = $('#leagues');
     const $teams = $('#teams');
 
-    let associationId = null;
     let districtId = null;
-    let seasonId = null;
 
     if (clear === true) {
         clearAssociations();
@@ -22,7 +20,7 @@ $(() => {
     }
 
     $associations.change(e => {
-        associationId = e.target.value;
+        const associationId = e.target.value;
         clearDistricts();
         $.get(`/api/associations/${associationId}/districts/`, response => {
             response.districts.sort((a, b) => a.name.localeCompare(b.name)).forEach(district => {
@@ -36,15 +34,15 @@ $(() => {
         clearSeasons();
         $.get('/api/seasons/', response => {
             response.seasons.sort((a, b) => a.startYear - b.startYear).forEach(season => {
-                $seasons.append(`<option value="${season.startYear}">${season.startYear}</option>`);
+                $seasons.append(`<option value="${season.startYear}">${season.startYear}/${season.startYear+1}</option>`);
             });
         });
     });
 
     $seasons.change(e => {
-        seasonId = e.target.value;
+        const seasonStartYear = e.target.value;
         clearLeagues();
-        $.get(`/api/districts/${districtId}/seasons/${seasonId}/leagues/`, response => {
+        $.get(`/api/districts/${districtId}/seasons/${seasonStartYear}/leagues/`, response => {
             response.leagues.sort((a, b) => a.name.localeCompare(b.name)).forEach(league => {
                 $leagues.append(`<option value="${league.bhvId}">${league.name}</option>`);
             });
