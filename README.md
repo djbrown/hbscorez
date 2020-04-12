@@ -9,6 +9,9 @@
 <!-- TODO: register on Sauce Labs at https://saucelabs.com/open-source/open-sauce [![Sauce Test Status](https://saucelabs.com/buildstatus/dan-brown)](https://saucelabs.com/u/dan-brown)
 [![Sauce Labs Browsers](https://saucelabs.com/browser-matrix/dan-brown.svg)](https://saucelabs.com/u/dan-brown) -->
 [![FOSSA License Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fdjbrown%2Fhbscorez.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fdjbrown%2Fhbscorez?ref=badge_shield)
+[![Updates](https://pyup.io/repos/github/djbrown/hbscorez/shield.svg)](https://pyup.io/repos/github/djbrown/hbscorez/)
+[![Python 3](https://pyup.io/repos/github/djbrown/hbscorez/python-3-shield.svg)](https://pyup.io/repos/github/djbrown/hbscorez/)
+
 
 <!-- TODO:  register on Sauce Labs at https://saucelabs.com/open-source/open-sauce [![Sauce Labs Browsers](https://saucelabs.com/browser-matrix/djbrown-hbscorez.svg)](https://saucelabs.com/u/djbrown-hbscorez) -->
 
