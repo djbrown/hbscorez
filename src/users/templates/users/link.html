@@ -39,7 +39,7 @@
         <label for="seasons">Saison</label>
         <select id="seasons" class="form-control">
             {% for s in seasons %}
-            <option value="{{ s.start_year }}" {% if s == team.league.season %}selected{% endif %}>
+            <option value="{{ s.start_year }}/{{ s.end_year }}" {% if s == team.league.season %}selected{% endif %}>
                 {{ s }}</option>
             {% endfor %}
         </select>
