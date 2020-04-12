@@ -18,7 +18,8 @@
         <label for="associations">Verband</label>
         <select id="associations" class="form-control">
             {% for a in associations %}
-            <option value="{{ a.bhv_id }}" {% if a == team.league.district.associations.all.0 %}selected{% endif %}>{{ a.name }} ({{ a.abbreviation }})</option>
+            <option value="{{ a.bhv_id }}" {% if a == team.league.district.associations.all.0 %}selected{% endif %}>
+                {{ a.name }} ({{ a.abbreviation }})</option>
             {% endfor %}
         </select>
     </fieldset>
@@ -31,14 +32,15 @@
             <option value="{{ d.bhv_id }}" {% if d == team.league.district %}selected{% endif %}>{{ d.name }}</option>
             {% endfor %}
             {% endif %}
-            </select>
+        </select>
     </fieldset>
 
     <fieldset class="form-group">
         <label for="seasons">Saison</label>
         <select id="seasons" class="form-control">
             {% for s in seasons %}
-            <option value="{{ s.start_year }}" {% if s == team.league.season %}selected{% endif %}>{{ s }}</option>
+            <option value="{{ s.start_year }}" {% if s == team.league.season %}selected{% endif %}>
+                {{ s }}</option>
             {% endfor %}
         </select>
     </fieldset>
@@ -48,7 +50,8 @@
         <select id="leagues" class="form-control">
             {% if team %}
             {% for l in leagues %}
-            <option value="{{ l.bhv_id }}" {% if l == team.league %}selected{% endif %}>{{ l.name }} ({{ l.abbreviation }})</option>
+            <option value="{{ l.bhv_id }}" {% if l == team.league %}selected{% endif %}>{{ l.name }}
+                ({{ l.abbreviation }})</option>
             {% endfor %}
             {% endif %}
         </select>
@@ -57,7 +60,7 @@
     <fieldset class="form-group">
         <label for="teams">Mannschaft</label>
         <select name="team_bhv_id" id="teams" required
-                class="form-control {% if form.player_name.errors %}is-invalid{% endif %}">
+            class="form-control {% if form.player_name.errors %}is-invalid{% endif %}">
             {% if team %}
             {% for t in team.league.team_set.all %}
             <option value="{{ t.bhv_id }}" {% if t == team %}selected{% endif %}>{{ t.name }}</option>
@@ -70,35 +73,37 @@
     <fieldset class="form-group">
         <label for="name">Spielername</label>
         <input name="player_name" type="text" id="name" placeholder="Spielername" required
-                class="form-control {% if form.player_name.errors %}is-invalid{% endif %}"
-                {% if form.player_name.value %} value="{{ form.player_name.value.strip }}"{% endif %} />
-            {% if form.player_name.errors %}<div class="invalid-feedback">{{ form.player_name.errors }}</div>{% endif %}
+            class="form-control {% if form.player_name.errors %}is-invalid{% endif %}" {% if form.player_name.value %}
+            value="{{ form.player_name.value.strip }}" {% endif %} />
+        {% if form.player_name.errors %}<div class="invalid-feedback">{{ form.player_name.errors }}</div>{% endif %}
     </fieldset>
 
     <fieldset class="form-group">
         Ich bestätige hiermit, ...
         <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="True" id="consent-identity" name="consent_identity" required
-                    {% if request.POST.consent_identity %}checked{% endif %} />
+            <input class="form-check-input" type="checkbox" value="True" id="consent-identity" name="consent_identity"
+                required {% if request.POST.consent_identity %}checked{% endif %} />
             <label class="form-check-label" for="consent-identity">dass ich die angegebene Person bin</label>
         </div>
         <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="True" id="consent-delete" name="consent_delete" required
-                    {% if request.POST.consent_delete %}checked{% endif %} />
-            <label class="form-check-label" for="consent-delete">dass ich meine Verknüpfung jederzeit einmalig löschen kann</label>
+            <input class="form-check-input" type="checkbox" value="True" id="consent-delete" name="consent_delete"
+                required {% if request.POST.consent_delete %}checked{% endif %} />
+            <label class="form-check-label" for="consent-delete">dass ich meine Verknüpfung jederzeit einmalig löschen
+                kann</label>
         </div>
         <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="True" id="consent-publish" name="consent_publish" required
-                    {% if request.POST.consent_publish %}checked{% endif %} />
-            <label class="form-check-label" for="consent-publish">dass mein Name und meine Statistiken öffentlich auf HbScorez angezeigt werden</label>
+            <input class="form-check-input" type="checkbox" value="True" id="consent-publish" name="consent_publish"
+                required {% if request.POST.consent_publish %}checked{% endif %} />
+            <label class="form-check-label" for="consent-publish">dass mein Name und meine Statistiken öffentlich auf
+                HbScorez angezeigt werden</label>
         </div>
     </fieldset>
-    <input type="submit" value="Verknüpfen" class="btn btn-primary"/>
+    <input type="submit" value="Verknüpfen" class="btn btn-primary" />
 </form>
 {% endblock %}
 
 {% block scripts %}
 {{ block.super }}
-<script>const clear = {% if team %}false{% else %}true{% endif %};</script>
+<script>const clear = {% if team %}false{% else %} true{% endif %};</script>
 <script src="{% static 'users/scripts/link.js' %}"></script>
 {% endblock %}
