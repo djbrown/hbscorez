@@ -5,6 +5,7 @@ from contextlib import contextmanager
 
 from django.conf import settings
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
+from django.core.management import call_command
 from django.test import TestCase, tag
 from django.urls import ResolverMatch, resolve, reverse
 from sauceclient import SauceClient
@@ -20,6 +21,7 @@ _SAUCE_KEY = os.environ.get("SAUCE_ACCESS_KEY")
 
 
 class ModelTestCase(TestCase):
+
     def assert_objects(self, model, count=1, filters=None):
         if filters is None:
             filters = {}
@@ -29,7 +31,6 @@ class ModelTestCase(TestCase):
         return objects[0] if count == 1 else objects
 
 
-@unittest.skipUnless(_CI, 'integration test cases should only run in CI or if configured explicitly.')
 @tag('integration', 'slow')
 class IntegrationTestCase(ModelTestCase):
 
