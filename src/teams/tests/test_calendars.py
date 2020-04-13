@@ -1,13 +1,12 @@
-from django.core.management import call_command
-from base.tests.model_test_case import ModelTestCase
+from base.tests.base import IntegrationTestCase
 
 from teams.models import Team
 
 
-class CalendarTest(ModelTestCase):
+class CalendarTest(IntegrationTestCase):
     def test__rems_stuttgart__mkld(self):
-        call_command('setup', '-a', 3, '-d', 7, '-s', 2017, '-l', 28454)
-        call_command('import_games')
+        self.assert_command('setup', '-a', 3, '-d', 7, '-s', 2017, '-l', 28454)
+        self.assert_command('import_games')
 
         self.client.get('/mannschaften/391930/kalender/')
 

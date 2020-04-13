@@ -5,6 +5,7 @@ from contextlib import contextmanager
 
 from django.conf import settings
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
+from django.test import TestCase, tag
 from django.urls import ResolverMatch, resolve, reverse
 from sauceclient import SauceClient
 from selenium.webdriver import Firefox, Remote
@@ -18,8 +19,27 @@ _SAUCE_USER = os.environ.get("SAUCE_USERNAME")
 _SAUCE_KEY = os.environ.get("SAUCE_ACCESS_KEY")
 
 
-@unittest.skipUnless(settings.SELENIUM is True or _CI,
-                     'Selenium test cases are only run in CI or if configured explicitly.')
+class ModelTestCase(TestCase):
+    def assert_objects(self, model, count=1, filters=None):
+        if filters is None:
+            filters = {}
+
+        objects = model.objects.filter(**filters)
+        self.assertEqual(len(objects), count)
+        return objects[0] if count == 1 else objects
+
+
+@unittest.skipUnless(_CI, 'integration test cases should only run in CI or if configured explicitly.')
+@tag('integration', 'slow')
+class IntegrationTestCase(ModelTestCase):
+
+    def assert_command(self, command_name, *arguments, expected_return_code=None):
+        return_code = call_command(command_name, *arguments)
+        self.assertEqual(return_code, expected_return_code)
+
+
+@unittest.skipUnless(settings.SELENIUM is True or _CI, 'Selenium test cases are only run in CI or if configured explicitly.')
+@tag('selenium', 'slow')
 class SeleniumTestCase(StaticLiveServerTestCase):
 
     def setUp(self):
