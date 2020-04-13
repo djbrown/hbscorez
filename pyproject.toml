@@ -1,0 +1,71 @@
+[tool.poetry]
+name = "hbscorez"
+version = "1.2.5"
+description = "HbScorez is a web application, which processes handball game reports of diverse handball associations, districts, and leagues. It analyzes the player scores and displays the statistics and rankings."
+license = "MIT"
+authors = ["Daniel Brown <info@hbscorez.de>"]
+readme = "README.md"
+homepage = "https://hbscorez.de"
+repository = "Https://github.com/djbrown/hbscorez"
+keywords = ["handball", "statistics", "django" ]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Environment :: Web Environment",
+    "Environment :: Console",
+    "Framework :: Django",
+    "Framework :: Django :: 2.2",
+    "Intended Audience :: Developers",
+    "Intended Audience :: End Users/Desktop",
+    "Natural Language :: English",
+    "Natural Language :: German",
+    "Operating System :: OS Independent",
+    "Programming Language :: Cython",
+    "Programming Language :: JavaScript",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: Implementation",
+    "Programming Language :: Python :: Implementation :: CPython",
+]
+packages = [
+    { include = "src/**/*py" },
+]
+
+
+[tool.poetry.dependencies]
+python = "^3.6"
+django = "~2.2.0"
+jinja2 = "*"
+requests = "*"
+tabula-py = "*"
+icalendar = "*"
+lxml = "*"
+django-registration = "*"
+django-contact-form = "*"
+akismet = "*"
+psycopg2 = "*"
+psycopg2-binary = "*"
+
+[tool.poetry.dev-dependencies]
+autopep8 = "*"
+bandit = "*"
+codacy-coverage = "*"
+codecov = "*"
+coveralls = "*"
+# dparse = {version = "*",extras = ["poetry"]}
+flake8 = "*"
+mypy = "*"
+pip-licenses = "*"
+prospector = "*"
+ptpython = "*"
+pylama = "*"
+pylint = "*"
+pylint-django = "*"
+rope = "*"
+sauceclient = "*"
+selenium = "*"
+
+[build-system]
+requires = ["poetry>=0.12"]
+build-backend = "poetry.masonry.api"
