@@ -587,11 +587,10 @@
         },
         "ptpython": {
             "hashes": [
-                "sha256:653af0c8b420e1fe817d1fc709b24d183c7155dd8d36c225827db8d13f37d84e",
-                "sha256:a69cce0aa04f0075e2e65287a0ee2f3a928c0591b301ce22aa2e498af1ebcb4b"
+                "sha256:126a9e2126816066e6ad57661a15715649a5a4d4b3ca9387d7825dc7d9040c38",
+                "sha256:556e5367d4d58231b575dc619493dc0d8ef4c2d15ee85c727a88beb60fa5c52b"
             ],
-            "index": "pypi",
-            "version": "==3.0.1"
+            "version": "==3.0.2"
         },
         "pycodestyle": {
             "hashes": [
