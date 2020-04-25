@@ -39,7 +39,8 @@ class IntegrationTestCase(ModelTestCase):
         self.assertEqual(return_code, expected_return_code)
 
 
-@unittest.skipUnless(settings.SELENIUM is True or _CI, 'Selenium test cases are only run in CI or if configured explicitly.')
+@unittest.skipUnless(settings.SELENIUM is True or _CI,
+                     'Selenium test cases are only run in CI or if configured explicitly.')
 @tag('selenium', 'slow')
 class SeleniumTestCase(StaticLiveServerTestCase):
 
