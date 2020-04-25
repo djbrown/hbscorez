@@ -16,14 +16,17 @@
 
 <!-- TODO:  register on Sauce Labs at https://saucelabs.com/open-source/open-sauce [![Sauce Labs Browsers](https://saucelabs.com/browser-matrix/djbrown-hbscorez.svg)](https://saucelabs.com/u/djbrown-hbscorez) -->
 
-This is the repo for the web application HbScorez running on https://hbscorez.de/.<br/>
-HbScorez is a web application, which processes handball game reports of diverse handball associations, districts, and leagues.
+This is the repo for the web application HbScorez running https://hbscorez.de/.<br/>
+HbScorez processes handball game reports of diverse handball associations, districts, and leagues.
 It analyzes the player scores and displays the statistics and rankings.
 
-HbScorez is powered by Django
+## Acknowledgements
 
+HbScorez is powered by **Django**<br/>
 [<img src="https://www.djangoproject.com/m/img/logos/django-logo-positive.svg" height="50" alt="Django Logo"/>](https://www.djangoproject.com/)
 
+[ ~ Dependencies scanned by **PyUp.io** ~ ]<br/>
+[<img src="https://pyup.io/static/images/logo.png" height="50"/>](https://pyup.io/)
 
 ## Running via Docker
 
