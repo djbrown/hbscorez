@@ -184,5 +184,3 @@ ROOT_SOURCE_URL = 'http://spo.handball4all.de/'
 NEW_ROOT_SOURCE_URL = 'https://www.handball4all.de/'
 
 SELENIUM_TIMEOUT = 3
-
-TEST_RUNNER = 'base.tests.base.Runner'
