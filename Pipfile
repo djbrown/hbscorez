@@ -41,5 +41,8 @@ python_version = "3.7"
 [scripts]
 hbscorez = "./src/manage.py runserver"
 hbtest = "./src/manage.py test src"
+hbunittest = "./src/manage.py test --exclude-tag slow src"
+hbintegrationtest = "./src/manage.py test --tag integration src"
+hbseleniumtest = "./src/manage.py test --tag selenium src"
 hbcoverage = "coverage run --branch --source=src --omit=src/*/migrations/* ./src/manage.py test src"
 delmig = "find . -path \"src/*/migrations/*.py\" -not -name \"__init__.py\" -delete"

@@ -3,7 +3,8 @@
 .idea/
 **/.mypy_cache/
 .vscode/
-logs
+htmlcov/
+logs/
 mails/
 media/
 reports/
