@@ -67,7 +67,7 @@ Run coverage: `pipenv run hbcoverage`
   * install [Firefox](https://www.mozilla.org/firefox/) and add to PATH
   * install [geckodriver](https://github.com/mozilla/geckodriver) and add to PATH
   * set Django setting `SELENIUM_TIMEOUT` according to the local processing power
-  * `python src/manage.py test --tag selenium src`
+  * `./src/manage.py test --tag selenium src`
 
 ## JavaScript (:warning: Work in Progress)
 <!-- TODO -->

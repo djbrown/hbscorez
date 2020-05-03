@@ -44,10 +44,10 @@ App is reachable under [127.0.0.1:8000](http://127.0.0.1:8000)
 
 ### Installation
 `pipenv install`<br/>
-`pipenv run python src/manage.py migrate`
+`pipenv run ./src/manage.py migrate`
 
 ### Start Application
-`pipenv run python src/manage.py runserver`
+`pipenv run ./src/manage.py runserver`
 
 
 ## Main Management Commands
@@ -56,7 +56,7 @@ App is reachable under [127.0.0.1:8000](http://127.0.0.1:8000)
 * **import_games**: fetch games and sport halls
 * **import_reports**: fetch, parse and import game report data (players, scores, spectator count)
 
-Execute commands via `pipenv run python src/manage.py <COMMAD> <OPTIONS>`.<br/>
+Execute commands via `pipenv run ./src/manage.py <COMMAD> <OPTIONS>`.<br/>
 Prepend `docker run djbrown/hbscorez:latest ` to execute inside Docker container.<br/>
 Append ` -h` to display command help.
 

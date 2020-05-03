@@ -14,14 +14,14 @@ then
 fi
 
 export PYTHONUNBUFFERED=1
-pipenv run python src/manage.py migrate || { echo "could not apply migrations. stopping startup.. "; exit 5; }
-pipenv run python src/manage.py correct_data || { echo "could not correct_data. stopping startup.. "; exit 6; }
+pipenv run ./src/manage.py migrate || { echo "could not apply migrations. stopping startup.. "; exit 5; }
+pipenv run ./src/manage.py correct_data || { echo "could not correct_data. stopping startup.. "; exit 6; }
 
 if [[ -z "${GUNICORN_WORKERS}" ]]; then
     echo "no gunicorn workers specified -> running with dev server"
-    exec pipenv run python src/manage.py runserver 0.0.0.0:8000 "$@"
+    exec pipenv run ./src/manage.py runserver 0.0.0.0:8000 "$@"
 else
-    pipenv run python src/manage.py collectstatic --noinput
+    pipenv run ./src/manage.py collectstatic --noinput
     exec pipenv run gunicorn hbscorez.wsgi:application \
         --chdir src \
         --name hbscorez_django \
