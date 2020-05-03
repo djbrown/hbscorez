@@ -1,6 +1,5 @@
 import os
 import sys
-import unittest
 from contextlib import contextmanager
 
 from django.conf import settings
@@ -39,15 +38,14 @@ class IntegrationTestCase(ModelTestCase):
         self.assertEqual(return_code, expected_return_code)
 
 
-@unittest.skipUnless(settings.SELENIUM is True or _CI,
-                     'Selenium test cases are only run in CI or if configured explicitly.')
 @tag('selenium', 'slow')
 class SeleniumTestCase(StaticLiveServerTestCase):
+    """Selenium test cases are only run in CI or if configured explicitly"""
 
     def setUp(self):
         if _CI:
             self.driver = self.sauce_chrome_webdriver()
-        elif settings.SELENIUM is True:
+        else:
             options = FirefoxOptions()
             options.add_argument('-headless')
             self.driver = Firefox(firefox_options=options)
