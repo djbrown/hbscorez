@@ -1,7 +1,7 @@
 from unittest.mock import Mock, patch
 
 from base.tests.base import IntegrationTestCase
-from games.tests import test_import_games
+from games.tests.integration import test_import_games
 from players.models import Player, Score
 
 

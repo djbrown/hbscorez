@@ -3,7 +3,7 @@ import datetime
 from base.tests.base import IntegrationTestCase
 from games.models import Game
 from leagues.models import League, Season
-from leagues.tests import test_setup_league
+from leagues.tests.integration import test_setup_league
 
 
 class ImportGamesTest(IntegrationTestCase):
