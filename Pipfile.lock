@@ -309,11 +309,10 @@
         },
         "tabula-py": {
             "hashes": [
-                "sha256:0a6626ab091c3cd965cdf52c3af7ba9d69bb3bc9290f2276d0d19a65ba8b50cd",
-                "sha256:d60005fdc7166ac0de56eb10018f2742a82c9a8904e204d40293c9d6d88a99aa"
+                "sha256:6fe6282ec0969ee3d21ee6bb25bb9a7204e63c2651d165060ad545ee98885680",
+                "sha256:d7fc7131113188a4becdbf02fa9c852240d08d46353b73fa0694b398cd4d9274"
             ],
-            "index": "pypi",
-            "version": "==2.1.0"
+            "version": "==2.1.1"
         },
         "urllib3": {
             "hashes": [
