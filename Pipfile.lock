@@ -761,10 +761,10 @@
         },
         "virtualenv": {
             "hashes": [
-                "sha256:8bb59b586fea2eb3bb5600f7ef53d11fd4a64806cdf1a7217b29e7d943dbd8dc",
-                "sha256:b86480fc1fe3908a85d7377eee8dc9644a58090b9d3a3701b347c69c308f3e72"
+                "sha256:26cdd725a57fef4c7c22060dba4647ebd8ca377e30d1c1cf547b30a0b79c43b4",
+                "sha256:c51f1ba727d1614ce8fd62457748b469fbedfdab2c7e5dd480c9ae3fbe1233f1"
             ],
-            "version": "==20.0.19"
+            "version": "==20.0.27"
         },
         "virtualenv-clone": {
             "hashes": [
