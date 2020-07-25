@@ -15,7 +15,6 @@
 "chardet","3.0.4","GNU Library or Lesser General Public License (LGPL)","Daniel Blanchard","https://github.com/chardet/chardet"
 "codacy-coverage","1.3.11","MIT License","Codacy","https://github.com/codacy/python-codacy-coverage"
 "codecov","2.1.8","Apache Software License","Codecov","https://github.com/codecov/codecov-python"
-"colorama","0.4.3","BSD License","Jonathan Hartley","https://github.com/tartley/colorama"
 "confusable-homoglyphs","3.2.0","MIT License","Victor Felder","https://github.com/vhf/confusable_homoglyphs"
 "coverage","5.2.1","Apache Software License","Ned Batchelder and 136 others","https://github.com/nedbat/coveragepy"
 "coveralls","2.1.1","MIT License","coveralls-clients contributors","http://github.com/coveralls-clients/coveralls-python"
