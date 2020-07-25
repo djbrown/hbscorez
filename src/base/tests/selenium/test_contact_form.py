@@ -10,7 +10,7 @@ class ContactFormTest(SeleniumTestCase):
 
         username = 'john'
         usermail = 'lennon@thebeatles.com'
-        message = f'this is a message'
+        message = 'this is a message'
         self.navigate('contact_form')
 
         username_textfield = self.driver.find_element_by_name('name')
