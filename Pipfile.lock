@@ -638,11 +638,10 @@
         },
         "pip-licenses": {
             "hashes": [
-                "sha256:01e1a5bf14b33f9ba8bfa446a80fc857d47bc821c3a574aa442e41a84c21e00f",
-                "sha256:8c0ebe582ba9ae29cde6486b7dd77d58d92200ae2cb67c11761356ffaceb47c1"
+                "sha256:630f7e1b51ac0751c9c218e2ed76bb982e769301510a0bcca0dd4a47d05198fd",
+                "sha256:b3922fc71e819c1a155460116d2fcf15eca85a22ebe057cd1e1dedb951b1199f"
             ],
-            "index": "pypi",
-            "version": "==2.2.1"
+            "version": "==2.3.0"
         },
         "pipenv": {
             "hashes": [
