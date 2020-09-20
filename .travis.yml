@@ -4,7 +4,6 @@ python:
 dist: xenial
 install:
   - pipenv install --dev --deploy
-  - pipenv install --dev --skip-lock pylint pylint-django
 addons:
   sauce_connect: true
 before_script:
