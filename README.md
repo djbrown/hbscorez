@@ -7,6 +7,7 @@
 [![Codecov Coverage Status](https://codecov.io/github/djbrown/hbscorez/coverage.svg)](http://codecov.io/github/djbrown/hbscorez/)
 [![Codacy Quality Status](https://api.codacy.com/project/badge/Grade/aa168e5b5c154b1ba8b891afa0998d9e)](https://www.codacy.com/app/djbrown/hbscorez?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=djbrown/hbscorez&amp;utm_campaign=Badge_Grade)
 [![Code Climate Maintainability](https://api.codeclimate.com/v1/badges/db7cf3c32bc124e21e8e/maintainability)](https://codeclimate.com/github/djbrown/hbscorez/maintainability)
+[![Code Climate Test Coverage](https://api.codeclimate.com/v1/badges/db7cf3c32bc124e21e8e/test_coverage)](https://codeclimate.com/github/djbrown/hbscorez/test_coverage)
 [![Mypy Badge](http://www.mypy-lang.org/static/mypy_badge.svg)](http://mypy-lang.org/)
 <!-- TODO: register on Sauce Labs at https://saucelabs.com/open-source/open-sauce [![Sauce Test Status](https://saucelabs.com/buildstatus/dan-brown)](https://saucelabs.com/u/dan-brown)
 [![Sauce Labs Browsers](https://saucelabs.com/browser-matrix/dan-brown.svg)](https://saucelabs.com/u/dan-brown) -->
