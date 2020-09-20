@@ -3,23 +3,26 @@ python:
   - "3.7"
 dist: xenial
 install:
-  - pip install pipenv
   - pipenv install --dev --deploy
   - pipenv install --dev --skip-lock pylint pylint-django
-  - >-
-    curl -H 'Cache-Control: no-cache'
-    https://raw.githubusercontent.com/fossas/fossa-cli/master/install.sh | sudo
-    bash
 addons:
   sauce_connect: true
+before_script:
+  - "curl -H 'Cache-Control: no-cache' https://raw.githubusercontent.com/fossas/fossa-cli/master/install.sh | sudo bash"
+  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+  - chmod +x ./cc-test-reporter
+  - ./cc-test-reporter before-build
 script:
+  - travis_fold start tests
   - pipenv run hbcoverage
-  - pipenv run coverage xml
+  - travis_fold end tests
   - pipenv run mypy src
   - pipenv run flake8
-after_success:
+  - diff ATTRIBUTIONS.csv <(pipenv run pip-licenses -sau --from classifier -f csv)
+after_script:
+  - pipenv run coverage xml
   - pipenv run codecov
   - pipenv run coveralls
   - pipenv run python-codacy-coverage -r coverage.xml
-  - diff ATTRIBUTIONS.csv <(pipenv run pip-licenses -sau --from classifier -f csv)
-  - pipenv lock -r > requirements.txt && fossa
+  - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
+  - pipenv lock -r > requirements.txt && fossa analyze
