@@ -170,6 +170,8 @@ class Command(BaseCommand):
             7424: "Männer Kreisliga C Staffel 3",
             50351: "gemischte Jugend D Kreisliga A Staffel 1",
             52853: "männliche Jugend C Bezirksliga Staffel 2",
+            58111: "Frauen Oberliga Rheinland-Pfalz/Saar 1",
+            58116: "Frauen Oberliga Rheinland-Pfalz/Saar 2",
         }.get(bhv_id, name)
 
         if League.is_youth(abbreviation, name) and not self.options['youth']:
