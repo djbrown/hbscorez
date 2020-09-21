@@ -142,7 +142,7 @@ LOGGING: dict = {
         },
         'mail': {
             'handlers': ['mail'],
-    },
+        },
     },
 }
 
