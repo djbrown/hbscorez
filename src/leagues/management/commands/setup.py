@@ -204,16 +204,7 @@ class Command(BaseCommand):
             create_team(team_link, league)
 
         retirements = parsing.parse_retirements(dom)
-        for team_name, retirement_date in retirements:
-            try:
-                team = Team.objects.get(league=league, name=team_name)
-            except Team.DoesNotExist:
-                LOGGER.warning('RETIRING team not found: %s %s', team_name, league)
-                continue
-            if team.retirement != retirement_date:
-                team.retirement = retirement_date
-                LOGGER.info('RETIRING team %s on %s', team, retirement_date)
-                team.save()
+        check_retirements(retirements, league)
 
 
 def create_team(link, league):
@@ -232,3 +223,16 @@ def create_team(link, league):
         LOGGER.info('CREATED Team: %s', team)
     else:
         LOGGER.info('EXISTING Team: %s', team)
+
+
+def check_retirements(retirements, league):
+    for team_name, retirement_date in retirements:
+        try:
+            team = Team.objects.get(league=league, name=team_name)
+        except Team.DoesNotExist:
+            LOGGER.warning('RETIRING team not found: %s %s', team_name, league)
+            continue
+        if team.retirement != retirement_date:
+            team.retirement = retirement_date
+            LOGGER.info('RETIRING team %s on %s', team, retirement_date)
+            team.save()
