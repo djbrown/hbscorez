@@ -169,6 +169,11 @@ MANAGERS = [('manager', 'manager@localhost')]
 ADMINS = [('admin', 'admin@localhost')]
 
 
+# test
+
+TEST_RUNNER = 'base.tests.base.Runner'
+
+
 # auth
 
 LOGIN_REDIRECT_URL = 'users:profile'
