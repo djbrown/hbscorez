@@ -48,7 +48,10 @@ class Command(BaseCommand):
         for portal_path in portal_paths:
             portal_url = portal_path if portal_path.startswith('http') else settings.NEW_ROOT_SOURCE_URL + portal_path
             bhv_id = self.get_association_bhv_id(portal_url)
+            try:
             self.create_association(bhv_id)
+            except Exception:
+                logging.getLogger('mail').exception("Could not create Association")
 
     def get_association_bhv_id(self, association_portal_url: str) -> int:
         dom = logic.get_html(association_portal_url)
@@ -78,7 +81,10 @@ class Command(BaseCommand):
 
         items = dom.xpath('//select[@name="orgID"]/option[position()>1]')
         for item in items:
+            try:
             self.create_district(item, association)
+            except Exception:
+                logging.getLogger('mail').exception("Could not create District")
 
     def create_district(self, district_item, association):
         name = district_item.text
@@ -101,7 +107,10 @@ class Command(BaseCommand):
         self.processed_districts.add(bhv_id)
 
         for start_year in range(2004, datetime.now().year + 1):
+            try:
             self.create_season(district, start_year)
+            except Exception:
+                logging.getLogger('mail').exception("Could not create Season")
 
     def create_season(self, district, start_year):
         if self.options['seasons'] and start_year not in self.options['seasons']:
@@ -126,7 +135,10 @@ class Command(BaseCommand):
             return
 
         for league_link in league_links:
+            try:
             self.create_league(league_link, district, season)
+            except Exception:
+                logging.getLogger('mail').exception("Could not create League")
 
     @transaction.atomic
     def create_league(self, league_link, district, season):

@@ -121,12 +121,17 @@ LOGGING: dict = {
             'level': 'DEBUG',
             'class': 'logging.FileHandler',
             'filename': os.path.join(ROOT_DIR, 'hbscorez.log'),
-            'formatter': 'verbose'
+            'formatter': 'verbose',
         },
         'console': {
             'level': 'INFO',
             'class': 'logging.StreamHandler',
-            'formatter': 'simple'
+            'formatter': 'simple',
+        },
+        'mail': {
+            'class': 'django.utils.log.AdminEmailHandler',
+            'include_html': True,
+            # 'reporter_class': 'base.error_reporter.CustomErrorReporter', # new in django 3
         },
     },
     'loggers': {
@@ -135,6 +140,9 @@ LOGGING: dict = {
             'level': 'DEBUG',
             'propagate': True,
         },
+        'mail': {
+            'handlers': ['mail'],
+    },
     },
 }
 
@@ -157,6 +165,8 @@ EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
 EMAIL_FILE_PATH = os.path.join(ROOT_DIR, 'mails')
 
 MANAGERS = [('manager', 'manager@localhost')]
+
+ADMINS = [('admin', 'admin@localhost')]
 
 
 # auth
