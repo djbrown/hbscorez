@@ -7,7 +7,7 @@ from django.core import mail
 
 from base.tests.base import SeleniumTestCase
 
-from .test_registration import TestRegistration
+from .test_registration import registration
 
 
 class TestActivationFailed(SeleniumTestCase):
@@ -17,7 +17,7 @@ class TestActivationFailed(SeleniumTestCase):
         self.assertEqual(alert.text, 'The activation key you provided is invalid.')
 
     def test_already_activated(self):
-        TestRegistration.test_registration(self=self)
+        registration(self=self)
         message: mail.EmailMessage = mail.outbox[0]
         activation_link = message.body.splitlines()[6]
         self.driver.get(activation_link)

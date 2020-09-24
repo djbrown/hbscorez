@@ -48,7 +48,10 @@ class Command(BaseCommand):
         for portal_path in portal_paths:
             portal_url = portal_path if portal_path.startswith('http') else settings.NEW_ROOT_SOURCE_URL + portal_path
             bhv_id = self.get_association_bhv_id(portal_url)
-            self.create_association(bhv_id)
+            try:
+                self.create_association(bhv_id)
+            except Exception:
+                logging.getLogger('mail').exception("Could not create Association")
 
     def get_association_bhv_id(self, association_portal_url: str) -> int:
         dom = logic.get_html(association_portal_url)
@@ -78,7 +81,10 @@ class Command(BaseCommand):
 
         items = dom.xpath('//select[@name="orgID"]/option[position()>1]')
         for item in items:
-            self.create_district(item, association)
+            try:
+                self.create_district(item, association)
+            except Exception:
+                logging.getLogger('mail').exception("Could not create District")
 
     def create_district(self, district_item, association):
         name = district_item.text
@@ -101,7 +107,10 @@ class Command(BaseCommand):
         self.processed_districts.add(bhv_id)
 
         for start_year in range(2004, datetime.now().year + 1):
-            self.create_season(district, start_year)
+            try:
+                self.create_season(district, start_year)
+            except Exception:
+                logging.getLogger('mail').exception("Could not create Season")
 
     def create_season(self, district, start_year):
         if self.options['seasons'] and start_year not in self.options['seasons']:
@@ -126,7 +135,10 @@ class Command(BaseCommand):
             return
 
         for league_link in league_links:
-            self.create_league(league_link, district, season)
+            try:
+                self.create_league(league_link, district, season)
+            except Exception:
+                logging.getLogger('mail').exception("Could not create League")
 
     @transaction.atomic
     def create_league(self, league_link, district, season):
@@ -170,6 +182,8 @@ class Command(BaseCommand):
             7424: "Männer Kreisliga C Staffel 3",
             50351: "gemischte Jugend D Kreisliga A Staffel 1",
             52853: "männliche Jugend C Bezirksliga Staffel 2",
+            58111: "Frauen Oberliga Rheinland-Pfalz/Saar 1",
+            58116: "Frauen Oberliga Rheinland-Pfalz/Saar 2",
         }.get(bhv_id, name)
 
         if League.is_youth(abbreviation, name) and not self.options['youth']:
@@ -190,16 +204,7 @@ class Command(BaseCommand):
             create_team(team_link, league)
 
         retirements = parsing.parse_retirements(dom)
-        for team_name, retirement_date in retirements:
-            try:
-                team = Team.objects.get(league=league, name=team_name)
-            except Team.DoesNotExist:
-                LOGGER.warning('RETIRING team not found: %s %s', team_name, league)
-                continue
-            if team.retirement != retirement_date:
-                team.retirement = retirement_date
-                LOGGER.info('RETIRING team %s on %s', team, retirement_date)
-                team.save()
+        check_retirements(retirements, league)
 
 
 def create_team(link, league):
@@ -218,3 +223,16 @@ def create_team(link, league):
         LOGGER.info('CREATED Team: %s', team)
     else:
         LOGGER.info('EXISTING Team: %s', team)
+
+
+def check_retirements(retirements, league):
+    for team_name, retirement_date in retirements:
+        try:
+            team = Team.objects.get(league=league, name=team_name)
+        except Team.DoesNotExist:
+            LOGGER.warning('RETIRING team not found: %s %s', team_name, league)
+            continue
+        if team.retirement != retirement_date:
+            team.retirement = retirement_date
+            LOGGER.info('RETIRING team %s on %s', team, retirement_date)
+            team.save()
