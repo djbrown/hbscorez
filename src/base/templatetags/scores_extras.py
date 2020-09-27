@@ -1,4 +1,4 @@
-from django.contrib.staticfiles.templatetags.staticfiles import static
+from django.templatetags.static import static
 
 from games.models import GameOutcome, TeamOutcome
 from teams.models import Team
