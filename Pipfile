@@ -14,6 +14,7 @@ psycopg2 = "*"
 psycopg2-binary = "*"
 requests = "*"
 tabula-py = "*"
+captcha = "*"
 
 [dev-packages]
 autopep8 = "*"
