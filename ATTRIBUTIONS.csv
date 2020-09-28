@@ -37,7 +37,6 @@
 "lazy-object-proxy","1.4.3","BSD License","Ionel Cristian Mărieș","https://github.com/ionelmc/python-lazy-object-proxy"
 "lxml","4.5.2","BSD License","lxml dev team","https://lxml.de/"
 "mccabe","0.6.1","MIT License","Ian Cordasco","https://github.com/pycqa/mccabe"
-"more-itertools","8.5.0","MIT License","Erik Rose","https://github.com/more-itertools/more-itertools"
 "mypy","0.782","MIT License","Jukka Lehtosalo","http://www.mypy-lang.org/"
 "mypy-extensions","0.4.3","MIT License","The mypy developers","https://github.com/python/mypy_extensions"
 "numpy","1.19.2","UNKNOWN","Travis E. Oliphant et al.","https://www.numpy.org"
