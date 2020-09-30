@@ -11,7 +11,7 @@ class ContactFormTest(SeleniumTestCase):
         username = 'john'
         usermail = 'lennon@thebeatles.com'
         message = 'this is a message'
-        self.navigate('contact_form')
+        self.navigate('base:contact_form')
 
         username_textfield = self.driver.find_element_by_name('name')
         username_textfield.send_keys(username)
@@ -23,7 +23,7 @@ class ContactFormTest(SeleniumTestCase):
         with self.wait():
             message_textarea.submit()
 
-        self.assert_view('contact_form_sent')
+        self.assert_view('base:contact_form_sent')
 
         self.assertEqual(len(mail.outbox), 1)
         body: mail.EmailMessage = mail.outbox[0].body

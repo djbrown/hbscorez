@@ -1,6 +1,6 @@
 {% extends 'base/base.html' %}
 
-{% block title %}Kontakt{% endblock %}
+{% block title %}Kontakt | {{ block.super }}{% endblock %}
 
 {% block content %}
 <h1>Kontakt</h1>
@@ -9,8 +9,8 @@
     <fieldset class="form-group">
         <label for="name">Name</label>
         <input name="name" type="text" id="name" placeholder="Name" required
-        class="form-control {% if form.name.errors %}is-invalid{% elif form.name.value %}is-valid{% endif %}"
-        {% if form.name.value %} value="{{ form.name.value }}"{% endif %} />
+            class="form-control {% if form.name.errors %}is-invalid{% elif form.name.value %}is-valid{% endif %}"
+            {% if form.name.value %} value="{{ form.name.value }}" {% endif %} />
         <small class="form-text text-muted">{{ form.name.help_text|safe }}</small>
         {% if form.name.errors %}<div class="invalid-feedback">{{ form.name.errors }}</div>{% endif %}
     </fieldset>
@@ -18,8 +18,8 @@
     <fieldset class="form-group">
         <label for="email">E-Mail</label>
         <input name="email" type="email" id="email" placeholder="E-Mail" required
-                class="form-control {% if form.email.errors %}is-invalid{% elif form.email.value %}is-valid{% endif %}"
-                {% if form.email.value %} value="{{ form.email.value }}"{% endif %} />
+            class="form-control {% if form.email.errors %}is-invalid{% elif form.email.value %}is-valid{% endif %}"
+            {% if form.email.value %} value="{{ form.email.value }}" {% endif %} />
         <small class="form-text text-muted">{{ form.email.help_text|safe }}</small>
         {% if form.email.errors %}<div class="invalid-feedback">{{ form.email.errors }}</div>{% endif %}
     </fieldset>
@@ -27,24 +27,21 @@
     <fieldset class="form-group">
         <label for="body">Nachricht</label>
         <textarea name="body" id="body" placeholder="Nachricht" required
-                class="form-control{% if form.body.errors %} is-invalid{% endif %}"
-                {% if form.name.value %} value="{{ form.name.value }}"{% endif %}></textarea>
+            class="form-control{% if form.body.errors %} is-invalid{% elif form.body.value %} is-valid{% endif %}">{% if form.body.value %}{{ form.body.value }}{% endif %}</textarea>
         <small class="form-text text-muted">{{ form.body.help_text|safe }}</small>
         {% if form.body.errors %}<div class="invalid-feedback">{{ form.body.errors }}</div>{% endif %}
+    </fieldset>
+
+    <fieldset class="form-group">
+        <label for="captcha">Captcha</label><br />
+        <img src="data:image/png;base64,{{ form.captcha_image_base64 }}" class="img-thumbnail mb-2" alt="captcha" />
+        <input name="captcha" type="text" id="captcha" placeholder="Captcha" required
+            class="form-control{% if form.captcha.errors %} is-invalid{% elif form.captcha.value %} is-valid{% endif %}"
+            {% if form.captcha.value %} value="{{ form.captcha.value }}" {% endif %}></textarea>
+        <small class="form-text text-muted">{{ form.captcha.help_text|safe }}</small>
+        {% if form.captcha.errors %}<div class="invalid-feedback">{{ form.captcha.errors }}</div>{% endif %}
     </fieldset>
 
     <input type="submit" value="Abschicken" class="btn btn-primary" />
 </form>
 {% endblock content %}
-
-<!--
-
-<h2>Contact Form</h2>
-<p>To send us a message fill out the below form.</p>
-<form method="post">
-  <p>Name: <input type="text" name="name"></p>
-  <p>Your e-mail: <input type="text" name="email"></p>
-  <p>Message: <textarea name="body" rows="10" cols="50"></textarea></p>
-</form>
-
- -->

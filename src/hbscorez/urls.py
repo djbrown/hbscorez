@@ -41,8 +41,6 @@ urlpatterns = [
         'players': GenericSitemap(PLAYERS),
     }}, name='django.contrib.sitemaps.views.sitemap'),
     path('', include(base_urls)),
-    # path('kontakt/', include('contact_form.akismet_urls')),
-    path('kontakt/', include('contact_form.urls')),
     path('verbaende/', include(association_urls)),
     path('kreise/', include(district_urls)),
     path('ligen/', include(league_urls)),

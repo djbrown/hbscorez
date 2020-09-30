@@ -9,7 +9,7 @@ Dieser Link verfällt nach {{ expiration_days }} Tagen automatisch.
 
 Diese E-Mail wurde automatisch generiert.
 Für Rückfragen kannst Du gerne die E-Mail Adresse unter {% url 'base:notice' %} verwenden oder das Kontaktformular nutzen:
-{{ scheme }}://{{ site.domain }}{% url 'contact_form' %}
+{{ scheme }}://{{ site.domain }}{% url 'base:contact_form' %}
 
 Sportliche Grüße
 Daniel von HbScorez
