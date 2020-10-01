@@ -11,9 +11,8 @@ before_script:
   - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
   - chmod +x ./cc-test-reporter
   - ./cc-test-reporter before-build
-  - echo $TRAVIS_EVENT_TYPE
 script:
-  - (travis_fold start hbcoverage; echo $ pipenv run hbcoverage; pipenv run hbcoverage; travis_fold end hbcoverage)
+  - ./ci-test.sh
   - pipenv run mypy src
   - pipenv run flake8
   - diff ATTRIBUTIONS.csv <(pipenv run pip-licenses -au --from classifier -f csv)
