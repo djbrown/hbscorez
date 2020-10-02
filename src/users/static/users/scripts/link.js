@@ -34,7 +34,7 @@ $(() => {
         clearSeasons();
         $.get('/api/seasons/', response => {
             response.seasons.sort((a, b) => a.startYear - b.startYear).forEach(season => {
-                $seasons.append(`<option value="${season.startYear}">${season.startYear}/${season.startYear+1}</option>`);
+                $seasons.append(`<option value="${season.startYear}">${season.startYear}/${season.startYear + 1}</option>`);
             });
         });
     });

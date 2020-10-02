@@ -8,42 +8,49 @@
 {% endif %}
 
 {% if next %}
-    {% if user.is_authenticated %}
-    <p>
-        Dein Benutzer hat keine Berechtigung diese Seite zu sehen.
-        Melde Dich mit einem berechtigten Benutzer an, um fortzufahren.
-    </p>
-    {% else %}
-    <p>Bitte melde Dich an, um die angeforderte Seite zu sehen.</p>
-    {% endif %}
+{% if user.is_authenticated %}
+<p>
+    Dein Benutzer hat keine Berechtigung diese Seite zu sehen.
+    Melde Dich mit einem berechtigten Benutzer an, um fortzufahren.
+</p>
+{% else %}
+<p>Bitte melde Dich an, um die angeforderte Seite zu sehen.</p>
+{% endif %}
 {% endif %}
 
 <form class="mb-3" method="post" action="{% url 'users:login' %}">
+
     {% csrf_token %}
-    <fieldset class="form-group">
+
+    <div class="form-group">
         <label for="username">Benutzername</label>
         <input name="username" type="text" id="username" placeholder="Benutzername" required
-                class="form-control {% if form.errors %}is-invalid{% endif %}"
-                {% if form.username.value %} value="{{ form.username.value }}"{% endif %} />
-    </fieldset>
+            class="form-control {% if form.errors %}is-invalid{% endif %}" {% if form.username.value %}
+            value="{{ form.username.value }}" {% endif %} />
+    </div>
 
-    <fieldset class="form-group">
+    <div class="form-group">
         <label for="password">Passwort</label>
-        <input name="password" type="password" id="password" required
-                class="form-control{% if form.errors %} is-invalid{% endif %}" />
-    </fieldset>
+        <input name="password" type="password" id="password" placeholder="Passwort" required
+            class="form-control{% if form.errors %} is-invalid{% endif %}" />
+    </div>
 
     <input type="submit" value="Anmelden" class="btn btn-primary">
+
     <input type="hidden" name="next" value="{{ next }}">
+
 </form>
+
 <div class="row mb-3">
     <div class="col">
-        <a href="{% url 'django_registration_register' %}"  class="btn btn-success">Registrieren</a><br />
+        <a href="{% url 'django_registration_register' %}" class="btn btn-success">Registrieren</a><br />
     </div>
 </div>
+
 <div class="row">
     <div class="col">
-        <a id="link-password-reset" href="{% url 'users:password_reset' %}" class="btn btn-secondary">Passwort zurücksetzen</a>
+        <a id="link-password-reset" href="{% url 'users:password_reset' %}" class="btn btn-secondary">Passwort
+            zurücksetzen</a>
     </div>
 </div>
 {% endblock %}

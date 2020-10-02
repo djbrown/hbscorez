@@ -5,43 +5,45 @@
 {% block content %}
 <h1>Kontakt</h1>
 <form method="post">
+
     {% csrf_token %}
-    <fieldset class="form-group">
+
+    <div class="form-group">
         <label for="name">Name</label>
         <input name="name" type="text" id="name" placeholder="Name" required
             class="form-control {% if form.name.errors %}is-invalid{% elif form.name.value %}is-valid{% endif %}"
             {% if form.name.value %} value="{{ form.name.value }}" {% endif %} />
         <small class="form-text text-muted">{{ form.name.help_text|safe }}</small>
-        {% if form.name.errors %}<div class="invalid-feedback">{{ form.name.errors }}</div>{% endif %}
-    </fieldset>
+        <div class="invalid-feedback">{{ form.name.errors }}</div>
+    </div>
 
-    <fieldset class="form-group">
+    <div class="form-group">
         <label for="email">E-Mail</label>
         <input name="email" type="email" id="email" placeholder="E-Mail" required
             class="form-control {% if form.email.errors %}is-invalid{% elif form.email.value %}is-valid{% endif %}"
             {% if form.email.value %} value="{{ form.email.value }}" {% endif %} />
         <small class="form-text text-muted">{{ form.email.help_text|safe }}</small>
-        {% if form.email.errors %}<div class="invalid-feedback">{{ form.email.errors }}</div>{% endif %}
-    </fieldset>
+        <div class="invalid-feedback">{{ form.email.errors }}</div>
+    </div>
 
-    <fieldset class="form-group">
+    <div class="form-group">
         <label for="body">Nachricht</label>
         <textarea name="body" id="body" placeholder="Nachricht" required
             class="form-control{% if form.body.errors %} is-invalid{% elif form.body.value %} is-valid{% endif %}">{% if form.body.value %}{{ form.body.value }}{% endif %}</textarea>
         <small class="form-text text-muted">{{ form.body.help_text|safe }}</small>
-        {% if form.body.errors %}<div class="invalid-feedback">{{ form.body.errors }}</div>{% endif %}
-    </fieldset>
+        <div class="invalid-feedback">{{ form.body.errors }}</div>
+    </div>
 
-    <fieldset class="form-group">
+    <div class="form-group">
         <label for="captcha">Captcha</label><br />
         <img src="data:image/png;base64,{{ form.captcha_image_base64 }}" class="img-thumbnail mb-2" alt="captcha" />
         <input name="captcha" type="text" id="captcha" placeholder="Captcha" required
-            class="form-control{% if form.captcha.errors %} is-invalid{% elif form.captcha.value %} is-valid{% endif %}"
-            {% if form.captcha.value %} value="{{ form.captcha.value }}" {% endif %}></textarea>
+            class="form-control{% if form.captcha.errors %} is-invalid{% endif %}" />
         <small class="form-text text-muted">{{ form.captcha.help_text|safe }}</small>
-        {% if form.captcha.errors %}<div class="invalid-feedback">{{ form.captcha.errors }}</div>{% endif %}
-    </fieldset>
+        <div class="invalid-feedback">{{ form.captcha.errors }}</div>
+    </div>
 
     <input type="submit" value="Abschicken" class="btn btn-primary" />
+
 </form>
 {% endblock content %}

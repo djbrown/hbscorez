@@ -13,8 +13,10 @@
 </p>
 
 <form method="POST">
+
     {% csrf_token %}
-    <fieldset class="form-group">
+
+    <div class="form-group">
         <label for="associations">Verband</label>
         <select id="associations" class="form-control">
             {% for a in associations %}
@@ -22,9 +24,9 @@
                 {{ a.name }} ({{ a.abbreviation }})</option>
             {% endfor %}
         </select>
-    </fieldset>
+    </div>
 
-    <fieldset class="form-group">
+    <div class="form-group">
         <label for="districts">Bereich</label>
         <select id="districts" class="form-control">
             {% if team %}
@@ -33,9 +35,9 @@
             {% endfor %}
             {% endif %}
         </select>
-    </fieldset>
+    </div>
 
-    <fieldset class="form-group">
+    <div class="form-group">
         <label for="seasons">Saison</label>
         <select id="seasons" class="form-control">
             {% for s in seasons %}
@@ -43,9 +45,9 @@
                 {{ s }}</option>
             {% endfor %}
         </select>
-    </fieldset>
+    </div>
 
-    <fieldset class="form-group">
+    <div class="form-group">
         <label for="league">Liga</label>
         <select id="leagues" class="form-control">
             {% if team %}
@@ -55,9 +57,9 @@
             {% endfor %}
             {% endif %}
         </select>
-    </fieldset>
+    </div>
 
-    <fieldset class="form-group">
+    <div class="form-group">
         <label for="teams">Mannschaft</label>
         <select name="team_bhv_id" id="teams" required
             class="form-control {% if form.player_name.errors %}is-invalid{% endif %}">
@@ -67,19 +69,19 @@
             {% endfor %}
             {% endif %}
         </select>
-        {% if form.team_bhv_id.errors %}<div class="invalid-feedback">{{ form.team_bhv_id.errors }}</div>{% endif %}
-    </fieldset>
+        <div class="invalid-feedback">{{ form.team_bhv_id.errors }}</div>
+    </div>
 
-    <fieldset class="form-group">
+    <div class="form-group">
         <label for="name">Spielername</label>
         <input name="player_name" type="text" id="name" placeholder="Spielername" required
             class="form-control {% if form.player_name.errors %}is-invalid{% endif %}" {% if form.player_name.value %}
             value="{{ form.player_name.value.strip }}" {% endif %} />
-        {% if form.player_name.errors %}<div class="invalid-feedback">{{ form.player_name.errors }}</div>{% endif %}
-    </fieldset>
+        <div class="invalid-feedback">{{ form.player_name.errors }}</div>
+    </div>
 
     <fieldset class="form-group">
-        Ich bestätige hiermit, ...
+        <legend class="form-label">Ich bestätige hiermit, ...</legend>
         <div class="form-check">
             <input class="form-check-input" type="checkbox" value="True" id="consent-identity" name="consent_identity"
                 required {% if request.POST.consent_identity %}checked{% endif %} />
@@ -88,8 +90,8 @@
         <div class="form-check">
             <input class="form-check-input" type="checkbox" value="True" id="consent-delete" name="consent_delete"
                 required {% if request.POST.consent_delete %}checked{% endif %} />
-            <label class="form-check-label" for="consent-delete">dass ich meine Verknüpfung jederzeit einmalig löschen
-                kann</label>
+            <label class="form-check-label" for="consent-delete">dass ich meine Verknüpfung jederzeit
+                <strong>einmalig</strong> löschen kann</label>
         </div>
         <div class="form-check">
             <input class="form-check-input" type="checkbox" value="True" id="consent-publish" name="consent_publish"
@@ -98,7 +100,9 @@
                 HbScorez angezeigt werden</label>
         </div>
     </fieldset>
+
     <input type="submit" value="Verknüpfen" class="btn btn-primary" />
+
 </form>
 {% endblock %}
 

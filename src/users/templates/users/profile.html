@@ -6,9 +6,10 @@
 {% block styles %}
 {{ block.super }}
 <style>
-form {
-    display: inline;
-}
+    form {
+        display: inline;
+    }
+
 </style>
 {% endblock %}
 
@@ -24,24 +25,25 @@ form {
 
 <h5>Verknüpfte Saisons</h5>
 {% if players.count > 0 %}
-    <ul>
-        {% for player in players %}
-        <li>
-            {% if player.published %}
-            <a href="{% url 'players:detail' player.pk %}">{{ player.team.league.season }} {{ player.public_name }}</a>
-            <form onsubmit="return confirm('Möchtest du die Verknüpfung wirklich löschen?');" method="POST" action="{% url 'users:unlink' %}">
-                {% csrf_token %}
-                <input type="hidden" value="{{ player.pk }}" name="player" />
-                <button type="submit" class="btn btn-danger">Löschen &times;</button>
-            </form>
-            {% else %}
-            {{player.team.league.season }} Verknüpfung gelöscht
-            {% endif %}
-        </li>
-        {% endfor %}
-    </ul>
+<ul>
+    {% for player in players %}
+    <li>
+        {% if player.published %}
+        <a href="{% url 'players:detail' player.pk %}">{{ player.team.league.season }} {{ player.public_name }}</a>
+        <form onsubmit="return confirm('Möchtest du die Verknüpfung wirklich löschen?');" method="POST"
+            action="{% url 'users:unlink' %}">
+            {% csrf_token %}
+            <input type="hidden" value="{{ player.pk }}" name="player" />
+            <button type="submit" class="btn btn-danger btn-sm">Verknüpfung löschen &times;</button>
+        </form>
+        {% else %}
+        {{player.team.league.season }} Verknüpfung gelöscht
+        {% endif %}
+    </li>
+    {% endfor %}
+</ul>
 {% else %}
-    <p>Du hast bisher noch keine Saisons verknüpft</p>
+<p>Du hast bisher noch keine Saisons verknüpft</p>
 {% endif %}
 
 {% endblock %}
