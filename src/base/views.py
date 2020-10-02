@@ -6,22 +6,8 @@ from contact_form.views import ContactFormView
 from django import forms
 from django.conf import settings
 from django.core.exceptions import ValidationError
-from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.utils.crypto import get_random_string
-
-
-def view_home(request):
-    return render(request, 'base/home.j2')
-
-
-def view_notice(request):
-    return render(request, 'base/imprint.j2')
-
-
-def view_privacy(request):
-    return render(request, 'base/privacy.j2')
-
 
 image = ImageCaptcha(fonts=['/mnt/c/Windows/Fonts/cour.ttf'])
 
