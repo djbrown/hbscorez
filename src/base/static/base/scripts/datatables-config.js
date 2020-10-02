@@ -1,5 +1,8 @@
+const dateFormat = 'DD.MM.YYYY';
+
 $(document).ready(function () {
-    $.fn.dataTable.moment('DD.MM.YYYY');
+
+    $.fn.dataTable.moment(newLocal);
     const $table = $('#data-table');
     if ($table.length === 0) {
         return;
@@ -97,7 +100,7 @@ $(document).ready(function () {
         table.order([dateColumnIndex, "asc"]).draw();
         for (let pageIndex = 0; pageIndex < table.page.info().pages; pageIndex++) {
             table.page(pageIndex).draw("page");
-            const firstDate = moment(nthDateCell(1).text(), "DD.MM.YYYY");
+            const firstDate = moment(nthDateCell(1).text(), dateFormat);
             if (today < firstDate) {
                 if (pageIndex === 0) {
                     // no item in past
@@ -110,7 +113,7 @@ $(document).ready(function () {
                     return;
                 }
             }
-            const lastDate = moment(nthDateCell(-1).text(), "DD.MM.YYYY");
+            const lastDate = moment(nthDateCell(-1).text(), dateFormat);
             if (today >= lastDate) {
                 if (pageIndex === table.page.info().pages - 1) {
                     // last item on this last page is most recent item
@@ -124,7 +127,7 @@ $(document).ready(function () {
             }
             // find first date greater than today, then highlight previous row
             for (let rowNumber = 2; rowNumber <= table.page.info().length; rowNumber++) {
-                const date = moment(nthDateCell(rowNumber).text(), "DD.MM.YYYY");
+                const date = moment(nthDateCell(rowNumber).text(), dateFormat);
                 if (today < date) {
                     // previous item is the most recent item
                     highlightRow(nthDateCell(rowNumber - 1));
@@ -140,4 +143,5 @@ $(document).ready(function () {
         $btnToday.click(e => highlightMostRecentItem());
         $buttonRow.append($btnToday);
     }
+
 });
