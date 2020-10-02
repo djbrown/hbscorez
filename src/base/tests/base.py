@@ -9,16 +9,12 @@ from django.test import TestCase, tag
 from django.test.runner import DiscoverRunner
 from django.urls import ResolverMatch, resolve, reverse
 from sauceclient import SauceClient
-
 from selenium.webdriver import Firefox, Remote
 from selenium.webdriver.firefox.options import Options as FirefoxOptions
 from selenium.webdriver.support.expected_conditions import staleness_of
 from selenium.webdriver.support.ui import WebDriverWait
 
-_CI = 'CI' in os.environ
-_TUNNEL_ID = os.environ.get("TRAVIS_JOB_NUMBER")
-_SAUCE_USER = os.environ.get("SAUCE_USERNAME")
-_SAUCE_KEY = os.environ.get("SAUCE_ACCESS_KEY")
+
 
 
 class Runner(DiscoverRunner):
@@ -87,6 +83,12 @@ class IntegrationTestCase(ModelTestCase):
         self.assertEqual(return_code, expected_return_code)
 
 
+_CI = 'CI' in os.environ
+_TUNNEL_ID = os.environ.get("TRAVIS_JOB_NUMBER")
+_SAUCE_USER = os.environ.get("SAUCE_USERNAME")
+_SAUCE_KEY = os.environ.get("SAUCE_ACCESS_KEY")
+
+
 @skip_unless_any_tag('selenium', 'slow')
 class SeleniumTestCase(StaticLiveServerTestCase):
     """Selenium test cases are only run in CI or if configured explicitly"""
@@ -141,9 +143,7 @@ class SeleniumTestCase(StaticLiveServerTestCase):
     def load(self, timeout=1):
         page = self.driver.find_element_by_tag_name('html')
         yield
-        WebDriverWait(self.driver, timeout).until(
-            staleness_of(page)
-        )
+        WebDriverWait(self.driver, timeout).until(staleness_of(page))
 
     @contextmanager
     def wait(self, timeout=settings.SELENIUM_TIMEOUT):

@@ -1,10 +1,10 @@
-
 import base64
 
 from captcha.image import ImageCaptcha
 from contact_form.forms import ContactForm
 from contact_form.views import ContactFormView
 from django import forms
+from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.shortcuts import render
 from django.urls import reverse_lazy
@@ -27,7 +27,9 @@ image = ImageCaptcha(fonts=['/mnt/c/Windows/Fonts/cour.ttf'])
 
 
 def generate_captcha():
-    return get_random_string(length=4)
+    return settings.CAPTCHA \
+        if hasattr(settings, 'CAPTCHA') \
+        else get_random_string(length=4)
 
 
 def encode_captcha_image_base64(captcha: str) -> str:

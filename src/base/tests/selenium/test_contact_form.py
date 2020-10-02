@@ -1,8 +1,12 @@
 from django.core import mail
+from django.test.utils import override_settings
 
 from base.tests.base import SeleniumTestCase
 
+CAPTCHA = 'test'
 
+
+@override_settings(CAPTCHA=CAPTCHA)
 class ContactFormTest(SeleniumTestCase):
 
     def test_contact_form(self):
@@ -19,6 +23,8 @@ class ContactFormTest(SeleniumTestCase):
         mail_textfield.send_keys(usermail)
         message_textarea = self.driver.find_element_by_name('body')
         message_textarea.send_keys(message)
+        message_textarea = self.driver.find_element_by_name('captcha')
+        message_textarea.send_keys(CAPTCHA)
 
         with self.wait():
             message_textarea.submit()
