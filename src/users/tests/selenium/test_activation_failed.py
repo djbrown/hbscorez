@@ -1,5 +1,4 @@
 import datetime
-import unittest
 
 from django.conf import settings
 from django.contrib.auth.models import User
@@ -26,7 +25,7 @@ class TestActivationFailed(SeleniumTestCase):
         alert = self.driver.find_element_by_class_name('alert')
         self.assertEqual(alert.text, 'The account you tried to activate has already been activated.')
 
-    @unittest.skip('Acivation successful even though ACCOUNT_ACTIVATION_DAYS have passed')
+     @unittest.skip('Yet to find a way to mock time.time in LiveServer')
     def test_key_expired(self):
         self.assertEqual(mail.outbox, [])
 
@@ -49,9 +48,8 @@ class TestActivationFailed(SeleniumTestCase):
 
         self.assert_view('django_registration_complete')
 
-        user = User.objects.first()
-        user.date_joined -= datetime.timedelta(days=settings.ACCOUNT_ACTIVATION_DAYS + 2)
-        user.save()
+        # monkey patch time.time() to make django.core.signing.unsign() fail
+        # this way the registration would fail since the activaion link seems to be outdated
 
         message: mail.EmailMessage = mail.outbox[0]
         activation_link = message.body.splitlines()[6]
