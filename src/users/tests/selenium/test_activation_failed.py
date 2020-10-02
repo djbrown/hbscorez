@@ -1,6 +1,3 @@
-import datetime
-
-from django.conf import settings
 from django.contrib.auth.models import User
 from django.core import mail
 
@@ -25,7 +22,7 @@ class TestActivationFailed(SeleniumTestCase):
         alert = self.driver.find_element_by_class_name('alert')
         self.assertEqual(alert.text, 'The account you tried to activate has already been activated.')
 
-     @unittest.skip('Yet to find a way to mock time.time in LiveServer')
+    @unittest.skip('Yet to find a way to mock time.time in LiveServer')
     def test_key_expired(self):
         self.assertEqual(mail.outbox, [])
 
