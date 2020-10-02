@@ -1,3 +1,5 @@
+import unittest
+
 from django.contrib.auth.models import User
 from django.core import mail
 
