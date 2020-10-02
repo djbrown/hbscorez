@@ -2,6 +2,7 @@ import os
 import sys
 from contextlib import contextmanager
 
+import pytest
 from django.conf import settings
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from django.core.management import call_command
@@ -15,9 +16,31 @@ from selenium.webdriver.support.expected_conditions import staleness_of
 from selenium.webdriver.support.ui import WebDriverWait
 
 
-
-
 class Runner(DiscoverRunner):
+
+    def __init__(self, verbosity=1, failfast=False, keepdb=False, **kwargs):
+        self.verbosity = verbosity
+        self.failfast = failfast
+        self.keepdb = keepdb
+        super().__init__(**kwargs)
+
+    def run_testss(self, test_labels, extra_tests=None, **kwargs):
+
+        argv = []
+        if self.verbosity == 0:
+            argv.append('--quiet')
+        if self.verbosity == 2:
+            argv.append('--verbose')
+        if self.verbosity == 3:
+            argv.append('-vv')
+        if self.failfast:
+            argv.append('--exitfirst')
+        if self.keepdb:
+            argv.append('--reuse-db')
+
+        argv.extend(test_labels)
+        return pytest.main(argv)
+
     def build_suite(self, test_labels=None, extra_tests=None, **kwargs):
         os.environ["DUMMY"] = "VALUE"
         suite = DiscoverRunner.build_suite(self, test_labels, extra_tests, **kwargs)
@@ -75,6 +98,8 @@ class ModelTestCase(TestCase):
         return objects[0] if count == 1 else objects
 
 
+@pytest.mark.integration
+@pytest.mark.slow
 @skip_unless_any_tag('integration', 'slow')
 class IntegrationTestCase(ModelTestCase):
 
@@ -89,6 +114,8 @@ _SAUCE_USER = os.environ.get("SAUCE_USERNAME")
 _SAUCE_KEY = os.environ.get("SAUCE_ACCESS_KEY")
 
 
+@pytest.mark.selenium
+@pytest.mark.slow
 @skip_unless_any_tag('selenium', 'slow')
 class SeleniumTestCase(StaticLiveServerTestCase):
     """Selenium test cases are only run in CI or if configured explicitly"""
