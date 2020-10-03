@@ -15,3 +15,10 @@ class Env(models.Model):
     def set_value(self, value: Value):
         self.value = value.value
         self.save()
+
+
+class GlobalMessage(models.Model):
+    message = models.TextField()
+
+    def __str__(self):
+        return self.message[:20]

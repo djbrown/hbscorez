@@ -72,6 +72,9 @@
                 </div>
                 {% endif %}
                 <main class="col-sm-12 ml-sm-auto">
+                    {% if request.global_message %}
+                        <div class="alert alert-primary" role="alert">{{ request.global_message.message|safe }}</div>
+                    {% endif %}
                     {% block content %}{% endblock %}
                 </main>
             </div>

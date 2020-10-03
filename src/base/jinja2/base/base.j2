@@ -4,8 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description"
-          content="{% block description %}HbScorez ist eine Statistikplattform für diverse Handballigen im deutschsprachigen Raum.{% endblock %}">
+    <meta name="description" content="{% block description %}HbScorez ist eine Statistikplattform für diverse Handballigen im deutschsprachigen Raum.{% endblock %}">
     <link rel="icon" href="{{ static('base/images/favicons/favicon.png') }}">
 
     <title>{% block title %}HbScorez{% endblock %}</title>
@@ -66,6 +65,9 @@
             </div>
             {% endif %}
             <main class="col-sm-12 ml-sm-auto">
+                {% if request.global_message %}
+                    <div class="alert alert-primary" role="alert">{{ request.global_message.message|safe }}</div>
+                {% endif %}
                 {% block content %}{% endblock %}
             </main>
         </div>

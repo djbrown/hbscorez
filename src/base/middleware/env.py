@@ -24,6 +24,7 @@ class EnvironmentMiddleware:
         # Code to be executed for each request before
         # the view (and later middleware) are called.
         request.env = {env.name: env.value for env in models.Env.objects.all()}
+        request.global_message = models.GlobalMessage.objects.first()
 
         response = self.get_response(request)
 
