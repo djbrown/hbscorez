@@ -6,4 +6,7 @@ def parse_spectators(table) -> Optional[int]:
     if specs == 'k.A.':
         return None
 
-    return int(specs)
+    try:
+        return int(specs)
+    except ValueError:
+        return None

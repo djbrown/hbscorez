@@ -23,3 +23,11 @@ class ParseSpectators(TestCase):
 
         spectators = parse_spectators(table)
         self.assertEqual(spectators, None)
+
+    def test_invalid(self):
+        base = os.path.dirname(os.path.abspath(__file__))
+        path = os.path.join(base, 'report-with-invalid-spectators.pdf')
+        table = tabula.read_pdf(path, output_format='json', **{'pages': 1, 'lattice': True})[0]
+
+        spectators = parse_spectators(table)
+        self.assertEqual(spectators, None)
