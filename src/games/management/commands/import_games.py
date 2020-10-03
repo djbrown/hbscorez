@@ -83,7 +83,10 @@ class Command(BaseCommand):
 
         game_rows = tree.xpath("//table[@class='gametable']/tr[position() > 1]")
         for game_row in game_rows:
-            self.import_game(game_row, league)
+            try:
+                self.import_game(game_row, league)
+            except Exception:
+                logging.getLogger('mail').exception("Could not import Game")
 
     def import_game(self, game_row, league: League):
 
