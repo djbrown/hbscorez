@@ -100,7 +100,10 @@ class Command(BaseCommand):
             return
 
         for game in league.game_set.all():
-            self.import_game(game)
+            try:
+                self.import_game(game)
+            except Exception:
+                logging.getLogger('mail').exception("Could not import Report")
 
     def import_game(self, game: Game):
         if self.options['games'] and game.number not in self.options['games']:
