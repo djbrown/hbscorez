@@ -8,7 +8,7 @@ Gehe auf folgede Seite, um Deine Registrierung abzuschließen:
 Dieser Link verfällt nach {{ expiration_days }} Tagen automatisch.
 
 Diese E-Mail wurde automatisch generiert.
-Für Rückfragen kannst Du gerne die E-Mail Adresse unter {% url 'base:notice' %} verwenden oder das Kontaktformular nutzen:
+Für Rückfragen kannst Du gerne das Kontaktformular nutzen:
 {{ scheme }}://{{ site.domain }}{% url 'base:contact_form' %}
 
 Sportliche Grüße
