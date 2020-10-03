@@ -15,6 +15,7 @@ psycopg2-binary = "*"
 requests = "*"
 tabula-py = "*"
 captcha = "*"
+django-axes = "*"
 
 [dev-packages]
 autopep8 = "*"

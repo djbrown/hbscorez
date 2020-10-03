@@ -18,6 +18,7 @@ INSTALLED_APPS = [
     'django.contrib.sitemaps',
     'django_registration',
     'contact_form',
+    'axes',
     'base',
     'associations',
     'districts',
@@ -37,6 +38,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'axes.middleware.AxesMiddleware',
     'base.middleware.env.EnvironmentMiddleware',
 ]
 
@@ -78,6 +80,11 @@ DATABASES = {
         'NAME': os.path.join(ROOT_DIR, 'db.sqlite3'),
     }
 }
+
+AUTHENTICATION_BACKENDS = [
+    'axes.backends.AxesBackend',
+    'django.contrib.auth.backends.ModelBackend',
+]
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -179,6 +186,13 @@ TEST_RUNNER = 'base.tests.base.Runner'
 LOGIN_REDIRECT_URL = 'users:profile'
 
 LOGIN_URL = 'users:login'
+
+
+# django-axes
+
+AXES_COOLOFF_TIME = 24
+
+AXES_LOCKOUT_TEMPLATE = 'users/login.html'
 
 
 # django-registration

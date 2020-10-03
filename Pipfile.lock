@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "5a09651ac548539d4ec9bc155112e7846c9d88e2fda3ac9507d22b819fb90441"
+            "sha256": "d53476da5e70eaa89202a035fd39fbad8ac3a406b883cca9bc1056556d29849d"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -75,6 +75,14 @@
             "index": "pypi",
             "version": "==3.1.2"
         },
+        "django-axes": {
+            "hashes": [
+                "sha256:70eeb5c43eab845dff40eb070154bfe7ce1ff51f70b998730dfe6bdde9980b7e",
+                "sha256:859a533871fad51b9fba5cc3b18f235f51129a9531bb5548bd29b85a6d1dc08e"
+            ],
+            "index": "pypi",
+            "version": "==5.7.1"
+        },
         "django-contact-form": {
             "extras": [
                 "akismet"
@@ -85,6 +93,12 @@
             ],
             "index": "pypi",
             "version": "==1.8.2"
+        },
+        "django-ipware": {
+            "hashes": [
+                "sha256:73a640a5bff00aa7503a35e92e462001cfabb07d73d649c262f117423beee953"
+            ],
+            "version": "==3.0.1"
         },
         "django-registration": {
             "hashes": [
@@ -546,11 +560,11 @@
         },
         "flake8": {
             "hashes": [
-                "sha256:15e351d19611c887e482fb960eae4d44845013cc142d42896e9862f775d8cf5c",
-                "sha256:f04b9fcbac03b0a3e58c0ab3a0ecc462e023a9faf046d57794184028123aa208"
+                "sha256:749dbbd6bfd0cf1318af27bf97a14e28e5ff548ef8e5b1566ccfb25a11e7c839",
+                "sha256:aadae8761ec651813c24be05c6f7b4680857ef6afaae4651a4eccaef97ce6c3b"
             ],
             "index": "pypi",
-            "version": "==3.8.3"
+            "version": "==3.8.4"
         },
         "gitdb": {
             "hashes": [
