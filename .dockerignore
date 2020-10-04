@@ -1,4 +1,5 @@
 **/__pycache__/
+.git/
 .github/
 .idea/
 **/.mypy_cache/
@@ -26,7 +27,8 @@ docker-stack*.yml
 Dockerfile
 geckodriver.log
 hbscorez.log
-src/hbscorez/settings_docker_stack*.py
 LICENSE
+pytest.ini
 README.md
 setup.cfg
+src/hbscorez/settings_docker_stack*.py
