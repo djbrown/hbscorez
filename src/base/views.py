@@ -9,8 +9,6 @@ from django.core.exceptions import ValidationError
 from django.urls import reverse_lazy
 from django.utils.crypto import get_random_string
 
-image = ImageCaptcha(fonts=[settings.CAPTCHA_FONT_FILE])
-
 
 def generate_captcha():
     return settings.CAPTCHA \
@@ -19,7 +17,7 @@ def generate_captcha():
 
 
 def encode_captcha_image_base64(captcha: str) -> str:
-    data = image.generate(captcha)
+    data = ImageCaptcha().generate(captcha)
     image_bytes = data.read()
     b64_bytes = base64.b64encode(image_bytes)
     return b64_bytes.decode('UTF-8')
