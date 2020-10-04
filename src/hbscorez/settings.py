@@ -213,3 +213,5 @@ ROOT_SOURCE_URL = 'http://spo.handball4all.de/'
 NEW_ROOT_SOURCE_URL = 'https://www.handball4all.de/'
 
 SELENIUM_TIMEOUT = 3
+
+CAPTCHA_FONT_FILE = '/mnt/c/Windows/Fonts/cour.ttf'

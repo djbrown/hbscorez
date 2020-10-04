@@ -9,7 +9,7 @@ from django.core.exceptions import ValidationError
 from django.urls import reverse_lazy
 from django.utils.crypto import get_random_string
 
-image = ImageCaptcha(fonts=['/mnt/c/Windows/Fonts/cour.ttf'])
+image = ImageCaptcha(fonts=[settings.CAPTCHA_FONT_FILE])
 
 
 def generate_captcha():
