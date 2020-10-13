@@ -179,18 +179,7 @@ def league_offenders(league):
 
 
 def top_league_offenders(league):
-    offenders = Player.objects \
-        .filter(team__league=league) \
-        .annotate(games=Count('score')) \
-        .annotate(warnings=Count('score__warning_time')) \
-        .annotate(suspensions=Count('score__first_suspension_time') +
-                  Count('score__second_suspension_time') +
-                  Count('score__third_suspension_time')) \
-        .annotate(disqualifications=Count('score__disqualification_time')) \
-        .annotate(offender_points=F('warnings') + 2 * F('suspensions') + 3 * F('disqualifications')) \
-        .filter(offender_points__gt=0) \
-        .order_by('-offender_points')
-    add_ranking_place(offenders, 'offender_points')
+    offenders = league_offenders(league)
     offenders_by_place = collections.defaultdict(list)
     for offender in offenders:
         if offender.place <= 5:
