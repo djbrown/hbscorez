@@ -2,7 +2,7 @@ const dateFormat = 'DD.MM.YYYY';
 
 $(document).ready(function () {
 
-    $.fn.dataTable.moment(newLocal);
+    $.fn.dataTable.moment(dateFormat);
     const $table = $('#data-table');
     if ($table.length === 0) {
         return;
