@@ -138,14 +138,13 @@ class SeleniumTestCase(StaticLiveServerTestCase):
             'version': "37.0",
             'name': '{}.{}'.format(class_name, method_name),
             'tunnel-identifier': _TUNNEL_ID,
+            'username': _SAUCE_USER,
+            'accessKey': _SAUCE_KEY,
         }
 
-        executor = "http://{}:{}@ondemand.saucelabs.com/wd/hub".format(
-            _SAUCE_USER,
-            _SAUCE_KEY,
-        )
+        remote_url = "https://ondemand.us-west-1.saucelabs.com:443/wd/hub"
         return Remote(
-            command_executor=executor,
+            command_executor=remote_url,
             desired_capabilities=capabilities,
         )
 
