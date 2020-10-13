@@ -208,7 +208,7 @@ MATOMO_URL: Optional[str] = None
 
 REPORTS_PATH = os.path.join(ROOT_DIR, 'reports')
 
-ROOT_SOURCE_URL = 'http://spo.handball4all.de/'
+ROOT_SOURCE_URL = 'https://spo.handball4all.de/'
 
 NEW_ROOT_SOURCE_URL = 'https://www.handball4all.de/'
 
