@@ -9,6 +9,7 @@ from base.middleware import env
 from base.models import Value
 from districts.models import District
 from games.models import Game
+from leagues.management.commands.setup import add_default_arguments
 from leagues.models import League, Season
 from players.models import Score
 from sports_halls.models import SportsHall
@@ -21,16 +22,7 @@ class Command(BaseCommand):
     options: Dict = {}
 
     def add_arguments(self, parser):
-        parser.add_argument('--associations', '-a', nargs='+', type=int, metavar='orgGrpID',
-                            help="IDs of Associations.")
-        parser.add_argument('--districts', '-d', nargs='+', type=int, metavar='orgID',
-                            help="IDs of Districts.")
-        parser.add_argument('--seasons', '-s', nargs='+', type=int, metavar='start year',
-                            help="Start Years of Seasons.")
-        parser.add_argument('--leagues', '-l', nargs='+', type=int, metavar='score/sGID',
-                            help="IDs of Leagues.")
-        parser.add_argument('--youth', action='store_true',
-                            help="Include youth leagues.")
+        add_default_arguments(parser)
         parser.add_argument('--games', '-g', nargs='+', type=int, metavar='game number',
                             help="numbers of Games.")
 

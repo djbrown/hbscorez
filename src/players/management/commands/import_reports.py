@@ -13,6 +13,7 @@ from base import logic, parsing
 from base.middleware import env
 from base.models import Value
 from games.models import Game
+from leagues.management.commands.setup import add_default_arguments
 from leagues.models import Season
 from players.models import Player, Score
 from teams.models import Team
@@ -32,16 +33,7 @@ class Command(BaseCommand):
     bugged_associations = [78]
 
     def add_arguments(self, parser):
-        parser.add_argument('--associations', '-a', nargs='+', type=int, metavar='orgGrpID',
-                            help="IDs of Associations.")
-        parser.add_argument('--districts', '-d', nargs='+', type=int, metavar='orgID',
-                            help="IDs of Districts.")
-        parser.add_argument('--seasons', '-s', nargs='+', type=int, metavar='start year',
-                            help="Start Years of Seasons.")
-        parser.add_argument('--leagues', '-l', nargs='+', type=int, metavar='score/sGID',
-                            help="IDs of Leagues.")
-        parser.add_argument('--youth', action='store_true',
-                            help="Include youth leagues.")
+        add_default_arguments(parser)
         parser.add_argument('--games', '-g', nargs='+', type=int, metavar='game number',
                             help="numbers of Games.")
         parser.add_argument('--skip-games', '-G', nargs='+', type=int, metavar='game number',

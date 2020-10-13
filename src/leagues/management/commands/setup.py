@@ -16,21 +16,25 @@ from teams.models import Team
 LOGGER = logging.getLogger('hbscorez')
 
 
+def add_default_arguments(parser):
+    parser.add_argument('--associations', '-a', nargs='+', type=int, metavar='orgGrpID',
+                        help="IDs of Associations.")
+    parser.add_argument('--districts', '-d', nargs='+', type=int, metavar='orgID',
+                        help="IDs of Districts.")
+    parser.add_argument('--seasons', '-s', nargs='+', type=int, metavar='start year',
+                        help="Start Years of Seasons.")
+    parser.add_argument('--leagues', '-l', nargs='+', type=int, metavar='score/sGID',
+                        help="IDs of Leagues.")
+    parser.add_argument('--youth', action='store_true',
+                        help="Include youth leagues.")
+
+
 class Command(BaseCommand):
     options: dict = {}
     processed_districts: set = set()
 
     def add_arguments(self, parser):
-        parser.add_argument('--associations', '-a', nargs='+', type=int, metavar='orgGrpID',
-                            help="IDs of Associations.")
-        parser.add_argument('--districts', '-d', nargs='+', type=int, metavar='orgID',
-                            help="IDs of Districts.")
-        parser.add_argument('--seasons', '-s', nargs='+', type=int, metavar='start year',
-                            help="Start Years of Seasons.")
-        parser.add_argument('--leagues', '-l', nargs='+', type=int, metavar='score/sGID',
-                            help="IDs of Leagues.")
-        parser.add_argument('--youth', action='store_true',
-                            help="Include youth leagues.")
+        add_default_arguments(parser)
         parser.add_argument('--skip-teams', action='store_true',
                             help="Skip processing Teams.")
 
