@@ -48,9 +48,10 @@
                     <td>{{ date(score.game.opening_whistle, 'SHORT_DATE_FORMAT' ) }}</td>
                     <td>{{ time(score.game.opening_whistle) }}</td>
                     <td>
-                        {#<img class="table-team-logo" src="{{ player.team_logo_url(opponent_team) }}" width="25">#}
+                        {#<img class="table-team-logo" src="{{ player.team_logo_url(opponent_team) }}" width="25"
+                            alt="HbScorez Logo">#}
                         <img class="table-team-logo" src="{{ static('base/images/favicons/favicon.png') }}" width="25"
-                             alt="HbScorez Logo">
+                            alt="HbScorez Logo">
                         <a href="{{ opponent_team.get_absolute_url() }}">{{ opponent_team.short_name }}</a>
                     </td>
                     <td>{{ 'Heim' if score.game.home_team == player.team else 'Auswärts' }}</td>
