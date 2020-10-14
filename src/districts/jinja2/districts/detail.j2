@@ -10,7 +10,7 @@
     </li>
     <li class="breadcrumb-item active"><a>{{ district.name }}</a></li>
 </ol>
-<h1>{{ district.name }}&nbsp;<a href="{{ district.source_url() }}"><i class="fas fa-link" title="Datenquelle"></i></a></h1>
+<h1>{{ district.name }}&nbsp;<a href="{{ district.source_url() }}"><span class="fas fa-link" title="Datenquelle"></span></a></h1>
 {% for start_year, leagues in leagues.items() %}
     <h2>{{ start_year }}/{{ start_year + 1 }}</h2>
     <ul>
@@ -18,9 +18,9 @@
         <li>
             <a href="{{ league.get_absolute_url() }}">
             {% if league.abbreviation.upper().startswith("M") %}
-                <i class="fas fa-male"></i>
+                <span class="fas fa-male"></span>
             {% elif league.abbreviation.upper().startswith("F") %}
-                <i class="fas fa-female"></i>
+                <span class="fas fa-female"></span>
             {% endif %}
             {{ league.name }}</a>
         </li>
