@@ -86,7 +86,6 @@ class Command(BaseCommand):
             LOGGER.debug('SKIPPING Row (heading)')
             return
 
-        # league_abbreviation = game_row[0].text
         number = int(game_row[1].text)
 
         if self.options['games'] and number not in self.options['games']:

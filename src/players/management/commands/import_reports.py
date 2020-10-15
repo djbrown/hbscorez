@@ -158,7 +158,6 @@ def import_scores(table, game: Game, team: Team):
 
         player_number: str = row_data[0]
         player_name: str = row_data[1]
-        # player_year_of_birth = row_data[2]
 
         if not player_number and not player_name:
             return
