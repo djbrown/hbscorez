@@ -139,7 +139,6 @@ $(document).ready(function () {
 
     if (dateColumnIndex >= 0) {
         const $btnToday = $('<button class="btn btn-secondary mb-2 ml-2">letztes <span class="fas fa-arrow-down"></span></button>');
-        const query = `tbody > tr > td:eq(${dateColumnIndex})`;
         $btnToday.click(e => highlightMostRecentItem());
         $buttonRow.append($btnToday);
     }
