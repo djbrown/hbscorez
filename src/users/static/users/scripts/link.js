@@ -1,18 +1,18 @@
 $(() => {
-    const nullOption = '<option disabled selected></option>';
+    const nullOption = "<option disabled selected></option>";
 
-    const $associations = $('#associations');
-    const $districts = $('#districts');
-    const $seasons = $('#seasons');
-    const $leagues = $('#leagues');
-    const $teams = $('#teams');
+    const $associations = $("#associations");
+    const $districts = $("#districts");
+    const $seasons = $("#seasons");
+    const $leagues = $("#leagues");
+    const $teams = $("#teams");
 
     let districtId = null;
 
     if (clear === true) {
         clearAssociations();
 
-        $.get('/api/associations/', response => {
+        $.get("/api/associations/", response => {
             response.associations.sort((a, b) => a.name.localeCompare(b.name)).forEach(association => {
                 $associations.append(`<option value="${association.bhvId}">${association.name} (${association.abbreviation})</option>`);
             });
@@ -32,7 +32,7 @@ $(() => {
     $districts.change(e => {
         districtId = e.target.value;
         clearSeasons();
-        $.get('/api/seasons/', response => {
+        $.get("/api/seasons/", response => {
             response.seasons.sort((a, b) => a.startYear - b.startYear).forEach(season => {
                 $seasons.append(`<option value="${season.startYear}">${season.startYear}/${season.startYear + 1}</option>`);
             });
