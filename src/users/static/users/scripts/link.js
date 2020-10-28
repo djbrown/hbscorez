@@ -12,48 +12,48 @@ $(() => {
     if (clear === true) {
         clearAssociations();
 
-        $.get("/api/associations/", response => {
-            response.associations.sort((a, b) => a.name.localeCompare(b.name)).forEach(association => {
+        $.get("/api/associations/", (response) => {
+            response.associations.sort((a, b) => a.name.localeCompare(b.name)).forEach((association) => {
                 $associations.append(`<option value="${association.bhvId}">${association.name} (${association.abbreviation})</option>`);
             });
         });
     }
 
-    $associations.change(e => {
+    $associations.change((e) => {
         const associationId = e.target.value;
         clearDistricts();
-        $.get(`/api/associations/${associationId}/districts/`, response => {
-            response.districts.sort((a, b) => a.name.localeCompare(b.name)).forEach(district => {
+        $.get(`/api/associations/${associationId}/districts/`, (response) => {
+            response.districts.sort((a, b) => a.name.localeCompare(b.name)).forEach((district) => {
                 $districts.append(`<option value="${district.bhvId}">${district.name}</option>`);
             });
         });
     });
 
-    $districts.change(e => {
+    $districts.change((e) => {
         districtId = e.target.value;
         clearSeasons();
-        $.get("/api/seasons/", response => {
-            response.seasons.sort((a, b) => a.startYear - b.startYear).forEach(season => {
+        $.get("/api/seasons/", (response) => {
+            response.seasons.sort((a, b) => a.startYear - b.startYear).forEach((season) => {
                 $seasons.append(`<option value="${season.startYear}">${season.startYear}/${season.startYear + 1}</option>`);
             });
         });
     });
 
-    $seasons.change(e => {
+    $seasons.change((e) => {
         const seasonStartYear = e.target.value;
         clearLeagues();
-        $.get(`/api/districts/${districtId}/seasons/${seasonStartYear}/leagues/`, response => {
-            response.leagues.sort((a, b) => a.name.localeCompare(b.name)).forEach(league => {
+        $.get(`/api/districts/${districtId}/seasons/${seasonStartYear}/leagues/`, (response) => {
+            response.leagues.sort((a, b) => a.name.localeCompare(b.name)).forEach((league) => {
                 $leagues.append(`<option value="${league.bhvId}">${league.name}</option>`);
             });
         });
     });
 
-    $leagues.change(e => {
+    $leagues.change((e) => {
         const leagueId = e.target.value;
         clearTeams();
-        $.get(`/api/leagues/${leagueId}/teams/`, response => {
-            response.teams.sort((a, b) => a.name.localeCompare(b.name)).forEach(team => {
+        $.get(`/api/leagues/${leagueId}/teams/`, (response) => {
+            response.teams.sort((a, b) => a.name.localeCompare(b.name)).forEach((team) => {
                 $teams.append(`<option value="${team.bhvId}">${team.name}</option>`);
             });
         });
