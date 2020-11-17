@@ -11,6 +11,7 @@
 /static/
 
 .coverage
+.python-version
 coverage.xml
 db.sqlite3
 docker-stack*.yml
