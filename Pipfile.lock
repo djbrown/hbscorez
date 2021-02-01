@@ -76,11 +76,10 @@
         },
         "django-axes": {
             "hashes": [
-                "sha256:25827cd722b006845e9abd5ecbfba92ebad3935a29258d457158212d4e1f0ded",
-                "sha256:320ddc577387b1b7926468b9313fd8048f86b70e35a02faa858cbac003900374"
+                "sha256:c26167f7ca2003df8358eb23537dffb1d97bd9f44ccef70d5c64a7aba2349456",
+                "sha256:db4e17fad2e07baa02bb210c5f819fb5137c548e3a5a4330ccc8662bb88d42c7"
             ],
-            "index": "pypi",
-            "version": "==5.9.0"
+            "version": "==5.12.0"
         },
         "django-contact-form": {
             "extras": [
