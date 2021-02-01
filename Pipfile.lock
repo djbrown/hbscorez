@@ -761,11 +761,10 @@
         },
         "ptpython": {
             "hashes": [
-                "sha256:34814eb410f854c823be4c4a34124e1dc8ca696da1c1fa611f9da606c5a8a609",
-                "sha256:c40b096c80bd09ebc4012017444cf7281fe5308f6dd7ca6a45ef9250cb271428"
+                "sha256:78a8b9bc9c07f2e1c3724d19fb0cf2c98ed0cd4ea11e087108d9056d75e650f3",
+                "sha256:b0a6747b1ab628a5807b9c1ec9022a79cc8f7ad12306460716cc737a4d9a839e"
             ],
-            "index": "pypi",
-            "version": "==3.0.7"
+            "version": "==3.0.13"
         },
         "py": {
             "hashes": [
