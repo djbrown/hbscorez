@@ -757,11 +757,10 @@
         },
         "ptpython": {
             "hashes": [
-                "sha256:34814eb410f854c823be4c4a34124e1dc8ca696da1c1fa611f9da606c5a8a609",
-                "sha256:c40b096c80bd09ebc4012017444cf7281fe5308f6dd7ca6a45ef9250cb271428"
+                "sha256:65c79e8ca860f2bdeaa61dbcc362449b3d54286dc449ff32dc013a93f8c4d628",
+                "sha256:911d25cca31a8e4f9b2ecd16dcdad793b8859e94fca1275f3485d8cdf20b13de"
             ],
-            "index": "pypi",
-            "version": "==3.0.7"
+            "version": "==3.0.17"
         },
         "py": {
             "hashes": [
