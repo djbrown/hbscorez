@@ -99,11 +99,10 @@
         },
         "django-registration": {
             "hashes": [
-                "sha256:44ca3d63869c91174cef9ccf244ec87ad296e3d705983e9e98150cee03938dda",
-                "sha256:88e6c2aa698320b87c5d3cbb941ef7acde69ced109bc00ce35acfccfbf00ab71"
+                "sha256:c9985f9ffd123534026bf5f39adb0b48fd7bf930b965f27f9a487d135f377ac6",
+                "sha256:dde525b08880da1d72b556f19dfd1c6588233a43f8bc354481f2d3e8896c44f8"
             ],
-            "index": "pypi",
-            "version": "==3.1.1"
+            "version": "==3.1.2"
         },
         "icalendar": {
             "hashes": [
