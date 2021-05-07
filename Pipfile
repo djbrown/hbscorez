@@ -20,6 +20,7 @@ django-axes = "*"
 [dev-packages]
 autopep8 = "*"
 bandit = "*"
+black = "21.5b0" # https://github.com/psf/black/issues/517 https://github.com/pypa/pipenv/issues/1760
 codacy-coverage = "*"
 codecov = "*"
 coverage = "*"
