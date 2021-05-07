@@ -1,7 +1,7 @@
 # HbScorez
 
 [![Travis-CI Build Status](https://travis-ci.org/djbrown/hbscorez.svg?branch=master)](https://travis-ci.org/djbrown/hbscorez)
-[![Docker Hub Build Status](https://img.shields.io/docker/build/djbrown/hbscorez.svg)](https://hub.docker.com/r/djbrown/hbscorez/builds/)
+[![Docker Hub Build Status](https://img.shields.io/docker/cloud/build/djbrown/hbscorez.svg)](https://hub.docker.com/r/djbrown/hbscorez/builds/)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=djbrown_hbscorez&metric=alert_status)](https://sonarcloud.io/dashboard?id=djbrown_hbscorez)
 [![Coveralls Coverage Status](https://coveralls.io/repos/github/djbrown/hbscorez/badge.svg)](https://coveralls.io/github/djbrown/hbscorez)
 [![Codecov Coverage Status](https://codecov.io/github/djbrown/hbscorez/coverage.svg)](http://codecov.io/github/djbrown/hbscorez/)
@@ -10,12 +10,13 @@
 [![Code Climate Maintainability](https://api.codeclimate.com/v1/badges/db7cf3c32bc124e21e8e/maintainability)](https://codeclimate.com/github/djbrown/hbscorez/maintainability)
 [![Code Climate Test Coverage](https://api.codeclimate.com/v1/badges/db7cf3c32bc124e21e8e/test_coverage)](https://codeclimate.com/github/djbrown/hbscorez/test_coverage)
 [![Mypy Badge](http://www.mypy-lang.org/static/mypy_badge.svg)](http://mypy-lang.org/)
+
 <!-- TODO: register on Sauce Labs at https://saucelabs.com/open-source/open-sauce [![Sauce Test Status](https://saucelabs.com/buildstatus/dan-brown)](https://saucelabs.com/u/dan-brown)
 [![Sauce Labs Browsers](https://saucelabs.com/browser-matrix/dan-brown.svg)](https://saucelabs.com/u/dan-brown) -->
+
 [![FOSSA License Status](https://app.fossa.com/api/projects/custom%2B5488%2Fgithub.com%2Fdjbrown%2Fhbscorez.svg?type=shield)](https://app.fossa.com/projects/custom%2B5488%2Fgithub.com%2Fdjbrown%2Fhbscorez?ref=badge_shield)
 [![Updates](https://pyup.io/repos/github/djbrown/hbscorez/shield.svg)](https://pyup.io/repos/github/djbrown/hbscorez/)
 [![Python 3](https://pyup.io/repos/github/djbrown/hbscorez/python-3-shield.svg)](https://pyup.io/repos/github/djbrown/hbscorez/)
-
 
 <!-- TODO:  register on Sauce Labs at https://saucelabs.com/open-source/open-sauce [![Sauce Labs Browsers](https://saucelabs.com/browser-matrix/djbrown-hbscorez.svg)](https://saucelabs.com/u/djbrown-hbscorez) -->
 
@@ -36,33 +37,32 @@ HbScorez is powered by **Django**<br/>
 `docker run -p 8000:8000 djbrown/hbscorez:latest`<br/>
 App is reachable under [127.0.0.1:8000](http://127.0.0.1:8000)
 
-
 ## Running natively
 
 ### Requirements
+
 1. Python 3.7
 2. pipenv (`pip install pipenv`)
 3. Java (>=1.6) for parsing game report PDFs
 
-
 ### Installation
+
 `pipenv install`<br/>
 `pipenv run ./src/manage.py migrate`
 
 ### Start Application
-`pipenv run ./src/manage.py runserver`
 
+`pipenv run ./src/manage.py runserver`
 
 ## Main Management Commands
 
-* **setup**: fetch associations, districts, seasons and leagues
-* **import_games**: fetch games and sport halls
-* **import_reports**: fetch, parse and import game report data (players, scores, spectator count)
+- **setup**: fetch associations, districts, seasons and leagues
+- **import_games**: fetch games and sport halls
+- **import_reports**: fetch, parse and import game report data (players, scores, spectator count)
 
 Execute commands via `pipenv run ./src/manage.py <COMMAD> <OPTIONS>`.<br/>
 Prepend `docker run djbrown/hbscorez:latest ` to execute inside Docker container.<br/>
 Append ` -h` to display command help.
-
 
 ## License
 
@@ -71,4 +71,5 @@ The project is available as open source under the terms of the [MIT License](htt
 [![FOSSA License Report](https://app.fossa.com/api/projects/custom%2B5488%2Fgithub.com%2Fdjbrown%2Fhbscorez.svg?type=large)](https://app.fossa.com/projects/custom%2B5488%2Fgithub.com%2Fdjbrown%2Fhbscorez?ref=badge_large)
 
 ## Contributing
+
 See [CONTRIBUTING.md](.github/CONTRIBUTING.md)
