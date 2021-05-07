@@ -18,7 +18,7 @@ class LinkForm(forms.Form):
 
     def __init__(self, *args, user, **kwargs):
         self.user = user
-        super(LinkForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
     def clean_team_bhv_id(self):
         team_bhv_id = self.cleaned_data.get('team_bhv_id')

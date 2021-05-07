@@ -37,6 +37,7 @@ Also make sure to check messages from the following commands before proposing:
 
 - `pipenv run mypy src`
 - `pipenv run flake8`
+- `pipenv run pylint src`
 
 ## Testing
 

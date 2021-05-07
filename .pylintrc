@@ -569,3 +569,8 @@ known-third-party=enchant
 # "BaseException, Exception".
 overgeneral-exceptions=BaseException,
                        Exception
+
+
+[DJANGO]
+
+django-settings-module=hbscorez.settings
