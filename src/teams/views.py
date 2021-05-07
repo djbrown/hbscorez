@@ -26,11 +26,11 @@ def games(request, bhv_id):
 def players(request, bhv_id):
     # todo: change view to show portraits and summary data
     team = get_object_or_404(Team, bhv_id=bhv_id)
-    players = Player.objects \
+    team_players = Player.objects \
         .filter(team=team) \
         .annotate(games=Count('score')) \
         .order_by('name')
-    return render(request, 'teams/players.j2', {'team': team, 'players': players})
+    return render(request, 'teams/players.j2', {'team': team, 'players': team_players})
 
 
 def scorers(request, bhv_id):
