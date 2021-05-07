@@ -25,8 +25,8 @@ class LinkForm(forms.Form):
 
         try:
             team = Team.objects.get(bhv_id=team_bhv_id)
-        except Team.DoesNotExist:
-            raise ValidationError('Mannschaft konnte nicht gefunden werden.')
+        except Team.DoesNotExist as exc:
+            raise ValidationError('Mannschaft konnte nicht gefunden werden.') from exc
 
         self.cleaned_data['team'] = team
         return team_bhv_id
