@@ -10,7 +10,7 @@ $(document).ready(function () {
 
     function initTable(paging = true) {
         return $table.DataTable({
-            "paging": paging,
+            paging,
             "colReorder": true,
             "language": {
                 //"url": "https://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/German.json"
@@ -79,8 +79,7 @@ $(document).ready(function () {
     function nthDateCell(n) {
         if (n < 0) {
             return $(`tbody > tr:nth-last-child(${Math.abs(n)}) > td:eq(${dateColumnIndex})`, $table);
-        }
-        else {
+        } else {
             return $(`tbody > tr:nth-child(${n}) > td:eq(${dateColumnIndex})`, $table);
         }
     }
@@ -105,8 +104,7 @@ $(document).ready(function () {
                 if (pageIndex === 0) {
                     // no item in past
                     return;
-                }
-                else {
+                } else {
                     // last item on previous page is most recent item
                     table.page("previous").draw("page");
                     highlightRow(nthDateCell(-1));
@@ -119,8 +117,7 @@ $(document).ready(function () {
                     // last item on this last page is most recent item
                     highlightRow(nthDateCell(-1));
                     return;
-                }
-                else {
+                } else {
                     // last item on this page is in past, try next page
                     continue;
                 }
@@ -139,7 +136,7 @@ $(document).ready(function () {
 
     if (dateColumnIndex >= 0) {
         const $btnToday = $('<button class="btn btn-secondary mb-2 ml-2">letztes <span class="fas fa-arrow-down"></span></button>');
-        $btnToday.click(e => highlightMostRecentItem());
+        $btnToday.click(_ => highlightMostRecentItem());
         $buttonRow.append($btnToday);
     }
 
