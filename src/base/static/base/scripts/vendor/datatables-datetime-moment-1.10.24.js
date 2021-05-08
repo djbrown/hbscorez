@@ -28,20 +28,24 @@
 	}
 }(function ($, moment) {
 
-$.fn.dataTable.moment = function ( format, locale ) {
+function strip (d) {
+	if ( typeof d === 'string' ) {
+		// Strip HTML tags and newline characters if possible
+		d = d.replace(/(<.*?>)|(\r?\n|\r)/g, '');
+
+		// Strip out surrounding white space
+		d = d.trim();
+	}
+
+	return d;
+}
+
+$.fn.dataTable.moment = function ( format, locale, reverseEmpties ) {
 	var types = $.fn.dataTable.ext.type;
 
 	// Add type detection
 	types.detect.unshift( function ( d ) {
-		if ( d ) {
-			// Strip HTML tags and newline characters if possible
-			if ( d.replace ) {
-				d = d.replace(/(<.*?>)|(\r?\n|\r)/g, '');
-			}
-
-			// Strip out surrounding white space
-			d = $.trim( d );
-		}
+		d = strip(d);
 
 		// Null and empty values are acceptable
 		if ( d === '' || d === null ) {
@@ -55,18 +59,10 @@ $.fn.dataTable.moment = function ( format, locale ) {
 
 	// Add sorting method - use an integer for the sorting
 	types.order[ 'moment-'+format+'-pre' ] = function ( d ) {
-		if ( d ) {
-			// Strip HTML tags and newline characters if possible
-			if ( d.replace ) {
-				d = d.replace(/(<.*?>)|(\r?\n|\r)/g, '');
-			}
-
-			// Strip out surrounding white space
-			d = $.trim( d );
-		}
+		d = strip(d);
 		
 		return !moment(d, format, locale, true).isValid() ?
-			Infinity :
+			(reverseEmpties ? -Infinity : Infinity) :
 			parseInt( moment( d, format, locale, true ).format( 'x' ), 10 );
 	};
 };
