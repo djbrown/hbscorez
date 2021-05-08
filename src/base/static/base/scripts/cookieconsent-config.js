@@ -15,7 +15,7 @@ window.addEventListener("load", function () {
             "message": "Cookies erleichtern die Bereitstellung dieser Webseite. Mit der Nutzung der Webseite erklärst Du Dich damit einverstanden, dass sie Cookies verwendet.",
             "dismiss": "Verstanden!",
             "link": "Mehr erfahren",
-            "href": "http://meine-cookies.org/alles_ueber_cookies/index.html"
+            "href": "https://support.mozilla.org/de/kb/cookies-informationen-websites-auf-ihrem-computer"
         }
     });
 });
