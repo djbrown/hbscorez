@@ -17,5 +17,5 @@ window.addEventListener("load", function () {
             "link": "Mehr erfahren",
             "href": "http://meine-cookies.org/alles_ueber_cookies/index.html"
         }
-    })
+    });
 });
