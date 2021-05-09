@@ -33,7 +33,7 @@
     <div class="mb-3">
         <label for="username" class="form-label">Benutzername</label>
         <input name="username" type="text" id="username" placeholder="Benutzername" required
-            class="form-control {% if form.errors or cooloff_timedelta %}is-invalid{% endif %}" {% if form.username.value %}
+            class="form-control{% if form.errors or cooloff_timedelta %} is-invalid{% endif %}" {% if form.username.value %}
             value="{{ form.username.value }}" {% endif %} />
     </div>
 

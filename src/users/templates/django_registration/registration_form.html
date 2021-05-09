@@ -10,7 +10,7 @@
     <div class="mb-3">
         <label for="username" class="form-label">Benutzername</label>
         <input name="username" type="text" id="username" placeholder="Benutzername" required
-            class="form-control {% if form.username.errors %}is-invalid{% elif form.username.value %}is-valid{% endif %}"
+            class="form-control{% if form.username.errors %} is-invalid{% elif form.username.value %} is-valid{% endif %}"
             {% if form.username.value %} value="{{ form.username.value }}" {% endif %} />
         <small class="form-text text-muted">{{ form.username.help_text|safe }}</small>
         <div class="invalid-feedback">{{ form.username.errors }}</div>
@@ -19,7 +19,7 @@
     <div class="mb-3">
         <label for="email" class="form-label">E-Mail</label>
         <input name="email" type="email" id="email" placeholder="E-Mail" required
-            class="form-control {% if form.email.errors %}is-invalid{% elif form.email.value %}is-valid{% endif %}"
+            class="form-control{% if form.email.errors %} is-invalid{% elif form.email.value %} is-valid{% endif %}"
             {% if form.email.value %} value="{{ form.email.value }}" {% endif %} />
         <small class="form-text text-muted">{{ form.email.help_text|safe }}</small>
         <div class="invalid-feedback">{{ form.email.errors }}</div>
