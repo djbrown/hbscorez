@@ -135,7 +135,7 @@ $(document).ready(function () {
     }
 
     if (dateColumnIndex >= 0) {
-        const $btnToday = $('<button class="btn btn-secondary mb-2 ml-2">letztes <span class="fas fa-arrow-down"></span></button>');
+        const $btnToday = $('<button class="btn btn-secondary mb-2 ms-2">letztes <span class="fas fa-arrow-down"></span></button>');
         $btnToday.click(_ => highlightMostRecentItem());
         $buttonRow.append($btnToday);
     }
