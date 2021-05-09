@@ -26,7 +26,7 @@
 <nav class="navbar navbar-expand-md navbar-dark sticky-top bg-dark" aria-label="main menu">
     <div class="container">
         <a class="navbar-brand" href="{{ url('base:home') }}">HbScorez</a>
-        <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#navbar">
+        <button class="navbar-toggler d-lg-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbar">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbar">
@@ -38,7 +38,7 @@
             {% if request.user.is_authenticated %}
                 <div class="nav-item btn-group">
                     <a class="nav-link btn btn-secondary" href="{{ url('users:profile') }}">{{ request.user.username }}</a>
-                    <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown"></button>
+                    <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown"></button>
                     <div class="dropdown-menu dropdown-menu-right">
                         <a class="dropdown-item" href="{{ url('users:logout') }}">Abmelden</a>
                     </div>
