@@ -9,7 +9,7 @@
     {% csrf_token %}
 
     <div class="mb-3">
-        <label for="name">Name</label>
+        <label for="name" class="form-label">Name</label>
         <input name="name" type="text" id="name" placeholder="Name" required
             class="form-control {% if form.name.errors %}is-invalid{% elif form.name.value %}is-valid{% endif %}"
             {% if form.name.value %} value="{{ form.name.value }}" {% endif %} />
@@ -18,7 +18,7 @@
     </div>
 
     <div class="mb-3">
-        <label for="email">E-Mail</label>
+        <label for="email" class="form-label">E-Mail</label>
         <input name="email" type="email" id="email" placeholder="E-Mail" required
             class="form-control {% if form.email.errors %}is-invalid{% elif form.email.value %}is-valid{% endif %}"
             {% if form.email.value %} value="{{ form.email.value }}" {% endif %} />
@@ -27,7 +27,7 @@
     </div>
 
     <div class="mb-3">
-        <label for="body">Nachricht</label>
+        <label for="body" class="form-label">Nachricht</label>
         <textarea name="body" id="body" placeholder="Nachricht" required
             class="form-control{% if form.body.errors %} is-invalid{% elif form.body.value %} is-valid{% endif %}">{% if form.body.value %}{{ form.body.value }}{% endif %}</textarea>
         <small class="form-text text-muted">{{ form.body.help_text|safe }}</small>
@@ -35,7 +35,7 @@
     </div>
 
     <div class="mb-3">
-        <label for="captcha">Captcha</label><br />
+        <label for="captcha" class="form-label">Captcha</label><br />
         <img src="data:image/png;base64,{{ form.captcha_image_base64 }}" class="img-thumbnail mb-2" alt="captcha" />
         <input name="captcha" type="text" id="captcha" placeholder="Captcha" required
             class="form-control{% if form.captcha.errors %} is-invalid{% endif %}" />

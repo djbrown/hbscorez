@@ -31,14 +31,14 @@
     {% csrf_token %}
 
     <div class="mb-3">
-        <label for="username">Benutzername</label>
+        <label for="username" class="form-label">Benutzername</label>
         <input name="username" type="text" id="username" placeholder="Benutzername" required
             class="form-control {% if form.errors or cooloff_timedelta %}is-invalid{% endif %}" {% if form.username.value %}
             value="{{ form.username.value }}" {% endif %} />
     </div>
 
     <div class="mb-3">
-        <label for="password">Passwort</label>
+        <label for="password" class="form-label">Passwort</label>
         <input name="password" type="password" id="password" placeholder="Passwort" required
             class="form-control{% if form.errors or cooloff_timedelta %} is-invalid{% endif %}" />
     </div>
