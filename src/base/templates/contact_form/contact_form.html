@@ -8,7 +8,7 @@
 
     {% csrf_token %}
 
-    <div class="form-group">
+    <div class="mb-3">
         <label for="name">Name</label>
         <input name="name" type="text" id="name" placeholder="Name" required
             class="form-control {% if form.name.errors %}is-invalid{% elif form.name.value %}is-valid{% endif %}"
@@ -17,7 +17,7 @@
         <div class="invalid-feedback">{{ form.name.errors }}</div>
     </div>
 
-    <div class="form-group">
+    <div class="mb-3">
         <label for="email">E-Mail</label>
         <input name="email" type="email" id="email" placeholder="E-Mail" required
             class="form-control {% if form.email.errors %}is-invalid{% elif form.email.value %}is-valid{% endif %}"
@@ -26,7 +26,7 @@
         <div class="invalid-feedback">{{ form.email.errors }}</div>
     </div>
 
-    <div class="form-group">
+    <div class="mb-3">
         <label for="body">Nachricht</label>
         <textarea name="body" id="body" placeholder="Nachricht" required
             class="form-control{% if form.body.errors %} is-invalid{% elif form.body.value %} is-valid{% endif %}">{% if form.body.value %}{{ form.body.value }}{% endif %}</textarea>
@@ -34,7 +34,7 @@
         <div class="invalid-feedback">{{ form.body.errors }}</div>
     </div>
 
-    <div class="form-group">
+    <div class="mb-3">
         <label for="captcha">Captcha</label><br />
         <img src="data:image/png;base64,{{ form.captcha_image_base64 }}" class="img-thumbnail mb-2" alt="captcha" />
         <input name="captcha" type="text" id="captcha" placeholder="Captcha" required
