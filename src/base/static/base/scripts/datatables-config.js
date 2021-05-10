@@ -85,13 +85,7 @@ $(document).ready(function () {
     }
 
     function highlightRow($element) {
-        const offset = $element.offset();
-        offset.left -= 20;
-        offset.top -= 20;
-        $('html, body').animate({
-            scrollTop: offset.top,
-            scrollLeft: offset.left
-        });
+        $element[0].scrollIntoView(false);
         $element.parent().addClass("table-info");
     }
 
