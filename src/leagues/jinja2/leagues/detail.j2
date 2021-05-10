@@ -16,50 +16,56 @@
     <div class="progress-bar progress-bar-striped progress-bar-animated" style="width: {{ games_progress * 100 }}%"></div>
     {% endif %}
 </div>
-<div class="card-deck">
-    <div class="card leader-card">
-        <h5 class="card-header">Top 5 Mannschaften</h5>
-        <div class="card-body">
-            <ol class="card-text">
-                {% for place, group in teams.items() %}
-                <li value="{{ place }}">
-                    {% for team in group %}
-                    <a href="{{ url('teams:detail', args=[team.bhv_id]) }} ">{{ team.name }}</a>
-                    ({{ team.points }}&nbsp;Punkte)<br />
+<div class="row row-cols-1 row-cols-md-3">
+    <div class="col mb-3">
+        <div class="card leader-card">
+            <h5 class="card-header">Top 5 Mannschaften</h5>
+            <div class="card-body">
+                <ol class="card-text">
+                    {% for place, group in teams.items() %}
+                    <li value="{{ place }}">
+                        {% for team in group %}
+                        <a href="{{ url('teams:detail', args=[team.bhv_id]) }} ">{{ team.name }}</a>
+                        ({{ team.points }}&nbsp;Punkte)<br />
+                        {% endfor %}
+                    </li>
                     {% endfor %}
-                </li>
-                {% endfor %}
-            </ol>
+                </ol>
+            </div>
         </div>
     </div>
-    <div class="card leader-card">
-        <h5 class="card-header">Top 5 Schützen</h5>
-        <div class="card-body">
-            <ol class="card-text">
-                {% for place, group in scorers.items() %}
-                <li value="{{ place }}">
-                    {% for scorer in group %}
-                    <a href="{{ url('players:detail', args=[scorer.pk]) }} ">{{ scorer.public_name() }}</a>
-                    ({{ scorer.total_goals }}&nbsp;Tore)<br />
+    <div class="col mb-3">
+        <div class="card leader-card">
+            <h5 class="card-header">Top 5 Schützen</h5>
+            <div class="card-body">
+                <ol class="card-text">
+                    {% for place, group in scorers.items() %}
+                    <li value="{{ place }}">
+                        {% for scorer in group %}
+                        <a href="{{ url('players:detail', args=[scorer.pk]) }} ">{{ scorer.public_name() }}</a>
+                        ({{ scorer.total_goals }}&nbsp;Tore)<br />
+                        {% endfor %}
+                    </li>
                     {% endfor %}
-                </li>
-                {% endfor %}
-            </ol>
+                </ol>
+            </div>
         </div>
     </div>
-    <div class="card leader-card">
-        <h5 class="card-header">Top 5 Straffällige</h5>
-        <div class="card-body">
-            <ol class="card-text">
-                {% for place, group in offenders.items() %}
-                <li value="{{ place }}">
-                    {% for offender in group %}
-                    <a href="{{ url('players:detail', args=[offender.pk]) }} ">{{ offender.public_name() }}</a>
-                    ({{ offender.offender_points }}&nbsp;Punkte)<br />
+    <div class="col mb-3">
+        <div class="card leader-card">
+            <h5 class="card-header">Top 5 Straffällige</h5>
+            <div class="card-body">
+                <ol class="card-text">
+                    {% for place, group in offenders.items() %}
+                    <li value="{{ place }}">
+                        {% for offender in group %}
+                        <a href="{{ url('players:detail', args=[offender.pk]) }} ">{{ offender.public_name() }}</a>
+                        ({{ offender.offender_points }}&nbsp;Punkte)<br />
+                        {% endfor %}
+                    </li>
                     {% endfor %}
-                </li>
-                {% endfor %}
-            </ol>
+                </ol>
+            </div>
         </div>
     </div>
 </div>
