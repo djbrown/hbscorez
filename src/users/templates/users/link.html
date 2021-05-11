@@ -18,7 +18,7 @@
 
     <div class="mb-3">
         <label for="associations" class="form-label">Verband</label>
-        <select id="associations" class="form-control">
+        <select id="associations" class="form-select">
             {% for a in associations %}
             <option value="{{ a.bhv_id }}" {% if a == team.league.district.associations.all.0 %}selected{% endif %}>
                 {{ a.name }} ({{ a.abbreviation }})</option>
@@ -28,7 +28,7 @@
 
     <div class="mb-3">
         <label for="districts" class="form-label">Bereich</label>
-        <select id="districts" class="form-control">
+        <select id="districts" class="form-select">
             {% if team %}
             {% for d in team.league.district.associations.first.district_set.all %}
             <option value="{{ d.bhv_id }}" {% if d == team.league.district %}selected{% endif %}>{{ d.name }}</option>
@@ -39,7 +39,7 @@
 
     <div class="mb-3">
         <label for="seasons" class="form-label">Saison</label>
-        <select id="seasons" class="form-control">
+        <select id="seasons" class="form-select">
             {% for s in seasons %}
             <option value="{{ s.start_year }}/{{ s.end_year }}" {% if s == team.league.season %}selected{% endif %}>
                 {{ s }}</option>
@@ -49,7 +49,7 @@
 
     <div class="mb-3">
         <label for="league" class="form-label">Liga</label>
-        <select id="leagues" class="form-control">
+        <select id="leagues" class="form-select">
             {% if team %}
             {% for l in leagues %}
             <option value="{{ l.bhv_id }}" {% if l == team.league %}selected{% endif %}>{{ l.name }}
@@ -62,7 +62,7 @@
     <div class="mb-3">
         <label for="teams" class="form-label">Mannschaft</label>
         <select name="team_bhv_id" id="teams" required
-            class="form-control{% if form.player_name.errors %} is-invalid{% endif %}">
+            class="form-select{% if form.player_name.errors %} is-invalid{% endif %}">
             {% if team %}
             {% for t in team.league.team_set.all %}
             <option value="{{ t.bhv_id }}" {% if t == team %}selected{% endif %}>{{ t.name }}</option>
@@ -75,7 +75,7 @@
     <div class="mb-3">
         <label for="name" class="form-label">Spielername</label>
         <input name="player_name" type="text" id="name" placeholder="Spielername" required
-            class="form-control{% if form.player_name.errors %} is-invalid{% endif %}" {% if form.player_name.value %}
+            class="form-select{% if form.player_name.errors %} is-invalid{% endif %}" {% if form.player_name.value %}
             value="{{ form.player_name.value.strip }}" {% endif %} />
         <div class="invalid-feedback">{{ form.player_name.errors }}</div>
     </div>
