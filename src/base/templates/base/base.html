@@ -35,12 +35,12 @@
             </button>
             <div class="collapse navbar-collapse" id="navbar">
                 <ul class="navbar-nav me-auto">
-                    <li class="nav-item">
+                    <li class="nav-item m-1">
                         <a class="nav-link" href="{% url 'associations:list' %}">Statistik</a>
                     </li>
                 </ul>
                 {% if user.is_authenticated %}
-                <div class="nav-item btn-group">
+                <div class="nav-item btn-group m-1">
                     <a class="btn btn-secondary" href="{% url 'users:profile' %}">{{ user.username }}</a>
                     <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split"
                         data-bs-toggle="dropdown"></button>
@@ -49,9 +49,9 @@
                     </div>
                 </div>
                 {% else %}
-                <a class="nav-item btn btn-primary me-md-2 me-0 mb-md-0 mb-2"
+                <a class="nav-item btn btn-primary m-1"
                     href="{% url 'users:login' %}">Anmelden</a>
-                <a class="nav-item btn btn-success"
+                <a class="nav-item btn btn-success m-1"
                     href="{% url 'django_registration_register' %}">Registrieren</a>
                 {% endif %}
             </div>
