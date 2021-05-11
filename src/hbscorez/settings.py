@@ -81,6 +81,8 @@ DATABASES = {
     }
 }
 
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
+
 AUTHENTICATION_BACKENDS = [
     'axes.backends.AxesBackend',
     'django.contrib.auth.backends.ModelBackend',
