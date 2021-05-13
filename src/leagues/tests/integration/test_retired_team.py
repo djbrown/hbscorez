@@ -1,4 +1,5 @@
 import os
+import unittest
 from datetime import date
 
 from django.conf import settings
@@ -39,6 +40,7 @@ class ParseRetiredTeamTest(TestCase):
 
 
 class RetiredTeamTest(IntegrationTestCase):
+    @unittest.skip('https://github.com/djbrown/hbscorez/issues/70')
     def test_retired_team(self):
         self.assert_command('setup', '-a', 3, '-d', 4, '-s', 2018, '-l', 35068)
         self.assert_command('import_games')
