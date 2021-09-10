@@ -17,7 +17,7 @@ jobs:
         - pipenv run hbcoverage
         - pipenv run mypy src
         - pipenv run flake8
-        - diff ATTRIBUTIONS.csv <(pipenv run pip-licenses -au --from classifier -f csv)
+        - diff ATTRIBUTIONS.csv <(pipenv run attributions)
       after_script:
         - pipenv run coverage xml
         - pipenv run codecov
