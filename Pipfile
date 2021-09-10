@@ -20,7 +20,7 @@ django-axes = "*"
 [dev-packages]
 autopep8 = "*"
 bandit = "*"
-black = "21.5b0" # https://github.com/psf/black/issues/517 https://github.com/pypa/pipenv/issues/1760
+black = "*"
 codacy-coverage = "*"
 codecov = "*"
 coverage = "*"
@@ -51,3 +51,4 @@ hbintegrationtest = "./src/manage.py test --tag integration src"
 hbseleniumtest = "./src/manage.py test --tag selenium src"
 hbcoverage = "coverage run --branch --source=src --omit=src/*/migrations/* ./src/manage.py test src --exclude-tag slow"
 delmig = "find . -path \"src/*/migrations/*.py\" -not -name \"__init__.py\" -delete"
+attributions = "pip-licenses -au --from classifier -f csv"
