@@ -11,6 +11,7 @@ jobs:
   include:
     - name: Unit Tests & Analysis
       before_script:
+        - "apt update && apt install curl"
         - "curl -H 'Cache-Control: no-cache' https://raw.githubusercontent.com/fossas/fossa-cli/master/install.sh | sudo bash"
         - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
         - chmod +x ./cc-test-reporter
