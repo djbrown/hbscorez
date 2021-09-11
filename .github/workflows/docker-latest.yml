@@ -39,6 +39,7 @@ jobs:
         with:
           push: true
           tags: djbrown/hbscorez:latest
+          context: .
           builder: ${{ steps.buildx.outputs.name }}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache
