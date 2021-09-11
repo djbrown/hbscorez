@@ -1,6 +1,6 @@
 # HbScorez
 
-[![Travis-CI Build Status](https://travis-ci.org/djbrown/hbscorez.svg?branch=master)](https://travis-ci.org/djbrown/hbscorez)
+[![Travis-CI Build Status](https://app.travis-ci.com/djbrown/hbscorez.svg?branch=master)](https://app.travis-ci.com/djbrown/hbscorez)
 [![Docker Hub Build Status](https://img.shields.io/docker/cloud/build/djbrown/hbscorez.svg)](https://hub.docker.com/r/djbrown/hbscorez/builds/)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=djbrown_hbscorez&metric=alert_status)](https://sonarcloud.io/dashboard?id=djbrown_hbscorez)
 [![Coveralls Coverage Status](https://coveralls.io/repos/github/djbrown/hbscorez/badge.svg)](https://coveralls.io/github/djbrown/hbscorez)
