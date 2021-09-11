@@ -1,6 +1,8 @@
 language: python
 os: linux
 dist: xenial
+arch:
+  - arm64
 python:
   - "3.7"
 install:
