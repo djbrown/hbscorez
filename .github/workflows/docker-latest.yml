@@ -1,4 +1,4 @@
-name: Docker build and push hbscorez:latest to Docker Hub
+name: Docker build and push djbrown/hbscorez:latest to Docker Hub
 
 on:
   push:
@@ -38,7 +38,7 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           push: true
-          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/hbscorez:latest
+          tags: djbrown/hbscorez:latest
           builder: ${{ steps.buildx.outputs.name }}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache
