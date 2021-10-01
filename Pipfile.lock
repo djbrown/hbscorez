@@ -958,11 +958,10 @@
         },
         "ptpython": {
             "hashes": [
-                "sha256:b3d41ce7c2ce0e7e55051347eae400fc56b9b42b1c4a9db25b19ccf6195bfc12",
-                "sha256:c0f5d6516077d95175169fbc9bf9ade9211bbfdbd2e665c96e34637e3b0f9ae2"
+                "sha256:99636899ab0e4d026e2ecc9368269114f387b4bb5411e57f072b0bde724d9f99",
+                "sha256:eafd4ced27ca5dc370881d4358d1ab5041b32d88d31af8e3c24167fe4af64ed6"
             ],
-            "index": "pypi",
-            "version": "==3.0.19"
+            "version": "==3.0.20"
         },
         "py": {
             "hashes": [
