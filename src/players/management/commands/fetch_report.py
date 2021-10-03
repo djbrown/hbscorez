@@ -28,7 +28,7 @@ def fetch_report(game: Game):
 def retry_downloads(game: Game, retry_durations: List[timedelta]):
     try:
         url = game.report_source_url()
-        return requests.get(url, stream=True)
+        return requests.get(url, stream=True, timeout=5)
     except requests.exceptions.ConnectionError as exc:
         if len(retry_durations) == 0:
             raise exc
