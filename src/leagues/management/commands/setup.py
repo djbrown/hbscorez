@@ -176,10 +176,6 @@ class Command(BaseCommand):
             LOGGER.debug('SKIPPING League (no games): %s %s', bhv_id, name)
             return
 
-        if len(game_rows) < len(team_links) * (len(team_links) - 1):
-            LOGGER.debug('SKIPPING League (few games): %s %s', bhv_id, abbreviation)
-            return
-
         name = {
             5380: "Männer Kreisliga 2-1",
             5381: "Männer Kreisliga 2-2",
