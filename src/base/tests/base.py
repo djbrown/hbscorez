@@ -109,7 +109,7 @@ class IntegrationTestCase(ModelTestCase):
 
 
 _CI = 'CI' in os.environ
-_TUNNEL_ID = os.environ.get("TRAVIS_JOB_NUMBER")
+_TRAVIS_JOB_NUMBER = os.environ.get("TRAVIS_JOB_NUMBER")
 _SAUCE_USER = os.environ.get("SAUCE_USERNAME")
 _SAUCE_KEY = os.environ.get("SAUCE_ACCESS_KEY")
 
@@ -133,13 +133,16 @@ class SeleniumTestCase(StaticLiveServerTestCase):
         class_name = self.__class__.__name__
         method_name = self._testMethodName
         capabilities = {
-            'platform': "Mac OS X 10.10",
             'browserName': "chrome",
-            'version': "37.0",
-            'name': '{}.{}'.format(class_name, method_name),
-            'tunnel-identifier': _TUNNEL_ID,
-            'username': _SAUCE_USER,
-            'accessKey': _SAUCE_KEY,
+            'browserVersion': '87',
+            'platformName': "Mac OS X 10.14",
+            'sauce:options': {
+                'name': '{}.{}'.format(class_name, method_name),
+                'build': _TRAVIS_JOB_NUMBER,
+                'username': _SAUCE_USER,
+                'accessKey': _SAUCE_KEY,
+                'tunnelIdentifier': _TRAVIS_JOB_NUMBER,
+            },
         }
 
         remote_url = "https://ondemand.us-west-1.saucelabs.com:443/wd/hub"
@@ -153,7 +156,7 @@ class SeleniumTestCase(StaticLiveServerTestCase):
         if _CI:
             sauce_client = SauceClient(_SAUCE_USER, _SAUCE_KEY)
             status = (sys.exc_info() == (None, None, None))
-            sauce_client.jobs.update_job(job_id=self.driver.session_id, build=_TUNNEL_ID,
+            sauce_client.jobs.update_job(job_id=self.driver.session_id, build=_TRAVIS_JOB_NUMBER,
                                          passed=status)
 
     def navigate(self, view_name: str, *args, **kwargs):
