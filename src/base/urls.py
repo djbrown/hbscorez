@@ -1,5 +1,6 @@
 from django.urls import path
 from django.views.generic import TemplateView
+from django.views.generic.base import RedirectView
 
 from base.views import ContactView
 
@@ -12,4 +13,5 @@ urlpatterns = [  # pylint: disable=invalid-name
     path('kontakt/', ContactView.as_view(), name="contact_form"),
     path(route='kontakt/gesendet/', name="contact_form_sent",
          view=TemplateView.as_view(template_name="contact_form/contact_form_sent.html")),
+    path('wartung.html', RedirectView.as_view(pattern_name='base:home'), name="maintenance"),
 ]
