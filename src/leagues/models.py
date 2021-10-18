@@ -50,12 +50,19 @@ class League(models.Model):
         if 'Mini' in name:
             return True
 
+        youth_name_indicators = ['Jugend', 'Jgd', 'Mini', 'Jungen', 'Mädchen',
+                                 'Jongen', 'Meedercher', 'weiblich', 'männlich',
+                                 'Auswahl']
+        youth_name_shorts = [gender + 'J' + age_class
+                             for gender in ['M', 'W', 'm', 'w']
+                             for age_class in ['A', 'B', 'C', 'D', 'E']]
         youth_match = abbreviation[:1] in ['m', 'w', 'g', 'u', 'U'] \
-            or any(n in name for n in ['Jugend', 'Jgd', 'Mini', 'Jungen', 'Mädchen',
-                                       'Jongen', 'Meedercher', 'weiblich', 'männlich'])
+            or any(n in name for n in youth_name_indicators + youth_name_shorts)
+
         adult_match = abbreviation[:1] in ['M', 'F'] \
             or any(n in name for n in ['Männer', 'Frauen', 'Herren', 'Damen',
-                                       'Hären', 'Dammen', 'Senioren', 'Seniorinnen'])
+                                       'Hären', 'Dammen', 'Senioren', 'Seniorinnen',
+                                       'Hommes', 'Dames', 'Fraen'])
 
         if youth_match == adult_match:
             raise ValueError(f'Youth undecidable: {abbreviation} {name}')
