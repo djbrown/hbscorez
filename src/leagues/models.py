@@ -53,11 +53,17 @@ class League(models.Model):
         youth_name_indicators = ['Jugend', 'Jgd', 'Mini', 'Jungen', 'Mädchen',
                                  'Jongen', 'Meedercher', 'weiblich', 'männlich',
                                  'Auswahl']
-        youth_name_shorts = [gender + 'J' + age_class
-                             for gender in ['M', 'W', 'm', 'w']
-                             for age_class in ['A', 'B', 'C', 'D', 'E']]
+        youth_names_two_letters = [gender + age_class
+                                   for gender in ['m', 'w']
+                                   for age_class in ['A', 'B', 'C', 'D', 'E']]
+        youth_names_three_letters = [gender + 'J' + age_class
+                                     for gender in ['M', 'W', 'm', 'w']
+                                     for age_class in ['A', 'B', 'C', 'D', 'E']]
         youth_match = abbreviation[:1] in ['m', 'w', 'g', 'u', 'U'] \
-            or any(n in name for n in youth_name_indicators + youth_name_shorts)
+            or any(n in name for n in
+                   youth_name_indicators
+                   + youth_names_two_letters
+                   + youth_names_three_letters)
 
         adult_match = abbreviation[:1] in ['M', 'F'] \
             or any(n in name for n in ['Männer', 'Frauen', 'Herren', 'Damen',
