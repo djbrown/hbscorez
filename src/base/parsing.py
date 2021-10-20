@@ -93,11 +93,13 @@ def parse_sports_hall_bhv_id(link):
 
 
 def parse_coordinates(tree) -> Tuple[Optional[str], Optional[str]]:
-    map_script = tree.xpath('//script[contains(text(),"new mxn.LatLonPoint")]')[0]
-    match = re.search(r"new mxn.LatLonPoint\(([.0-9]+),([.0-9]+)\)", map_script.text)
+    map_scripts = tree.xpath('//script[contains(text(),"new mxn.LatLonPoint")]')
+    if not map_scripts:
+        return (None, None)
+    match = re.search(r"new mxn.LatLonPoint\(([.0-9]+),([.0-9]+)\)", map_scripts[0].text)
     if match:
         return match.group(1), match.group(2)
-    raise ValueError('coordinates not found: {}'.format(map_script))
+    raise ValueError('coordinates not found: {}'.format(map_scripts))
 
 
 def parse_goals(game_row) -> Tuple[Optional[int], Optional[int]]:
