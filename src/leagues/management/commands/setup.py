@@ -162,7 +162,8 @@ class Command(BaseCommand):
         name = parsing.parse_league_name(dom)
 
         if any(n in name for n in ['Platzierungsrunde', 'Meister', 'Freiwurf', 'Maxi',
-                                   'turnier', 'wettbewerb', 'pokal', 'Test', 'F-FS', 'M-FS']):
+                                   'turnier', 'wettbewerb', 'pokal', 'Test', 'F-FS', 'M-FS',
+                                   'Vorbereitung']):
             LOGGER.debug('SKIPPING League (name): %s %s', bhv_id, name)
             return
 
