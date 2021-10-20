@@ -163,7 +163,7 @@ class Command(BaseCommand):
 
         if any(n in name for n in ['Platzierungsrunde', 'Meister', 'Freiwurf', 'Maxi',
                                    'turnier', 'wettbewerb', 'pokal', 'Test', 'F-FS', 'M-FS',
-                                   'Vorbereitung', 'Planung', 'planung']):
+                                   'Vorbereitung', 'Planung', 'planung', 'Quali']):
             LOGGER.debug('SKIPPING League (name): %s %s', bhv_id, name)
             return
 
