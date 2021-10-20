@@ -30,7 +30,6 @@ class Command(BaseCommand):
         450001, 473097, 497475, 501159, 546059, 562543, 567811, 572051, 598812, 627428, 638260,  # 2018
         893364, 891069, 995291, 1062957, 1162366, 1185506, 1209411,  # 2019
     ]
-    bugged_associations = [78]
 
     def add_arguments(self, parser):
         add_default_arguments(parser)
@@ -55,10 +54,6 @@ class Command(BaseCommand):
     def import_association(self, association):
         if self.options['associations'] and association.bhv_id not in self.options['associations']:
             LOGGER.debug('SKIPPING Association: %s (options)', association)
-            return
-
-        if association.bhv_id in self.bugged_associations:
-            LOGGER.debug('SKIPPING Association (ignore list): %s', association)
             return
 
         for district in association.district_set.all():
