@@ -44,32 +44,42 @@ class League(models.Model):
 
     @staticmethod
     def is_youth(abbreviation: str, name: str) -> bool:
-        if name in ['Kreisliga A', 'Kreisliga B Nord', 'Kreisliga B Süd', 'Spielrunde Special Olympics']:
-            return False
+        youth_name_indicators_direct = [
+            'Jugend', 'Jgd', 'Mini', 'Jungen', 'Mädchen',
+            'Jongen', 'Meedercher', 'weiblich', 'männlich',
+            'Auswahl', 'Mini']
+        youth_names_indicators_two_letters = [
+            gender + age_class
+            for gender in ['m', 'w']
+            for age_class in ['A', 'B', 'C', 'D', 'E']]
+        youth_names_indicators_three_letters = [
+            gender + 'J' + age_class
+            for gender in ['M', 'W', 'm', 'w']
+            for age_class in ['A', 'B', 'C', 'D', 'E']]
+        youth_abbreviation_indicators_first_letter = ['m', 'w', 'g', 'u', 'U']
 
-        if 'Mini' in name:
-            return True
-
-        youth_name_indicators = ['Jugend', 'Jgd', 'Mini', 'Jungen', 'Mädchen',
-                                 'Jongen', 'Meedercher', 'weiblich', 'männlich',
-                                 'Auswahl']
-        youth_names_two_letters = [gender + age_class
-                                   for gender in ['m', 'w']
-                                   for age_class in ['A', 'B', 'C', 'D', 'E']]
-        youth_names_three_letters = [gender + 'J' + age_class
-                                     for gender in ['M', 'W', 'm', 'w']
-                                     for age_class in ['A', 'B', 'C', 'D', 'E']]
-        youth_match = abbreviation[:1] in ['m', 'w', 'g', 'u', 'U'] \
+        youth_match = abbreviation[:1] in youth_abbreviation_indicators_first_letter \
             or any(n in name for n in
-                   youth_name_indicators
-                   + youth_names_two_letters
-                   + youth_names_three_letters)
+                   youth_name_indicators_direct
+                   + youth_names_indicators_two_letters
+                   + youth_names_indicators_three_letters)
 
-        adult_match = abbreviation[:1] in ['M', 'F', 'Ü'] \
-            or any(n in name for n in ['Männer', 'Frauen', 'Herren', 'Damen',
-                                       'Hären', 'Dammen', 'Senioren', 'Seniorinnen',
-                                       'Hommes', 'Dames', 'Fraen'])
+        adult_name_indicators = [
+            'Männer', 'Frauen', 'Herren', 'Damen',
+            'Hären', 'Dammen', 'Senioren', 'Seniorinnen',
+            'Hommes', 'Dames', 'Fraen', 'Inklusion']
+        adult_abbreviation_indicators_first_letter = ['M', 'F', 'Ü']
+        adult_match = abbreviation[:1] in adult_abbreviation_indicators_first_letter \
+            or any(n in name for n in adult_name_indicators)
 
         if youth_match == adult_match:
-            raise ValueError(f'Youth undecidable: {abbreviation} {name}')
+            raise YouthUndecidableError(abbreviation, name, youth_match)
         return youth_match
+
+
+class YouthUndecidableError(Exception):
+    def __init__(self, abbreviation: str, name: str, message: str, *args: object) -> None:
+        self.abbreviation = abbreviation
+        self.name = name
+        self.message = message or f"Youth undecidable: '{self.abbreviation}' '{self.name}'"
+        super().__init__(self.message, *args)
