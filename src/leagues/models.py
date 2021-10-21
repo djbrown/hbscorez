@@ -65,7 +65,7 @@ class League(models.Model):
                    + youth_names_two_letters
                    + youth_names_three_letters)
 
-        adult_match = abbreviation[:1] in ['M', 'F'] \
+        adult_match = abbreviation[:1] in ['M', 'F', 'Ü'] \
             or any(n in name for n in ['Männer', 'Frauen', 'Herren', 'Damen',
                                        'Hären', 'Dammen', 'Senioren', 'Seniorinnen',
                                        'Hommes', 'Dames', 'Fraen'])
