@@ -161,9 +161,15 @@ class Command(BaseCommand):
         dom = logic.get_html(url)
         name = parsing.parse_league_name(dom)
 
-        if any(n in name for n in ['Platzierungsrunde', 'Meister', 'Freiwurf', 'Maxi',
-                                   'turnier', 'wettbewerb', 'pokal', 'Test', 'F-FS', 'M-FS',
-                                   'Vorbereitung', 'Planung', 'planung', 'Quali']):
+        irrelevant_league_name_indicators = [
+            'Platzierungsrunde', 'Meister',
+            'pokal', 'Pokal', 'Trophy',
+            'Vorbereitung', 'F-FS', 'M-FS', 'Quali',
+            'Freiwurf', 'Maxi', 'turnier', 'wettbewerb',
+            'Test', 'Planung', 'planung',
+        ]
+
+        if any(n in name for n in [irrelevant_league_name_indicators]):
             LOGGER.debug('SKIPPING League (name): %s %s', bhv_id, name)
             return
 
