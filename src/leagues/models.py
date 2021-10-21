@@ -67,7 +67,9 @@ class League(models.Model):
         adult_name_indicators = [
             'Männer', 'Frauen', 'Herren', 'Damen',
             'Hären', 'Dammen', 'Senioren', 'Seniorinnen',
-            'Hommes', 'Dames', 'Fraen', 'Inklusion']
+            'Hommes', 'Dames', 'Fraen',
+            'Inklusion', 'Special Olympics',
+            'Kreisliga']
         adult_abbreviation_indicators_first_letter = ['M', 'F', 'Ü']
         adult_match = abbreviation[:1] in adult_abbreviation_indicators_first_letter \
             or any(n in name for n in adult_name_indicators)

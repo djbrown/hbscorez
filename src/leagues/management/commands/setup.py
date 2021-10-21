@@ -191,7 +191,8 @@ class Command(BaseCommand):
             52853: "männliche Jugend C Bezirksliga Staffel 2",
             58111: "Frauen Oberliga Rheinland-Pfalz/Saar 1",
             58116: "Frauen Oberliga Rheinland-Pfalz/Saar 2",
-            74781: "Männer U21",
+            74781: "U21 Maenner",
+            74831: "Kreisliga Ostholstein Minni-Mix",
         }.get(bhv_id, name)
 
         if League.is_youth(abbreviation, name) and not self.options['youth']:
