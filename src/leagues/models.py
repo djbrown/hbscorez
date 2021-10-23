@@ -56,31 +56,35 @@ class League(models.Model):
             gender + 'J' + age_class
             for gender in ['M', 'W', 'm', 'w']
             for age_class in ['A', 'B', 'C', 'D', 'E']]
-        youth_abbreviation_indicators_first_letter = ['m', 'w', 'g', 'u', 'U']
-
-        youth_match = abbreviation[:1] in youth_abbreviation_indicators_first_letter \
-            or any(n in name for n in
-                   youth_name_indicators_direct
-                   + youth_names_indicators_two_letters
-                   + youth_names_indicators_three_letters)
+        youth_match_strong = any(n in name for n in
+                                 youth_name_indicators_direct
+                                 + youth_names_indicators_two_letters
+                                 + youth_names_indicators_three_letters)
 
         adult_name_indicators = [
             'Männer', 'Frauen', 'Herren', 'Damen',
             'Hären', 'Dammen', 'Senioren', 'Seniorinnen',
             'Hommes', 'Dames', 'Fraen',
-            'Inklusion', 'Special Olympics',
-            'Kreisliga']
-        adult_abbreviation_indicators_first_letter = ['M', 'F', 'Ü']
-        adult_match = abbreviation[:1] in adult_abbreviation_indicators_first_letter \
-            or any(n in name for n in adult_name_indicators)
+            'Inklusion', 'Special Olympics']
+        adult_match_strong = any(n in name for n in adult_name_indicators)
 
-        if youth_match == adult_match:
-            raise YouthUndecidableError(abbreviation, name, youth_match)
-        return youth_match
+        if youth_match_strong != adult_match_strong:
+            return youth_match_strong
+        if youth_match_strong and adult_match_strong:
+            raise YouthUndecidableError(abbreviation, name)
+
+        youth_match_weak = abbreviation[:1] in ['m', 'w', 'g', 'u', 'U']
+        adult_match_weak = abbreviation[:1] in ['M', 'F', 'Ü']
+        if youth_match_weak != adult_match_weak:
+            return youth_match_weak
+
+        raise YouthUndecidableError(abbreviation, name)
 
 
 class YouthUndecidableError(Exception):
-    def __init__(self, abbreviation: str, name: str, message: str, *args: object) -> None:
+    # todo: upgrade to python 3.8 and use positional only separator:
+    # ... message: str = None, /, *args: object ...
+    def __init__(self, abbreviation: str, name: str, message: str = None, *args: object) -> None:
         self.abbreviation = abbreviation
         self.name = name
         self.message = message or f"Youth undecidable: '{self.abbreviation}' '{self.name}'"
