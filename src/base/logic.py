@@ -8,6 +8,7 @@ from django.db.models import Count, F, Q, Sum
 from django.db.models.functions import Coalesce, TruncMonth
 from lxml import html
 
+from base.http import http
 from games.models import Game, TeamOutcome
 from players.models import Player, Score
 from teams.models import Team
@@ -17,7 +18,7 @@ LOGGER = logging.getLogger('hbscorez')
 
 def get_html(url, fails=0):
     try:
-        response = requests.get(url, timeout=5)
+        response = http.get(url, timeout=5)
         response.encoding = 'utf-8'
         return html.fromstring(response.text)
     except requests.exceptions.ReadTimeout:
