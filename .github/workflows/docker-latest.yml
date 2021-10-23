@@ -1,4 +1,4 @@
-name: Docker build and push djbrown/hbscorez:latest to Docker Hub
+name: Docker build latest
 
 on:
   push:
