@@ -22,6 +22,7 @@ class Command(BaseCommand):
         fix_game_210116()
         fix_game_96781()
         fix_game_201059()
+        fix_game_91021()
         env.UPDATING.set_value(Value.FALSE)
 
 
@@ -139,13 +140,15 @@ def fix_game_96781():
     sga = {
         "Wiebke Krause": _score(1),
         "Lydia Hepp": _score(2, 1, first_suspension_time=time(50, 21)),
-        "Dalin Kozok": _score(5, 2, warning_time=time(9), first_suspension_time=time(21, 36)),
+        "Dalin Kozok": _score(5, 2, warning_time=time(9),
+                              first_suspension_time=time(21, 36)),
         "Katharina Stellmacher": _score(6, first_suspension_time=time(27, 16)),
         "Jessica Mayer": _score(7, 1),
         "Selina Haack": _score(8, 2, warning_time=time(6)),
         "Janina Hirscher": _score(9, 8),
         "Leonie Wölfle": _score(13, 1),
-        "Ramona Endraß": _score(14, 7, warning_time=time(14), first_suspension_time=time(40, 37)),
+        "Ramona Endraß": _score(14, 7, warning_time=time(14),
+                                first_suspension_time=time(40, 37)),
         "Lisa Dreher": _score(17),
         "Cathrin Müller": _score(16),
         "Annika Duttle": _score(15, 1),
@@ -168,7 +171,8 @@ def fix_game_201059():
         "Leo Vesligaj": _score(22, 2, warning_time=time(30)),
         "Lukas Francik": _score(23, warning_time=time(27)),
         "Martin Mäck": _score(26),
-        "Bastian Klett": _score(28, 4, 5, 4, warning_time=time(4), first_suspension_time=time(29, 22),
+        "Bastian Klett": _score(28, 4, 5, 4, warning_time=time(4),
+                                first_suspension_time=time(29, 22),
                                 second_suspension_time=time(34, 26)),
         "Philipp Eberhardt": _score(98, 1),
     }
@@ -189,3 +193,42 @@ def fix_game_201059():
         "Timo Bäuerlein": _score(62, 2),
     }
     add_scores(league__bhv_id=45166, game_number=201059, home_score_data=tsgs, guest_score_data=hcn)
+
+
+def fix_game_91021():
+    tvn = {
+        "Oliver Pohr": _score(3),
+        "Tim Reusch": _score(4, 5, warning_time=time(23, 30)),
+        "Maximilian Friessnig": _score(10, 2, first_suspension_time=time(4, 51),
+                                       second_suspension_time=time(19, 49),
+                                       third_suspension_time=time(44, 8),
+                                       disqualification_time=time(44, 8)),
+        "Marius Spitz": _score(12),
+        "Johannes Rödel": _score(14, 1),
+        "Felix Stahl": _score(19),
+        "Lukas Herdtner": _score(21, 8, warning_time=time(15, 40)),
+        "Steffen Buck": _score(22, first_suspension_time=time(49, 40)),
+        "Julius Haug": _score(24, warning_time=time(17, 20),
+                              first_suspension_time=time(43)),
+        "Lukas Friesch": _score(25, 2),
+        "Patrick Bauer": _score(45, 3),
+        "Kai Augustin": _score(95),
+        "Toni Trenkle": _score(32),
+    }
+    hsga = {
+        "Edis Camovic": _score(1),
+        "Lukas Mayer": _score(7, 2, first_suspension_time=time(12, 20),
+                              disqualification_time=time(29, 48)),
+        "Eike Soren Schmiederer": _score(8, 2),
+        "Simon Flügel": _score(11, warning_time=time(26, 56),
+                               first_suspension_time=time(58, 50)),
+        "Philipp Schmid": _score(18),
+        "Michael Maier": _score(21, 5, first_suspension_time=time(20, 56),
+                                second_suspension_time=time(51, 10)),
+        "Steffen Link": _score(24, 2, warning_time=time(17, 20)),
+        "Patrick Lebherz": _score(27, 5, 2, 2),
+        "Bruno Jerger": _score(31, 2),
+        "Samuel Hartmann": _score(42, 2),
+        "Julian Mayer": _score(72),
+    }
+    add_scores(league__bhv_id=69241, game_number=91021, home_score_data=tvn, guest_score_data=hsga)
