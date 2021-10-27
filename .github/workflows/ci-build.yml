@@ -116,7 +116,7 @@ jobs:
       - name: Download attributions report
         uses: actions/download-artifact@v2.0.10
         with:
-          name: coverage report
+          name: attributions report
       - name: Check attributions report
         run: diff ATTRIBUTIONS.csv attributions.csv
 
