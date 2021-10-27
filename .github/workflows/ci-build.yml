@@ -24,8 +24,8 @@ jobs:
           key: ${{ runner.os }}-pipenv-${{ hashFiles('Pipfile.lock') }}
       - name: Set up locale
         run: |
-          export LC_ALL="en_US.UTF-8"
-          export LC_CTYPE="en_US.UTF-8"
+          export LC_ALL="de_DE.UTF-8"
+          export LC_CTYPE="de_DE.UTF-8"
           sudo dpkg-reconfigure locales
       - name: Checkout Repository
         uses: actions/checkout@v2.3.5
