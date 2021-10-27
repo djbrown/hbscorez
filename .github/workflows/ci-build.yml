@@ -15,7 +15,7 @@ jobs:
         with:
           python-version: "3.7"
       - name: Install Pipenv
-        run: python -m pip install --upgrade pipenv
+        run: python -m pip install --upgrade pip pip-tools pipenv wheel
       - name: Cache Pipenv
         id: cache-pipenv
         uses: actions/cache@v2.1.6
