@@ -27,8 +27,6 @@ jobs:
       - name: Install dependencies
         if: steps.cache-pipenv.outputs.cache-hit != 'true'
         run: pipenv install --deploy --dev
-      - name: Download FOSSA CLI
-        run: "curl -H 'Cache-Control: no-cache' https://raw.githubusercontent.com/fossas/fossa-cli/master/install.sh | sudo bash"
 
   unittest:
     runs-on: ubuntu-latest
@@ -93,16 +91,17 @@ jobs:
 
   licenses:
     runs-on: ubuntu-latest
-    needs: setup
     steps:
+      - name: Download FOSSA CLI
+        run: "curl -H 'Cache-Control: no-cache' https://raw.githubusercontent.com/fossas/fossa-cli/master/install.sh | sudo bash"
       - name: Generate dependencies file
         run: pipenv lock -r > requirements.txt
       - name: "Run FOSSA Scan"
-        uses: fossas/fossa-action@1.1.0
+        uses: fossas/fossa-action@v1.1.0
         with:
           api-key: ${{secrets.FOSSA_API_KEY}}
       - name: "Run FOSSA Test"
-        uses: fossas/fossa-action@1.1.0
+        uses: fossas/fossa-action@v1.1.0
         with:
           api-key: ${{secrets.FOSSA_API_KEY}}
           run-tests: true
