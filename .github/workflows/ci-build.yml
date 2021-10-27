@@ -34,7 +34,7 @@ jobs:
 
   codacy:
     runs-on: ubuntu-latest
-    needs: unittest
+    needs: main
     steps:
       - uses: codacy/codacy-coverage-reporter-action@v1.1.0
         with:
@@ -43,7 +43,7 @@ jobs:
 
   codeclimate:
     runs-on: ubuntu-latest
-    needs: unittest
+    needs: main
     steps:
       - uses: paambaati/codeclimate-action@v3.0.0
         env:
@@ -51,13 +51,13 @@ jobs:
 
   codecov:
     runs-on: ubuntu-latest
-    needs: unittest
+    needs: main
     steps:
       - uses: codecov/codecov-action@v2.1.0
 
   coveralls:
     runs-on: ubuntu-latest
-    needs: unittest
+    needs: main
     steps:
       - uses: coverallsapp/github-action@1.1.3
         with:
@@ -65,21 +65,21 @@ jobs:
 
   typing:
     runs-on: ubuntu-latest
-    needs: setup
+    needs: main
     steps:
       - name: Run Mypy
         run: pipenv run mypy src
 
   styleguide:
     runs-on: ubuntu-latest
-    needs: setup
+    needs: main
     steps:
       - name: Run Flake8
         run: pipenv run flake8
 
   attributions:
     runs-on: ubuntu-latest
-    needs: setup
+    needs: main
     steps:
       - name: Compare attributions file with actual dependencies
         run: diff ATTRIBUTIONS.csv <(pipenv run attributions)
