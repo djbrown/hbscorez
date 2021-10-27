@@ -24,7 +24,7 @@ jobs:
           key: ${{ runner.os }}-pipenv-${{ hashFiles('Pipfile.lock') }}
       - name: Set up locale
         run: |
-          locale-gen de_DE.UTF-8
+          sudo locale-gen de_DE.UTF-8
           sudo dpkg-reconfigure locales
       - name: Checkout Repository
         uses: actions/checkout@v2.3.5
