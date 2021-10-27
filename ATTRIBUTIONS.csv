@@ -71,7 +71,6 @@
 "pydocstyle","6.1.1","MIT License","Amir Rachum","https://github.com/PyCQA/pydocstyle/"
 "pyflakes","2.4.0","MIT License","A lot of people","https://github.com/PyCQA/pyflakes"
 "pylama","7.7.1","UNKNOWN","UNKNOWN","UNKNOWN"
-hg
 "pylint","3.0.0a4","GNU General Public License v2 (GPLv2)","Python Code Quality Authority","https://github.com/PyCQA/pylint"
 "pylint-django","2.4.4","UNKNOWN","landscape.io","https://github.com/PyCQA/pylint-django"
 "pylint-plugin-utils","0.6","UNKNOWN","landscape.io","https://github.com/landscapeio/pylint-plugin-utils"
