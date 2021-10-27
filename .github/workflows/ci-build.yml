@@ -38,19 +38,35 @@ jobs:
         run: pipenv run hbcoverage
       - name: Generate coverage.xml
         run: pipenv run coverage xml
-      - name: Report coverage to Codacy
-        uses: codacy/codacy-coverage-reporter-action@v1.1.0
+
+  codacy:
+    runs-on: ubuntu-latest
+    needs: unittest
+    steps:
+      - uses: codacy/codacy-coverage-reporter-action@v1.1.0
         with:
           project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
           coverage-reports: coverage.xml
-      - name: Report coverage to Codecov
-        uses: codecov/codecov-action@v2.1.0
-      - name: Report coverage to Code Climate
-        uses: paambaati/codeclimate-action@v3.0.0
+
+  codeclimate:
+    runs-on: ubuntu-latest
+    needs: unittest
+    steps:
+      - uses: paambaati/codeclimate-action@v3.0.0
         env:
           CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
-      - name: Report coverage to Coveralls
-        uses: coverallsapp/github-action@v1.1.3
+
+  codecov:
+    runs-on: ubuntu-latest
+    needs: unittest
+    steps:
+      - uses: codecov/codecov-action@v2.1.0
+
+  coveralls:
+    runs-on: ubuntu-latest
+    needs: unittest
+    steps:
+      - uses: coverallsapp/github-action@1.1.3
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
