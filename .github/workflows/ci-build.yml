@@ -50,9 +50,6 @@ jobs:
           name: attributions report
           path: attributions.csv
 
-      - name: Run Mypy
-        run: pipenv run mypy src
-
       - name: Run Flake8
         run: pipenv run flake8
 
@@ -105,6 +102,16 @@ jobs:
           name: attributions report
       - name: Check attributions report
         run: diff ATTRIBUTIONS.csv attributions.csv
+
+  typing:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2.3.5
+      - name: Run Mypy
+        uses: jpetrucciani/mypy-check@0.910
+        with:
+          path: src
 
   licenses:
     runs-on: ubuntu-latest
