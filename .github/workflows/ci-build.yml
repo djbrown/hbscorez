@@ -94,8 +94,6 @@ jobs:
     steps:
       - name: Download FOSSA CLI
         run: "curl -H 'Cache-Control: no-cache' https://raw.githubusercontent.com/fossas/fossa-cli/master/install.sh | sudo bash"
-      - name: Generate dependencies file
-        run: pipenv lock -r > requirements.txt
       - name: "Run FOSSA Scan"
         uses: fossas/fossa-action@v1.1.0
         with:
