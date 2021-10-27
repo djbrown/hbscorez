@@ -22,15 +22,16 @@ jobs:
         with:
           path: ~/.local/share/virtualenvs
           key: pipenv-${{ hashFiles('Pipfile.lock') }}
-      - name: Set up locale
-        run: |
-          sudo locale-gen de_DE.UTF-8
-          sudo dpkg-reconfigure locales
       - name: Checkout Repository
         uses: actions/checkout@v2.3.5
       - name: Install dependencies
         if: steps.cache-pipenv.outputs.cache-hit != 'true'
         run: pipenv install --deploy --dev
+
+      - name: Set up locale
+        run: |
+          sudo locale-gen de_DE.UTF-8
+          sudo dpkg-reconfigure locales
       - name: Run tests with coverage
         run: pipenv run hbcoverage
       - name: Generate coverage report
@@ -40,6 +41,7 @@ jobs:
         with:
           name: coverage report
           path: coverage.xml
+
       - name: Generate attributions report
         run: pipenv run attributions > attributions.csv
       - name: Upload attributions report
@@ -47,6 +49,12 @@ jobs:
         with:
           name: attributions report
           path: attributions.csv
+
+      - name: Run Mypy
+        run: pipenv run mypy src
+
+      - name: Run Flake8
+        run: pipenv run flake8
 
   codacy:
     runs-on: ubuntu-latest
@@ -84,28 +92,6 @@ jobs:
         with:
           name: coverage report
       - uses: codecov/codecov-action@v2.1.0
-
-  coveralls:
-    runs-on: ubuntu-latest
-    needs: main
-    steps:
-      - uses: coverallsapp/github-action@1.1.3
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-
-  typing:
-    runs-on: ubuntu-latest
-    needs: main
-    steps:
-      - name: Run Mypy
-        run: pipenv run mypy src
-
-  styleguide:
-    runs-on: ubuntu-latest
-    needs: main
-    steps:
-      - name: Run Flake8
-        run: pipenv run flake8
 
   attributions:
     runs-on: ubuntu-latest
