@@ -31,15 +31,24 @@ jobs:
       - name: Install dependencies
         if: steps.cache-pipenv.outputs.cache-hit != 'true'
         run: pipenv install --deploy --dev
-      - name: Run unit tests with coverage
+      - name: Run tests with coverage
         run: pipenv run hbcoverage
-      - name: Generate coverage.xml
+      - name: Generate coverage report
         run: pipenv run coverage xml
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v2.2.4
+        with:
+          name: coverage report
+          path: coverage.xml
 
   codacy:
     runs-on: ubuntu-latest
     needs: main
     steps:
+      - name: Download coverage report
+        uses: actions/download-artifact@v2.0.10
+        with:
+          name: coverage report
       - uses: codacy/codacy-coverage-reporter-action@v1.1.0
         with:
           project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
@@ -49,6 +58,10 @@ jobs:
     runs-on: ubuntu-latest
     needs: main
     steps:
+      - name: Download coverage report
+        uses: actions/download-artifact@v2.0.10
+        with:
+          name: coverage report
       - uses: paambaati/codeclimate-action@v3.0.0
         env:
           CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
@@ -57,6 +70,10 @@ jobs:
     runs-on: ubuntu-latest
     needs: main
     steps:
+      - name: Download coverage report
+        uses: actions/download-artifact@v2.0.10
+        with:
+          name: coverage report
       - uses: codecov/codecov-action@v2.1.0
 
   coveralls:
