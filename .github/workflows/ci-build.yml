@@ -41,7 +41,7 @@ jobs:
           name: coverage report
           path: coverage.xml
       - name: Generate attributions report
-        run: pipenv run attributions
+        run: pipenv run attributions > attributions.csv
       - name: Upload attributions report
         uses: actions/upload-artifact@v2.2.4
         with:
