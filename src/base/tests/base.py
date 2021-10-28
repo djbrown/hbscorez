@@ -109,7 +109,7 @@ class IntegrationTestCase(ModelTestCase):
 
 
 _CI = 'CI' in os.environ
-_TRAVIS_JOB_NUMBER = os.environ.get("TRAVIS_JOB_NUMBER")
+_BUILD_NUMBER = os.environ.get("GITHUB_RUN_NUMBER")
 _SAUCE_USER = os.environ.get("SAUCE_USERNAME")
 _SAUCE_KEY = os.environ.get("SAUCE_ACCESS_KEY")
 
@@ -138,10 +138,10 @@ class SeleniumTestCase(StaticLiveServerTestCase):
             'platformName': "Mac OS X 10.14",
             'sauce:options': {
                 'name': '{}.{}'.format(class_name, method_name),
-                'build': _TRAVIS_JOB_NUMBER,
+                'build': _BUILD_NUMBER,
                 'username': _SAUCE_USER,
                 'accessKey': _SAUCE_KEY,
-                'tunnelIdentifier': _TRAVIS_JOB_NUMBER,
+                'tunnelIdentifier': _BUILD_NUMBER,
             },
         }
 
@@ -156,7 +156,7 @@ class SeleniumTestCase(StaticLiveServerTestCase):
         if _CI:
             sauce_client = SauceClient(_SAUCE_USER, _SAUCE_KEY)
             status = (sys.exc_info() == (None, None, None))
-            sauce_client.jobs.update_job(job_id=self.driver.session_id, build=_TRAVIS_JOB_NUMBER,
+            sauce_client.jobs.update_job(job_id=self.driver.session_id, build=_BUILD_NUMBER,
                                          passed=status)
 
     def navigate(self, view_name: str, *args, **kwargs):
