@@ -57,7 +57,7 @@ jobs:
         run: pipenv run flake8
 
       - name: coveralls
-        run: pipenv run coveralls
+        run: pipenv run coveralls --service=github
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
