@@ -24,7 +24,7 @@ jobs:
         run: |
           sudo locale-gen de_DE.UTF-8
           sudo dpkg-reconfigure locales
-      - name: Run integration tests
-        run: pipenv run hbintegrationtest
       - name: Run selenium tests
         run: pipenv run hbseleniumtest
+      - name: Run integration tests
+        run: pipenv run hbintegrationtest
