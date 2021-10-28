@@ -16,14 +16,14 @@ jobs:
           python-version: "3.7"
       - name: Install Pipenv
         run: python -m pip install --upgrade pipenv
+      - name: Checkout Repository
+        uses: actions/checkout@v2.3.5
       - name: Cache Pipenv
         id: cache-pipenv
         uses: actions/cache@v2.1.6
         with:
           path: ~/.local/share/virtualenvs
           key: pipenv-${{ hashFiles('Pipfile.lock') }}
-      - name: Checkout Repository
-        uses: actions/checkout@v2.3.5
       - name: Install dependencies
         if: steps.cache-pipenv.outputs.cache-hit != 'true'
         run: pipenv install --deploy --dev
