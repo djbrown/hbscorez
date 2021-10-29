@@ -122,8 +122,6 @@ _SAUCE_KEY = os.environ.get("SAUCE_ACCESS_KEY")
 class SeleniumTestCase(StaticLiveServerTestCase):
     """Selenium test cases are only run in CI or if configured explicitly"""
 
-    port = 8001
-
     def setUp(self):
         if _CI:
             self.driver = self.sauce_chrome_webdriver()
