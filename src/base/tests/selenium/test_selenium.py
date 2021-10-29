@@ -2,6 +2,9 @@ from base.tests.base import SeleniumTestCase
 
 
 class TestSelenium(SeleniumTestCase):
+
+    port = 8001
+
     def test_internet_connection(self):
         self.driver.get('https://saucelabs.com/test/guinea-pig')
         self.assertEqual('I am a page title - Sauce Labs', self.driver.title)
