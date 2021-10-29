@@ -11,6 +11,7 @@ from django.test.runner import DiscoverRunner
 from django.urls import ResolverMatch, resolve, reverse
 from sauceclient import SauceClient
 from selenium.webdriver import Firefox, Remote
+from selenium.webdriver.chrome.options import Options as ChromeOptions
 from selenium.webdriver.firefox.options import Options as FirefoxOptions
 from selenium.webdriver.support.expected_conditions import staleness_of
 from selenium.webdriver.support.ui import WebDriverWait
@@ -135,24 +136,23 @@ class SeleniumTestCase(StaticLiveServerTestCase):
     def sauce_chrome_webdriver(self):
         class_name = self.__class__.__name__
         method_name = self._testMethodName
-        capabilities = {
-            'browserName': "chrome",
-            'browserVersion': '87',
-            'platformName': "Mac OS X 10.14",
-            'sauce:options': {
-                'name': '{}.{}'.format(class_name, method_name),
-                'build': _SAUCE_BUILD,
-                'tunnelIdentifier': _SAUCE_TUNNEL,
-                'username': _SAUCE_USER,
-                'accessKey': _SAUCE_KEY,
-            },
+
+        options = ChromeOptions()
+        # options.browser_version = 'latest'
+        options.browser_version = '87'
+        # options.platform_name = 'Windows 10'
+        options.platform_name = 'macOS 10.14'
+        sauce_options = {
+            'name': '{}.{}'.format(class_name, method_name),
+            'build': _SAUCE_BUILD,
+            'tunnelIdentifier': _SAUCE_TUNNEL,
+            'username': _SAUCE_USER,
+            'accessKey': _SAUCE_KEY,
         }
+        options.set_capability('sauce:options', sauce_options)
 
         remote_url = "https://ondemand.us-west-1.saucelabs.com:443/wd/hub"
-        return Remote(
-            command_executor=remote_url,
-            desired_capabilities=capabilities,
-        )
+        return Remote(command_executor=remote_url, options=options)
 
     def tearDown(self):
         self.driver.quit()
