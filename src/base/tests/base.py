@@ -13,8 +13,8 @@ from django.test.testcases import LiveServerThread, QuietWSGIRequestHandler
 from django.urls import ResolverMatch, resolve, reverse
 from sauceclient import SauceClient
 from selenium.webdriver import Firefox, Remote
-from selenium.webdriver.chrome.options import Options as ChromeOptions
 from selenium.webdriver.firefox.options import Options as FirefoxOptions
+from selenium.webdriver.safari.options import Options as SafariOptions
 from selenium.webdriver.support.expected_conditions import staleness_of
 from selenium.webdriver.support.ui import WebDriverWait
 
@@ -151,10 +151,9 @@ class SeleniumTestCase(StaticLiveServerTestCase):
         class_name = self.__class__.__name__
         method_name = self._testMethodName
 
-        options = ChromeOptions()
-        options.browser_version = 'latest'
-        # options.platform_name = 'Windows 10'
-        options.platform_name = 'macOS 10.14'
+        options = SafariOptions()
+        options.browser_version = '14'
+        options.platform_name = 'macOS 11.00'
         sauce_options = {
             'name': '{}.{}'.format(class_name, method_name),
             'build': _SAUCE_BUILD,
