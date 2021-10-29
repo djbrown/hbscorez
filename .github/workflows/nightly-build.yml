@@ -24,7 +24,21 @@ jobs:
         run: |
           sudo locale-gen de_DE.UTF-8
           sudo dpkg-reconfigure locales
+
+      - name: Start saucelabs tunnel
+        uses: saucelabs/sauce-connect-action@v2
+        with:
+          username: ${{ secrets.SAUCE_USERNAME }}
+          accessKey: ${{ secrets.SAUCE_ACCESS_KEY }}
+          tunnelIdentifier: github-action-tunnel
+
       - name: Run selenium tests
         run: pipenv run hbseleniumtest
+        env:
+          SAUCE_BUILD_NAME: ${{ github.run_id }}-${{ github.run_number }}
+          SAUCE_TUNNEL_IDENTIFIER: github-action-tunnel
+          SAUCE_USERNAME: ${{ secrets.SAUCE_USERNAME }}
+          SAUCE_ACCESS_KEY: ${{ secrets.SAUCE_ACCESS_KEY }}
+
       - name: Run integration tests
         run: pipenv run hbintegrationtest
