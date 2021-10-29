@@ -30,12 +30,12 @@ jobs:
         with:
           username: ${{ secrets.SAUCE_USERNAME }}
           accessKey: ${{ secrets.SAUCE_ACCESS_KEY }}
-          tunnelIdentifier: ${{ github.workflow }} ${{ github.run_number }}
+          tunnelIdentifier: "${{ github.workflow }} #${{ github.run_number }}"
 
       - name: Run selenium tests
         run: pipenv run hbseleniumtest
         env:
-          SAUCE_BUILD_NAME: ${{ github.workflow }} ${{ github.run_number }}
+          SAUCE_BUILD_NAME: "${{ github.workflow }} #${{ github.run_number }}"
           SAUCE_TUNNEL_IDENTIFIER: ${{ github.workflow }} ${{ github.run_number }}
           SAUCE_USERNAME: ${{ secrets.SAUCE_USERNAME }}
           SAUCE_ACCESS_KEY: ${{ secrets.SAUCE_ACCESS_KEY }}
