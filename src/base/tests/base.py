@@ -6,8 +6,10 @@ import pytest
 from django.conf import settings
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from django.core.management import call_command
+from django.core.servers.basehttp import ThreadedWSGIServer
 from django.test import TestCase, tag
 from django.test.runner import DiscoverRunner
+from django.test.testcases import LiveServerThread, QuietWSGIRequestHandler
 from django.urls import ResolverMatch, resolve, reverse
 from sauceclient import SauceClient
 from selenium.webdriver import Firefox, Remote
@@ -109,6 +111,16 @@ class IntegrationTestCase(ModelTestCase):
         self.assertEqual(return_code, expected_return_code)
 
 
+class LiveServerThreadWithReuse(LiveServerThread):
+    """
+    This miniclass overrides _create_server to allow port reuse. This avoids creating
+    "address already in use" errors for tests that have been run subsequently.
+    """
+
+    def _create_server(self):
+        return ThreadedWSGIServer((self.host, self.port), QuietWSGIRequestHandler, allow_reuse_address=True)
+
+
 _CI = 'CI' in os.environ
 _SAUCE_BUILD = os.environ.get("SAUCE_BUILD_NAME")
 _SAUCE_TUNNEL = os.environ.get("SAUCE_TUNNEL_IDENTIFIER")
@@ -120,6 +132,10 @@ _SAUCE_KEY = os.environ.get("SAUCE_ACCESS_KEY")
 @pytest.mark.slow
 @skip_unless_any_tag('selenium', 'slow')
 class SeleniumTestCase(StaticLiveServerTestCase):
+
+    port = 8001
+    server_thread_class = LiveServerThreadWithReuse
+
     """Selenium test cases are only run in CI or if configured explicitly"""
 
     def setUp(self):
