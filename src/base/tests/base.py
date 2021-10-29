@@ -136,8 +136,7 @@ class SeleniumTestCase(StaticLiveServerTestCase):
         method_name = self._testMethodName
 
         options = ChromeOptions()
-        # options.browser_version = 'latest'
-        options.browser_version = '87'
+        options.browser_version = 'latest'
         # options.platform_name = 'Windows 10'
         options.platform_name = 'macOS 10.14'
         sauce_options = {
