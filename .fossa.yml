@@ -1,9 +1,0 @@
-version: 2
-analyze:
-  modules:
-    - name: .
-      type: pip
-      target: .
-      path: .
-      options:
-        strategy: pipenv
