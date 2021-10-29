@@ -19,7 +19,6 @@ static/
 .gitignore
 .pylintrc
 .pyup.yml
-.travis.yml
 ATTRIBUTIONS.csv
 coverage.xml
 db.sqlite3
