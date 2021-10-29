@@ -17,6 +17,7 @@ COPY Pipfile.lock .
 RUN pipenv install --deploy
 RUN pipenv install --skip-lock gunicorn==20.0.4
 
-COPY . .
+COPY entrypoint.sh .
+COPY src/ src/
 
 ENTRYPOINT ["./entrypoint.sh"]
