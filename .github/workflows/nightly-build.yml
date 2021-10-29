@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  setup:
+  main:
     runs-on: ubuntu-latest
     steps:
       - name: Set up Python
