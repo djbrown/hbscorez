@@ -25,6 +25,9 @@ This is the repo for the web application HbScorez running https://hbscorez.de/.<
 HbScorez processes handball game reports of diverse handball associations, districts, and leagues.
 It analyzes the player scores and displays the statistics and rankings.
 
+## Project Management and Issue Tracking
+**[redmine.djbrown.de](https://redmine.djbrown.de/projects/hbscorez)**
+
 ## Acknowledgements
 
 HbScorez is powered by **Django**<br/>
