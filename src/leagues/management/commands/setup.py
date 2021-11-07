@@ -163,6 +163,7 @@ class Command(BaseCommand):
 
         irrelevant_league_name_indicators = [
             'Platzierungsrunde', 'Meister',
+            'Kreisvergleichsspiele',
             'pokal', 'Pokal', 'Trophy',
             'Vorbereitung', 'F-FS', 'M-FS', 'Quali',
             'Freiwurf', 'Maxi', 'turnier', 'wettbewerb',
