@@ -229,22 +229,7 @@ def create_team(link, league):
     game_rows = parsing.parse_game_rows(dom)
     short_team_names = [c.text for game_row in game_rows for c in game_row.xpath('td')[4:7:2]]
     short_team_name = max(set(short_team_names), key=short_team_names.count)
-    create_or_update_team(name, short_team_name, league, bhv_id)
-
-
-def create_or_update_team(name, short_name, league, bhv_id):
-    team = Team.objects.filter(league=league, bhv_id=bhv_id).first()
-    if team:
-        if team.name != name or team.short_name != short_name:
-            team.name = name
-            team.short_name = short_name
-            team.save()
-            LOGGER.info('UPDATED Team: %s', team)
-        else:
-            LOGGER.info('EXISTING Team: %s', team)
-    else:
-        Team.objects.create(name=name, short_name=short_name, league=league, bhv_id=bhv_id)
-        LOGGER.info('CREATED Team: %s', team)
+    Team.create_or_update_team(name, short_team_name, league, bhv_id, LOGGER)
 
 
 def check_retirements(retirements, league):
