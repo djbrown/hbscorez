@@ -131,7 +131,7 @@ def import_game(game: Game):
 def download_report(game: Game, path: Path):
     url = game.report_source_url()
     response = http.get(url, stream=True, timeout=5)
-    if int(response.headers.get('Content-Length', default=-1)) == 0:
+    if int(response.headers.get('Content-Length', -1)) == 0:
         LOGGER.warning('SKIPPING Report (empty file): %s - %s', game.report_number, game)
         return
 
