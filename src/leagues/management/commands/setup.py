@@ -197,6 +197,9 @@ class Command(BaseCommand):
             68353: "Männer Kreisliga B Süd",
             74781: "U21 Maenner",
             74831: "Kreisliga Ostholstein Minni-Mix",
+            78781: "RD MJE A",
+            78786: "RD MJE B",
+            79146: "RD WJE R.",
         }.get(bhv_id, name)
 
         if League.is_youth(abbreviation, name) and not self.options['youth']:
