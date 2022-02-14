@@ -45,7 +45,7 @@ App is reachable under [127.0.0.1:8000](http://127.0.0.1:8000)
 
 ### Requirements
 
-1. Python 3.7
+1. Python 3.10
 2. pipenv (`pip install pipenv`)
 3. Java (>=1.6) for parsing game report PDFs
 

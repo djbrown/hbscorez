@@ -42,7 +42,7 @@ selenium = "*"
 types-requests = "*"
 
 [requires]
-python_version = "3.7"
+python_version = "3.10"
 
 [scripts]
 hbscorez = "./src/manage.py runserver"
