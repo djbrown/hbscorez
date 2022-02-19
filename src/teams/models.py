@@ -40,7 +40,7 @@ class Team(models.Model):
             else:
                 logger.info('EXISTING Team: %s', team)
         else:
-            Team.objects.create(name=name, short_name=short_name, league=league, bhv_id=bhv_id)
+            team = Team.objects.create(name=name, short_name=short_name, league=league, bhv_id=bhv_id)
             logger.info('CREATED Team: %s', team)
 
     def source_url(self):
