@@ -12,6 +12,15 @@ class SetupTest(IntegrationTestCase):
         self.assertEqual(association.bhv_id, 35)
         self.assertEqual(association.name, "Badischer Handball-Verband")
 
+    def test__setup__all_associations_and_districts(self):
+        self.assert_command('setup', '-s', 0)
+        self.assert_objects(Association, count=14)
+        self.assert_objects(District, count=65)
+
+    def test__setup__oberliga_hamburg_schleswig(self):
+        self.assert_command('setup', '-a', 77, '-d', 77, '-s', 2021, '-l', 77606)
+        self.assert_objects(League)
+
     def test__setup__district(self):
         self.assert_command('setup', '-a', 35, '-d', 35, '-s', 0)
         district = self.assert_objects(District)

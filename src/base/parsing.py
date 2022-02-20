@@ -17,6 +17,10 @@ def parse_association_bhv_id(link):
     return int(parse_link_query_item(link, 'orgGrpID'))
 
 
+def parse_association_name(tree):
+    return tree.xpath('//*[@id="results"]/div/h1/text()[2]')[0]
+
+
 def parse_district_link_date(link):
     return parse_link_query_item(link, 'do')
 

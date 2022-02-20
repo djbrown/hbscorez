@@ -66,7 +66,7 @@ class Command(BaseCommand):
         url = Association.build_source_url(bhv_id)
         dom = logic.get_html(url)
 
-        name = parsing.parse_league_name(dom)
+        name = parsing.parse_association_name(dom)
         try:
             abbreviation = Association.get_association_abbreviation(name)
         except KeyError:
