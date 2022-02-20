@@ -162,7 +162,7 @@ class Command(BaseCommand):
         name = parsing.parse_league_name(dom)
 
         irrelevant_league_name_indicators = [
-            'Platzierungsrunde', 'Meister',
+            'Platzierungsrunde',
             'Kreisvergleichsspiele',
             'pokal', 'Pokal', 'Trophy',
             'Vorbereitung', 'F-FS', 'M-FS', 'Quali',
