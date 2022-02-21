@@ -2,6 +2,7 @@ import unittest
 
 from django.contrib.auth.models import User
 from django.core import mail
+from selenium.webdriver.common.by import By
 
 from base.tests.base import SeleniumTestCase
 
@@ -11,7 +12,7 @@ from .test_registration import registration
 class TestActivationFailed(SeleniumTestCase):
     def test_invalid_key(self):
         self.navigate('django_registration_activate', activation_key='x')
-        alert = self.driver.find_element_by_class_name('alert')
+        alert = self.driver.find_element(By.CLASS_NAME, 'alert')
         self.assertEqual(alert.text, 'The activation key you provided is invalid.')
 
     def test_already_activated(self):
@@ -21,7 +22,7 @@ class TestActivationFailed(SeleniumTestCase):
         self.driver.get(activation_link)
         self.assert_view('django_registration_activate')
 
-        alert = self.driver.find_element_by_class_name('alert')
+        alert = self.driver.find_element(By.CLASS_NAME, 'alert')
         self.assertEqual(alert.text, 'The account you tried to activate has already been activated.')
 
     @unittest.skip('Yet to find a way to mock time.time in LiveServer')
@@ -34,13 +35,13 @@ class TestActivationFailed(SeleniumTestCase):
         self.assertEqual(User.objects.all().count(), 0)
 
         self.navigate('django_registration_register')
-        username_textfield = self.driver.find_element_by_name('username')
+        username_textfield = self.driver.find_element(By.NAME, 'username')
         username_textfield.send_keys(username)
-        mail_textfield = self.driver.find_element_by_name('email')
+        mail_textfield = self.driver.find_element(By.NAME, 'email')
         mail_textfield.send_keys(usermail)
-        pass_textfield = self.driver.find_element_by_name('password1')
+        pass_textfield = self.driver.find_element(By.NAME, 'password1')
         pass_textfield.send_keys(userpass)
-        pass_textfield = self.driver.find_element_by_name('password2')
+        pass_textfield = self.driver.find_element(By.NAME, 'password2')
         pass_textfield.send_keys(userpass)
         with self.wait():
             pass_textfield.submit()
@@ -55,5 +56,5 @@ class TestActivationFailed(SeleniumTestCase):
         self.driver.get(activation_link)
         self.assert_view('django_registration_activate')
 
-        alert = self.driver.find_element_by_class_name('alert')
+        alert = self.driver.find_element(By.CLASS_NAME, 'alert')
         self.assertEqual(alert.text, 'The account you tried to activate has already been activated.')

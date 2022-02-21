@@ -13,6 +13,7 @@ from django.test.testcases import LiveServerThread, QuietWSGIRequestHandler
 from django.urls import ResolverMatch, resolve, reverse
 from sauceclient import SauceClient
 from selenium.webdriver import Firefox, Remote
+from selenium.webdriver.common.by import By
 from selenium.webdriver.firefox.options import Options as FirefoxOptions
 from selenium.webdriver.safari.options import Options as SafariOptions
 from selenium.webdriver.support.expected_conditions import staleness_of
@@ -185,7 +186,7 @@ class SeleniumTestCase(StaticLiveServerTestCase):
 
     @contextmanager
     def load(self, timeout=1):
-        page = self.driver.find_element_by_tag_name('html')
+        page = self.driver.find_element(By.TAG_NAME, 'html')
         yield
         WebDriverWait(self.driver, timeout).until(staleness_of(page))
 

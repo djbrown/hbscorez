@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.core import mail
+from selenium.webdriver.common.by import By
 
 from base.tests.base import SeleniumTestCase
 
@@ -18,13 +19,13 @@ def registration(self):
     self.assertEqual(User.objects.all().count(), 0)
 
     self.navigate('django_registration_register')
-    username_textfield = self.driver.find_element_by_name('username')
+    username_textfield = self.driver.find_element(By.NAME, 'username')
     username_textfield.send_keys(username)
-    mail_textfield = self.driver.find_element_by_name('email')
+    mail_textfield = self.driver.find_element(By.NAME, 'email')
     mail_textfield.send_keys(usermail)
-    pass_textfield = self.driver.find_element_by_name('password1')
+    pass_textfield = self.driver.find_element(By.NAME, 'password1')
     pass_textfield.send_keys(userpass)
-    pass_textfield = self.driver.find_element_by_name('password2')
+    pass_textfield = self.driver.find_element(By.NAME, 'password2')
     pass_textfield.send_keys(userpass)
     with self.wait():
         pass_textfield.submit()
@@ -38,14 +39,14 @@ def registration(self):
 
     self.assert_view('django_registration_activation_complete')
     self.assertEqual(User.objects.all().count(), 1)
-    login_link = self.driver.find_element_by_id('link-login-redirect')
+    login_link = self.driver.find_element(By.ID, 'link-login-redirect')
     with self.wait():
         login_link.click()
 
     self.assert_view('users:login')
-    username_textfield = self.driver.find_element_by_name('username')
+    username_textfield = self.driver.find_element(By.NAME, 'username')
     username_textfield.send_keys(username)
-    password_textfield = self.driver.find_element_by_name('password')
+    password_textfield = self.driver.find_element(By.NAME, 'password')
     password_textfield.send_keys(userpass)
     with self.wait():
         password_textfield.submit()

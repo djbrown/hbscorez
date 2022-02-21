@@ -1,5 +1,6 @@
 from django.core import mail
 from django.test.utils import override_settings
+from selenium.webdriver.common.by import By
 
 from base.tests.base import SeleniumTestCase
 
@@ -17,13 +18,13 @@ class ContactFormTest(SeleniumTestCase):
         message = 'this is a message'
         self.navigate('base:contact_form')
 
-        username_textfield = self.driver.find_element_by_name('name')
+        username_textfield = self.driver.find_element(By.NAME, 'name')
         username_textfield.send_keys(username)
-        mail_textfield = self.driver.find_element_by_name('email')
+        mail_textfield = self.driver.find_element(By.NAME, 'email')
         mail_textfield.send_keys(usermail)
-        message_textarea = self.driver.find_element_by_name('body')
+        message_textarea = self.driver.find_element(By.NAME, 'body')
         message_textarea.send_keys(message)
-        message_textarea = self.driver.find_element_by_name('captcha')
+        message_textarea = self.driver.find_element(By.NAME, 'captcha')
         message_textarea.send_keys(CAPTCHA)
 
         with self.wait():
