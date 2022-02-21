@@ -2,4 +2,10 @@ from django.contrib import admin
 
 from .models import Association
 
-admin.site.register(Association)
+
+ASSOCIATION_SEARCH_FIELDS = ['name', 'abbreviation', 'bhv_id']
+
+
+@admin.register(Association)
+class AssociationAdmin(admin.ModelAdmin):
+    search_fields = ASSOCIATION_SEARCH_FIELDS
