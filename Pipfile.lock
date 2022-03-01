@@ -494,11 +494,10 @@
         },
         "astroid": {
             "hashes": [
-                "sha256:3975a0bd5373bdce166e60c851cfcbaf21ee96de80ec518c1f4cb3e94c3fb334",
-                "sha256:ab7f36e8a78b8e54a62028ba6beef7561db4cdb6f2a5009ecc44a6f42b5697ef"
+                "sha256:8767ed05b54241c516686121a02b5d07cedab0b1bed8fef0f8c05b629b3883ac",
+                "sha256:f616b9687a5f4afa673dfd2d684d2b6f38365c8ad7c6f27229dda1ede750c445"
             ],
-            "markers": "python_version ~= '3.6'",
-            "version": "==2.6.6"
+            "version": "==2.10.0"
         },
         "async-generator": {
             "hashes": [
