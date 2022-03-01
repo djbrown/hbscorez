@@ -1169,11 +1169,10 @@
         },
         "rope": {
             "hashes": [
-                "sha256:2847220bf72ead09b5abe72b1edc9cacff90ab93663ece06913fc97324167870",
-                "sha256:b00fbc064a26fc62d7220578a27fd639b2fad57213663cc396c137e92d73f10f"
+                "sha256:edf2ed3c9b35a8814752ffd3ea55b293c791e5087e252461de898e953cf9c146",
+                "sha256:f87662c565086d660fc855cc07f37820267876634c3e9e51bddb32ff51547268"
             ],
-            "index": "pypi",
-            "version": "==0.22.0"
+            "version": "==0.23.0"
         },
         "sauceclient": {
             "hashes": [
