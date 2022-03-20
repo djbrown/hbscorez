@@ -14,7 +14,7 @@ psycopg2 = "*"
 psycopg2-binary = "*"
 requests = "*"
 tabula-py = "*"
-captcha = {editable = true, git = "https://github.com/lepture/captcha"}
+captcha = "*"
 django-axes = "*"
 
 [dev-packages]
