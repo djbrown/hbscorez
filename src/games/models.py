@@ -71,11 +71,10 @@ class Game(models.Model):
                                    guest_team__in=(self.home_team, self.guest_team))
 
     def leg(self) -> Leg:
-        if self.opening_whistle is None:
-            return Leg.UNKNOWN
-
         other_games = self.other_games()
         if not other_games \
+                or len(other_games) > 2 \
+                or self.opening_whistle is None \
                 or list(filter(lambda g: g.opening_whistle is None, other_games)):
             return Leg.UNKNOWN
 
@@ -83,17 +82,15 @@ class Game(models.Model):
             first_leg = self.opening_whistle < other_games[0].opening_whistle
             return Leg.FIRST if first_leg else Leg.SECOND
 
-        if len(other_games) == 2:
-            if self.opening_whistle < other_games[0].opening_whistle \
-                    and self.opening_whistle < other_games[1].opening_whistle:
-                return Leg.FIRST
-            if self.opening_whistle > other_games[0].opening_whistle \
-                    and self.opening_whistle > other_games[1].opening_whistle:
-                return Leg.SECOND
+        # len(other_games) == 2
+        if self.opening_whistle < other_games[0].opening_whistle \
+                and self.opening_whistle < other_games[1].opening_whistle:
+            return Leg.FIRST
+        if self.opening_whistle > other_games[0].opening_whistle \
+                and self.opening_whistle > other_games[1].opening_whistle:
+            return Leg.SECOND
 
-            return Leg.BEWTEEN
-
-        raise RuntimeError('More than 2 other games found on {}'.format(self))
+        return Leg.BEWTEEN
 
     def leg_title(self) -> str:
         mapping = {

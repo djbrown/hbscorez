@@ -157,3 +157,25 @@ class TripleGames(TestCase):
         for game, expected in test_data:
             self.assertEqual(expected, game.leg(), msg="wrong leg for game '{}' vs. '{}'".format(
                 game.home_team, game.guest_team))
+
+
+class QuadrupleGames(TestCase):
+
+    def test_game_leg(self):
+        league = create_test_league()
+        team_1 = Team.objects.create(name='Team 1', short_name='T1', league=league, bhv_id=1)
+        team_2 = Team.objects.create(name='Team 2', short_name='T2', league=league, bhv_id=2)
+
+        first = Game.objects.create(number=1, league=league, home_team=team_1, guest_team=team_2,
+                                    opening_whistle=datetime.now() - timedelta(days=7))
+        second = Game.objects.create(number=2, league=league, home_team=team_2, guest_team=team_1,
+                                     opening_whistle=datetime.now() - timedelta(days=5))
+        third = Game.objects.create(number=3, league=league, home_team=team_1, guest_team=team_2,
+                                    opening_whistle=datetime.now() - timedelta(days=3))
+        fourth = Game.objects.create(number=4, league=league, home_team=team_2, guest_team=team_1,
+                                     opening_whistle=datetime.now())
+
+        self.assertEqual(first.leg(), Leg.UNKNOWN)
+        self.assertEqual(second.leg(), Leg.UNKNOWN)
+        self.assertEqual(third.leg(), Leg.UNKNOWN)
+        self.assertEqual(fourth.leg(), Leg.UNKNOWN)
