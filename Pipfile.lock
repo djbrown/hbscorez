@@ -968,10 +968,10 @@
         },
         "pipenv": {
             "hashes": [
-                "sha256:3b80b4512934b9d8e8ce12c988394642ff96bb697680e5b092e59af503178327",
-                "sha256:f84d7119239b22ab2ac2b8fbc7d619d83cf41135206d72a17c4f151cda529fd0"
+                "sha256:405dd08cdae7dd25e5a33bff3074ec6ea39d58e9cfbc0424f83d5db9712bd4bf",
+                "sha256:4e7aae62dad7679ce81b54cc3451be19fb2c469e269335b36b14132fe5ceecb3"
             ],
-            "version": "==2022.1.8"
+            "version": "==2022.3.28"
         },
         "platformdirs": {
             "hashes": [
