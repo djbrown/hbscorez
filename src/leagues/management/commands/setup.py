@@ -15,7 +15,7 @@ from teams.models import Team
 
 LOGGER = logging.getLogger('hbscorez')
 
-BUGGED_LEAGUES = [80136]
+BUGGED_LEAGUES = [80136, 68361]
 
 
 def add_default_arguments(parser):
