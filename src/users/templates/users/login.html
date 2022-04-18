@@ -1,8 +1,9 @@
 {% extends 'base/base.html' %}
 
-{% block title %}Login{% endblock %}
+{% block title %}Login | {{ block.super }}{% endblock %}
 
 {% block content %}
+<h1>Anmelden</h1>
 {% if form.errors %}
 <p>Dein Benutzername und Passwort stimmen nicht überein. Versuche es noch einmal.</p>
 {% endif %}

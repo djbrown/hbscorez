@@ -1,8 +1,9 @@
 {% extends 'base/base.html' %}
 
-{% block title %}Registrieren{% endblock %}
+{% block title %}Registrieren | {{ block.super }}{% endblock %}
 
 {% block content %}
+<h1>Registrieren</h1>
 <form method="post">
 
     {% csrf_token %}
