@@ -37,3 +37,24 @@ class ContactFormTest(SeleniumTestCase):
         self.assertIn(username, body)
         self.assertIn(message, body)
         self.assertIn(usermail, body)
+
+    def test_invalid_captcha(self):
+        username = 'john'
+        usermail = 'lennon@thebeatles.com'
+        message = 'this is a message'
+        self.navigate('base:contact_form')
+
+        username_textfield = self.driver.find_element(By.NAME, 'name')
+        username_textfield.send_keys(username)
+        mail_textfield = self.driver.find_element(By.NAME, 'email')
+        mail_textfield.send_keys(usermail)
+        message_textarea = self.driver.find_element(By.NAME, 'body')
+        message_textarea.send_keys(message)
+        captcha_textfield = self.driver.find_element(By.NAME, 'captcha')
+        captcha_textfield.send_keys('invalid captcha')
+
+        with self.load():
+            message_textarea.submit()
+
+        self.assert_view('base:contact_form')
+        self.assertTrue('Falsches Captcha' in self.driver.page_source)
