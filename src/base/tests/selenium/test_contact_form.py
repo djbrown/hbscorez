@@ -24,8 +24,8 @@ class ContactFormTest(SeleniumTestCase):
         mail_textfield.send_keys(usermail)
         message_textarea = self.driver.find_element(By.NAME, 'body')
         message_textarea.send_keys(message)
-        message_textarea = self.driver.find_element(By.NAME, 'captcha')
-        message_textarea.send_keys(CAPTCHA)
+        captcha_textfield = self.driver.find_element(By.NAME, 'captcha')
+        captcha_textfield.send_keys(CAPTCHA)
 
         with self.wait():
             message_textarea.submit()
