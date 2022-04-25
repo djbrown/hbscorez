@@ -41,6 +41,15 @@
         <small class="form-text text-muted">{{ form.password2.help_text|safe }}</small>
     </div>
 
+    <div class="mb-3">
+        <label for="captcha" class="form-label">Captcha</label><br />
+        <img src="data:image/png;base64,{{ form.captcha_image_base64 }}" class="img-thumbnail mb-2" alt="captcha" />
+        <input name="captcha" type="text" id="captcha" placeholder="Captcha" required
+            class="form-control{% if form.captcha.errors %} is-invalid{% endif %}" />
+        <small class="form-text text-muted">{{ form.captcha.help_text|safe }}</small>
+        <div class="invalid-feedback">{{ form.captcha.errors }}</div>
+    </div>
+
     <input type="submit" value="Registrieren" class="btn btn-success" />
 
 </form>

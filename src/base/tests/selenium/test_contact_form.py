@@ -28,7 +28,7 @@ class ContactFormTest(SeleniumTestCase):
         captcha_textfield.send_keys(CAPTCHA)
 
         with self.wait():
-            message_textarea.submit()
+            captcha_textfield.submit()
 
         self.assert_view('base:contact_form_sent')
 
@@ -54,7 +54,8 @@ class ContactFormTest(SeleniumTestCase):
         captcha_textfield.send_keys('invalid captcha')
 
         with self.load():
-            message_textarea.submit()
+            captcha_textfield.submit()
 
         self.assert_view('base:contact_form')
         self.assertTrue('Falsches Captcha' in self.driver.page_source)
+        self.assertEqual(mail.outbox, [])

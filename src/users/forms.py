@@ -3,11 +3,43 @@ import logging
 from django import forms
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
+from django_registration.forms import RegistrationForm
 
+from base.captcha import encode_captcha_image_base64, generate_captcha
 from players.models import Player
 from teams.models import Team
 
 LOGGER = logging.getLogger('hbscorez')
+
+
+class CaptchaRegistrationForm(RegistrationForm):
+    captcha = forms.CharField(label='Captcha')
+    captcha_image_base64 = None
+    request = None
+
+    def init_captcha(self, request):
+        self.request = request
+        session_captcha = request.session.get('captcha')
+
+        if session_captcha is None:
+            session_captcha = generate_captcha()
+            request.session['captcha'] = session_captcha
+
+        self.captcha = session_captcha
+        self.captcha_image_base64 = encode_captcha_image_base64(self.captcha)
+
+    def clean_captcha(self):
+        input_captcha = self.cleaned_data.get('captcha')
+        session_captcha = self.request.session.get('captcha')
+
+        self.captcha = generate_captcha()
+        self.request.session['captcha'] = self.captcha
+        self.captcha_image_base64 = encode_captcha_image_base64(self.captcha)
+
+        if input_captcha != session_captcha:
+            raise ValidationError('Falsches Captcha.')
+
+        return input_captcha
 
 
 class LinkForm(forms.Form):

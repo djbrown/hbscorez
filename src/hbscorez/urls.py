@@ -21,6 +21,8 @@ from sports_halls import urls as sports_hall_urls
 from teams import urls as team_urls
 from teams.models import Team
 from users import urls as user_urls
+from users.forms import CaptchaRegistrationForm
+from users.views import CaptchaRegistrationView
 
 ASSOCIATIONS = {'queryset': Association.objects.get_queryset().order_by('pk')}
 DISTRICTS = {'queryset': District.objects.get_queryset().order_by('pk')}
@@ -31,6 +33,9 @@ PLAYERS = {'queryset': Player.objects.get_queryset().order_by('pk')}
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('registrierung/register/',
+         CaptchaRegistrationView.as_view(form_class=CaptchaRegistrationForm),
+         name='django_registration_register'),
     path('registrierung/', include('django_registration.backends.activation.urls')),
     path('benutzer/', include(user_urls)),
     path('sitemap.xml', sitemap, {'sitemaps': {

@@ -5,6 +5,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.decorators.http import require_POST
+from django_registration.backends.activation.views import RegistrationView
 
 from associations.models import Association
 from leagues.models import Season
@@ -12,6 +13,13 @@ from players.models import Player
 from teams.models import Team
 
 from .forms import LinkForm
+
+
+class CaptchaRegistrationView(RegistrationView):
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class=form_class)
+        form.init_captcha(self.request)
+        return form
 
 
 @login_required
