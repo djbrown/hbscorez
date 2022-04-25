@@ -28,7 +28,7 @@ class Runner(DiscoverRunner):
         self.keepdb = keepdb
         super().__init__(**kwargs)
 
-    def run_testss(self, test_labels, extra_tests=None, **kwargs):
+    def run_testss(self, test_labels, **kwargs):
 
         argv = []
         if self.verbosity == 0:
@@ -118,8 +118,13 @@ class LiveServerThreadWithReuse(LiveServerThread):
     "address already in use" errors for tests that have been run subsequently.
     """
 
-    def _create_server(self):
-        return ThreadedWSGIServer((self.host, self.port), QuietWSGIRequestHandler, allow_reuse_address=True)
+    def _create_server(self, connections_override=None):
+        return ThreadedWSGIServer(
+            (self.host, self.port),
+            QuietWSGIRequestHandler,
+            allow_reuse_address=True,
+            connections_override=connections_override,
+        )
 
 
 _CI = 'CI' in os.environ

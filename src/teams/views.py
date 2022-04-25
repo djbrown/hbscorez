@@ -35,7 +35,7 @@ def players(request, bhv_id):
 
 def scorers(request, bhv_id):
     team = get_object_or_404(Team, bhv_id=bhv_id)
-    players = Player.objects \
+    team_players = Player.objects \
         .filter(team=team) \
         .annotate(games=Count('score')) \
         .annotate(total_goals=Coalesce(Sum('score__goals'), 0)) \
@@ -43,8 +43,8 @@ def scorers(request, bhv_id):
         .annotate(total_penalty_goals=Sum('score__penalty_goals')) \
         .annotate(total_field_goals=F('total_goals') - F('total_penalty_goals')) \
         .order_by('-total_goals')
-    add_ranking_place(players, 'total_goals')
-    return render(request, 'teams/scorers.j2', {'team': team, 'players': players})
+    add_ranking_place(team_players, 'total_goals')
+    return render(request, 'teams/scorers.j2', {'team': team, 'players': team_players})
 
 
 def offenders(request, bhv_id):
