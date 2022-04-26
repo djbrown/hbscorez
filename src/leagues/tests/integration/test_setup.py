@@ -47,7 +47,7 @@ class SetupTest(IntegrationTestCase):
 
         for start_year in range(2004, 2019):
             exists = Season.objects.filter(start_year=start_year).exists()
-            self.assertTrue(exists, 'Season {} should exist'.format(start_year))
+            self.assertTrue(exists, f'Season {start_year} should exist')
 
     def test__setup__old_leagues(self):
         self.assert_command('setup', '-a', 4, '-d', 3, '-l', 0)
@@ -56,7 +56,7 @@ class SetupTest(IntegrationTestCase):
 
         for start_year in range(1999, 2004):
             exists = Season.objects.filter(start_year=start_year).exists()
-            self.assertFalse(exists, 'Season {} should not exist'.format(start_year))
+            self.assertFalse(exists, f'Season {start_year} should not exist')
 
     def test__setup__meisterschaft(self):
         self.assert_command('setup', '-a', 3, '-d', 3, '-s', 2009, '-l', 9656, 9657, 10677)

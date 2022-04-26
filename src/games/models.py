@@ -47,11 +47,11 @@ class Game(models.Model):
         unique_together = ('number', 'league')
 
     def __str__(self):
-        return '{} {} {} vs. {}'.format(self.number, self.league, self.home_team.short_name, self.guest_team.short_name)
+        return f'{self.number} {self.league} {self.home_team.short_name} vs. {self.guest_team.short_name}'
 
     @staticmethod
     def build_report_source_url(report_number):
-        return settings.ROOT_SOURCE_URL + 'misc/sboPublicReports.php?sGID={}'.format(report_number)
+        return settings.ROOT_SOURCE_URL + f'misc/sboPublicReports.php?sGID={report_number}'
 
     def report_source_url(self):
         if self.report_number is None:
@@ -63,7 +63,7 @@ class Game(models.Model):
             return self.guest_team
         if team == self.guest_team:
             return self.home_team
-        raise ValueError('neither home or guest is team: {}'.format(team))
+        raise ValueError(f'neither home or guest is team: {team}')
 
     def other_games(self):
         return Game.objects.filter(~models.Q(number=self.number),
@@ -125,7 +125,7 @@ class Game(models.Model):
         if team == self.home_team and self.outcome() == GameOutcome.AWAY_WIN \
                 or team == self.guest_team and self.outcome() == GameOutcome.HOME_WIN:
             return TeamOutcome.LOSS
-        raise ValueError('no matching outcome for team: {}'.format(team))
+        raise ValueError(f'no matching outcome for team: {team}')
 
     def goals_of(self, team):
         if team == self.home_team:

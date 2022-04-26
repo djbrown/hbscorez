@@ -9,14 +9,14 @@ class Association(models.Model):
     bhv_id = models.IntegerField(unique=True)
 
     def __str__(self):
-        return '{} {}'.format(self.bhv_id, self.abbreviation)
+        return f'{self.bhv_id} {self.abbreviation}'
 
     def get_absolute_url(self):
         return reverse('associations:detail', kwargs={'bhv_id': self.bhv_id})
 
     @staticmethod
     def build_source_url(bhv_id):
-        return settings.ROOT_SOURCE_URL + 'Spielbetrieb/index.php?orgGrpID={}'.format(bhv_id)
+        return f'{settings.ROOT_SOURCE_URL}Spielbetrieb/index.php?orgGrpID={bhv_id}'
 
     def source_url(self):
         return self.build_source_url(self.bhv_id)

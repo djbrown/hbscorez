@@ -73,11 +73,12 @@ def calendar(_, bhv_id):
     cal.add('VERSION', '2.0')
     cal.add('CALSCALE', 'GREGORIAN')
     cal.add('METHOD', 'PUBLISH')
-    cal.add('X-WR-CALNAME', 'Spielplan {} {}'.format(team.league.abbreviation, team.short_name))
+    cal.add('X-WR-CALNAME', f'Spielplan {team.league.abbreviation} {team.short_name}')
     cal.add('X-WR-TIMEZONE', 'Europe/Berlin')
-    cal.add('X-WR-CALDESC', 'Spielplan der Mannschaft "{}" in der Saison {}/{} in der Liga "{}" des Bereichs "{}"'
-            .format(team.name, team.league.season.start_year, team.league.season.start_year + 1,
-                    team.league.name, team.league.district.name))
+    cal.add('X-WR-CALDESC',
+            f'Spielplan der Mannschaft "{team.name}"'
+            + f' in der Saison {team.league.season.start_year}/{team.league.season.start_year + 1}'
+            + f' in der Liga "{team.league.name}" des Bereichs "{team.league.district.name}"')
 
     for game in team_games:
         if game.opening_whistle is None:
@@ -90,24 +91,23 @@ def calendar(_, bhv_id):
 
 def _create_event(team, game: Game):
     venue = 'Heimspiel' if game.home_team == team else 'Auswärtsspiel'
-    summary = '{} - {}'.format(venue, game.opponent_of(team).short_name)
+    summary = f'{venue} - {game.opponent_of(team).short_name}'
 
     leg_title = game.leg_title()
-    description = '{} gegen {}'.format(leg_title, game.opponent_of(team).name)
+    description = f'{leg_title} gegen {game.opponent_of(team).name}'
     if game.sports_hall:
         description += '\nSporthalle: ' + str(game.sports_hall.name)
 
     dated_games = game.other_games().filter(opening_whistle__isnull=False)
     for other in sorted(dated_games, key=lambda g: g.opening_whistle):
         if other.home_goals is not None:
-            description += '\n{}: {}:{} ({})'.format(other.leg_title(), other.home_goals,
-                                                     other.guest_goals, _outcome(other, team))
+            description += f'\n{other.leg_title()}: {other.home_goals}:{other.guest_goals} ({_outcome(other, team)})'
 
     start = game.opening_whistle
     end = start + timedelta(minutes=90)
     dtstamp = datetime.now()
     location = game.sports_hall.address if game.sports_hall else None
-    uid = 'game/{}@hbscorez.de'.format(game.number)
+    uid = f'game/{game.number}@hbscorez.de'
 
     event = Event()
     event.add('summary', summary)

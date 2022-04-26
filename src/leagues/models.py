@@ -12,7 +12,7 @@ class Season(models.Model):
         validators.MaxValueValidator(2050)])
 
     def __str__(self):
-        return '{}/{}'.format(self.start_year, self.start_year + 1)
+        return f'{self.start_year}/{self.start_year + 1}'
 
 
 class League(models.Model):
@@ -26,14 +26,14 @@ class League(models.Model):
         unique_together = (('name', 'district', 'season'), ('abbreviation', 'district', 'season'))
 
     def __str__(self):
-        return '{} {} {}'.format(self.bhv_id, self.name, self.season)
+        return f'{self.bhv_id} {self.name} {self.season}'
 
     def get_absolute_url(self):
         return reverse('leagues:detail', kwargs={'bhv_id': self.bhv_id})
 
     @staticmethod
     def build_source_url(bhv_id):
-        return settings.ROOT_SOURCE_URL + 'Spielbetrieb/index.php?orgGrpID=1&all=1&score={}'.format(bhv_id)
+        return f'{settings.ROOT_SOURCE_URL}Spielbetrieb/index.php?orgGrpID=1&all=1&score={bhv_id}'
 
     def source_url(self):
         return self.build_source_url(self.bhv_id)

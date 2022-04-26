@@ -14,7 +14,7 @@ class Player(models.Model):
     team = models.ForeignKey(Team, on_delete=models.CASCADE)
 
     def __str__(self):
-        return '{} {}'.format(self.name, self.team.short_name)
+        return f'{self.name} {self.team.short_name}'
 
     def get_absolute_url(self):
         return reverse('players:detail', kwargs={'key': self.pk})
@@ -46,4 +46,4 @@ class Score(models.Model):
         unique_together = ('player', 'game')
 
     def __str__(self):
-        return '{} {} ({})'.format(self.game.number, self.player.name, self.player_number)
+        return f'{self.game.number} {self.player.name} ({self.player_number})'

@@ -44,7 +44,7 @@ class ImportGamesTest(IntegrationTestCase):
         self.assert_command('import_games')
 
         for league in leagues:
-            self.assertGreater(league.game_set.count(), 0, msg="league without games: {}".format(league))
+            self.assertGreater(league.game_set.count(), 0, msg=f"league without games: {league}")
 
 
 class Forfeit(IntegrationTestCase):

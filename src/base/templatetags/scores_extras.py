@@ -24,7 +24,7 @@ def team_outcome_badge(outcome: TeamOutcome):
         TeamOutcome.TIE: ('warning', 'Unentschieden'),
         TeamOutcome.LOSS: ('danger', 'Niederlage')
     }
-    return '<span class="badge bg-{}">{}</span>'.format(*mapping[outcome])
+    return f'<span class="badge bg-{mapping[outcome][0]}">{mapping[outcome][1]}</span>'
 
 
 def game_outcome_badge(outcome: GameOutcome):
@@ -36,4 +36,4 @@ def game_outcome_badge(outcome: GameOutcome):
         GameOutcome.AWAY_WIN: 'Auswärtssieg',
         GameOutcome.TIE: 'Unentschieden',
     }
-    return '<span class="badge bg-secondary">{}</span>'.format(mapping[outcome])
+    return f'<span class="badge bg-secondary">{mapping[outcome]}</span>'

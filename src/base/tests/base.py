@@ -161,7 +161,7 @@ class SeleniumTestCase(StaticLiveServerTestCase):
         options.browser_version = '14'
         options.platform_name = 'macOS 11.00'
         sauce_options = {
-            'name': '{}.{}'.format(class_name, method_name),
+            'name': f'{class_name}.{method_name}',
             'build': _SAUCE_BUILD,
             'tunnelIdentifier': _SAUCE_TUNNEL,
             'username': _SAUCE_USER,

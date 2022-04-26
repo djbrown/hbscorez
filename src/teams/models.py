@@ -18,15 +18,14 @@ class Team(models.Model):
         unique_together = (('name', 'league'), ('short_name', 'league'))
 
     def __str__(self):
-        return '{} {}'.format(self.bhv_id, self.short_name)
+        return f'{self.bhv_id} {self.short_name}'
 
     def get_absolute_url(self):
         return reverse('teams:detail', kwargs={'bhv_id': self.bhv_id, })
 
     @staticmethod
     def build_source_url(league_bhv_id, team_bhv_id):
-        return settings.ROOT_SOURCE_URL + 'Spielbetrieb/index.php?orgGrpID=1&score={}&teamID={}'.format(league_bhv_id,
-                                                                                                        team_bhv_id)
+        return f'{settings.ROOT_SOURCE_URL}Spielbetrieb/index.php?orgGrpID=1&score={league_bhv_id}&teamID={team_bhv_id}'
 
     @staticmethod
     def create_or_update_team(name, short_name, league, bhv_id, logger: logging.Logger = logging.getLogger()):

@@ -49,7 +49,7 @@ def add_score(score: Score):
 
     if duplicate_player_scores_exist(score):
         split_by_number(score.player.name, score.player.team)
-        score.player.name = '{} ({})'.format(score.player.name, score.player_number)
+        score.player.name = f'{score.player.name} ({score.player_number})'
 
     player, created = Player.objects.get_or_create(name=score.player.name, team=score.player.team)
     if created:
@@ -62,7 +62,7 @@ def add_score(score: Score):
 
 
 def duplicate_player_scores_exist(score: Score):
-    divided_players = score.player.team.player_set.filter(name__regex=r"^{} \(\d+\)$".format(score.player.name))
+    divided_players = score.player.team.player_set.filter(name__regex=fr"^{score.player.name} \(\d+\)$")
     duplicate_scores = Score.objects.filter(player__name=score.player.name, player__team=score.player.team,
                                             game=score.game)
     return divided_players.exists() or duplicate_scores.exists()
@@ -79,7 +79,7 @@ def split_by_number(original_name: str, team: Team):
 
     original_player = matches[0]
     for score in original_player.score_set.all():
-        new_name = "{} ({})".format(original_player.name, score.player_number)
+        new_name = f"{original_player.name} ({score.player_number})"
         new_player, created = Player.objects.get_or_create(name=new_name, team=original_player.team)
         if created:
             LOGGER.debug("CREATED Player: %s", new_player)

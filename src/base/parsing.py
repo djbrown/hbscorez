@@ -74,7 +74,7 @@ def parse_team_names(text: str) -> Tuple[str, str]:
     match: Optional[Match[str]] = re.match('(.+) - (.+)', text)
     if match:
         return match.group(1), match.group(2)
-    raise ValueError('invalid team names: {}'.format(text))
+    raise ValueError(f'invalid team names: {text}')
 
 
 def parse_game_rows(dom):
@@ -89,7 +89,7 @@ def parse_opening_whistle(text) -> Optional[datetime]:
         return datetime.strptime(text, '%a, %d.%m.%y')
     if len(text) == 20:
         return datetime.strptime(text, '%a, %d.%m.%y, %H:%Mh')
-    raise ValueError('invalid opening whistle: {}'.format(text))
+    raise ValueError(f'invalid opening whistle: {text}')
 
 
 def parse_sports_hall_bhv_id(link):
@@ -103,7 +103,7 @@ def parse_coordinates(tree) -> Tuple[Optional[str], Optional[str]]:
     match = re.search(r"new mxn.LatLonPoint\(([.0-9]+),([.0-9]+)\)", map_scripts[0].text)
     if match:
         return match.group(1), match.group(2)
-    raise ValueError('coordinates not found: {}'.format(map_scripts))
+    raise ValueError(f'coordinates not found: {map_scripts}')
 
 
 def parse_goals(game_row) -> Tuple[Optional[int], Optional[int]]:

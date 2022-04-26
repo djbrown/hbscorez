@@ -155,8 +155,7 @@ class TripleGames(TestCase):
         test_data = [create_test_game(number, league, *vals) for number, vals in enumerate(expected)]
 
         for game, expected in test_data:
-            self.assertEqual(expected, game.leg(), msg="wrong leg for game '{}' vs. '{}'".format(
-                game.home_team, game.guest_team))
+            self.assertEqual(expected, game.leg(), msg=f"wrong leg for game '{game.home_team}' vs. '{game.guest_team}'")
 
 
 class QuadrupleGames(TestCase):
