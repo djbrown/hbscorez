@@ -86,15 +86,11 @@
             "version": "==5.34.0"
         },
         "django-contact-form": {
-            "extras": [
-                "akismet"
-            ],
             "hashes": [
-                "sha256:3ee0c5494c61138b236bda144a3bb7b2d396999d60a587dd2e7732eaf384c9d7",
-                "sha256:960b29d9ed702ddeee243bcb8a4a48c97b91d9b42e58f1a0be71df1bece72d6b"
+                "sha256:9fcf109efed4ba9ceaca3f6f930a12d4c1167eb02758aabac5d7593d41bdaf8d",
+                "sha256:e126b5327917ce40f4c6ec2b30a3ade964fa297eeb5824e24846d4222f8bca08"
             ],
-            "index": "pypi",
-            "version": "==1.9"
+            "version": "==2.0.1"
         },
         "django-ipware": {
             "hashes": [
