@@ -1283,11 +1283,10 @@
         },
         "tomlkit": {
             "hashes": [
-                "sha256:30d54c0b914e595f3d10a87888599eab5321a2a69abc773bbefff51599b72db6",
-                "sha256:905cf92c2111ef80d355708f47ac24ad1b6fc2adc5107455940088c9bbecaedb"
+                "sha256:0f4050db66fd445b885778900ce4dd9aea8c90c4721141fde0d6ade893820ef1",
+                "sha256:71ceb10c0eefd8b8f11fe34e8a51ad07812cb1dc3de23247425fbc9ddc47b9dd"
             ],
-            "markers": "python_version >= '3.6' and python_version < '4.0'",
-            "version": "==0.10.2"
+            "version": "==0.11.0"
         },
         "trio": {
             "hashes": [
