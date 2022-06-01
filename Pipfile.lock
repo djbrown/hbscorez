@@ -18,10 +18,10 @@
     "default": {
         "akismet": {
             "hashes": [
-                "sha256:05ec92821e03fa6b389e92279e362fbd58bd5ab27aaedc4b6f3ea3e3d5cecf62",
-                "sha256:e0b5e94d5c505714f68f46a8943707e30d36b5448c7928753237715ccff192df"
+                "sha256:49f128a22c3049c94e727db797ffbd01048bf3d47dd6195c888e0bc5e964d4ea",
+                "sha256:f3790489ea091d43a14717f1f6b1a0a86af2ac235d10b13742ee0ea064ff8ea7"
             ],
-            "version": "==1.1"
+            "version": "==1.2.1"
         },
         "asgiref": {
             "hashes": [
