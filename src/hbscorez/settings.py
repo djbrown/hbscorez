@@ -17,7 +17,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sitemaps',
     'django_registration',
-    'contact_form',
+    'django_contact_form',
     'axes',
     'base',
     'associations',

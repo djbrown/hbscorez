@@ -1,5 +1,5 @@
 
-from contact_form.views import ContactFormView
+from django_contact_form.views import ContactFormView
 from django.urls import reverse_lazy
 from .forms import CaptchaContactForm
 

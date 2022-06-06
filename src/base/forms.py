@@ -1,4 +1,4 @@
-from contact_form.forms import ContactForm
+from django_contact_form.forms import ContactForm
 from django import forms
 from django.core.exceptions import ValidationError
 
