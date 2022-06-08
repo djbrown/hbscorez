@@ -1,6 +1,6 @@
 
 from base.tests.base import IntegrationTestCase
-from leagues.models import League, Season
+from leagues.models import League, LeagueName, Season
 
 
 class SetupTest(IntegrationTestCase):
@@ -54,6 +54,8 @@ class SetupTest(IntegrationTestCase):
         self.assertEqual(league.season, season)
 
     def test__setup__mklc2_2007(self):
+        LeagueName.objects.create(bhv_id=7424, name="Männer Kreisliga C Staffel 3")
+
         self.assert_command('setup', '-a', 3, '-d', 7, '-s', 2007, '-l', 7423, 7424)
 
         self.assert_objects(League, count=2)
@@ -64,6 +66,9 @@ class SetupTest(IntegrationTestCase):
         self.assertEqual(mklc3.name, "Männer Kreisliga C Staffel 3")
 
     def test__setup__mkl2_2005(self):
+        LeagueName.objects.create(bhv_id=5380, name="Männer Kreisliga 2-1")
+        LeagueName.objects.create(bhv_id=5381, name="Männer Kreisliga 2-2")
+
         self.assert_command('setup', '-a', 3, '-d', 10, '-s', 2005, '-l', 5380, 5381)
 
         self.assert_objects(League, count=2)

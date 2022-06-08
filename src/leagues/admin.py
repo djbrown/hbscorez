@@ -2,7 +2,7 @@ from django.contrib import admin
 
 from districts.admin import DISTRICT_SEARCH_FIELDS
 
-from .models import League, Season
+from .models import League, LeagueName, Season
 
 SEASON_SEARCH_FIELDS = ['start_year']
 
@@ -19,3 +19,8 @@ class SeasonAdmin(admin.ModelAdmin):
 @ admin.register(League)
 class LeagueAdmin(admin.ModelAdmin):
     search_fields = LEAGUE_SEARCH_FIELDS
+
+
+@ admin.register(LeagueName)
+class LeagueNameAdmin(admin.ModelAdmin):
+    search_fields = ['bhv_id', 'name']

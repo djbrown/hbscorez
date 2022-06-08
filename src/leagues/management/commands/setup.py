@@ -10,7 +10,7 @@ from base import logic, parsing
 from base.middleware import env
 from base.models import Value
 from districts.models import District
-from leagues.models import League, Season
+from leagues.models import League, LeagueName, Season
 from teams.models import Team
 
 LOGGER = logging.getLogger('hbscorez')
@@ -190,23 +190,10 @@ class Command(BaseCommand):
             LOGGER.debug('SKIPPING League (no games): %s %s', bhv_id, name)
             return
 
-        name = {
-            5380: "Männer Kreisliga 2-1",
-            5381: "Männer Kreisliga 2-2",
-            7424: "Männer Kreisliga C Staffel 3",
-            50351: "gemischte Jugend D Kreisliga A Staffel 1",
-            52853: "männliche Jugend C Bezirksliga Staffel 2",
-            58111: "Frauen Oberliga Rheinland-Pfalz/Saar 1",
-            58116: "Frauen Oberliga Rheinland-Pfalz/Saar 2",
-            68325: "Männer Kreisliga A",
-            68345: "Männer Kreisliga B Nord",
-            68353: "Männer Kreisliga B Süd",
-            74781: "U21 Maenner",
-            74831: "Kreisliga Ostholstein Minni-Mix",
-            78781: "RD MJE A",
-            78786: "RD MJE B",
-            79146: "RD WJE R.",
-        }.get(bhv_id, name)
+        try:
+            name = LeagueName.objects.get(bhv_id=bhv_id).name
+        except LeagueName.DoesNotExist:
+            pass
 
         if League.is_youth(abbreviation, name) and not self.options['youth']:
             LOGGER.debug('SKIPPING League (youth league): %s %s %s', bhv_id, abbreviation, name)

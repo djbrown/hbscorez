@@ -81,6 +81,13 @@ class League(models.Model):
         raise YouthUndecidableError(abbreviation, name)
 
 
+class LeagueName(models.Model):
+    bhv_id = models.IntegerField(unique=True)
+    name = models.TextField()
+
+    def __str__(self):
+        return f'{self.bhv_id} {self.name}'
+
 class YouthUndecidableError(Exception):
     # todo: upgrade to python 3.8 and use positional only separator:
     # ... message: str = None, /, *args: object ...
