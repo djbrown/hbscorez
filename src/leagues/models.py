@@ -88,6 +88,7 @@ class LeagueName(models.Model):
     def __str__(self):
         return f'{self.bhv_id} {self.name}'
 
+
 class YouthUndecidableError(Exception):
     # todo: upgrade to python 3.8 and use positional only separator:
     # ... message: str = None, /, *args: object ...
