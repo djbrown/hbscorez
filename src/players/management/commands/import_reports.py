@@ -16,7 +16,7 @@ from base.models import Value
 from games.models import Game
 from leagues.management.commands.setup import add_default_arguments
 from leagues.models import Season
-from players.models import Player, Score
+from players.models import Player, ReportsBlacklist, Score
 from teams.models import Team
 
 from . import parse_report
@@ -26,12 +26,6 @@ LOGGER = logging.getLogger('hbscorez')
 
 class Command(BaseCommand):
     options: Dict[str, Any] = {}
-    bugged_reports = [
-        490038, 561428, 641617,  # 2017
-        450001, 473097, 497475, 501159, 546059, 562543, 567811, 572051, 598812, 627428, 638260,  # 2018
-        893364, 891069, 995291, 1062957, 1162366, 1185506, 1209411,  # 2019
-        1432841,  # 2021
-    ]
 
     def add_arguments(self, parser):
         add_default_arguments(parser)
@@ -99,8 +93,8 @@ class Command(BaseCommand):
             LOGGER.debug('SKIPPING Game (options): %s - %s', game.report_number, game)
         elif game.report_number is None:
             LOGGER.debug('SKIPPING Game (no report): %s - %s', game.report_number, game)
-        elif game.report_number in self.bugged_reports:
-            LOGGER.debug('SKIPPING Report (ignore list): %s - %s', game.report_number, game)
+        elif ReportsBlacklist.objects.filter(report_number=game.report_number):
+            LOGGER.debug('SKIPPING Report (blacklist): %s - %s', game.report_number, game)
         elif game.home_team.retirement is not None or game.guest_team.retirement is not None:
             if game.score_set.count() > 0:
                 LOGGER.info('DELETING Game Scores (retired team): %s - %s', game.report_number, game)

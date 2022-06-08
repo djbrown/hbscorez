@@ -47,3 +47,7 @@ class Score(models.Model):
 
     def __str__(self):
         return f'{self.game.number} {self.player.name} ({self.player_number})'
+
+class ReportsBlacklist(models.Model):
+    report_number = models.IntegerField(unique=True)
+    note = models.TextField(blank=True, null=True)
