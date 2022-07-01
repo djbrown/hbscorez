@@ -1209,11 +1209,10 @@
         },
         "rope": {
             "hashes": [
-                "sha256:13048ff0245a0fa187f282697a55add46e4ccf083e7670f868bdf54ee9e47f2e",
-                "sha256:216390b6342bde8ef1f27a6663554de0ea0b1fdad7c421deb3d5a3f6c5fc01e7"
+                "sha256:14e2e9b74ff345d038988fd62b7ef4226351e4a1181123596abb3a147fea9019",
+                "sha256:f762542c9cfe52124aa55d33822a269fc4b0da70fe3170c6086de2733ed52f22"
             ],
-            "index": "pypi",
-            "version": "==1.1.1"
+            "version": "==1.2.0"
         },
         "sauceclient": {
             "hashes": [
