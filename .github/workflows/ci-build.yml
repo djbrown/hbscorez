@@ -161,3 +161,22 @@ jobs:
 
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
+
+  heroku:
+    runs-on: ubuntu-latest
+    needs: docker
+    steps:
+      - name: Login to Heroku Container Registry
+        uses: docker/login-action@v1
+        with:
+          registry: registry.heroku.com
+          username: ${{ secrets.HEROKU_EMAIL }}
+          password: ${{ secrets.HEROKU_API_KEY }}
+      - name: Retag Image for Heroku Container Registry
+        # env:
+          # HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+        run: docker tag djbrown/hbscorez:latest registry.heroku.com/hbscorez/web
+      - name: Push Image to Heroku Container registry
+        run: docker push registry.heroku.com/hbscorez/web
+      - name: Push Image to Heroku Container registry
+        run: heroku container:release web
