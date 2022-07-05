@@ -2,7 +2,7 @@ name: CI Build
 
 on:
   push:
-    branches: [master]
+    # branches: [master]
 
   workflow_dispatch:
 
@@ -172,11 +172,13 @@ jobs:
           registry: registry.heroku.com
           username: ${{ secrets.HEROKU_EMAIL }}
           password: ${{ secrets.HEROKU_API_KEY }}
+      - name: Pull Image from Docker Hub
+        run: docker pull djbrown/hbscorez:latest
       - name: Retag Image for Heroku Container Registry
         # env:
           # HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
         run: docker tag djbrown/hbscorez:latest registry.heroku.com/hbscorez/web
       - name: Push Image to Heroku Container registry
         run: docker push registry.heroku.com/hbscorez/web
-      - name: Push Image to Heroku Container registry
+      - name: Release Image to Heroku
         run: heroku container:release web
