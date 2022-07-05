@@ -175,10 +175,10 @@ jobs:
       - name: Pull Image from Docker Hub
         run: docker pull djbrown/hbscorez:latest
       - name: Retag Image for Heroku Container Registry
-        # env:
-          # HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
         run: docker tag djbrown/hbscorez:latest registry.heroku.com/hbscorez/web
       - name: Push Image to Heroku Container registry
         run: docker push registry.heroku.com/hbscorez/web
       - name: Release Image to Heroku
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
         run: heroku container:release web --app hbscorez
