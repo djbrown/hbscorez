@@ -181,4 +181,4 @@ jobs:
       - name: Push Image to Heroku Container registry
         run: docker push registry.heroku.com/hbscorez/web
       - name: Release Image to Heroku
-        run: heroku container:release web
+        run: heroku container:release web --app hbscorez
