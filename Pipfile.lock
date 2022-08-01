@@ -1159,12 +1159,8 @@
             "version": "==2.0.1"
         },
         "tomlkit": {
-            "hashes": [
-                "sha256:0f4050db66fd445b885778900ce4dd9aea8c90c4721141fde0d6ade893820ef1",
-                "sha256:71ceb10c0eefd8b8f11fe34e8a51ad07812cb1dc3de23247425fbc9ddc47b9dd"
-            ],
-            "markers": "python_version >= '3.6' and python_version < '4'",
-            "version": "==0.11.0"
+            "hashes": [],
+            "version": "==0.11.1"
         },
         "trio": {
             "hashes": [
