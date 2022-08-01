@@ -1028,12 +1028,8 @@
             "version": "==4.5.2"
         },
         "pytoolconfig": {
-            "hashes": [
-                "sha256:5ac82f78d731531f9f82e5cc7f5ebae9473b1404c0e75aa5ac0b8b41cd99b510",
-                "sha256:5f291567f0363a7314406be4f2381ece4e552a8608d2629544679e4d36d0df2b"
-            ],
-            "markers": "python_version >= '3.7'",
-            "version": "==1.2.1"
+            "hashes": [],
+            "version": "==1.2.2"
         },
         "pyyaml": {
             "hashes": [
