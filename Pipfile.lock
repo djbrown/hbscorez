@@ -1179,12 +1179,8 @@
             "version": "==0.9.2"
         },
         "types-requests": {
-            "hashes": [
-                "sha256:85383b4ef0535f639c3f06c5bbb6494bbf59570c4cd88bbcf540f0b2ac1b49ab",
-                "sha256:9863d16dfbb3fa55dcda64fa3b989e76e8859033b26c1e1623e30465cfe294d3"
-            ],
-            "index": "pypi",
-            "version": "==2.28.0"
+            "hashes": [],
+            "version": "==2.28.6"
         },
         "types-urllib3": {
             "hashes": [
