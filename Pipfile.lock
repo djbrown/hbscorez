@@ -446,12 +446,8 @@
             "version": "==2.28.1"
         },
         "setuptools": {
-            "hashes": [
-                "sha256:16923d366ced322712c71ccb97164d07472abeecd13f3a6c283f6d5d26722793",
-                "sha256:db3b8e2f922b2a910a29804776c643ea609badb6a32c4bcc226fd4fd902cce65"
-            ],
-            "markers": "python_version >= '3.7'",
-            "version": "==63.1.0"
+            "hashes": [],
+            "version": "==63.3.0"
         },
         "six": {
             "hashes": [
@@ -1241,12 +1237,8 @@
             "version": "==4.3.0"
         },
         "setuptools": {
-            "hashes": [
-                "sha256:16923d366ced322712c71ccb97164d07472abeecd13f3a6c283f6d5d26722793",
-                "sha256:db3b8e2f922b2a910a29804776c643ea609badb6a32c4bcc226fd4fd902cce65"
-            ],
-            "markers": "python_version >= '3.7'",
-            "version": "==63.1.0"
+            "hashes": [],
+            "version": "==63.3.0"
         },
         "six": {
             "hashes": [
