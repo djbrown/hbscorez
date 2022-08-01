@@ -867,12 +867,8 @@
             "version": "==5.9.0"
         },
         "pip": {
-            "hashes": [
-                "sha256:6d55b27e10f506312894a87ccc59f280136bad9061719fac9101bdad5a6bce69",
-                "sha256:a3edacb89022ef5258bf61852728bf866632a394da837ca49eb4303635835f17"
-            ],
-            "markers": "python_version >= '3.7'",
-            "version": "==22.1.2"
+            "hashes": [],
+            "version": "==22.2.1"
         },
         "pip-licenses": {
             "hashes": [
