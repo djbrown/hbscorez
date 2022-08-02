@@ -53,6 +53,3 @@ hbseleniumtest = "./src/manage.py test --tag selenium src"
 hbcoverage = "coverage run --branch --source=src --omit=src/*/migrations/* ./src/manage.py test src --exclude-tag slow"
 delmig = "find . -path \"src/*/migrations/*.py\" -not -name \"__init__.py\" -delete"
 attributions = "pip-licenses -au --from classifier -f csv"
-
-[pipenv]
-allow_prereleases = true
