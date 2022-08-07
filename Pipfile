@@ -27,6 +27,7 @@ coverage = "*"
 coveralls = "*"
 dparse = {version = "*",extras = ["pipenv"]}
 flake8 = "*"
+pyflakes = "==2.4.0" # https://github.com/klen/pylama/issues/224
 mypy = "*"
 pip-licenses = "*"
 # prospector = "*"
