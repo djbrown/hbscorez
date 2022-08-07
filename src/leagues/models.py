@@ -90,10 +90,6 @@ class LeagueName(models.Model):
 
 
 class YouthUndecidableError(Exception):
-    # todo: upgrade to python 3.8 and use positional only separator:
-    # ... message: str = None, /, *args: object ...
-    def __init__(self, abbreviation: str, name: str, message: str = None, *args: object) -> None:
-        self.abbreviation = abbreviation
-        self.name = name
-        self.message = message or f"Youth undecidable: '{self.abbreviation}' '{self.name}'"
-        super().__init__(self.message, *args)
+    def __init__(self, abbreviation: str, name: str) -> None:
+        message = f"Youth undecidable: '{abbreviation}' '{name}'"
+        super().__init__(message)
