@@ -24,7 +24,6 @@ def games(request, bhv_id):
 
 
 def players(request, bhv_id):
-    # todo: change view to show portraits and summary data
     team = get_object_or_404(Team, bhv_id=bhv_id)
     team_players = Player.objects \
         .filter(team=team) \

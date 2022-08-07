@@ -16,8 +16,6 @@
 [![Updates](https://pyup.io/repos/github/djbrown/hbscorez/shield.svg)](https://pyup.io/repos/github/djbrown/hbscorez/)
 [![Python 3](https://pyup.io/repos/github/djbrown/hbscorez/python-3-shield.svg)](https://pyup.io/repos/github/djbrown/hbscorez/)
 
-<!-- TODO:  register on Sauce Labs at https://saucelabs.com/open-source/open-sauce [![Sauce Labs Browsers](https://saucelabs.com/browser-matrix/djbrown-hbscorez.svg)](https://saucelabs.com/u/djbrown-hbscorez) -->
-
 This is the repo for the web application HbScorez running https://hbscorez.de/.<br/>
 HbScorez processes handball game reports of diverse handball associations, districts, and leagues.
 It analyzes the player scores and displays the statistics and rankings.
