@@ -108,6 +108,6 @@
 
 {% block scripts %}
 {{ block.super }}
-<script>const clear = {% if team %}false{% else %} true{% endif %};</script>
+<script>const clear = {% if team %}false{% else %}true{% endif %};</script>
 <script src="{% static 'users/scripts/link.js' %}"></script>
 {% endblock %}
