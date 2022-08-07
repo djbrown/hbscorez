@@ -72,7 +72,7 @@ def parse_team_bhv_id(link):
 
 
 def parse_team_names(text: str) -> Tuple[str, str]:
-    match: Optional[Match[str]] = re.match('(.+) - (.+)', text)
+    match: Optional[Match[str]] = re.match(r"(.+) - (.+)", text)
     if match:
         return match.group(1), match.group(2)
     raise ValueError(f'invalid team names: {text}')
@@ -150,7 +150,7 @@ def parse_game_time(text: str) -> Optional[timedelta]:
 
 
 def parse_penalty_data(text: str) -> Tuple[int, int]:
-    match = re.match("(\d+)/(\d+)", text)
+    match = re.match(r"(\d+)/(\d+)", text)
     if match:
         return int(match.group(1)), int(match.group(2))
     return 0, 0
