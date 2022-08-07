@@ -59,33 +59,33 @@ $(() => {
         });
     });
 
-    function clearSelect($select, propagated = false) {
+    function clearSelect($select) {
         $select.empty();
         $select.append(nullOption);
     }
 
-    function clearAssociations(propagated = false) {
-        clearSelect($associations, propagated);
-        clearDistricts(true);
+    function clearAssociations() {
+        clearSelect($associations);
+        clearDistricts();
     }
 
-    function clearDistricts(propagated = false) {
-        clearSelect($districts, propagated);
-        clearSeasons(true);
+    function clearDistricts() {
+        clearSelect($districts);
+        clearSeasons();
     }
 
-    function clearSeasons(propagated = false) {
-        clearSelect($seasons, propagated);
-        clearLeagues(true);
+    function clearSeasons() {
+        clearSelect($seasons);
+        clearLeagues();
     }
 
-    function clearLeagues(propagated = false) {
-        clearSelect($leagues, propagated);
-        clearTeams(true);
+    function clearLeagues() {
+        clearSelect($leagues);
+        clearTeams();
     }
 
-    function clearTeams(propagated = false) {
-        clearSelect($teams, propagated);
+    function clearTeams() {
+        clearSelect($teams);
     }
 
 });
