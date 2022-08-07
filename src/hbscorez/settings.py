@@ -1,8 +1,7 @@
-import os
+from pathlib import Path
 from typing import Optional
 
-SRC_DIR: str = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-ROOT_DIR: str = os.path.dirname(SRC_DIR)
+ROOT_DIR: Path = Path.cwd()
 
 SECRET_KEY = ' '  # noqa
 
@@ -77,7 +76,7 @@ WSGI_APPLICATION = 'hbscorez.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(ROOT_DIR, 'db.sqlite3'),
+        'NAME': ROOT_DIR / 'db.sqlite3',
     }
 }
 
@@ -129,7 +128,7 @@ LOGGING: dict = {
         'file': {
             'level': 'DEBUG',
             'class': 'logging.FileHandler',
-            'filename': os.path.join(ROOT_DIR, 'hbscorez.log'),
+            'filename': ROOT_DIR / 'hbscorez.log',
             'formatter': 'verbose',
         },
         'console': {
@@ -158,11 +157,11 @@ LOGGING: dict = {
 
 # static files
 
-STATIC_ROOT = os.path.join(ROOT_DIR, 'static')
+STATIC_ROOT = ROOT_DIR / 'static'
 
 STATIC_URL = '/static/'
 
-MEDIA_ROOT = os.path.join(ROOT_DIR, 'media')
+MEDIA_ROOT = ROOT_DIR / 'media'
 
 MEDIA_URL = '/media/'
 
@@ -171,7 +170,7 @@ MEDIA_URL = '/media/'
 
 EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
 
-EMAIL_FILE_PATH = os.path.join(ROOT_DIR, 'mails')
+EMAIL_FILE_PATH = ROOT_DIR / 'mails'
 
 MANAGERS = [('manager', 'manager@localhost')]
 
@@ -208,7 +207,7 @@ PUBLIC_NAMES = True
 
 MATOMO_URL: Optional[str] = None
 
-REPORTS_PATH = os.path.join(ROOT_DIR, 'reports')
+REPORTS_PATH = ROOT_DIR / 'reports'
 
 ROOT_SOURCE_URL = 'https://spo.handball4all.de/'
 

@@ -1,5 +1,5 @@
-import os
 from datetime import date
+from pathlib import Path
 
 from django.conf import settings
 from django.test import TestCase
@@ -12,10 +12,9 @@ from players.models import Score
 from teams.models import Team
 
 
-def read_html(file):
-    path = os.path.join(settings.SRC_DIR, 'leagues', 'tests', file)
-    with open(path, 'r') as report_file:
-        content = report_file.read()
+def read_html(file_name):
+    file: Path = settings.ROOT_DIR / 'src' / 'leagues' / 'tests' / file_name
+    content = file.read_text()
     return html.fromstring(content)
 
 

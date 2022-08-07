@@ -1,5 +1,4 @@
 import logging
-import os
 from pathlib import Path
 from typing import Any, Dict
 
@@ -38,7 +37,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         self.options = options
-        os.makedirs(settings.REPORTS_PATH, exist_ok=True)
+        settings.REPORTS_PATH.mkdir(parents=True, exist_ok=True)
         env.UPDATING.set_value(Value.TRUE)
         self.import_associations()
         env.UPDATING.set_value(Value.FALSE)
@@ -117,10 +116,11 @@ class Command(BaseCommand):
 
 @transaction.atomic
 def import_game(game: Game):
-    path = Path(settings.REPORTS_PATH).joinpath(str(game.report_number) + '.pdf')
-    download_report(game, path)
-    import_report(game, str(path))
-    os.remove(path)
+    report_file: Path = settings.REPORTS_PATH / str(game.report_number)
+    report_file.with_suffix('.pdf')
+    download_report(game, report_file)
+    import_report(game, report_file)
+    report_file.unlink()
 
 
 def download_report(game: Game, path: Path):
@@ -133,8 +133,8 @@ def download_report(game: Game, path: Path):
     path.write_bytes(response.content)
 
 
-def import_report(game: Game, path: str):
-    tables = tabula.read_pdf(path, output_format='json', **{'pages': [1, 2], 'lattice': True})
+def import_report(game: Game, path: Path):
+    tables = tabula.read_pdf(path.absolute(), output_format='json', **{'pages': [1, 2], 'lattice': True})
 
     game.spectators = parse_report.parse_spectators(tables[0])
     game.save()
