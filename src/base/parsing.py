@@ -150,7 +150,7 @@ def parse_game_time(text: str) -> Optional[timedelta]:
 
 
 def parse_penalty_data(text: str) -> Tuple[int, int]:
-    match = re.match("([0-9]+)/([0-9]+)", text)
+    match = re.match("(\d+)/(\d+)", text)
     if match:
         return int(match.group(1)), int(match.group(2))
     return 0, 0
