@@ -44,3 +44,8 @@ class Team(models.Model):
 
     def source_url(self):
         return self.build_source_url(self.league.bhv_id, self.bhv_id)
+
+    @staticmethod
+    def find_matching_short_name(name: str, short_names: list[str]) -> str:
+        return max(set(short_names), key=short_names.count)
+

@@ -224,7 +224,8 @@ def create_team(link, league):
     dom = logic.get_html(url)
     game_rows = parsing.parse_game_rows(dom)
     short_team_names = [c.text for game_row in game_rows for c in game_row.xpath('td')[4:7:2]]
-    short_team_name = max(set(short_team_names), key=short_team_names.count)
+    short_team_name = Team.find_matching_short_name(name, short_team_names)
+
     Team.create_or_update_team(name, short_team_name, league, bhv_id, LOGGER)
 
 
