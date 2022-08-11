@@ -16,6 +16,7 @@ requests = "*"
 tabula-py = "*"
 captcha = "*"
 django-axes = "*"
+fuzzywuzzy = "*"
 
 [dev-packages]
 autopep8 = "*"

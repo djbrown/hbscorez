@@ -38,6 +38,7 @@
 "dparse","0.5.1","MIT License","Jannis Gebauer","https://github.com/pyupio/dparse"
 "filelock","3.7.1","Public Domain","Benedikt Schmitt","https://github.com/tox-dev/py-filelock"
 "flake8","4.0.1","MIT License","Tarek Ziade","https://github.com/pycqa/flake8"
+"fuzzywuzzy","0.18.0","GNU General Public License v2 (GPLv2)","Adam Cohen","https://github.com/seatgeek/fuzzywuzzy"
 "gitdb","4.0.9","BSD License","Sebastian Thiel","https://github.com/gitpython-developers/gitdb"
 "h11","0.13.0","MIT License","Nathaniel J. Smith","https://github.com/python-hyper/h11"
 "icalendar","4.1.0","BSD License","Plone Foundation","https://github.com/collective/icalendar"
