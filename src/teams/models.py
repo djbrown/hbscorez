@@ -1,4 +1,5 @@
 import logging
+from collections import Counter
 
 from django.conf import settings
 from django.db import models
@@ -47,5 +48,13 @@ class Team(models.Model):
 
     @staticmethod
     def find_matching_short_name(name: str, short_names: list[str]) -> str:
-        return max(set(short_names), key=short_names.count)
+        counter = Counter(short_names)
+        by_count: list[tuple[str, int]] = counter.most_common()
+        max_count: int = by_count[0][1]
+        most_commons: list[str] = []
+        for short_name, count in by_count:
+            if count < max_count:
+                break
+            most_commons.append(short_name)
+        return most_commons[0]
 
