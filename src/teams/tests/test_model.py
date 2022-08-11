@@ -36,3 +36,11 @@ class ShortName(TestCase):
         actual = Team.find_matching_short_name(name, short_names)
 
         self.assertEqual('zwei', actual)
+
+    def test_same_count_depend_on_name_other(self):
+        name = 'TSV Eins'
+        short_names = ['eins', 'zwei', 'zwei', 'eins']
+
+        actual = Team.find_matching_short_name(name, short_names)
+
+        self.assertEqual('eins', actual)

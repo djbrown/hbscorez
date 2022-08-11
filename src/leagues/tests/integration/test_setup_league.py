@@ -106,3 +106,12 @@ class Pokal(IntegrationTestCase):
         self.assert_command('setup', '-a', 56, '-d', 62, '-s', 2019, '-l', 45411)
 
         self.assert_objects(League, count=0)
+
+
+class FewGames(IntegrationTestCase):
+    def test_short_name_single_game_per_team(self):
+        LeagueName.objects.create(bhv_id=83521, name="608120 Aufstieg Männer KL")
+
+        self.assert_command('setup', '-a', 78, '-d', 146, '-s', 2021, '-l', 83521)
+
+        self.assert_objects(League)

@@ -4,6 +4,7 @@ from collections import Counter
 from django.conf import settings
 from django.db import models
 from django.urls import reverse
+from fuzzywuzzy import process
 
 from leagues.models import League
 
@@ -56,5 +57,4 @@ class Team(models.Model):
             if count < max_count:
                 break
             most_commons.append(short_name)
-        return most_commons[0]
-
+        return process.extractOne(name, set(most_commons))[0]
