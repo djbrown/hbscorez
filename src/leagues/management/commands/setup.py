@@ -32,8 +32,6 @@ def add_default_arguments(parser):
 
 
 class Command(BaseCommand):
-    options: dict = {}
-    processed_districts: set = set()
 
     def add_arguments(self, parser):
         add_default_arguments(parser)
@@ -41,13 +39,12 @@ class Command(BaseCommand):
                             help="Skip processing Teams.")
 
     def handle(self, *args, **options):
-        self.options = options
-        self.processed_districts = set()
+        options['processed_districts'] = set()
         env.UPDATING.set_value(Value.TRUE)
-        self.create_associations()
+        self.create_associations(options)
         env.UPDATING.set_value(Value.FALSE)
 
-    def create_associations(self):
+    def create_associations(self, options):
         url = settings.NEW_ROOT_SOURCE_URL
         dom = logic.get_html(url)
         portal_paths = dom.xpath('//div[@id="main-content"]//table[@summary]/tbody/tr/td[1]/a/@href')
@@ -55,7 +52,7 @@ class Command(BaseCommand):
             portal_url = portal_path if portal_path.startswith('http') else settings.NEW_ROOT_SOURCE_URL + portal_path
             bhv_id = self.get_association_bhv_id(portal_url)
             try:
-                self.create_association(bhv_id)
+                self.create_association(bhv_id, options)
             except Exception:
                 logging.getLogger('mail').exception("Could not create Association")
 
@@ -64,7 +61,7 @@ class Command(BaseCommand):
         [bhv_id] = dom.xpath('//div[@id="app"]/@data-og-id')
         return int(bhv_id)
 
-    def create_association(self, bhv_id):
+    def create_association(self, bhv_id, options):
         url = Association.build_source_url(bhv_id)
         dom = logic.get_html(url)
 
@@ -75,7 +72,7 @@ class Command(BaseCommand):
             LOGGER.warning("No abbreviation for association '%s'", name)
             return
 
-        if self.options['associations'] and bhv_id not in self.options['associations']:
+        if options['associations'] and bhv_id not in options['associations']:
             LOGGER.debug('SKIPPING Association (options): %s %s', bhv_id, name)
             return
 
@@ -88,21 +85,21 @@ class Command(BaseCommand):
         items = dom.xpath('//select[@name="orgID"]/option[position()>1]')
         for item in items:
             try:
-                self.create_district(item, association)
+                self.create_district(item, association, options)
             except Exception:
                 logging.getLogger('mail').exception("Could not create District")
 
-    def create_district(self, district_item, association):
+    def create_district(self, district_item, association: Association, options):
         name = district_item.text
         bhv_id = int(district_item.get('value'))
 
-        if self.options['districts'] and bhv_id not in self.options['districts']:
+        if options['districts'] and bhv_id not in options['districts']:
             LOGGER.debug('SKIPPING District (options): %s %s', bhv_id, name)
             return
 
         district, created = District.objects.get_or_create(name=name, bhv_id=bhv_id)
         district.associations.add(association)
-        if bhv_id in self.processed_districts:
+        if bhv_id in options['processed_districts']:
             LOGGER.debug('SKIPPING District: %s %s (already processed)', bhv_id, name)
             return
 
@@ -110,16 +107,16 @@ class Command(BaseCommand):
             LOGGER.info('CREATED District: %s', district)
         else:
             LOGGER.info('EXISTING District: %s', district)
-        self.processed_districts.add(bhv_id)
+        options['processed_districts'].add(bhv_id)
 
         for start_year in range(2004, datetime.now().year + 1):
             try:
-                self.create_season(district, start_year)
+                self.create_season(district, start_year, options)
             except Exception:
                 logging.getLogger('mail').exception("Could not create Season")
 
-    def create_season(self, district, start_year):
-        if self.options['seasons'] and start_year not in self.options['seasons']:
+    def create_season(self, district, start_year, options):
+        if options['seasons'] and start_year not in options['seasons']:
             LOGGER.debug('SKIPPING Season (options): %s', start_year)
             return
 
@@ -142,12 +139,12 @@ class Command(BaseCommand):
 
         for league_link in league_links:
             try:
-                self.create_league(league_link, district, season)
+                self.create_league(league_link, district, season, options)
             except Exception:
                 logging.getLogger('mail').exception("Could not create League")
 
     @transaction.atomic
-    def create_league(self, league_link, district, season):
+    def create_league(self, league_link, district, season, options):
         abbreviation = league_link.text
         bhv_id = parsing.parse_league_bhv_id(league_link)
 
@@ -155,7 +152,7 @@ class Command(BaseCommand):
             LOGGER.debug('SKIPPING League (ignore list): %s %s', bhv_id, abbreviation)
             return
 
-        if self.options['leagues'] and bhv_id not in self.options['leagues']:
+        if options['leagues'] and bhv_id not in options['leagues']:
             LOGGER.debug('SKIPPING League (options): %s %s', bhv_id, abbreviation)
             return
 
@@ -195,7 +192,7 @@ class Command(BaseCommand):
         except LeagueName.DoesNotExist:
             pass
 
-        if League.is_youth(abbreviation, name) and not self.options['youth']:
+        if League.is_youth(abbreviation, name) and not options['youth']:
             LOGGER.debug('SKIPPING League (youth league): %s %s %s', bhv_id, abbreviation, name)
             return
 
@@ -206,7 +203,7 @@ class Command(BaseCommand):
         else:
             LOGGER.info('EXISTING League: %s', league)
 
-        if self.options['skip_teams']:
+        if options['skip_teams']:
             return
 
         for team_link in team_links:
