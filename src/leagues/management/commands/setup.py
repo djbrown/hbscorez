@@ -6,7 +6,7 @@ from django.core.management import BaseCommand
 from django.db import transaction
 
 from associations.models import Association
-from base import logic, parsing
+from base import http, parsing
 from base.middleware import env
 from base.models import Value
 from districts.models import District
@@ -47,7 +47,8 @@ class Command(BaseCommand):
 
 def create_associations(options):
     url = settings.NEW_ROOT_SOURCE_URL
-    dom = logic.get_html(url)
+    html = http.get_text(url)
+    dom = parsing.html_dom(html)
     portal_paths = dom.xpath('//div[@id="main-content"]//table[@summary]/tbody/tr/td[1]/a/@href')
     for portal_path in portal_paths:
         portal_url = portal_path if portal_path.startswith('http') else settings.NEW_ROOT_SOURCE_URL + portal_path
@@ -59,14 +60,16 @@ def create_associations(options):
 
 
 def get_association_bhv_id(association_portal_url: str) -> int:
-    dom = logic.get_html(association_portal_url)
+    html = http.get_text(association_portal_url)
+    dom = parsing.html_dom(html)
     [bhv_id] = dom.xpath('//div[@id="app"]/@data-og-id')
     return int(bhv_id)
 
 
 def create_association(bhv_id, options):
     url = Association.build_source_url(bhv_id)
-    dom = logic.get_html(url)
+    html = http.get_text(url)
+    dom = parsing.html_dom(html)
 
     name = parsing.parse_association_name(dom)
     try:
@@ -134,7 +137,8 @@ def create_season(district, start_year, options):
     for start_date in [date(start_year, 10, 1) + timedelta(days=10 * n) for n in range(4)]:
         LOGGER.debug('trying District Season: %s %s %s', district, season, start_date)
         url = District.build_source_url(district.bhv_id, start_date)
-        dom = logic.get_html(url)
+        html = http.get_text(url)
+        dom = parsing.html_dom(html)
         league_links = dom.xpath('//div[@id="results"]/div/table[2]/tr/td[1]/a')
         if league_links:
             break
@@ -167,7 +171,8 @@ def create_league(league_link, district, season, options):
         return
 
     url = League.build_source_url(bhv_id)
-    dom = logic.get_html(url)
+    html = http.get_text(url)
+    dom = parsing.html_dom(html)
     name = parsing.parse_league_name(dom)
 
     irrelevant_league_name_indicators = [
@@ -224,7 +229,8 @@ def create_team(link, league):
     name = link.text
 
     url = Team.build_source_url(league.bhv_id, bhv_id)
-    dom = logic.get_html(url)
+    html = http.get_text(url)
+    dom = parsing.html_dom(html)
     game_rows = parsing.parse_game_rows(dom)
     short_team_names = [c.text for game_row in game_rows for c in game_row.xpath('td')[4:7:2]]
     short_team_name = Team.find_matching_short_name(name, short_team_names)

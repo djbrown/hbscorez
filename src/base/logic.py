@@ -2,29 +2,15 @@ import collections
 import logging
 import operator
 
-import requests
 from django.db import transaction
 from django.db.models import Count, F, Q, Sum
 from django.db.models.functions import Coalesce, TruncMonth
-from lxml import html
 
-from base.http import http
 from games.models import Game, TeamOutcome
 from players.models import Player, Score
 from teams.models import Team
 
 LOGGER = logging.getLogger('hbscorez')
-
-
-def get_html(url, fails=0):
-    try:
-        response = http.get(url, timeout=5)
-        response.encoding = 'utf-8'
-        return html.fromstring(response.text)
-    except requests.exceptions.ReadTimeout:
-        if fails >= 3:
-            raise
-        return get_html(url, fails+1)
 
 
 def add_ranking_place(items: list, field: str):

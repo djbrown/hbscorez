@@ -4,7 +4,7 @@ from typing import Dict
 from django.core.management import BaseCommand
 
 from associations.models import Association
-from base import logic, parsing
+from base import http, parsing
 from base.middleware import env
 from base.models import Value
 from districts.models import District
@@ -71,9 +71,10 @@ class Command(BaseCommand):
             LOGGER.debug('SKIPPING League (youth league): %s', league)
             return
 
-        tree = logic.get_html(league.source_url())
+        html = http.get_text(league.source_url())
+        dom = parsing.html_dom(html)
 
-        game_rows = tree.xpath("//table[@class='gametable']/tr[position() > 1]")
+        game_rows = dom.xpath("//table[@class='gametable']/tr[position() > 1]")
         for game_row in game_rows:
             try:
                 self.import_game(game_row, league)
@@ -151,16 +152,17 @@ def get_sports_hall(game_row):
 
 def parse_sports_hall(number, bhv_id):
     url = SportsHall.build_source_url(bhv_id)
-    tree = logic.get_html(url)
+    html = http.get_text(url)
+    dom = parsing.html_dom(html)
 
-    table = tree.xpath('//table[@class="gym"]')[0]
+    table = dom.xpath('//table[@class="gym"]')[0]
     name = table[0][1][0].text
     city = table[1][1].text
     street = table[2][1].text
     address = street + ", " + city if street else city
     phone_number = table[3][1].text
 
-    latitude, longitude = parsing.parse_coordinates(tree)
+    latitude, longitude = parsing.parse_coordinates(dom)
 
     sports_hall = SportsHall.objects.create(number=number, name=name, address=address,
                                             phone_number=phone_number, latitude=latitude,

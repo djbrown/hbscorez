@@ -4,7 +4,11 @@ from datetime import datetime, timedelta
 from typing import Match, Optional, Tuple
 from urllib.parse import parse_qs, urlsplit
 
-import lxml
+from lxml import html
+
+
+def html_dom(html_text: str):
+    return html.fromstring(html_text)
 
 
 def parse_link_query_item(link, query_key):
@@ -133,7 +137,7 @@ def parse_report_number(cell):
 
 
 def parse_forfeiting_team(cell, home_team, guest_team):
-    text = str(lxml.html.tostring(cell))
+    text = str(html.tostring(cell))
     if "2:0" in text:
         return guest_team
     if "0:2" in text:

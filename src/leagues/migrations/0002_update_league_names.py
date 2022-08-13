@@ -2,7 +2,7 @@ import logging
 
 from django.db import migrations
 
-from base import logic, parsing
+from base import http, parsing
 
 from ..models import League
 
@@ -11,7 +11,8 @@ LOGGER = logging.getLogger('hbscorez')
 
 def update_league_names(*_):
     for league in League.objects.all():
-        dom = logic.get_html(league.source_url())
+        html = http.get_text(league.source_url())
+        dom = parsing.html_dom(html)
         name = parsing.parse_league_name(dom)
         if name != league.name:
             league.name = name
