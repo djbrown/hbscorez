@@ -8,8 +8,7 @@ from django.core.management import BaseCommand
 from django.db import transaction
 
 from associations.models import Association
-from base import logic, parsing
-from base.http import http
+from base import http, logic, parsing
 from base.middleware import env
 from base.models import Value
 from games.models import Game
@@ -125,12 +124,13 @@ def import_game(game: Game):
 
 def download_report(game: Game, path: Path):
     url = game.report_source_url()
-    response = http.get(url, stream=True, timeout=5)
-    if int(response.headers.get('Content-Length', -1)) == 0:
+    try:
+        content: bytes = http.get_file(url)
+    except http.EmptyResponseError:
         LOGGER.warning('SKIPPING Report (empty file): %s - %s', game.report_number, game)
         return
 
-    path.write_bytes(response.content)
+    path.write_bytes(content)
 
 
 def import_report(game: Game, path: Path):
