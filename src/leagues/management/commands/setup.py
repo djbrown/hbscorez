@@ -221,7 +221,7 @@ def create_league(league_link, district, season, options):
         create_team(team_link, league)
 
     retirements = parsing.parse_retirements(dom)
-    check_retirements(retirements, league)
+    Team.check_retirements(retirements, league, LOGGER)
 
 
 def create_team(link, league):
@@ -236,16 +236,3 @@ def create_team(link, league):
     short_team_name = Team.find_matching_short_name(name, short_team_names)
 
     Team.create_or_update_team(name, short_team_name, league, bhv_id, LOGGER)
-
-
-def check_retirements(retirements, league):
-    for team_name, retirement_date in retirements:
-        try:
-            team = Team.objects.get(league=league, name=team_name)
-        except Team.DoesNotExist:
-            LOGGER.warning('RETIRING team not found: %s %s', team_name, league)
-            continue
-        if team.retirement != retirement_date:
-            team.retirement = retirement_date
-            LOGGER.info('RETIRING team %s on %s', team, retirement_date)
-            team.save()

@@ -58,3 +58,16 @@ class Team(models.Model):
                 break
             most_commons.append(short_name)
         return process.extractOne(name, set(most_commons))[0]
+
+    @staticmethod
+    def check_retirements(retirements, league, logger: logging.Logger = logging.getLogger()):
+        for team_name, retirement_date in retirements:
+            try:
+                team = Team.objects.get(league=league, name=team_name)
+            except Team.DoesNotExist:
+                logger.warning('RETIRING team not found: %s %s', team_name, league)
+                continue
+            if team.retirement != retirement_date:
+                team.retirement = retirement_date
+                logger.info('RETIRING team %s on %s', team, retirement_date)
+                team.save()
