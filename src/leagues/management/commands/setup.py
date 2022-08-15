@@ -95,7 +95,7 @@ def scrape_districs(association: Association, options):
     html = http.get_text(url)
     dom = parsing.html_dom(html)
 
-    items = dom.xpath('//select[@name="orgID"]/option[position()>1]')
+    items = parsing.parse_district_items(dom)
     for item in items:
         try:
             scrape_district(item, association, options)
@@ -125,12 +125,12 @@ def scrape_district(district_item, association: Association, options):
 
     for start_year in range(2004, datetime.now().year + 1):
         try:
-            create_season(district, start_year, options)
+            scrape_season(district, start_year, options)
         except Exception:
             logging.getLogger('mail').exception("Could not create Season")
 
 
-def create_season(district, start_year, options):
+def scrape_season(district, start_year, options):
     if options['seasons'] and start_year not in options['seasons']:
         LOGGER.debug('SKIPPING Season (options): %s', start_year)
         return
@@ -146,7 +146,7 @@ def create_season(district, start_year, options):
         url = District.build_source_url(district.bhv_id, start_date)
         html = http.get_text(url)
         dom = parsing.html_dom(html)
-        league_links = dom.xpath('//div[@id="results"]/div/table[2]/tr/td[1]/a')
+        league_links = parsing.parse_league_links(dom)
         if league_links:
             break
     else:
@@ -155,13 +155,13 @@ def create_season(district, start_year, options):
 
     for league_link in league_links:
         try:
-            create_league(league_link, district, season, options)
+            scrape_league(league_link, district, season, options)
         except Exception:
             logging.getLogger('mail').exception("Could not create League")
 
 
 @transaction.atomic
-def create_league(league_link, district, season, options):
+def scrape_league(league_link, district, season, options):
     abbreviation = league_link.text
     bhv_id = parsing.parse_league_bhv_id(league_link)
 
@@ -225,13 +225,13 @@ def create_league(league_link, district, season, options):
         return
 
     for team_link in team_links:
-        create_team(team_link, league)
+        scrape_team(team_link, league)
 
     retirements = parsing.parse_retirements(dom)
     Team.check_retirements(retirements, league, LOGGER)
 
 
-def create_team(link, league):
+def scrape_team(link, league):
     bhv_id = parsing.parse_team_bhv_id(link)
     name = link.text
 
@@ -239,7 +239,7 @@ def create_team(link, league):
     html = http.get_text(url)
     dom = parsing.html_dom(html)
     game_rows = parsing.parse_game_rows(dom)
-    short_team_names = [c.text for game_row in game_rows for c in game_row.xpath('td')[4:7:2]]
+    short_team_names = parsing.parse_team_short_names(game_rows)
     short_team_name = Team.find_matching_short_name(name, short_team_names)
 
     Team.create_or_update_team(name, short_team_name, league, bhv_id, LOGGER)

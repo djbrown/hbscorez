@@ -6,6 +6,8 @@ from urllib.parse import parse_qs, urlsplit
 
 from lxml import html
 
+from games.models import SportsHall
+
 
 def html_dom(html_text: str):
     return html.fromstring(html_text)
@@ -36,8 +38,16 @@ def parse_association_name(dom):
     return heading.rsplit(' - ', 1)[0]
 
 
+def parse_district_items(dom):
+    return dom.xpath('//select[@name="orgID"]/option[position()>1]')
+
+
 def parse_district_link_date(link):
     return parse_link_query_item(link, 'do')
+
+
+def parse_league_links(dom):
+    return dom.xpath('//div[@id="results"]/div/table[2]/tr/td[1]/a')
 
 
 def parse_league_bhv_id(link):
@@ -96,7 +106,11 @@ def parse_game_rows(dom):
     return dom.xpath('//table[@class="gametable"]/tr[position() > 1]')
 
 
-def parse_opening_whistle(text) -> Optional[datetime]:
+def parse_team_short_names(game_rows):
+    return [c.text for game_row in game_rows for c in game_row.xpath('td')[4:7:2]]
+
+
+def parse_opening_whistle(text: str) -> Optional[datetime]:
     if not text.strip():
         return None
     locale.setlocale(locale.LC_ALL, "de_DE.UTF-8")
@@ -105,6 +119,21 @@ def parse_opening_whistle(text) -> Optional[datetime]:
     if len(text) == 20:
         return datetime.strptime(text, '%a, %d.%m.%y, %H:%Mh')
     raise ValueError(f'invalid opening whistle: {text}')
+
+
+def parse_sports_hall(dom) -> SportsHall:
+    table = dom.xpath('//table[@class="gym"]')[0]
+    name = table[0][1][0].text
+    city = table[1][1].text
+    street = table[2][1].text
+    address = street + ", " + city if street else city
+    phone_number = table[3][1].text
+
+    latitude, longitude = parse_coordinates(dom)
+
+    return SportsHall(name=name, address=address,
+                      phone_number=phone_number, latitude=latitude,
+                      longitude=longitude)
 
 
 def parse_sports_hall_bhv_id(link):

@@ -3,9 +3,8 @@ from pathlib import Path
 
 from django.conf import settings
 from django.test import TestCase
-from lxml import html
 
-from base.parsing import parse_retirements
+from base import parsing
 from base.tests.base import IntegrationTestCase
 from leagues.models import League
 from players.models import Score
@@ -15,24 +14,24 @@ from teams.models import Team
 def read_html(file_name):
     file: Path = settings.ROOT_DIR / 'src' / 'leagues' / 'tests' / file_name
     content = file.read_text()
-    return html.fromstring(content)
+    return parsing.html_dom(content)
 
 
 class ParseRetiredTeamTest(TestCase):
     def test_empty_retirement(self):
         dom = read_html('league_without_retired_team.html')
-        retirements = parse_retirements(dom)
+        retirements = parsing.parse_retirements(dom)
         self.assertEqual(retirements, [])
 
     def test_retired_team(self):
         dom = read_html('league_with_retired_team.html')
-        retirements = parse_retirements(dom)
+        retirements = parsing.parse_retirements(dom)
         expected = [('TV 1893 Neuhausen/E.', date(2018, 6, 29))]
         self.assertEqual(expected, retirements)
 
     def test_another_retired_team(self):
         dom = read_html('league_with_retired_team_28454.html')
-        retirements = parse_retirements(dom)
+        retirements = parsing.parse_retirements(dom)
         expected = [('TSG Stuttgart', date(2018, 3, 1))]
         self.assertEqual(expected, retirements)
 

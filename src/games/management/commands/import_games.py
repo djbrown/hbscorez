@@ -74,7 +74,7 @@ class Command(BaseCommand):
         html = http.get_text(league.source_url())
         dom = parsing.html_dom(html)
 
-        game_rows = dom.xpath("//table[@class='gametable']/tr[position() > 1]")
+        game_rows = parsing.parse_game_rows(dom)
         for game_row in game_rows:
             try:
                 self.import_game(game_row, league)
@@ -94,7 +94,7 @@ class Command(BaseCommand):
             return
 
         opening_whistle = parsing.parse_opening_whistle(game_row[2].text)
-        sports_hall = get_sports_hall(game_row)
+        sports_hall = scrape_sports_hall(game_row)
         home_team = Team.objects.get(league=league, short_name=game_row[4].text)
         guest_team = Team.objects.get(league=league, short_name=game_row[6].text)
         home_goals, guest_goals = parsing.parse_goals(game_row)
@@ -136,7 +136,7 @@ class Command(BaseCommand):
             game.save()
 
 
-def get_sports_hall(game_row):
+def scrape_sports_hall(game_row):
     if len(game_row[3]) != 1:
         return None
     link = game_row[3][0]
@@ -147,25 +147,14 @@ def get_sports_hall(game_row):
     if sports_hall.exists():
         return sports_hall[0]
 
-    return parse_sports_hall(number, bhv_id)
-
-
-def parse_sports_hall(number, bhv_id):
     url = SportsHall.build_source_url(bhv_id)
     html = http.get_text(url)
     dom = parsing.html_dom(html)
 
-    table = dom.xpath('//table[@class="gym"]')[0]
-    name = table[0][1][0].text
-    city = table[1][1].text
-    street = table[2][1].text
-    address = street + ", " + city if street else city
-    phone_number = table[3][1].text
+    sports_hall = parsing.parse_sports_hall(dom)
+    sports_hall.bhv_id = bhv_id
+    sports_hall.number = number
+    sports_hall.save()
 
-    latitude, longitude = parsing.parse_coordinates(dom)
-
-    sports_hall = SportsHall.objects.create(number=number, name=name, address=address,
-                                            phone_number=phone_number, latitude=latitude,
-                                            longitude=longitude, bhv_id=bhv_id)
     LOGGER.info('CREATED Sports Hall: %s', sports_hall)
     return sports_hall

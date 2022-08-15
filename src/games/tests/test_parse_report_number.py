@@ -1,5 +1,4 @@
 from django.test import TestCase
-from lxml import html
 
 from base import parsing
 
@@ -7,7 +6,7 @@ from base import parsing
 class ParseReportNumberTest(TestCase):
 
     def assert_from_markup(self, markup, expected):
-        dom = html.fromstring(markup)
+        dom = parsing.html_dom(markup)
         actual = parsing.parse_report_number(dom)
         self.assertEqual(expected, actual)
 
