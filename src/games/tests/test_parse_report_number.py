@@ -1,14 +1,14 @@
 from django.test import TestCase
 from lxml import html
 
-from base.parsing import parse_report_number
+from base import parsing
 
 
 class ParseReportNumberTest(TestCase):
 
     def assert_from_markup(self, markup, expected):
-        tree = html.fromstring(markup)
-        actual = parse_report_number(tree)
+        dom = html.fromstring(markup)
+        actual = parsing.parse_report_number(dom)
         self.assertEqual(expected, actual)
 
     def test__empty_cell_markup__returns__none(self):

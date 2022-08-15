@@ -11,6 +11,16 @@ def html_dom(html_text: str):
     return html.fromstring(html_text)
 
 
+def parse_association_urls(dom, root_url):
+    items = dom.xpath('//div[@id="main-content"]//table[@summary]/tbody/tr/td[1]/a/@href')
+    return [item if item.startswith('http') else root_url + item for item in items]
+
+
+def parse_association_bhv_id_from_dom(dom):
+    [bhv_id] = dom.xpath('//div[@id="app"]/@data-og-id')
+    return int(bhv_id)
+
+
 def parse_link_query_item(link, query_key):
     href = link.get('href')
     query = urlsplit(href).query
@@ -21,8 +31,8 @@ def parse_association_bhv_id(link):
     return int(parse_link_query_item(link, 'orgGrpID'))
 
 
-def parse_association_name(tree):
-    heading = tree.xpath('//*[@id="results"]/div/h1/text()[2]')[0]
+def parse_association_name(dom):
+    heading = dom.xpath('//*[@id="results"]/div/h1/text()[2]')[0]
     return heading.rsplit(' - ', 1)[0]
 
 
@@ -39,19 +49,19 @@ def parse_district_season_start_year(district_season_heading):
     return int(matches.group(1)) if matches else None
 
 
-def parse_league_name(tree):
-    heading = tree.xpath('//*[@id="results"]/div/h1/text()[2]')[0]
+def parse_league_name(dom):
+    heading = dom.xpath('//*[@id="results"]/div/h1/text()[2]')[0]
     return heading.rsplit(' - ', 1)[0]
 
 
-def parse_team_links(tree):
-    return tree.xpath('//table[@class="scoretable"]/tr[position() > 1]/td[3]/a') or \
-        tree.xpath('//table[@class="scoretable"]/tr[position() > 1]/td[2]/a')
+def parse_team_links(dom):
+    return dom.xpath('//table[@class="scoretable"]/tr[position() > 1]/td[3]/a') or \
+        dom.xpath('//table[@class="scoretable"]/tr[position() > 1]/td[2]/a')
 
 
-def parse_retirements(tree):
+def parse_retirements(dom):
     retirements = []
-    paragraphs = tree.xpath('//table[@class="scoretable"]/following::div[following::table[@class="gametable"]]')
+    paragraphs = dom.xpath('//table[@class="scoretable"]/following::div[following::table[@class="gametable"]]')
     for paragraph in paragraphs:
         text = paragraph.text_content()
         matches = re.match(r"(?:Der|Die) (.*) hat.* ([0123]\d\.[012]\d\.\d{2,4}).* zurückgezogen.*", text)
@@ -101,8 +111,8 @@ def parse_sports_hall_bhv_id(link):
     return int(parse_link_query_item(link, 'gymID'))
 
 
-def parse_coordinates(tree) -> Tuple[Optional[str], Optional[str]]:
-    map_scripts = tree.xpath('//script[contains(text(),"new mxn.LatLonPoint")]')
+def parse_coordinates(dom) -> Tuple[Optional[str], Optional[str]]:
+    map_scripts = dom.xpath('//script[contains(text(),"new mxn.LatLonPoint")]')
     if not map_scripts:
         return (None, None)
     match = re.search(r"new mxn.LatLonPoint\(([.0-9]+),([.0-9]+)\)", map_scripts[0].text)

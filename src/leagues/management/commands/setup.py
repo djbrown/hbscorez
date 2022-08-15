@@ -41,32 +41,33 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         options['processed_districts'] = set()
         env.UPDATING.set_value(Value.TRUE)
-        create_associations(options)
+
+        scrape_associations(options)
+
+        for association in Association.objects.all():
+            scrape_districs(association, options)
+
         env.UPDATING.set_value(Value.FALSE)
 
 
-def create_associations(options):
-    url = settings.NEW_ROOT_SOURCE_URL
-    html = http.get_text(url)
-    dom = parsing.html_dom(html)
-    portal_paths = dom.xpath('//div[@id="main-content"]//table[@summary]/tbody/tr/td[1]/a/@href')
-    for portal_path in portal_paths:
-        portal_url = portal_path if portal_path.startswith('http') else settings.NEW_ROOT_SOURCE_URL + portal_path
-        bhv_id = get_association_bhv_id(portal_url)
+def scrape_associations(options):
+    root_url = settings.NEW_ROOT_SOURCE_URL
+    root_html = http.get_text(root_url)
+    root_dom = parsing.html_dom(root_html)
+    association_urls = parsing.parse_association_urls(root_dom, root_url)
+
+    for association_url in association_urls:
+        association_html = http.get_text(association_url)
+        association_dom = parsing.html_dom(association_html)
+        bhv_id = parsing.parse_association_bhv_id_from_dom(association_dom)
+
         try:
-            create_association(bhv_id, options)
+            scrape_association(bhv_id, options)
         except Exception:
             logging.getLogger('mail').exception("Could not create Association")
 
 
-def get_association_bhv_id(association_portal_url: str) -> int:
-    html = http.get_text(association_portal_url)
-    dom = parsing.html_dom(html)
-    [bhv_id] = dom.xpath('//div[@id="app"]/@data-og-id')
-    return int(bhv_id)
-
-
-def create_association(bhv_id, options):
+def scrape_association(bhv_id: int, options):
     url = Association.build_source_url(bhv_id)
     html = http.get_text(url)
     dom = parsing.html_dom(html)
@@ -88,15 +89,21 @@ def create_association(bhv_id, options):
     else:
         LOGGER.info('EXISTING Association: %s', association)
 
+
+def scrape_districs(association: Association, options):
+    url = Association.build_source_url(association.bhv_id)
+    html = http.get_text(url)
+    dom = parsing.html_dom(html)
+
     items = dom.xpath('//select[@name="orgID"]/option[position()>1]')
     for item in items:
         try:
-            create_district(item, association, options)
+            scrape_district(item, association, options)
         except Exception:
             logging.getLogger('mail').exception("Could not create District")
 
 
-def create_district(district_item, association: Association, options):
+def scrape_district(district_item, association: Association, options):
     name = district_item.text
     bhv_id = int(district_item.get('value'))
 
