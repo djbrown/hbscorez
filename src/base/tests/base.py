@@ -7,6 +7,8 @@ from django.conf import settings
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from django.core.management import call_command
 from django.core.servers.basehttp import ThreadedWSGIServer
+from django.db.models import Model
+from django.db.models.query import QuerySet
 from django.test import TestCase, tag
 from django.test.runner import DiscoverRunner
 from django.test.testcases import LiveServerThread, QuietWSGIRequestHandler
@@ -93,7 +95,7 @@ def skip_unless_any_tag(*tags):
 
 class ModelTestCase(TestCase):
 
-    def assert_objects(self, model, count=1, filters=None):
+    def assert_objects(self, model: Model, count=1, filters=None) -> Model | QuerySet[Model]:
         if filters is None:
             filters = {}
 
