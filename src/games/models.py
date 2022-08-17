@@ -104,6 +104,7 @@ class Game(models.Model):
     def outcome(self) -> GameOutcome:
         if self.home_goals is None and self.guest_goals is None:
             return GameOutcome.OPEN
+        assert self.home_goals is not None and self.guest_goals is not None
         if self.home_goals > self.guest_goals \
                 or self.forfeiting_team == self.guest_team:
             return GameOutcome.HOME_WIN
