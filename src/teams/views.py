@@ -89,6 +89,10 @@ def calendar(_, bhv_id):
 
 
 def _create_event(team, game: Game):
+    if game.opening_whistle == None:
+        return
+    assert game.opening_whistle is not None
+
     venue = 'Heimspiel' if game.home_team == team else 'Auswärtsspiel'
     summary = f'{venue} - {game.opponent_of(team).short_name}'
 
