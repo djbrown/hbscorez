@@ -11,10 +11,10 @@
 
     {% block styles %}
         <link rel="stylesheet" href="{{ static('base/styles/base.css') }}">
-        <link rel="stylesheet" href="{{ static('base/styles/bootstrap-5.0.0.min.css') }}">
-        <link rel="stylesheet" href="{{ static('base/styles/datatables-1.10.24.min.css') }}">
-        <link rel="stylesheet" href="{{ static('base/styles/animate-4.1.1.min.css') }}">
-        <link rel="stylesheet" href="{{ static('base/styles/cookieconsent-3.1.1.min.css') }}">
+        <link rel="stylesheet" href="{{ static('base/styles/vendor/bootstrap-5.0.0.min.css') }}">
+        <link rel="stylesheet" href="{{ static('base/styles/vendor/datatables-1.10.24.min.css') }}">
+        <link rel="stylesheet" href="{{ static('base/styles/vendor/animate-4.1.1.min.css') }}">
+        <link rel="stylesheet" href="{{ static('base/styles/vendor/cookieconsent-3.1.1.min.css') }}">
     {% endblock %}
 
     {% if MATOMO_URL %}
