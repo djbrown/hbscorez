@@ -136,7 +136,8 @@ def download_report(game: Game, path: Path):
 def import_report(game: Game, path: Path):
     [spectators_table, _, home_table, guest_table] = \
         tabula.read_pdf(path.absolute(), output_format='json',
-                        pages=[1, 2], lattice=True) # type: ignore[arg-type] # https://github.com/chezou/tabula-py/pull/315
+                        pages=[1, 2], lattice=True)  # type: ignore[arg-type]
+    # see https://github.com/chezou/tabula-py/pull/315
 
     game.spectators = parse_report.parse_spectators(spectators_table)
     game.save()
