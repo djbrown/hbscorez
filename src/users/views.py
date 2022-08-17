@@ -31,7 +31,7 @@ def profile(request):
 @login_required
 def link(request):
     if request.method == 'POST':
-        form = LinkForm(request.POST, user=request.user)
+        form = LinkForm(request.POST)
         team = team_from_request_query(request.POST)
         if form.is_valid():
             player = form.cleaned_data.get('player')
@@ -43,7 +43,7 @@ def link(request):
             return HttpResponseRedirect(profile_url)
 
     else:
-        form = LinkForm(user=request.user)
+        form = LinkForm()
         team = team_from_request_query(request.GET)
 
     leagues = team.league.district.league_set.filter(season=team.league.season) if team else []

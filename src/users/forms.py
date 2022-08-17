@@ -1,7 +1,6 @@
 import logging
 
 from django import forms
-from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django_registration.forms import RegistrationForm
 
@@ -46,10 +45,7 @@ class LinkForm(forms.Form):
     team_bhv_id = forms.IntegerField()
     player_name = forms.CharField(max_length=100)
 
-    user: User = None
-
-    def __init__(self, *args, user, **kwargs):
-        self.user = user
+    def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
     def clean_team_bhv_id(self):
