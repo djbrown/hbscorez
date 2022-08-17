@@ -89,7 +89,7 @@ def calendar(_, bhv_id):
 
 
 def _create_event(team, game: Game):
-    if game.opening_whistle == None:
+    if game.opening_whistle is None:
         return
     assert game.opening_whistle is not None
 
