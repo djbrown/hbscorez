@@ -4,19 +4,19 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
+captcha = "*"
 Django = "*"
+django-axes = "*"
 django-registration = "*"
 django-contact-form = {version = "*",extras = ["akismet"]}
+fuzzywuzzy = "*"
 icalendar = "*"
-lxml = "*"
 Jinja2 = "*"
+lxml = "*"
 psycopg2 = "*"
 psycopg2-binary = "*"
 requests = "*"
 tabula-py = "*"
-captcha = "*"
-django-axes = "*"
-fuzzywuzzy = "*"
 
 [dev-packages]
 autopep8 = "*"
@@ -43,6 +43,7 @@ rope = "*"
 sauceclient = "*"
 selenium = "*"
 types-requests = "*"
+lxml-stubs = "*"
 
 [requires]
 python_version = "3.10"
