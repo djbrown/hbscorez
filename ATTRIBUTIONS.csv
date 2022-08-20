@@ -77,6 +77,7 @@
 "pyparsing","3.0.9","MIT License","UNKNOWN","UNKNOWN"
 "pytest","7.1.2","MIT License","Holger Krekel, Bruno Oliveira, Ronny Pfannschmidt, Floris Bruynooghe, Brianna Laugher, Florian Bruhin and others","https://docs.pytest.org/en/latest/"
 "pytest-django","4.5.2","BSD License","Andreas Pelme","https://pytest-django.readthedocs.io/"
+"python-Levenshtein","0.12.2","GNU General Public License v2 or later (GPLv2+)","Antti Haapala","http://github.com/ztane/python-Levenshtein"
 "python-dateutil","2.8.2","Apache Software License; BSD License","Gustavo Niemeyer","https://github.com/dateutil/dateutil"
 "pytoolconfig","1.2.2","UNKNOWN","UNKNOWN","UNKNOWN"
 "pytz","2022.2.1","MIT License","Stuart Bishop","http://pythonhosted.org/pytz"

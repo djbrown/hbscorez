@@ -15,6 +15,7 @@ Jinja2 = "*"
 lxml = "*"
 psycopg2 = "*"
 psycopg2-binary = "*"
+python-levenshtein = "*"
 requests = "*"
 tabula-py = "*"
 
