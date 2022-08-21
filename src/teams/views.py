@@ -132,7 +132,3 @@ def _outcome(game, team):
     }
     outcome = game.outcome_for(team)
     return mapping.get(outcome)
-
-
-def _display(cal):
-    return cal.to_ical().replace('\r\n', '\n').strip()
