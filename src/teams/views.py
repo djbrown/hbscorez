@@ -1,10 +1,12 @@
 from datetime import datetime, timedelta
+from enum import Enum, auto
 
 from django.db.models import Count, F, Q, Sum
 from django.db.models.functions import Coalesce
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, render
 from icalendar import Calendar, Event, vText
+from returns.result import Result
 
 from base.logic import add_ranking_place
 from games.models import Game, TeamOutcome
@@ -80,18 +82,19 @@ def calendar(_, bhv_id):
             + f' in der Liga "{team.league.name}" des Bereichs "{team.league.district.name}"')
 
     for game in team_games:
-        if game.opening_whistle is None:
-            continue
-        event = _create_event(team, game)
-        cal.add_component(event)
+        result = _create_event(team, game)
+        result.bind(cal.add_component)
 
     return HttpResponse(cal.to_ical(), "text/calendar")
 
 
-def _create_event(team, game: Game):
-    if game.opening_whistle is None:
-        return
-    assert game.opening_whistle is not None
+class ErrCode(Enum):
+    MISSING_OPENING_WHISTLE = auto()
+
+
+def _create_event(team: Team, game: Game) -> Result[Event, ErrCode]:
+    if not game.opening_whistle:
+        return Result.from_failure(ErrCode.MISSING_OPENING_WHISTLE)
 
     venue = 'Heimspiel' if game.home_team == team else 'Auswärtsspiel'
     summary = f'{venue} - {game.opponent_of(team).short_name}'
@@ -121,7 +124,8 @@ def _create_event(team, game: Game):
     if location:
         event['location'] = vText(location)
     event['uid'] = uid
-    return event
+
+    return Result.from_value(event)
 
 
 def _outcome(game, team):
