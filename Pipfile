@@ -17,6 +17,7 @@ psycopg2 = "*"
 psycopg2-binary = "*"
 python-levenshtein = "*"
 requests = "*"
+returns = "*"
 tabula-py = "*"
 
 [dev-packages]
