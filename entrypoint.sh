@@ -26,7 +26,7 @@ else
         --chdir src \
         --name hbscorez_django \
         --bind 0.0.0.0:8000 \
-        --workers $GUNICORN_WORKERS \
+        --workers "$GUNICORN_WORKERS" \
         --log-level=info \
         --log-file=../logs/gunicorn.log \
         --access-logfile=../logs/gunicorn-access.log \
