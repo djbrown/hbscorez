@@ -5,17 +5,20 @@ about: Create a bug report to help me improve
 ---
 
 # Description
+
 - what were you trying to accomplish?
 - which step failed?
 - what should have happened instead?
 
 # Steps to reproduce
+
 1. go to '...'
-2. click on '....'
-3. scroll down to '....'
-4. see error / incorrect result '...'
+1. click on '....'
+1. scroll down to '....'
+1. see error / incorrect result '...'
 
 # Optional
+
 - relevant screenshots
 - requester status: user, developer
 - version used (e.g. website, local copy at commit X)

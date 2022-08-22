@@ -5,12 +5,15 @@ about: Suggest an idea for this project
 ---
 
 # Description
+
 I'm always frustrated when...
+
 - what are you trying to accomplish?
 - what should be better?
 - how would this affect your goal?
 
 # Optional
+
 - alternatives you've considered
 - relevant screenshots
 - requester status: user, developer

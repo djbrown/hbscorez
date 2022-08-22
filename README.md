@@ -16,24 +16,25 @@
 [![Updates](https://pyup.io/repos/github/djbrown/hbscorez/shield.svg)](https://pyup.io/repos/github/djbrown/hbscorez/)
 [![Python 3](https://pyup.io/repos/github/djbrown/hbscorez/python-3-shield.svg)](https://pyup.io/repos/github/djbrown/hbscorez/)
 
-This is the repo for the web application HbScorez running https://hbscorez.de/.<br/>
+This is the repo for the web application HbScorez running [hbscorez.de](https://hbscorez.de/).  
 HbScorez processes handball game reports of diverse handball associations, districts, and leagues.
 It analyzes the player scores and displays the statistics and rankings.
 
 ## Project Management and Issue Tracking
+
 **[redmine.djbrown.de](https://redmine.djbrown.de/projects/hbscorez)**
 
 ## Acknowledgements
 
-HbScorez is powered by **Django**<br/>
+HbScorez is powered by **Django**  
 [<img src="https://www.djangoproject.com/m/img/logos/django-logo-positive.svg" height="50" alt="Django Logo"/>](https://www.djangoproject.com/)
 
-[ ~ Dependencies scanned by **PyUp.io** ~ ]<br/>
+[ ~ Dependencies scanned by **PyUp.io** ~ ]  
 [<img src="https://pyup.io/static/images/logo.png" height="50"/>](https://pyup.io/)
 
 ## Running via Docker
 
-`docker run -p 8000:8000 djbrown/hbscorez:latest`<br/>
+`docker run -p 8000:8000 djbrown/hbscorez:latest`  
 App is reachable under [127.0.0.1:8000](http://127.0.0.1:8000)
 
 ## Running natively
@@ -41,12 +42,12 @@ App is reachable under [127.0.0.1:8000](http://127.0.0.1:8000)
 ### Requirements
 
 1. Python 3.10
-2. pipenv (`pip install pipenv`)
-3. Java (>=1.6) for parsing game report PDFs
+1. pipenv (`pip install pipenv`)
+1. Java (>=1.6) for parsing game report PDFs
 
 ### Installation
 
-`pipenv install`<br/>
+`pipenv install`  
 `pipenv run ./src/manage.py migrate`
 
 ### Start Application
@@ -59,8 +60,8 @@ App is reachable under [127.0.0.1:8000](http://127.0.0.1:8000)
 - **import_games**: fetch games and sport halls
 - **import_reports**: fetch, parse and import game report data (players, scores, spectator count)
 
-Execute commands via `pipenv run ./src/manage.py <COMMAD> <OPTIONS>`.<br/>
-Prepend `docker run djbrown/hbscorez:latest ` to execute inside Docker container.<br/>
+Execute commands via `pipenv run ./src/manage.py <COMMAD> <OPTIONS>`.  
+Prepend `docker run djbrown/hbscorez:latest ` to execute inside Docker container.  
 Append ` -h` to display command help.
 
 ## License

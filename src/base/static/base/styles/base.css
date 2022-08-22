@@ -12,14 +12,14 @@
 }
 
 .breadcrumb-item-part + .breadcrumb-item-part::before {
-    display: inline-block;
-    padding-right: .5rem;
     color: #868e96;
     content: ",";
+    display: inline-block;
+    padding-right: .5rem;
 }
 
-nav.nav-pills > a {
-    border: 1px solid #007bff !important;
+.nav-pills > .nav-item.nav-link {
+    border: 1px solid #007bff;
 }
 
 #privacy:before {
