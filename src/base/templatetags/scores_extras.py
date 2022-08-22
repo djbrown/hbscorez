@@ -1,18 +1,13 @@
 from django.templatetags.static import static
 
 from games.models import GameOutcome, TeamOutcome
-from teams.models import Team
 
 
 def dec(value, arg):
     return value - arg
 
 
-def team_logo_url(team: Team):
-    """
-    if team.club:
-        return team.club.logo.url
-    """
+def team_logo_url():
     return static('base/images/favicons/favicon.png')
 
 
