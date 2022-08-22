@@ -91,21 +91,23 @@ $(document).ready(function () {
         $element.parent().addClass("table-info");
     }
 
-    function highlightMostRecentItem(today = moment()) {
+    function mostRecentOnLastPage(table, pageIndex) {
+        if (pageIndex > 0) { // if currently first page then all  in fututre => do nothing
+            // last item on previous page is most recent item
+            table.page("previous").draw("page");
+            highlightRow(nthDateCell(-1));
+            return;
+        }
+    }
+
+    function highlightMostRecentItem(today = moment("20200927")) {
         table.order([dateColumnIndex, "asc"]).draw();
         for (let pageIndex = 0; pageIndex < table.page.info().pages; pageIndex++) {
             table.page(pageIndex).draw("page");
             const firstDate = moment(nthDateCell(1).text(), dateFormat);
             if (today < firstDate) {
-                if (pageIndex === 0) {
-                    // no item in past
-                    return;
-                } else {
-                    // last item on previous page is most recent item
-                    table.page("previous").draw("page");
-                    highlightRow(nthDateCell(-1));
-                    return;
-                }
+                mostRecentOnLastPage(table, pageIndex);
+                return;
             }
             const lastDate = moment(nthDateCell(-1).text(), dateFormat);
             if (today >= lastDate) {
