@@ -2,6 +2,7 @@ from enum import Enum, auto
 
 from django.conf import settings
 from django.db import models
+from returns.maybe import Maybe
 
 from leagues.models import League
 from sports_halls.models import SportsHall
@@ -104,14 +105,15 @@ class Game(models.Model):
     def outcome(self) -> GameOutcome:
         if self.home_goals is None and self.guest_goals is None:
             return GameOutcome.OPEN
-        assert self.home_goals is not None and self.guest_goals is not None
-        if self.home_goals > self.guest_goals \
+        home_goals: int = Maybe.from_optional(self.home_goals).unwrap()
+        guest_goals: int = Maybe.from_optional(self.guest_goals).unwrap()
+        if home_goals > guest_goals \
                 or self.forfeiting_team == self.guest_team:
             return GameOutcome.HOME_WIN
-        if self.home_goals < self.guest_goals \
+        if home_goals < guest_goals \
                 or self.forfeiting_team == self.home_team:
             return GameOutcome.AWAY_WIN
-        if self.home_goals == self.guest_goals:
+        if home_goals == guest_goals:
             return GameOutcome.TIE
         raise ValueError('no matching outcome')
 
