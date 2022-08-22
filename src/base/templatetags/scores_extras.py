@@ -9,9 +9,10 @@ def dec(value, arg):
 
 
 def team_logo_url(team: Team):
-    # if team.club:
-    #     return team.club.logo.url
-
+    """
+    if team.club:
+        return team.club.logo.url
+    """
     return static('base/images/favicons/favicon.png')
 
 
