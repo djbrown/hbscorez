@@ -1180,12 +1180,8 @@
             "version": "==5.0.0"
         },
         "sniffio": {
-            "hashes": [
-                "sha256:471b71698eac1c2112a40ce2752bb2f4a4814c22a54a3eed3676bc0f5ca9f663",
-                "sha256:c4666eecec1d3f50960c6bdf61ab7bc350648da6c126e3cf6898d8cd4ddcd3de"
-            ],
-            "markers": "python_version >= '3.5'",
-            "version": "==1.2.0"
+            "hashes": [],
+            "version": "==1.3.0"
         },
         "snowballstemmer": {
             "hashes": [
