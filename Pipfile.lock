@@ -694,11 +694,8 @@
             "version": "==0.3.5.1"
         },
         "distlib": {
-            "hashes": [
-                "sha256:a7f75737c70be3b25e2bee06288cec4e4c221de18455b2dd037fe2a795cab2fe",
-                "sha256:b710088c59f06338ca514800ad795a132da19fda270e3ce4affc74abf955a26c"
-            ],
-            "version": "==0.3.5"
+            "hashes": [],
+            "version": "==0.3.6"
         },
         "django": {
             "hashes": [
