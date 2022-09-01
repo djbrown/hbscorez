@@ -1384,12 +1384,8 @@
             "version": "==1.14.1"
         },
         "wsproto": {
-            "hashes": [
-                "sha256:2218cb57952d90b9fca325c0dcfb08c3bda93e8fd8070b0a17f048e2e47a521b",
-                "sha256:a2e56bfd5c7cd83c1369d83b5feccd6d37798b74872866e62616e0ecf111bda8"
-            ],
-            "markers": "python_version >= '3.7'",
-            "version": "==1.1.0"
+            "hashes": [],
+            "version": "==1.2.0"
         }
     }
 }
