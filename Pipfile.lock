@@ -949,11 +949,8 @@
             "version": "==3.5.4"
         },
         "pipenv": {
-            "hashes": [
-                "sha256:44013256601acf66f3cbb68c922804a67a8d1b328fe01884851f16e49898852f",
-                "sha256:e74e63123d01146b8a810e26c8b4b5325169625d31d68ed635d405a963a528d8"
-            ],
-            "version": "==2022.8.19"
+            "hashes": [],
+            "version": "==2022.8.31"
         },
         "platformdirs": {
             "hashes": [
