@@ -7,7 +7,8 @@ from base.templatetags.scores_extras import game_outcome_badge, team_logo_url, t
 
 
 def environment(**options):
-    env = Environment(trim_blocks=True, lstrip_blocks=True, autoescape=True, **options)
+    options.setdefault("autoescape", True)
+    env = Environment(trim_blocks=True, lstrip_blocks=True, **options)
     env.globals.update({
         'static': staticfiles_storage.url,
         'url': reverse,
