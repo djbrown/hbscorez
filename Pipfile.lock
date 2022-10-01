@@ -457,12 +457,8 @@
             "version": "==1.16.0"
         },
         "sqlparse": {
-            "hashes": [
-                "sha256:0c00730c74263a94e5a9919ade150dfc3b19c574389985446148402998287dae",
-                "sha256:48719e356bb8b42991bdbb1e8b83223757b93789c00910a616a071910ca4a64d"
-            ],
-            "markers": "python_version >= '3.5'",
-            "version": "==0.4.2"
+            "hashes": [],
+            "version": "==0.4.3"
         },
         "tabula-py": {
             "hashes": [
@@ -1198,12 +1194,8 @@
             "version": "==2.4.0"
         },
         "sqlparse": {
-            "hashes": [
-                "sha256:0c00730c74263a94e5a9919ade150dfc3b19c574389985446148402998287dae",
-                "sha256:48719e356bb8b42991bdbb1e8b83223757b93789c00910a616a071910ca4a64d"
-            ],
-            "markers": "python_version >= '3.5'",
-            "version": "==0.4.2"
+            "hashes": [],
+            "version": "==0.4.3"
         },
         "stevedore": {
             "hashes": [
