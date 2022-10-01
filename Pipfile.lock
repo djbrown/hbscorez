@@ -818,12 +818,8 @@
             "version": "==0.8.3"
         },
         "pathspec": {
-            "hashes": [
-                "sha256:01eecd304ba0e6eeed188ae5fa568e99ef10265af7fd9ab737d6412b4ee0ab85",
-                "sha256:aefa80ac32d5bf1f96139dca67cefb69a431beff4e6bf1168468f37d7ab87015"
-            ],
-            "markers": "python_full_version >= '3.7.0'",
-            "version": "==0.10.0"
+            "hashes": [],
+            "version": "==0.10.1"
         },
         "pbr": {
             "hashes": [
