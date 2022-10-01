@@ -657,15 +657,8 @@
             "version": "==0.6.2"
         },
         "dparse": {
-            "extras": [
-                "pipenv"
-            ],
-            "hashes": [
-                "sha256:b1514fb08895d85b18d4eba3b1b7025ff9e6ea07286282021e19def872129975",
-                "sha256:c348994a1f41c85f664d8f5a47442647bc4e22c5af5b1b26ef29aff0fa5dddcd"
-            ],
-            "index": "pypi",
-            "version": "==0.5.2"
+            "hashes": [],
+            "version": "==0.6.2"
         },
         "filelock": {
             "hashes": [
