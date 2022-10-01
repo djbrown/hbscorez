@@ -693,12 +693,8 @@
             "version": "==3.1.27"
         },
         "h11": {
-            "hashes": [
-                "sha256:70813c1135087a248a4d38cc0e1a0181ffab2188141a93eaf567940c3957ff06",
-                "sha256:8ddd78563b633ca55346c8cd41ec0af27d3c79931828beffb46ce70a379e7442"
-            ],
-            "markers": "python_version >= '3.6'",
-            "version": "==0.13.0"
+            "hashes": [],
+            "version": "==0.14.0"
         },
         "idna": {
             "hashes": [],
