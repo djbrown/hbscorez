@@ -418,11 +418,8 @@
             "version": "==2.8.2"
         },
         "python-levenshtein": {
-            "hashes": [
-                "sha256:dc2395fbd148a1ab31090dd113c366695934b9e85fe5a4b2a032745efd0346f6"
-            ],
-            "index": "pypi",
-            "version": "==0.12.2"
+            "hashes": [],
+            "version": "==0.20.5"
         },
         "pytz": {
             "hashes": [
