@@ -40,12 +40,8 @@
             "version": "==0.4"
         },
         "certifi": {
-            "hashes": [
-                "sha256:84c85a9078b11105f04f3036a9482ae10e4621616db313fe045dd24743a0820d",
-                "sha256:fe86415d55e84719d75f8b69414f6438ac3547d2078ab91b67e779ef69378412"
-            ],
-            "markers": "python_version >= '3.6'",
-            "version": "==2022.6.15"
+            "hashes": [],
+            "version": "==2022.9.24"
         },
         "charset-normalizer": {
             "hashes": [
@@ -647,12 +643,8 @@
             "version": "==22.8.0"
         },
         "certifi": {
-            "hashes": [
-                "sha256:84c85a9078b11105f04f3036a9482ae10e4621616db313fe045dd24743a0820d",
-                "sha256:fe86415d55e84719d75f8b69414f6438ac3547d2078ab91b67e779ef69378412"
-            ],
-            "markers": "python_version >= '3.6'",
-            "version": "==2022.6.15"
+            "hashes": [],
+            "version": "==2022.9.24"
         },
         "charset-normalizer": {
             "hashes": [
