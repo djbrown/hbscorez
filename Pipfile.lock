@@ -1042,11 +1042,8 @@
             "version": "==1.0.0"
         },
         "selenium": {
-            "hashes": [
-                "sha256:ca6ed4a58a426bb40bf5aa2b027ce211cc5200f1acdcdfb8258b32b24624150c"
-            ],
-            "index": "pypi",
-            "version": "==4.4.3"
+            "hashes": [],
+            "version": "==4.5.0"
         },
         "setuptools": {
             "hashes": [],
