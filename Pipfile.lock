@@ -1112,12 +1112,8 @@
             "version": "==0.11.5"
         },
         "trio": {
-            "hashes": [
-                "sha256:4dc0bf9d5cc78767fc4516325b6d80cc0968705a31d0eec2ecd7cdda466265b0",
-                "sha256:523f39b7b69eef73501cebfe1aafd400a9aad5b03543a0eded52952488ff1c13"
-            ],
-            "markers": "python_full_version >= '3.7.0'",
-            "version": "==0.21.0"
+            "hashes": [],
+            "version": "==0.22.0"
         },
         "trio-websocket": {
             "hashes": [
