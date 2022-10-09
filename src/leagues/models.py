@@ -46,7 +46,7 @@ class League(models.Model):
     def is_youth(abbreviation: str, name: str) -> bool:
         youth_name_indicators_direct = [
             'Jugend', 'Jgd', 'Mini', 'Jungen', 'Mädchen',
-            'Jongen', 'Meedercher', 'weiblich', 'männlich',
+            'Jongen', 'Meedercher', 'weibl', 'männl',
             'Auswahl', 'Mini']
         youth_names_indicators_two_letters = [
             gender + age_class

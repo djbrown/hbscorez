@@ -9,6 +9,7 @@ YOUTH_LEAGUES = [
     ('wMinis', 'Minispielfeste weibliche Jugend'),
     ('wJC-RHL', 'weibliche Jgd. C - Rheinhessenliga'),
     ('gJE-VRT-V', 'gem. Jugend E VR-Talentiade Kreisvorentscheide'),
+    ('rso-li-mjD', 'RSO-Liga männl.D'),
 ]
 
 NON_YOUTH_LEAGUES = [
