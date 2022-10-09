@@ -187,7 +187,7 @@ def scrape_league(league_link, district, season, options):
         'Kreisvergleichsspiele',
         'pokal', 'Pokal', 'Trophy',
         'Vorbereitung', 'F-FS', 'M-FS', 'Quali',
-        'Freiwurf', 'Maxi', 'turnier', 'wettbewerb',
+        'Freiwurf', 'Maxi', 'turnier', 'Turnier' 'wettbewerb',
         'Test', 'Planung', 'planung',
     ]
 
