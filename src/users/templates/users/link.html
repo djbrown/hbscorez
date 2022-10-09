@@ -75,7 +75,7 @@
     <div class="mb-3">
         <label for="name" class="form-label">Spielername</label>
         <input name="player_name" type="text" id="name" placeholder="Spielername" required
-            class="form-select{% if form.player_name.errors %} is-invalid{% endif %}" {% if form.player_name.value %}
+            class="form-control{% if form.player_name.errors %} is-invalid{% endif %}" {% if form.player_name.value %}
             value="{{ form.player_name.value.strip }}" {% endif %} />
         <div class="invalid-feedback">{{ form.player_name.errors }}</div>
     </div>
