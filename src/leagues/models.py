@@ -64,7 +64,7 @@ class League(models.Model):
         adult_name_indicators = [
             'Männer', 'Frauen', 'Herren', 'Damen',
             'Hären', 'Dammen', 'Senioren', 'Seniorinnen',
-            'Hommes', 'Dames', 'Fraen',
+            'Hommes', 'Dames', 'Fraen', ' F-', ' M-',
             'Inklusion', 'Special Olympics']
         adult_match_strong = any(n in name for n in adult_name_indicators)
 
