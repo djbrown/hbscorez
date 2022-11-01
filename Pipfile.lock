@@ -1027,11 +1027,8 @@
             "version": "==2022.6.0.1"
         },
         "types-pyyaml": {
-            "hashes": [
-                "sha256:29228db9f82df4f1b7febee06bbfb601677882e98a3da98132e31c6874163e15",
-                "sha256:f6f350418125872f3f0409d96a62a5a5ceb45231af5cc07ee0034ec48a3c82fa"
-            ],
-            "version": "==6.0.12"
+            "hashes": [],
+            "version": "==6.0.12.1"
         },
         "types-requests": {
             "hashes": [
