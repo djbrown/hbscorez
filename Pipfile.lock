@@ -983,12 +983,8 @@
             "version": "==0.4.3"
         },
         "stevedore": {
-            "hashes": [
-                "sha256:87e4d27fe96d0d7e4fc24f0cbe3463baae4ec51e81d95fbe60d2474636e0c7d8",
-                "sha256:f82cc99a1ff552310d19c379827c2c64dd9f85a38bcd5559db2470161867b786"
-            ],
-            "markers": "python_version >= '3.8'",
-            "version": "==4.0.0"
+            "hashes": [],
+            "version": "==4.1.0"
         },
         "toml": {
             "hashes": [
