@@ -719,12 +719,8 @@
             "version": "==5.11.0"
         },
         "pip-licenses": {
-            "hashes": [
-                "sha256:5e23593c670b8db616b627c68729482a65bb88498eefd8df337762fdaf7936a8",
-                "sha256:a8b4dabe2b83901f9ac876afc47b57cff9a5ebe19a6d90c0b2579fa8cf2db176"
-            ],
-            "index": "pypi",
-            "version": "==3.5.4"
+            "hashes": [],
+            "version": "==3.5.5"
         },
         "pipenv": {
             "hashes": [
