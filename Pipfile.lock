@@ -289,11 +289,8 @@
             "version": "==0.20.8"
         },
         "pytz": {
-            "hashes": [
-                "sha256:2c0784747071402c6e99f0bafdb7da0fa22645f06554c7ae06bf6358897e9c91",
-                "sha256:48ce799d83b6f8aab2020e369b627446696619e79645419610b9facd909b3174"
-            ],
-            "version": "==2022.4"
+            "hashes": [],
+            "version": "==2022.6"
         },
         "rapidfuzz": {
             "hashes": [
