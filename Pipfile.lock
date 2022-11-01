@@ -59,12 +59,8 @@
             "version": "==3.2.0"
         },
         "distro": {
-            "hashes": [
-                "sha256:151aeccf60c216402932b52e40ee477a939f8d58898927378a02abbe852c1c39",
-                "sha256:d596311d707e692c2160c37807f83e3820c5d539d5a83e87cfb6babd8ba3a06b"
-            ],
-            "markers": "python_version >= '3.6'",
-            "version": "==1.7.0"
+            "hashes": [],
+            "version": "==1.8.0"
         },
         "django": {
             "hashes": [
