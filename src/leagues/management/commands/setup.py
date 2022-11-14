@@ -182,6 +182,11 @@ def scrape_league(league_link, district, season, options):
     dom = parsing.html_dom(html)
     name = parsing.parse_league_name(dom)
 
+    try:
+        name = LeagueName.objects.get(bhv_id=bhv_id).name
+    except LeagueName.DoesNotExist:
+        pass
+
     irrelevant_league_name_indicators = [
         'Platzierungsrunde',
         'Kreisvergleichsspiele',
@@ -204,11 +209,6 @@ def scrape_league(league_link, district, season, options):
     if not game_rows:
         LOGGER.debug('SKIPPING League (no games): %s %s', bhv_id, name)
         return
-
-    try:
-        name = LeagueName.objects.get(bhv_id=bhv_id).name
-    except LeagueName.DoesNotExist:
-        pass
 
     if League.is_youth(abbreviation, name) and not options['youth']:
         LOGGER.debug('SKIPPING League (youth league): %s %s %s', bhv_id, abbreviation, name)
