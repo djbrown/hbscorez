@@ -5,7 +5,7 @@
 [![Docker Image Version (latest semver)](https://img.shields.io/docker/v/djbrown/hbscorez?sort=semver)](https://hub.docker.com/r/djbrown/hbscorez)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=djbrown_hbscorez&metric=alert_status)](https://sonarcloud.io/dashboard?id=djbrown_hbscorez)
 [![Coveralls Coverage Status](https://coveralls.io/repos/github/djbrown/hbscorez/badge.svg)](https://coveralls.io/github/djbrown/hbscorez)
-[![Codecov Coverage Status](https://codecov.io/github/djbrown/hbscorez/coverage.svg)](http://codecov.io/github/djbrown/hbscorez/)
+[![Codecov Coverage Status](https://codecov.io/github/djbrown/hbscorez/coverage.svg)](https://codecov.io/github/djbrown/hbscorez/)
 [![Codacy Quality Status](https://api.codacy.com/project/badge/Grade/aa168e5b5c154b1ba8b891afa0998d9e)](https://www.codacy.com/app/djbrown/hbscorez?utm_source=github.com&utm_medium=referral&utm_content=djbrown/hbscorez&utm_campaign=Badge_Grade)
 [![Codacy Coverage Status](https://app.codacy.com/project/badge/Coverage/aa168e5b5c154b1ba8b891afa0998d9e)](https://www.codacy.com/manual/djbrown/hbscorez/dashboard?utm_source=github.com&utm_medium=referral&utm_content=djbrown/hbscorez&utm_campaign=Badge_Coverage)
 [![Code Climate Maintainability](https://api.codeclimate.com/v1/badges/db7cf3c32bc124e21e8e/maintainability)](https://codeclimate.com/github/djbrown/hbscorez/maintainability)
@@ -66,7 +66,7 @@ Append ` -h` to display command help.
 
 ## License
 
-The project is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
+The project is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
 
 [![FOSSA License Report](https://app.fossa.com/api/projects/custom%2B5488%2Fgithub.com%2Fdjbrown%2Fhbscorez.svg?type=large)](https://app.fossa.com/projects/custom%2B5488%2Fgithub.com%2Fdjbrown%2Fhbscorez?ref=badge_large)
 [![Sauce Labs Browsers](https://saucelabs.com/browser-matrix/dan-brown.svg)](https://saucelabs.com/u/dan-brown)
