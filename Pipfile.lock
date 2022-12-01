@@ -945,12 +945,8 @@
             "version": "==0.6.2"
         },
         "exceptiongroup": {
-            "hashes": [
-                "sha256:a31cd183c3dea02e617aab5153588d5f7258a77b51f0ef41b3815ae8a0d0f695",
-                "sha256:c22f11ec6a10d2b453871c5c5fe887436c4d1961324ce9090f2ca6ddc4180c27"
-            ],
-            "markers": "python_version < '3.11'",
-            "version": "==1.0.2"
+            "hashes": [],
+            "version": "==1.0.4"
         },
         "filelock": {
             "hashes": [
