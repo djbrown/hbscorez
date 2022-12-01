@@ -961,12 +961,8 @@
             "version": "==6.0.0"
         },
         "gitdb": {
-            "hashes": [
-                "sha256:8033ad4e853066ba6ca92050b9df2f89301b8fc8bf7e9324d412a63f8bf1a8fd",
-                "sha256:bac2fd45c0a1c9cf619e63a90d62bdc63892ef92387424b855792a6cabe789aa"
-            ],
-            "markers": "python_version >= '3.6'",
-            "version": "==4.0.9"
+            "hashes": [],
+            "version": "==4.0.10"
         },
         "gitpython": {
             "hashes": [
