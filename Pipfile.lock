@@ -1140,12 +1140,8 @@
             "version": "==3.0.21"
         },
         "pycodestyle": {
-            "hashes": [
-                "sha256:2c9607871d58c76354b697b42f5d57e1ada7d261c261efac224b664affdc5785",
-                "sha256:d1735fc58b418fd7c5f658d28d943854f8a849b01a5d0a1e6f3f3fdd0166804b"
-            ],
-            "markers": "python_version >= '3.6'",
-            "version": "==2.9.1"
+            "hashes": [],
+            "version": "==2.10.0"
         },
         "pydocstyle": {
             "hashes": [
