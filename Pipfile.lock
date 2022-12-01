@@ -957,12 +957,8 @@
             "version": "==3.8.0"
         },
         "flake8": {
-            "hashes": [
-                "sha256:6fbe320aad8d6b95cec8b8e47bc933004678dc63095be98528b7bdd2a9f510db",
-                "sha256:7a1cf6b73744f5806ab95e526f6f0d8c01c66d7bbe349562d22dfca20610b248"
-            ],
-            "index": "pypi",
-            "version": "==5.0.4"
+            "hashes": [],
+            "version": "==6.0.0"
         },
         "gitdb": {
             "hashes": [
