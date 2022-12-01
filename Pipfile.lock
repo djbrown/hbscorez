@@ -1286,12 +1286,8 @@
             "version": "==2.28.1"
         },
         "rope": {
-            "hashes": [
-                "sha256:27c122389fa5cdffa00c24aa6c63704e0933650dbc7d4d4002537947d6cfb7b7",
-                "sha256:7d5a34235ff4a242b71f249b5617a9c54112e145ba4701a41e2f4f96942e5899"
-            ],
-            "index": "pypi",
-            "version": "==1.4.0"
+            "hashes": [],
+            "version": "==1.5.1"
         },
         "sauceclient": {
             "hashes": [
