@@ -1132,12 +1132,8 @@
             "version": "==3.5.0"
         },
         "prompt-toolkit": {
-            "hashes": [
-                "sha256:24becda58d49ceac4dc26232eb179ef2b21f133fecda7eed6018d341766ed76e",
-                "sha256:e7f2129cba4ff3b3656bbdda0e74ee00d2f874a8bcdb9dd16f5fec7b3e173cae"
-            ],
-            "markers": "python_full_version >= '3.6.2'",
-            "version": "==3.0.32"
+            "hashes": [],
+            "version": "==3.0.33"
         },
         "ptpython": {
             "hashes": [
