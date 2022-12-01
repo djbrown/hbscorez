@@ -691,12 +691,8 @@
             "version": "==0.4.3"
         },
         "tabula-py": {
-            "hashes": [
-                "sha256:0f03c0e591ed21d5f45d80351714c6727a447ff6dc0b3adfe723a92d4c7d74ef",
-                "sha256:d6dc3f6e1d420df98d2952e90709c6fff65eb28418e7a17d7e5df4b7dd86d197"
-            ],
-            "index": "pypi",
-            "version": "==2.5.1"
+            "hashes": [],
+            "version": "==2.6.0"
         },
         "typing-extensions": {
             "hashes": [
