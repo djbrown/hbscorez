@@ -1136,12 +1136,8 @@
             "version": "==3.0.33"
         },
         "ptpython": {
-            "hashes": [
-                "sha256:99636899ab0e4d026e2ecc9368269114f387b4bb5411e57f072b0bde724d9f99",
-                "sha256:eafd4ced27ca5dc370881d4358d1ab5041b32d88d31af8e3c24167fe4af64ed6"
-            ],
-            "index": "pypi",
-            "version": "==3.0.20"
+            "hashes": [],
+            "version": "==3.0.21"
         },
         "pycodestyle": {
             "hashes": [
