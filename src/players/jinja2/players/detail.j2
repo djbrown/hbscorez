@@ -61,9 +61,13 @@
                     <td>{{ score.penalty_goals or 0 }}</td>
                     <td>{{ score.goals - score.penalty_goals }}</td>
                     <td>
+                        {% if score.game.report_source_url() %}
                         <a href="{{ score.game.report_source_url() }}">
                             <span class="fas fa-link" title="Datenquelle"></span>
                         </a>
+                        {% else %}
+                        -
+                        {% endif %}
                     </td>
                 </tr>
             {% endfor %}
