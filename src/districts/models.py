@@ -19,9 +19,9 @@ class District(models.Model):
         return reverse('districts:detail', kwargs={'bhv_id': self.bhv_id})
 
     @staticmethod
-    def build_source_url(bhv_id, date: datetime.date = None):
+    def build_source_url(bhv_id, date: datetime.date | None = None):
         date_suffix = f'&do={date}' if date else ''
         return f'{settings.ROOT_SOURCE_URL}Spielbetrieb/index.php?orgGrpID=1&orgID={bhv_id}{date_suffix}'
 
-    def source_url(self, date: datetime.date = None):
+    def source_url(self, date: datetime.date | None = None):
         return self.build_source_url(self.bhv_id, date)
