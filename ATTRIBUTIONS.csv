@@ -75,7 +75,6 @@
 "pylint","2.15.8","GNU General Public License v2 (GPLv2)","UNKNOWN","UNKNOWN"
 "pylint-django","2.5.3","UNKNOWN","landscape.io","https://github.com/PyCQA/pylint-django"
 "pylint-plugin-utils","0.7","UNKNOWN","Python Code Quality Authority","https://github.com/PyCQA/pylint-plugin-utils"
-"pyparsing","3.0.9","MIT License","UNKNOWN","UNKNOWN"
 "pytest","7.2.0","MIT License","Holger Krekel, Bruno Oliveira, Ronny Pfannschmidt, Floris Bruynooghe, Brianna Laugher, Florian Bruhin and others","https://docs.pytest.org/en/latest/"
 "pytest-django","4.5.2","BSD License","Andreas Pelme","https://pytest-django.readthedocs.io/"
 "python-Levenshtein","0.20.8","GNU General Public License v2 or later (GPLv2+)","Max Bachmann","https://github.com/maxbachmann/python-Levenshtein"
