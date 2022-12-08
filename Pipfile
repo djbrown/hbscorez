@@ -28,7 +28,7 @@ codacy-coverage = "*"
 codecov = "*"
 coverage = "*"
 coveralls = "*"
-django-stubs = {git = "https://github.com/typeddjango/django-stubs.git", editable = true}
+django-stubs = "*"
 dparse = {version = "*",extras = ["pipenv"]}
 flake8 = "*"
 mypy = "*"

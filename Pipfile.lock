@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "e55eec83f717948de6ed404d86afd0837d34e93ea3d7789b82f3020eb332411a"
+            "sha256": "73b903cb175098e8bde3eeea60fbae51f39db536f8cb1853c406c53579e6ae12"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -1002,13 +1002,12 @@
             "version": "==4.1.4"
         },
         "django-stubs": {
-            "editable": true,
-            "git": "https://github.com/typeddjango/django-stubs.git",
             "hashes": [
-                "sha256:424fdd1935f859a802365056f9ccf4db12d1d93a5ab3de6d5633dddba0c5fc76",
-                "sha256:eaecc1fc71532c1148f0c9687556651d880165476d7629bf318ff86a903a150c"
+                "sha256:bcc618ba353dabc540d982b9dac1d5a1921652f8fc2a13653d545a57d5e3cc0f",
+                "sha256:fbf2ee6a4bce76c3eb5f6707ccadb4cf1c2f1ec485e8c44701ca8de2d0a5df18"
             ],
-            "ref": "b8a1dae68bd2cc2eb3d86b92173895058f384a29"
+            "index": "pypi",
+            "version": "==1.13.1"
         },
         "django-stubs-ext": {
             "hashes": [
@@ -1209,11 +1208,11 @@
         },
         "packaging": {
             "hashes": [
-                "sha256:dd47c42927d89ab911e606518907cc2d3a1f38bbd026385970643f9c5b8ecfeb",
-                "sha256:ef103e05f519cdc783ae24ea4e2e0f508a9c99b2d4969652eed6a2e1ea5bd522"
+                "sha256:2198ec20bd4c017b8f9717e00f0c8714076fc2fd93816750ab48e2c41de2cfd3",
+                "sha256:957e2148ba0e1a3b282772e791ef1d8083648bc131c8ab0c1feba110ce1146c3"
             ],
-            "markers": "python_version >= '3.6'",
-            "version": "==21.3"
+            "markers": "python_version >= '3.7'",
+            "version": "==22.0"
         },
         "parso": {
             "hashes": [
@@ -1357,14 +1356,6 @@
             ],
             "markers": "python_full_version >= '3.6.2'",
             "version": "==0.7"
-        },
-        "pyparsing": {
-            "hashes": [
-                "sha256:2b020ecf7d21b687f219b71ecad3631f644a47f01403fa1d1036b0c6416d70fb",
-                "sha256:5026bae9a10eeaefb61dab2f09052b9f4307d44aee4eda64b309723d8d206bbc"
-            ],
-            "markers": "python_full_version >= '3.6.8'",
-            "version": "==3.0.9"
         },
         "pysocks": {
             "hashes": [
