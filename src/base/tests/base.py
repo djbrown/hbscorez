@@ -1,6 +1,7 @@
 import os
 import sys
 from contextlib import contextmanager
+from typing import Type
 
 import pytest
 from django.conf import settings
@@ -95,12 +96,11 @@ def skip_unless_any_tag(*tags):
 
 class ModelTestCase(TestCase):
 
-    def assert_objects(self, model: Model, count=1, filters=None) -> Model | QuerySet[Model]:
+    def assert_objects(self, model: Type[Model], count=1, filters=None) -> Model | QuerySet[Model]:
         if filters is None:
             filters = {}
 
-        objects = model.objects.filter(**filters)  # type: ignore[attr-defined]
-        # see https://github.com/typeddjango/django-stubs/issues/1285
+        objects = model.objects.filter(**filters)
         self.assertEqual(len(objects), count)
         return objects[0] if count == 1 else objects
 
