@@ -99,7 +99,7 @@ class ModelTestCase(TestCase):
         if filters is None:
             filters = {}
 
-        objects = model.objects.filter(**filters) # type: ignore[attr-defined]
+        objects = model.objects.filter(**filters)  # type: ignore[attr-defined]
         # see https://github.com/typeddjango/django-stubs/issues/1285
         self.assertEqual(len(objects), count)
         return objects[0] if count == 1 else objects
@@ -185,11 +185,11 @@ class SeleniumTestCase(StaticLiveServerTestCase):
 
     def navigate(self, view_name: str, *args, **kwargs):
         path = reverse(view_name, args=args, kwargs=kwargs)
-        self.driver.get(self.live_server_url + path) # type: ignore[arg-type]
+        self.driver.get(self.live_server_url + path)  # type: ignore[arg-type]
         # see https://github.com/typeddjango/django-stubs/issues/1285
 
     def assert_view(self, view_name: str):
-        path: str = self.driver.current_url.replace(self.live_server_url, '') # type: ignore[arg-type]
+        path: str = self.driver.current_url.replace(self.live_server_url, '')  # type: ignore[arg-type]
         # see https://github.com/typeddjango/django-stubs/issues/1285
         resolved: ResolverMatch = resolve(path)
         self.assertEqual(resolved.view_name, view_name)
