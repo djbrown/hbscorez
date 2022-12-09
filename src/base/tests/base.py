@@ -185,12 +185,10 @@ class SeleniumTestCase(StaticLiveServerTestCase):
 
     def navigate(self, view_name: str, *args, **kwargs):
         path = reverse(view_name, args=args, kwargs=kwargs)
-        self.driver.get(self.live_server_url + path)  # type: ignore[arg-type]
-        # see https://github.com/typeddjango/django-stubs/issues/1285
+        self.driver.get(self.live_server_url + path)
 
     def assert_view(self, view_name: str):
-        path: str = self.driver.current_url.replace(self.live_server_url, '')  # type: ignore[arg-type]
-        # see https://github.com/typeddjango/django-stubs/issues/1285
+        path: str = self.driver.current_url.replace(self.live_server_url, '')
         resolved: ResolverMatch = resolve(path)
         self.assertEqual(resolved.view_name, view_name)
 

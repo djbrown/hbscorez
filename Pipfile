@@ -8,7 +8,7 @@ captcha = "*"
 Django = "*"
 django-axes = "*"
 django-registration = "*"
-django-contact-form = {version = "*",extras = ["akismet"]}
+django-contact-form = {version = "*", extras = ["akismet"]}
 fuzzywuzzy = "*"
 icalendar = "*"
 Jinja2 = "*"
@@ -28,8 +28,8 @@ codacy-coverage = "*"
 codecov = "*"
 coverage = "*"
 coveralls = "*"
-django-stubs = "*"
-dparse = {version = "*",extras = ["pipenv"]}
+django-stubs = {git = "https://github.com/typeddjango/django-stubs.git@16fde01583fafd496c8f3c7587a7630925e191de"} # todo: wait for 1.13.2
+dparse = {version = "*", extras = ["pipenv"]}
 flake8 = "*"
 mypy = "*"
 pip-licenses = "*"
