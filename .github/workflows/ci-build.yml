@@ -13,16 +13,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Set up Python
-        uses: actions/setup-python@v2.2.2
+        uses: actions/setup-python@v4
         with:
           python-version: "3.10"
       - name: Install Pipenv
         run: python -m pip install --upgrade pipenv
       - name: Checkout Repository
-        uses: actions/checkout@v2.3.5
+        uses: actions/checkout@v3
       - name: Cache Pipenv
         id: cache-pipenv
-        uses: actions/cache@v2.1.6
+        uses: actions/cache@v3
         with:
           path: ~/.local/share/virtualenvs
           key: pipenv-${{ hashFiles('Pipfile.lock') }}
@@ -39,7 +39,7 @@ jobs:
       - name: Generate coverage report
         run: pipenv run coverage xml
       - name: Upload coverage report
-        uses: actions/upload-artifact@v2.2.4
+        uses: actions/upload-artifact@v3
         with:
           name: coverage report
           path: coverage.xml
@@ -47,7 +47,7 @@ jobs:
       - name: Generate attributions report
         run: pipenv run attributions > attributions.csv
       - name: Upload attributions report
-        uses: actions/upload-artifact@v2.2.4
+        uses: actions/upload-artifact@v3
         with:
           name: attributions report
           path: attributions.csv
@@ -68,10 +68,10 @@ jobs:
     needs: main
     steps:
       - name: Download coverage report
-        uses: actions/download-artifact@v2.0.10
+        uses: actions/download-artifact@v3
         with:
           name: coverage report
-      - uses: codacy/codacy-coverage-reporter-action@v1.1.0
+      - uses: codacy/codacy-coverage-reporter-action@v1
         with:
           project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
           coverage-reports: coverage.xml
@@ -81,12 +81,12 @@ jobs:
     needs: main
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v2.3.5
+        uses: actions/checkout@v3
       - name: Download coverage report
-        uses: actions/download-artifact@v2.0.10
+        uses: actions/download-artifact@v3
         with:
           name: coverage report
-      - uses: paambaati/codeclimate-action@v3.0.0
+      - uses: paambaati/codeclimate-action@v3
         env:
           CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
 
@@ -95,19 +95,19 @@ jobs:
     needs: main
     steps:
       - name: Download coverage report
-        uses: actions/download-artifact@v2.0.10
+        uses: actions/download-artifact@v3
         with:
           name: coverage report
-      - uses: codecov/codecov-action@v2.1.0
+      - uses: codecov/codecov-action@v3
 
   attributions:
     runs-on: ubuntu-latest
     needs: main
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v2.3.5
+        uses: actions/checkout@v3
       - name: Download attributions report
-        uses: actions/download-artifact@v2.0.10
+        uses: actions/download-artifact@v3
         with:
           name: attributions report
       - name: Check attributions report
@@ -117,7 +117,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v2.3.5
+        uses: actions/checkout@v3
       - name: "Run FOSSA Scan"
         uses: fossas/fossa-action@v1
         with:
@@ -133,10 +133,10 @@ jobs:
     steps:
       - name: Set up Docker Buildx
         id: buildx
-        uses: docker/setup-buildx-action@v1
+        uses: docker/setup-buildx-action@v2
 
       - name: Cache Docker layers
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: /tmp/.buildx-cache
           key: buildx-${{ github.sha }}
@@ -144,14 +144,14 @@ jobs:
             buildx-
 
       - name: Login to Docker Hub
-        uses: docker/login-action@v1
+        uses: docker/login-action@v2
         with:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
 
       - name: Build and push
         id: docker_build
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@v5
         with:
           push: true
           tags: djbrown/hbscorez:latest
