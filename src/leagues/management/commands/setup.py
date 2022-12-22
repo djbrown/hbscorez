@@ -51,10 +51,10 @@ class Command(BaseCommand):
 
 
 def scrape_associations(options):
-    root_url = settings.NEW_ROOT_SOURCE_URL
-    root_html = http.get_text(root_url)
-    root_dom = parsing.html_dom(root_html)
-    association_urls = parsing.parse_association_urls(root_dom, root_url)
+    start_url = settings.NEW_ROOT_SOURCE_URL + "home/portal/"
+    start_html = http.get_text(start_url)
+    start_dom = parsing.html_dom(start_html)
+    association_urls = parsing.parse_association_urls(start_dom, settings.NEW_ROOT_SOURCE_URL)
 
     for association_url in association_urls:
         association_html = http.get_text(association_url)
