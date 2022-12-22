@@ -86,7 +86,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: coverage report
-      - uses: paambaati/codeclimate-action@v3
+      - uses: paambaati/codeclimate-action@v3.2.0  # see https://github.com/paambaati/codeclimate-action/issues/638
         env:
           CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
 
