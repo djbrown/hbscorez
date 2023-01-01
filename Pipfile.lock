@@ -1097,12 +1097,8 @@
             "version": "==3.0.1"
         },
         "pygments": {
-            "hashes": [
-                "sha256:56a8508ae95f98e2b9bdf93a6be5ae3f7d8af858b43e02c5a2ff083726be40c1",
-                "sha256:f643f331ab57ba3c9d89212ee4a2dabc6e94f117cf4eefde99a0574720d14c42"
-            ],
-            "markers": "python_version >= '3.6'",
-            "version": "==2.13.0"
+            "hashes": [],
+            "version": "==2.14.0"
         },
         "pylama": {
             "hashes": [
