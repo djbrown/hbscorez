@@ -119,12 +119,8 @@
             "version": "==0.18.0"
         },
         "icalendar": {
-            "hashes": [
-                "sha256:1cdcd27307e55db25bd7f99924b7a31c6b2d123228e7dae6723974a4a1d60258",
-                "sha256:ca60810598681cb239fc3190202e01a3305e4f0389576273892dda31249f25e4"
-            ],
-            "index": "pypi",
-            "version": "==5.0.3"
+            "hashes": [],
+            "version": "==5.0.4"
         },
         "idna": {
             "hashes": [
