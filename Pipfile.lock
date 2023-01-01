@@ -480,12 +480,8 @@
             "version": "==2.8.2"
         },
         "python-levenshtein": {
-            "hashes": [
-                "sha256:a932f149c72d2707963947ba9df9729ac36983d2e9db4eb93e4d5b69a8899070",
-                "sha256:c2d68fc480394ef87e20097d9c1605ae101340f0a8060c518eacd2e634b190f8"
-            ],
-            "index": "pypi",
-            "version": "==0.20.8"
+            "hashes": [],
+            "version": "==0.20.9"
         },
         "pytz": {
             "hashes": [
