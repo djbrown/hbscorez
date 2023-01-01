@@ -835,12 +835,8 @@
             "version": "==1.1.0"
         },
         "filelock": {
-            "hashes": [
-                "sha256:7565f628ea56bfcd8e54e42bdc55da899c85c1abfe1b5bcfd147e9188cebb3b2",
-                "sha256:8df285554452285f79c035efb0c861eb33a4bcfa5b7a137016e32e6a90f9792c"
-            ],
-            "markers": "python_version >= '3.7'",
-            "version": "==3.8.2"
+            "hashes": [],
+            "version": "==3.9.0"
         },
         "flake8": {
             "hashes": [
