@@ -34,8 +34,7 @@ def parse_association_bhv_id(link):
 
 
 def parse_association_name(dom):
-    heading = dom.xpath('//*[@id="results"]/div/h1/text()[2]')[0]
-    return heading.rsplit(' - ', 1)[0]
+    return dom.xpath('//*[@id="results"]/div/h1/text()[2]')[0]
 
 
 def parse_district_items(dom):
