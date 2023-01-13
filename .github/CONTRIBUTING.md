@@ -62,13 +62,13 @@ Also make sure to check messages from the following commands before proposing:
 #### Unit Tests
 
 - are isolated and do not connect to running components or external systems
-- are defined in the `tests` subpackage of the related app
+- are defined in the `tests.unit` subpackage of the related app
 - are defined in test cases that subclass `django.test.TestCase`
 - are run collectively via `pipenv run hbunittest`
 
 ##### Model Tests
 
-- are like Unit Tests, but do connect to the local database
+- are Unit Tests, that connect to the local database
 - are defined in test cases that subclass `base.tests.base.ModelTestCase`
 
 #### Integration Tests
