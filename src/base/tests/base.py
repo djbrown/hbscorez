@@ -137,15 +137,15 @@ _SAUCE_USER = os.environ.get("SAUCE_USERNAME")
 _SAUCE_KEY = os.environ.get("SAUCE_ACCESS_KEY")
 
 
-@pytest.mark.selenium
+@pytest.mark.browser
 @pytest.mark.slow
-@skip_unless_any_tag('selenium', 'slow')
-class SeleniumTestCase(StaticLiveServerTestCase):
+@skip_unless_any_tag('browser', 'slow')
+class BrowserTestCase(StaticLiveServerTestCase):
 
     port = 8001
     server_thread_class = LiveServerThreadWithReuse
 
-    """Selenium test cases are only run in CI or if configured explicitly"""
+    """Browser test cases are only run in CI or if configured explicitly"""
 
     def setUp(self):
         if _CI:
@@ -199,7 +199,7 @@ class SeleniumTestCase(StaticLiveServerTestCase):
         WebDriverWait(self.driver, timeout).until(staleness_of(page))
 
     @contextmanager
-    def wait(self, timeout=settings.SELENIUM_TIMEOUT):
+    def wait(self, timeout=settings.BROWSER_TIMEOUT):
         condition = _UrlHasChanged(self.driver.current_url)
         yield
         WebDriverWait(self.driver, timeout).until(condition)

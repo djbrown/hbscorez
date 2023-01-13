@@ -213,4 +213,4 @@ ROOT_SOURCE_URL = 'https://spo.handball4all.de/'
 
 NEW_ROOT_SOURCE_URL = 'https://www.handball4all.de/'
 
-SELENIUM_TIMEOUT = 3
+BROWSER_TIMEOUT = 3

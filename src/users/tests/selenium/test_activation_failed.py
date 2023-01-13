@@ -4,12 +4,12 @@ from django.contrib.auth.models import User
 from django.core import mail
 from selenium.webdriver.common.by import By
 
-from base.tests.base import SeleniumTestCase
+from base.tests.base import BrowserTestCase
 
 from .test_registration import registration
 
 
-class TestActivationFailed(SeleniumTestCase):
+class TestActivationFailed(BrowserTestCase):
     def test_invalid_key(self):
         self.navigate('django_registration_activate', activation_key='x')
         alert = self.driver.find_element(By.CLASS_NAME, 'alert')

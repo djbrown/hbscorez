@@ -3,10 +3,10 @@ from django.core import mail
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webelement import WebElement
 
-from base.tests.base import SeleniumTestCase
+from base.tests.base import BrowserTestCase
 
 
-class TestPasswordReset(SeleniumTestCase):
+class TestPasswordReset(BrowserTestCase):
     def test_password_reset(self):
         self.assertEqual(mail.outbox, [])
 

@@ -78,15 +78,16 @@ Also make sure to check messages from the following commands before proposing:
 - are defined in test cases that subclass `base.tests.base.IntegrationTestCase`
 - are run collectively via `pipenv run hbintegrationtest`
 
-#### Selenium Tests
+#### Browser Tests
 
 - are user centric and focus a single feature or functionality
-- are defined in the `tests.selenium` subpackage of the related app
-- are defined in test cases that subclass `base.tests.base.SeleniumTestCase`
-- are run collectively via `pipenv run hbseleniumtest`
+- are implemented with [Selenium](https://www.selenium.dev/)
+- are defined in the `tests.browser` subpackage of the related app
+- are defined in test cases that subclass `base.tests.base.BrowserTestCase`
+- are run collectively via `pipenv run hbbrowsertest`
   - install [Firefox](https://www.mozilla.org/firefox/) and add to PATH
   - install [geckodriver](https://github.com/mozilla/geckodriver) and add to PATH
-  - set Django setting `SELENIUM_TIMEOUT` according to the local processing and network power
+  - set Django setting `BROWSER_TIMEOUT` according to the processing and network power of the browser platform
 
 ### Coverage
 

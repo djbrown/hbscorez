@@ -1,15 +1,15 @@
 from selenium.webdriver.common.by import By
 
-from base.tests.base import SeleniumTestCase
+from base.tests.base import BrowserTestCase
 
 
-class TestSelenium(SeleniumTestCase):
+class TestSelenium(BrowserTestCase):
 
     def test_internet_connection(self):
         self.driver.get('https://saucelabs.com/test/guinea-pig')
         self.assertEqual('I am a page title - Sauce Labs', self.driver.title)
         body = self.driver.find_element(By.CSS_SELECTOR, 'body')
-        self.assertIn('This page is a Selenium sandbox', body.text)
+        self.assertIn('This page is a testing sandbox', body.text)
 
     def test_body_exists(self):
         driver = self.driver

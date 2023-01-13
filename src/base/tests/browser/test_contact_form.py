@@ -2,13 +2,13 @@ from django.core import mail
 from django.test.utils import override_settings
 from selenium.webdriver.common.by import By
 
-from base.tests.base import SeleniumTestCase
+from base.tests.base import BrowserTestCase
 
 CAPTCHA = 'test'
 
 
 @override_settings(CAPTCHA=CAPTCHA)
-class ContactFormTest(SeleniumTestCase):
+class ContactFormTest(BrowserTestCase):
 
     def test_contact_form(self):
         self.assertEqual(mail.outbox, [])

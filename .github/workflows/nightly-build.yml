@@ -32,8 +32,8 @@ jobs:
           accessKey: ${{ secrets.SAUCE_ACCESS_KEY }}
           tunnelIdentifier: nightly-build-${{ github.run_number }}
 
-      - name: Run selenium tests
-        run: pipenv run hbseleniumtest
+      - name: Run browser tests
+        run: pipenv run hbbrowsertest
         env:
           SAUCE_BUILD_NAME: nightly-build-${{ github.run_number }}
           SAUCE_TUNNEL_IDENTIFIER: nightly-build-${{ github.run_number }}

@@ -1,10 +1,10 @@
 from django.contrib.auth.models import User
 from selenium.webdriver.common.by import By
 
-from base.tests.base import SeleniumTestCase
+from base.tests.base import BrowserTestCase
 
 
-class TestPasswordChange(SeleniumTestCase):
+class TestPasswordChange(BrowserTestCase):
     def test_password_change(self):
         username = 'john'
         usermail = 'lennon@thebeatles.com'

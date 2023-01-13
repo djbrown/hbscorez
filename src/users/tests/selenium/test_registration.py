@@ -3,12 +3,12 @@ from django.core import mail
 from django.test.utils import override_settings
 from selenium.webdriver.common.by import By
 
-from base.tests.base import SeleniumTestCase
+from base.tests.base import BrowserTestCase
 
 CAPTCHA = 'test'
 
 
-class TestRegistration(SeleniumTestCase):
+class TestRegistration(BrowserTestCase):
     def test_registration(self):
         registration(self=self)
 
