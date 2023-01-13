@@ -2,7 +2,7 @@
 
 [![CI Build](https://github.com/djbrown/hbscorez/actions/workflows/ci-build.yml/badge.svg)](https://github.com/djbrown/hbscorez/actions/workflows/ci-build.yml)
 [![Nightly Build](https://github.com/djbrown/hbscorez/actions/workflows/nightly-build.yml/badge.svg)](https://github.com/djbrown/hbscorez/actions/workflows/nightly-build.yml)
-[![Docker Image Version (latest semver)](https://img.shields.io/docker/v/djbrown/hbscorez?sort=semver)](https://hub.docker.com/r/djbrown/hbscorez)
+[![Docker Image Version (latest semver)](https://img.shields.io/docker/v/djbrown/hbscorez?label=image&sort=semver)](https://hub.docker.com/r/djbrown/hbscorez)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=djbrown_hbscorez&metric=alert_status)](https://sonarcloud.io/dashboard?id=djbrown_hbscorez)
 [![Coveralls Coverage Status](https://coveralls.io/repos/github/djbrown/hbscorez/badge.svg)](https://coveralls.io/github/djbrown/hbscorez)
 [![Codecov Coverage Status](https://codecov.io/github/djbrown/hbscorez/coverage.svg)](https://codecov.io/github/djbrown/hbscorez/)
