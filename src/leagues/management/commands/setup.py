@@ -15,8 +15,6 @@ from teams.models import Team
 
 LOGGER = logging.getLogger('hbscorez')
 
-BUGGED_LEAGUES = [80136, 68361]
-
 
 def add_default_arguments(parser):
     parser.add_argument('--associations', '-a', nargs='+', type=int, metavar='orgGrpID',
@@ -164,10 +162,6 @@ def scrape_season(district, start_year, options):
 def scrape_league(league_link, district, season, options):
     abbreviation = league_link.text
     bhv_id = parsing.parse_league_bhv_id(league_link)
-
-    if bhv_id in BUGGED_LEAGUES:
-        LOGGER.debug('SKIPPING League (ignore list): %s %s', bhv_id, abbreviation)
-        return
 
     if options['leagues'] and bhv_id not in options['leagues']:
         LOGGER.debug('SKIPPING League (options): %s %s', bhv_id, abbreviation)
