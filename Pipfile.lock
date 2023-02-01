@@ -1453,12 +1453,8 @@
             "version": "==8.4.1"
         },
         "pylint": {
-            "hashes": [
-                "sha256:9df0d07e8948a1c3ffa3b6e2d7e6e63d9fb457c5da5b961ed63106594780cc7e",
-                "sha256:b3dc5ef7d33858f297ac0d06cc73862f01e4f2e74025ec3eff347ce0bc60baf5"
-            ],
-            "index": "pypi",
-            "version": "==2.15.10"
+            "hashes": [],
+            "version": "==2.16.0"
         },
         "pylint-django": {
             "hashes": [
