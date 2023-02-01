@@ -1570,12 +1570,8 @@
             "version": "==1.0.0"
         },
         "selenium": {
-            "hashes": [
-                "sha256:06a1c7d9f313130b21c3218ddd8852070d0e7419afdd31f96160cd576555a5ce",
-                "sha256:3aefa14a28a42e520550c1cd0f29cf1d566328186ea63aa9a3e01fb265b5894d"
-            ],
-            "index": "pypi",
-            "version": "==4.7.2"
+            "hashes": [],
+            "version": "==4.8.0"
         },
         "setuptools": {
             "hashes": [],
