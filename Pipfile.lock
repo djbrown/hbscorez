@@ -879,12 +879,8 @@
             "version": "==3.6.0"
         },
         "astroid": {
-            "hashes": [
-                "sha256:23c718921acab5f08cbbbe9293967f1f8fec40c336d19cd75dc12a9ea31d2eb2",
-                "sha256:bd1aa4f9915c98e8aaebcd4e71930154d4e8c9aaf05d35ac0a63d1956091ae3f"
-            ],
-            "markers": "python_full_version >= '3.7.2'",
-            "version": "==2.14.1"
+            "hashes": [],
+            "version": "==2.14.2"
         },
         "async-generator": {
             "hashes": [
