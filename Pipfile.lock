@@ -1638,12 +1638,8 @@
             "version": "==1.26.14"
         },
         "virtualenv": {
-            "hashes": [
-                "sha256:ce3b1684d6e1a20a3e5ed36795a97dfc6af29bc3970ca8dab93e11ac6094b3c4",
-                "sha256:f8b927684efc6f1cc206c9db297a570ab9ad0e51c16fa9e45487d36d1905c058"
-            ],
-            "markers": "python_version >= '3.6'",
-            "version": "==20.17.1"
+            "hashes": [],
+            "version": "==20.20.0"
         },
         "virtualenv-clone": {
             "hashes": [
