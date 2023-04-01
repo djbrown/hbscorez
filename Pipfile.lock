@@ -628,12 +628,8 @@
             "version": "==22.2.0"
         },
         "autopep8": {
-            "hashes": [
-                "sha256:be5bc98c33515b67475420b7b1feafc8d32c1a69862498eda4983b45bffd2687",
-                "sha256:d27a8929d8dcd21c0f4b3859d2d07c6c25273727b98afc984c039df0f0d86566"
-            ],
-            "index": "pypi",
-            "version": "==2.0.1"
+            "hashes": [],
+            "version": "==2.0.2"
         },
         "bandit": {
             "hashes": [
