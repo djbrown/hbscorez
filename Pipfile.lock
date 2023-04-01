@@ -1182,11 +1182,8 @@
             "version": "==0.10.2"
         },
         "types-pytz": {
-            "hashes": [
-                "sha256:10ec7d009a02340f1cecd654ac03f0c29b6088a03b63d164401fc52df45936b2",
-                "sha256:918f9c3e7a950ba7e7d6f84b18a7cacabc8886cb7125fb1927ff1c752b4b59de"
-            ],
-            "version": "==2022.7.1.0"
+            "hashes": [],
+            "version": "==2023.3.0.0"
         },
         "types-pyyaml": {
             "hashes": [
