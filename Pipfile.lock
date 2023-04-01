@@ -712,12 +712,8 @@
             "version": "==1.16.0"
         },
         "django-stubs-ext": {
-            "hashes": [
-                "sha256:4fd8cdbc68d1a421f21bb7e0d9e76d50f6a4b504d350ba786405daf536e90c21",
-                "sha256:d729fbc7fe8970a7e26b35956c35b48502516f011d523c0577bdfb02ed956284"
-            ],
-            "markers": "python_version >= '3.7'",
-            "version": "==0.7.0"
+            "hashes": [],
+            "version": "==0.8.0"
         },
         "docopt": {
             "hashes": [
