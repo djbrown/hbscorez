@@ -583,12 +583,8 @@
             "version": "==2.7.0"
         },
         "typing-extensions": {
-            "hashes": [
-                "sha256:1511434bb92bf8dd198c12b1cc812e800d4181cfcb867674e0f8279cc93087aa",
-                "sha256:16fa4864408f655d35ec496218b85f79b3437c829e93320c7c9215ccfd92489e"
-            ],
-            "markers": "python_version >= '3.7'",
-            "version": "==4.4.0"
+            "hashes": [],
+            "version": "==4.5.0"
         },
         "urllib3": {
             "hashes": [
@@ -1412,12 +1408,8 @@
             "version": "==1.26.25.4"
         },
         "typing-extensions": {
-            "hashes": [
-                "sha256:1511434bb92bf8dd198c12b1cc812e800d4181cfcb867674e0f8279cc93087aa",
-                "sha256:16fa4864408f655d35ec496218b85f79b3437c829e93320c7c9215ccfd92489e"
-            ],
-            "markers": "python_version >= '3.7'",
-            "version": "==4.4.0"
+            "hashes": [],
+            "version": "==4.5.0"
         },
         "urllib3": {
             "hashes": [
