@@ -91,12 +91,8 @@
             "version": "==2.0.1"
         },
         "django-ipware": {
-            "hashes": [
-                "sha256:602a58325a4808bd19197fef2676a0b2da2df40d0ecf21be414b2ff48c72ad05",
-                "sha256:878dbb06a87e25550798e9ef3204ed70a200dd8b15e47dcef848cf08244f04c9"
-            ],
-            "markers": "python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3, 3.4, 3.5'",
-            "version": "==4.0.2"
+            "hashes": [],
+            "version": "==5.0.0"
         },
         "django-registration": {
             "hashes": [
