@@ -632,12 +632,8 @@
             "version": "==2.0.2"
         },
         "bandit": {
-            "hashes": [
-                "sha256:2d63a8c573417bae338962d4b9b06fbc6080f74ecd955a092849e1e65c717bd2",
-                "sha256:412d3f259dab4077d0e7f0c11f50f650cc7d10db905d98f6520a95a18049658a"
-            ],
-            "index": "pypi",
-            "version": "==1.7.4"
+            "hashes": [],
+            "version": "==1.7.5"
         },
         "black": {
             "hashes": [
