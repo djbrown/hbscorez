@@ -1,6 +1,6 @@
 import datetime
 import logging
-from typing import Any, Dict
+from typing import Any
 
 from django.core.management import BaseCommand
 from django.db import transaction
@@ -49,7 +49,7 @@ def rename_player(team_bhv_id, old_name, new_name):
 
 
 def _score(player_number: int, goals: int = 0, penalty_tries: int = 0,
-           penalty_goals: int = 0, **kwargs) -> Dict[str, Any]:
+           penalty_goals: int = 0, **kwargs) -> dict[str, Any]:
     return {"player_number": player_number, "goals": goals, "penalty_tries": penalty_tries,
             "penalty_goals": penalty_goals, **kwargs}
 
@@ -59,8 +59,8 @@ def time(minutes: int, seconds: int = 0):
 
 
 @transaction.atomic
-def add_scores(league__bhv_id: int, game_number: int, home_score_data: Dict[str, Dict[str, Any]],
-               guest_score_data: Dict[str, Dict[str, Any]]):
+def add_scores(league__bhv_id: int, game_number: int, home_score_data: dict[str, dict[str, Any]],
+               guest_score_data: dict[str, dict[str, Any]]):
     LOGGER.info('add Scores %s %s', league__bhv_id, game_number)
     try:
         game = Game.objects.get(league__bhv_id=league__bhv_id, number=game_number)
@@ -73,7 +73,7 @@ def add_scores(league__bhv_id: int, game_number: int, home_score_data: Dict[str,
         LOGGER.warning('skip Game (not found): %s %s', league__bhv_id, game_number)
 
 
-def _add_scores(game: Game, team: Team, scores_data: Dict[str, Dict[str, Any]]):
+def _add_scores(game: Game, team: Team, scores_data: dict[str, dict[str, Any]]):
     for name, score_data in scores_data.items():
         player = Player(name=name, team=team)
         sco = Score(player=player, game=game, **score_data)

@@ -1,5 +1,4 @@
 from pathlib import Path
-from typing import Optional
 
 ROOT_DIR: Path = Path.cwd()
 
@@ -205,7 +204,7 @@ ACCOUNT_ACTIVATION_DAYS = 3
 
 PUBLIC_NAMES = True
 
-MATOMO_URL: Optional[str] = None
+MATOMO_URL: str | None = None
 
 REPORTS_PATH = ROOT_DIR / 'reports'
 

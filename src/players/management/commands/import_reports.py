@@ -1,6 +1,6 @@
 import logging
 from pathlib import Path
-from typing import Any, Dict
+from typing import Any
 
 import tabula
 from django.conf import settings
@@ -23,7 +23,7 @@ LOGGER = logging.getLogger('hbscorez')
 
 
 class Command(BaseCommand):
-    options: Dict[str, Any] = {}
+    options: dict[str, Any] = {}
 
     def add_arguments(self, parser):
         add_default_arguments(parser)

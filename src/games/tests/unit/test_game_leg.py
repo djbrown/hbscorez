@@ -1,5 +1,4 @@
 from datetime import datetime, timedelta
-from typing import Tuple
 
 from django.test import TestCase
 
@@ -58,7 +57,7 @@ class NormalGames(TestCase):
             self.assertEqual(expected, game.leg())
 
 
-def create_test_game(number, league, home_team, guest_team, expected_leg: Leg, unscheduled=False) -> Tuple[Game, Leg]:
+def create_test_game(number, league, home_team, guest_team, expected_leg: Leg, unscheduled=False) -> tuple[Game, Leg]:
     opening_whistle = datetime.now() + timedelta(weeks=number * 2) if not unscheduled else None
     game = Game.objects.create(number=number, league=league, opening_whistle=opening_whistle,
                                home_team=home_team, guest_team=guest_team)
