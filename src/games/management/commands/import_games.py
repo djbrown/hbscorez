@@ -79,7 +79,7 @@ class Command(BaseCommand):
             try:
                 self.import_game(game_row, league)
             except Exception:
-                logging.getLogger('mail').exception("Could not import Game")
+                LOGGER.exception("Could not import Game")
 
     def import_game(self, game_row, league: League):
 

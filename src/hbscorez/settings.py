@@ -136,6 +136,7 @@ LOGGING: dict = {
             'formatter': 'simple',
         },
         'mail': {
+            'level': 'ERROR',
             'class': 'django.utils.log.AdminEmailHandler',
             'include_html': True,
             # 'reporter_class': 'base.error_reporter.CustomErrorReporter', # new in django 3
@@ -143,12 +144,9 @@ LOGGING: dict = {
     },
     'loggers': {
         'hbscorez': {
-            'handlers': ['file', 'console'],
+            'handlers': ['file', 'console', 'mail'],
             'level': 'DEBUG',
             'propagate': True,
-        },
-        'mail': {
-            'handlers': ['mail'],
         },
     },
 }

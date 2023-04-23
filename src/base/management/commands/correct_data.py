@@ -11,7 +11,7 @@ from base.models import Value
 from games.models import Game, Team
 from players.models import Player, Score
 
-LOGGER = logging.getLogger('hbscorez.command')
+LOGGER = logging.getLogger('hbscorez')
 
 
 class Command(BaseCommand):
