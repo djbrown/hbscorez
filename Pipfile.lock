@@ -1619,11 +1619,8 @@
             "version": "==2.29.0.0"
         },
         "types-urllib3": {
-            "hashes": [
-                "sha256:12c744609d588340a07e45d333bf870069fc8793bcf96bae7a96d4712a42591d",
-                "sha256:c44881cde9fc8256d05ad6b21f50c4681eb20092552351570ab0a8a0653286d6"
-            ],
-            "version": "==1.26.25.10"
+            "hashes": [],
+            "version": "==1.26.25.12"
         },
         "typing-extensions": {
             "hashes": [
