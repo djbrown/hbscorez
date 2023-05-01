@@ -1488,12 +1488,8 @@
             "version": "==2.29.0"
         },
         "rich": {
-            "hashes": [
-                "sha256:22b74cae0278fd5086ff44144d3813be1cedc9115bdfabbfefd86400cb88b20a",
-                "sha256:b5d573e13605423ec80bdd0cd5f8541f7844a0e71a13f74cf454ccb2f490708b"
-            ],
-            "markers": "python_full_version >= '3.7.0'",
-            "version": "==13.3.4"
+            "hashes": [],
+            "version": "==13.3.5"
         },
         "rope": {
             "hashes": [
