@@ -30,7 +30,6 @@
 "distro","1.8.0","Apache Software License","Nir Cohen","https://github.com/python-distro/distro"
 "django-axes","6.0.1","MIT License","Josh VanderLinden, Philip Neustrom, Michael Blume, Alex Clark, Camilo Nova, Aleksi Hakli","https://github.com/jazzband/django-axes"
 "django-contact-form","2.0.1","BSD License","James Bennett","https://github.com/ubernostrum/django-contact-form/"
-"django-ipware","5.0.0","MIT License","Val Neekman","https://github.com/un33k/django-ipware"
 "django-registration","3.3","BSD License","James Bennett","https://github.com/ubernostrum/django-registration/"
 "django-stubs","4.2.0","MIT License","Maksim Kurnikov","https://github.com/typeddjango/django-stubs"
 "django-stubs-ext","4.2.0","MIT License","Simula Proxy","https://github.com/typeddjango/django-stubs"
