@@ -1003,12 +1003,8 @@
             "version": "==4.2.1"
         },
         "django-stubs": {
-            "hashes": [
-                "sha256:1bd96207576cd220221a0e615f0259f13d453d515a80f576c1246e0fb547f561",
-                "sha256:c95f948e2bfc565f3147e969ff361ef033841a0b8a51cac974a6cc6d0486732c"
-            ],
-            "index": "pypi",
-            "version": "==1.16.0"
+            "hashes": [],
+            "version": "==4.2.0"
         },
         "django-stubs-ext": {
             "hashes": [
