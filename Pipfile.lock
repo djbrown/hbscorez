@@ -1331,12 +1331,8 @@
             "version": "==2.5.3"
         },
         "pylint-plugin-utils": {
-            "hashes": [
-                "sha256:b3d43e85ab74c4f48bb46ae4ce771e39c3a20f8b3d56982ab17aa73b4f98d535",
-                "sha256:ce48bc0516ae9415dd5c752c940dfe601b18fe0f48aa249f2386adfa95a004dd"
-            ],
-            "markers": "python_full_version >= '3.6.2'",
-            "version": "==0.7"
+            "hashes": [],
+            "version": "==0.8.2"
         },
         "pysocks": {
             "hashes": [
