@@ -93,7 +93,7 @@ class Youth(IntegrationTestCase):
 
 
 class LongLeagueNames(IntegrationTestCase):
-    def test_youth(self):
+    def test_long(self):
         self.assert_command('setup', '-a', 83, '-d', 83, '-s', 2019, '-l', 45646, 45651, '--youth')
 
         leagues = self.assert_objects(League, count=2).order_by('name')

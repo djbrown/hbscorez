@@ -1,5 +1,4 @@
 from pathlib import Path
-from typing import Optional
 
 ROOT_DIR: Path = Path.cwd()
 
@@ -137,6 +136,7 @@ LOGGING: dict = {
             'formatter': 'simple',
         },
         'mail': {
+            'level': 'ERROR',
             'class': 'django.utils.log.AdminEmailHandler',
             'include_html': True,
             # 'reporter_class': 'base.error_reporter.CustomErrorReporter', # new in django 3
@@ -144,12 +144,9 @@ LOGGING: dict = {
     },
     'loggers': {
         'hbscorez': {
-            'handlers': ['file', 'console'],
+            'handlers': ['file', 'console', 'mail'],
             'level': 'DEBUG',
             'propagate': True,
-        },
-        'mail': {
-            'handlers': ['mail'],
         },
     },
 }
@@ -205,7 +202,7 @@ ACCOUNT_ACTIVATION_DAYS = 3
 
 PUBLIC_NAMES = True
 
-MATOMO_URL: Optional[str] = None
+MATOMO_URL: str | None = None
 
 REPORTS_PATH = ROOT_DIR / 'reports'
 

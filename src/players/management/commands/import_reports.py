@@ -1,6 +1,6 @@
 import logging
 from pathlib import Path
-from typing import Any, Dict
+from typing import Any
 
 import tabula
 from django.conf import settings
@@ -23,7 +23,7 @@ LOGGER = logging.getLogger('hbscorez')
 
 
 class Command(BaseCommand):
-    options: Dict[str, Any] = {}
+    options: dict[str, Any] = {}
 
     def add_arguments(self, parser):
         add_default_arguments(parser)
@@ -84,7 +84,7 @@ class Command(BaseCommand):
             try:
                 self.import_game(game)
             except Exception:
-                logging.getLogger('mail').exception("Could not import Report")
+                LOGGER.exception("Could not import Report")
 
     def import_game(self, game: Game):
         if self.options['games'] and game.number not in self.options['games']:

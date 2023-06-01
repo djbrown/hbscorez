@@ -62,7 +62,7 @@ def scrape_associations(options):
         try:
             scrape_association(bhv_id, options)
         except Exception:
-            logging.getLogger('mail').exception("Could not create Association")
+            LOGGER.exception("Could not create Association")
 
 
 def scrape_association(bhv_id: int, options):
@@ -98,7 +98,7 @@ def scrape_districs(association: Association, options):
         try:
             scrape_district(item, association, options)
         except Exception:
-            logging.getLogger('mail').exception("Could not create District")
+            LOGGER.exception("Could not create District")
 
 
 def scrape_district(district_item, association: Association, options):
@@ -125,7 +125,7 @@ def scrape_district(district_item, association: Association, options):
         try:
             scrape_season(district, start_year, options)
         except Exception:
-            logging.getLogger('mail').exception("Could not create Season")
+            LOGGER.exception("Could not create Season")
 
 
 def scrape_season(district, start_year, options):
@@ -155,7 +155,7 @@ def scrape_season(district, start_year, options):
         try:
             scrape_league(league_link, district, season, options)
         except Exception:
-            logging.getLogger('mail').exception("Could not create League")
+            LOGGER.exception("Could not create League")
 
 
 @transaction.atomic
