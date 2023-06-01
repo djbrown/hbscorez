@@ -1528,11 +1528,8 @@
             "version": "==2023.3.0.0"
         },
         "types-pyyaml": {
-            "hashes": [
-                "sha256:5aed5aa66bd2d2e158f75dda22b059570ede988559f030cf294871d3b647e3e8",
-                "sha256:c51b1bd6d99ddf0aa2884a7a328810ebf70a4262c292195d3f4f9a0005f9eeb6"
-            ],
-            "version": "==6.0.12.9"
+            "hashes": [],
+            "version": "==6.0.12.10"
         },
         "types-requests": {
             "hashes": [
