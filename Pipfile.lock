@@ -747,12 +747,8 @@
             "version": "==0.20.0"
         },
         "setuptools": {
-            "hashes": [
-                "sha256:6f0839fbdb7e3cfef1fc38d7954f5c1c26bf4eebb155a55c9bf8faf997b9fb67",
-                "sha256:bb16732e8eb928922eabaa022f881ae2b7cdcfaf9993ef1f5e841a96d32b8e0c"
-            ],
-            "markers": "python_version >= '3.7'",
-            "version": "==67.7.1"
+            "hashes": [],
+            "version": "==67.8.0"
         },
         "six": {
             "hashes": [
@@ -1574,12 +1570,8 @@
             "version": "==4.9.0"
         },
         "setuptools": {
-            "hashes": [
-                "sha256:6f0839fbdb7e3cfef1fc38d7954f5c1c26bf4eebb155a55c9bf8faf997b9fb67",
-                "sha256:bb16732e8eb928922eabaa022f881ae2b7cdcfaf9993ef1f5e841a96d32b8e0c"
-            ],
-            "markers": "python_version >= '3.7'",
-            "version": "==67.7.1"
+            "hashes": [],
+            "version": "==67.8.0"
         },
         "smmap": {
             "hashes": [
