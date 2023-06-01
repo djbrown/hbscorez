@@ -24,12 +24,8 @@
             "version": "==1.2.1"
         },
         "asgiref": {
-            "hashes": [
-                "sha256:71e68008da809b957b7ee4b43dbccff33d1b23519fb8344e33f049897077afac",
-                "sha256:9567dfe7bd8d3c8c892227827c41cce860b368104c3431da67a0c5a65a949506"
-            ],
-            "markers": "python_version >= '3.7'",
-            "version": "==3.6.0"
+            "hashes": [],
+            "version": "==3.7.2"
         },
         "captcha": {
             "hashes": [
@@ -893,12 +889,8 @@
             "version": "==1.4.4"
         },
         "asgiref": {
-            "hashes": [
-                "sha256:71e68008da809b957b7ee4b43dbccff33d1b23519fb8344e33f049897077afac",
-                "sha256:9567dfe7bd8d3c8c892227827c41cce860b368104c3431da67a0c5a65a949506"
-            ],
-            "markers": "python_version >= '3.7'",
-            "version": "==3.6.0"
+            "hashes": [],
+            "version": "==3.7.2"
         },
         "astroid": {
             "hashes": [
