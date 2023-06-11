@@ -10,6 +10,7 @@
 [![Codacy Coverage Status](https://app.codacy.com/project/badge/Coverage/aa168e5b5c154b1ba8b891afa0998d9e)](https://www.codacy.com/manual/djbrown/hbscorez/dashboard?utm_source=github.com&utm_medium=referral&utm_content=djbrown/hbscorez&utm_campaign=Badge_Coverage)
 [![Code Climate Maintainability](https://api.codeclimate.com/v1/badges/db7cf3c32bc124e21e8e/maintainability)](https://codeclimate.com/github/djbrown/hbscorez/maintainability)
 [![Code Climate Test Coverage](https://api.codeclimate.com/v1/badges/db7cf3c32bc124e21e8e/test_coverage)](https://codeclimate.com/github/djbrown/hbscorez/test_coverage)
+[![CodeScene Code Health](https://codescene.io/projects/40238/status-badges/code-health)](https://codescene.io/projects/40238)
 [![Mypy Badge](https://www.mypy-lang.org/static/mypy_badge.svg)](https://mypy-lang.org/)
 [![Sauce Test Status](https://saucelabs.com/buildstatus/dan-brown)](https://saucelabs.com/u/dan-brown)
 [![FOSSA License Status](https://app.fossa.com/api/projects/custom%2B5488%2Fgithub.com%2Fdjbrown%2Fhbscorez.svg?type=shield)](https://app.fossa.com/projects/custom%2B5488%2Fgithub.com%2Fdjbrown%2Fhbscorez?ref=badge_shield)
