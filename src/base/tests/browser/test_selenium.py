@@ -20,5 +20,5 @@ class TestSelenium(BrowserTestCase):
     def test_w3_org_exists(self):
         driver = self.driver
         driver.get('https://www.w3.org/')
-        body = driver.find_element(By.ID, 'www-w3-org')
+        body = driver.find_element(By.ID, 'main')
         self.assertIsNotNone(body)
