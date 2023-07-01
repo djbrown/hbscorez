@@ -1298,12 +1298,8 @@
             "version": "==2023.6.26"
         },
         "platformdirs": {
-            "hashes": [
-                "sha256:87fbf6473e87c078d536980ba970a472422e94f17b752cfad17024c18876d481",
-                "sha256:cfd065ba43133ff103ab3bd10aecb095c2a0035fcd1f07217c9376900d94ba07"
-            ],
-            "markers": "python_version >= '3.7'",
-            "version": "==3.7.0"
+            "hashes": [],
+            "version": "==3.8.0"
         },
         "pluggy": {
             "hashes": [
