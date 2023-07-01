@@ -152,12 +152,8 @@
             "version": "==4.2.2"
         },
         "django-axes": {
-            "hashes": [
-                "sha256:000a2df2de8eb4da4602a86422aa75d8ad8d4d1e0968ac2bc855f9f43d5d4f01",
-                "sha256:cee405bd34bfef45985e0e0dc7d7ba1f086dd84da1f923f894e002fe048be146"
-            ],
-            "index": "pypi",
-            "version": "==6.0.3"
+            "hashes": [],
+            "version": "==6.0.5"
         },
         "django-contact-form": {
             "extras": [
