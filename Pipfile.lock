@@ -778,12 +778,8 @@
             "version": "==2.31.0"
         },
         "returns": {
-            "hashes": [
-                "sha256:90d21b03bbd9a6dc7d44317ca36e8080d2428679c74f2f15ec386816d09c4ece",
-                "sha256:e743a692d4585efbe2bb33703b18c332754b2844ba2ee7e40dc5d22e3301f36f"
-            ],
-            "index": "pypi",
-            "version": "==0.20.0"
+            "hashes": [],
+            "version": "==0.21.0"
         },
         "setuptools": {
             "hashes": [
