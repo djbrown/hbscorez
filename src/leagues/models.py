@@ -65,8 +65,10 @@ class League(models.Model):
             'Männer', 'Frauen', 'Herren', 'Damen',
             'Hären', 'Dammen', 'Senioren', 'Seniorinnen',
             'Hommes', 'Dames', 'Fraen', ' F-', ' M-',
-            'Inklusion', 'Special Olympics']
-        adult_match_strong = any(n in name for n in adult_name_indicators)
+            'Inklusion', 'Special Olympics',
+            '-F-', '-M-'
+            ]
+        adult_match_strong = any(n in name for n in adult_name_indicators) and "M-Runde" not in name
 
         if youth_match_strong != adult_match_strong:
             return youth_match_strong

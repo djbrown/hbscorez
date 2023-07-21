@@ -37,12 +37,12 @@ class Team(models.Model):
                 team.name = name
                 team.short_name = short_name
                 team.save()
-                logger.info('UPDATED Team: %s', team)
+                logger.info(4*'\t' + 'UPDATED Team: %s', team)
             else:
-                logger.info('EXISTING Team: %s', team)
+                logger.info(4*'\t' + 'EXISTING Team: %s', team)
         else:
             team = Team.objects.create(name=name, short_name=short_name, league=league, bhv_id=bhv_id)
-            logger.info('CREATED Team: %s', team)
+            logger.info(4*'\t' + 'CREATED Team: %s', team)
 
     def source_url(self):
         return self.build_source_url(self.league.bhv_id, self.bhv_id)

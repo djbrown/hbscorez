@@ -10,31 +10,23 @@ from base import http, parsing
 from base.middleware import env
 from base.models import Value
 from districts.models import District
-from leagues.models import League, LeagueName, Season
+from leagues.models import League, LeagueName, Season, YouthUndecidableError
 from teams.models import Team
 
-LOGGER = logging.getLogger('hbscorez')
-
+logger = logging.getLogger('hbscorez')
 
 def add_default_arguments(parser):
-    parser.add_argument('--associations', '-a', nargs='+', type=int, metavar='orgGrpID',
-                        help="IDs of Associations.")
-    parser.add_argument('--districts', '-d', nargs='+', type=int, metavar='orgID',
-                        help="IDs of Districts.")
-    parser.add_argument('--seasons', '-s', nargs='+', type=int, metavar='start year',
-                        help="Start Years of Seasons.")
-    parser.add_argument('--leagues', '-l', nargs='+', type=int, metavar='score/sGID',
-                        help="IDs of Leagues.")
-    parser.add_argument('--youth', action='store_true',
-                        help="Include youth leagues.")
-
+    parser.add_argument('--associations', '-a', nargs='+', type=int, metavar='orgGrpID', help="IDs of Associations.")
+    parser.add_argument('--districts', '-d', nargs='+', type=int, metavar='orgID', help="IDs of Districts.")
+    parser.add_argument('--seasons', '-s', nargs='+', type=int, metavar='start year', help="Start Year of Seasons.")
+    parser.add_argument('--leagues', '-l', nargs='+', type=int, metavar='score/sGID', help="IDs of Leagues.")
+    parser.add_argument('--youth', action='store_true', help="Include youth leagues.")
 
 class Command(BaseCommand):
 
     def add_arguments(self, parser):
         add_default_arguments(parser)
-        parser.add_argument('--skip-teams', action='store_true',
-                            help="Skip processing Teams.")
+        parser.add_argument('--skip-teams', action='store_true', help="Skip processing Teams.")
 
     def handle(self, *args, **options):
         options['processed_districts'] = set()
@@ -62,30 +54,28 @@ def scrape_associations(options):
         try:
             scrape_association(bhv_id, options)
         except Exception:
-            LOGGER.exception("Could not create Association")
+            logger.exception("Could not create Association")
 
 
-def scrape_association(bhv_id: int, options):
-    url = Association.build_source_url(bhv_id)
+def scrape_association(assocication_id: int, options):
+    url = Association.build_source_url(assocication_id)
     html = http.get_text(url)
     dom = parsing.html_dom(html)
-
     name = parsing.parse_association_name(dom)
-    try:
-        abbreviation = Association.get_association_abbreviation(name)
-    except KeyError:
-        LOGGER.warning("No abbreviation for association '%s'", name)
+    abbreviation = Association.get_association_abbreviation(name)
+    
+    if abbreviation is None:
         return
 
-    if options['associations'] and bhv_id not in options['associations']:
-        LOGGER.debug('SKIPPING Association (options): %s %s', bhv_id, name)
+    if options['associations'] and assocication_id not in options['associations']:
+        logger.debug('SKIPPING Association (options): %s %s', assocication_id, name)
         return
 
-    association, created = Association.objects.get_or_create(name=name, abbreviation=abbreviation, bhv_id=bhv_id)
+    association, created = Association.objects.get_or_create(name=name, abbreviation=abbreviation, bhv_id=assocication_id)
     if created:
-        LOGGER.info('CREATED Association: %s', association)
+        logger.info('CREATED Association: %s', association)
     else:
-        LOGGER.info('EXISTING Association: %s', association)
+        logger.info('EXISTING Association: %s', association)
 
 
 def scrape_districs(association: Association, options):
@@ -98,7 +88,7 @@ def scrape_districs(association: Association, options):
         try:
             scrape_district(item, association, options)
         except Exception:
-            LOGGER.exception("Could not create District")
+            logger.exception("Could not create District")
 
 
 def scrape_district(district_item, association: Association, options):
@@ -106,41 +96,41 @@ def scrape_district(district_item, association: Association, options):
     bhv_id = int(district_item.get('value'))
 
     if options['districts'] and bhv_id not in options['districts']:
-        LOGGER.debug('SKIPPING District (options): %s %s', bhv_id, name)
+        logger.debug('SKIPPING District (options): %s %s', bhv_id, name)
         return
 
     district, created = District.objects.get_or_create(name=name, bhv_id=bhv_id)
     district.associations.add(association)
     if bhv_id in options['processed_districts']:
-        LOGGER.debug('SKIPPING District: %s %s (already processed)', bhv_id, name)
+        logger.debug('SKIPPING District: %s %s (already processed)', bhv_id, name)
         return
 
     if created:
-        LOGGER.info('CREATED District: %s', district)
+        logger.info('\tCREATED District: %s (in association: %s (%s))', district, association.abbreviation, association.bhv_id)
     else:
-        LOGGER.info('EXISTING District: %s', district)
+        logger.info('\tEXISTING District: %s (in association: %s (%s))', district, association.abbreviation, association.bhv_id)
     options['processed_districts'].add(bhv_id)
 
     for start_year in range(2004, datetime.now().year + 1):
         try:
             scrape_season(district, start_year, options)
         except Exception:
-            LOGGER.exception("Could not create Season")
+            logger.exception("Could not create Season")
 
 
 def scrape_season(district, start_year, options):
     if options['seasons'] and start_year not in options['seasons']:
-        LOGGER.debug('SKIPPING Season (options): %s', start_year)
+        logger.debug('SKIPPING Season (options): %s', start_year)
         return
 
     season, season_created = Season.objects.get_or_create(start_year=start_year)
     if season_created:
-        LOGGER.info('CREATED Season: %s', season)
+        logger.info(2*'\t' + 'CREATED Season: %s', season)
     else:
-        LOGGER.info('EXISTING Season: %s', season)
+        logger.info(2*'\t' + 'EXISTING Season: %s', season)
 
     for start_date in [date(start_year, 10, 1) + timedelta(days=10 * n) for n in range(4)]:
-        LOGGER.debug('trying District Season: %s %s %s', district, season, start_date)
+        logger.debug('Trying District Season: %s %s %s', district, season, start_date)
         url = District.build_source_url(district.bhv_id, start_date)
         html = http.get_text(url)
         dom = parsing.html_dom(html)
@@ -148,14 +138,14 @@ def scrape_season(district, start_year, options):
         if league_links:
             break
     else:
-        LOGGER.warning('District Season without Leagues: %s %s', district, season)
+        logger.info(3*'\t' + 'District Season without League(s)')
         return
 
     for league_link in league_links:
         try:
             scrape_league(league_link, district, season, options)
         except Exception:
-            LOGGER.exception("Could not create League")
+            logger.exception("Could not create League")
 
 
 @transaction.atomic
@@ -164,11 +154,11 @@ def scrape_league(league_link, district, season, options):
     bhv_id = parsing.parse_league_bhv_id(league_link)
 
     if options['leagues'] and bhv_id not in options['leagues']:
-        LOGGER.debug('SKIPPING League (options): %s %s', bhv_id, abbreviation)
+        logger.debug('SKIPPING League (options): %s %s', bhv_id, abbreviation)
         return
 
     if abbreviation == 'TEST':
-        LOGGER.debug('SKIPPING League (test league): %s %s', bhv_id, abbreviation)
+        logger.debug('SKIPPING League (test league): %s %s', bhv_id, abbreviation)
         return
 
     url = League.build_source_url(bhv_id)
@@ -188,32 +178,37 @@ def scrape_league(league_link, district, season, options):
         'Vorbereitung', 'F-FS', 'M-FS', 'Quali',
         'Freiwurf', 'Maxi', 'turnier', 'Turnier', 'Cup', 'wettbewerb',
         'Test', 'Planung', 'planung',
+        'Freundschaftsspiel'
     ]
 
     if any(n in name for n in irrelevant_league_name_indicators):
-        LOGGER.debug('SKIPPING League (name): %s %s', bhv_id, name)
+        logger.debug('SKIPPING League (name): %s %s', bhv_id, name)
         return
 
     team_links = parsing.parse_team_links(dom)
     if not team_links:
-        LOGGER.debug('SKIPPING League (no team table): %s %s', bhv_id, name)
+        logger.debug('SKIPPING League (no team table): %s %s', bhv_id, name)
         return
 
     game_rows = parsing.parse_game_rows(dom)
     if not game_rows:
-        LOGGER.debug('SKIPPING League (no games): %s %s', bhv_id, name)
+        logger.debug('SKIPPING League (no games): %s %s', bhv_id, name)
         return
 
-    if League.is_youth(abbreviation, name) and not options['youth']:
-        LOGGER.debug('SKIPPING League (youth league): %s %s %s', bhv_id, abbreviation, name)
+    try: 
+        if League.is_youth(abbreviation, name) and not options['youth']:
+            logger.debug('SKIPPING League (youth league): %s %s %s', bhv_id, abbreviation, name)
+            return
+    except YouthUndecidableError:
+        logger.info(3*'\t' + 'Youth undecidable for league: %s %s %s', bhv_id, abbreviation, name)
         return
 
-    league, league_created = League.objects.get_or_create(
-        name=name, abbreviation=abbreviation, district=district, season=season, bhv_id=bhv_id)
+    league, league_created = League.objects.get_or_create(name=name, abbreviation=abbreviation, district=district, season=season, bhv_id=bhv_id)
+
     if league_created:
-        LOGGER.info('CREATED League: %s', league)
+        logger.info(3*'\t' + 'CREATED League: %s', league)
     else:
-        LOGGER.info('EXISTING League: %s', league)
+        logger.info(3*'\t' + 'EXISTING League: %s', league)
 
     if options['skip_teams']:
         return
@@ -222,7 +217,7 @@ def scrape_league(league_link, district, season, options):
         scrape_team(team_link, league)
 
     retirements = parsing.parse_retirements(dom)
-    Team.check_retirements(retirements, league, LOGGER)
+    Team.check_retirements(retirements, league, logger)
 
 
 def scrape_team(link, league):
@@ -236,4 +231,4 @@ def scrape_team(link, league):
     short_team_names = parsing.parse_team_short_names(game_rows)
     short_team_name = Team.find_matching_short_name(name, short_team_names)
 
-    Team.create_or_update_team(name, short_team_name, league, bhv_id, LOGGER)
+    Team.create_or_update_team(name, short_team_name, league, bhv_id, logger)

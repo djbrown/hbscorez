@@ -9,7 +9,7 @@ class Association(models.Model):
     bhv_id = models.IntegerField(unique=True)
 
     def __str__(self):
-        return f'{self.bhv_id} {self.abbreviation}'
+        return f'{self.abbreviation} ({self.bhv_id})'
 
     def get_absolute_url(self):
         return reverse('associations:detail', kwargs={'bhv_id': self.bhv_id})
@@ -22,7 +22,7 @@ class Association(models.Model):
         return self.build_source_url(self.bhv_id)
 
     @staticmethod
-    def get_association_abbreviation(association_name):
+    def get_association_abbreviation(association_name: str) -> str | None:
         association_abbreviations = {
             'Badischer Handball-Verband': 'BHV',
             'Fédération Luxembourgeoise de Handball': 'FLH',
@@ -41,4 +41,8 @@ class Association(models.Model):
             # 'Mitteldeutscher Handball-Verband': 'MHV',
             # 'Thüringer Handball-Verband': 'THV',
         }
-        return association_abbreviations[association_name]
+
+        for key in association_abbreviations:
+            if key in association_name:
+                return association_abbreviations[key]
+        #return association_abbreviations[association_name]

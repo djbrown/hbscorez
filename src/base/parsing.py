@@ -16,8 +16,12 @@ def html_dom(html_text: str) -> _Element:
 
 
 def parse_association_urls(dom: _Element, root_url: str) -> list[str]:
+    # Extract all association URLs
     items = cast(list[str], dom.xpath('//div[@id="main-content"]//table[@summary]/tbody/tr/td[1]/a/@href'))
-    return [item if item.startswith('http') else root_url + item for item in items]
+    
+    # Filter and return all striped association URLs
+    #return [item if item.startswith('http') else root_url + item for item in items]
+    return [root_url + item.lstrip('/') for item in items if not item.startswith('https')]
 
 
 def parse_association_bhv_id_from_dom(dom: _Element) -> int:
