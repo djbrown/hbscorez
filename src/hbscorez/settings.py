@@ -115,7 +115,7 @@ LOGGING: dict = {
     'disable_existing_loggers': False,
     'formatters': {
         'verbose': {
-            'format': '{levelname:8} {asctime} {module} - {message}',
+            'format': '{levelname:8} {asctime} ({module}) [{filename}:{lineno}]: {message}',
             'style': '{',
         },
         'simple': {
@@ -129,6 +129,14 @@ LOGGING: dict = {
             'class': 'logging.FileHandler',
             'filename': ROOT_DIR / 'hbscorez.log',
             'formatter': 'verbose',
+            'encoding': 'UTF-8'
+        },
+        'file': {
+            'level': 'INFO',
+            'class': 'logging.FileHandler',
+            'filename': ROOT_DIR / 'hbscorez_INFO.log',
+            'formatter': 'verbose',
+            'encoding': 'UTF-8'
         },
         'console': {
             'level': 'INFO',
