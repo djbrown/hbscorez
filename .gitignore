@@ -5,10 +5,11 @@
 /.vscode/
 /htmlcov/
 /logs
-/mails/
+mails/
 /media/
 /reports/
 /static/
+venv/
 
 .coverage
 .python-version
