@@ -1,11 +1,14 @@
-from django.shortcuts import render, get_object_or_404
+from django.conf import settings
+from django.shortcuts import get_object_or_404, render
 
 from .models import Association
 
 
 def show_all(request):
     associations = Association.objects.all()
-    return render(request, 'associations/list.j2', {'associations': associations})
+    return render(request, 'associations/list.j2',
+                  {'associations': associations,
+                   'root_url': settings.NEW_ROOT_SOURCE_URL})
 
 
 def detail(request, bhv_id):
