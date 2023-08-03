@@ -15,28 +15,27 @@ def html_dom(html_text: str) -> _Element:
     return html.fromstring(html_text)
 
 
-def parse_association_urls(dom: _Element, root_url: str) -> list[str]:
-    items = cast(list[str], dom.xpath('//div[@id="main-content"]//table[@summary]/tbody/tr/td[1]/a/@href'))
-    return [item if item.startswith('http') else root_url + item for item in items]
-
-
-def parse_association_bhv_id_from_dom(dom: _Element) -> int:
-    [bhv_id] = cast(list[str], dom.xpath('//div[@id="app"]/@data-og-id'))
-    return int(bhv_id)
-
-
 def parse_link_query_item(link: _Element, query_key: str) -> str:
     href = link.get('href')
     query = cast(str, urlsplit(href).query)
     return parse_qs(query)[query_key][0]
 
 
-def parse_association_bhv_id(link: _Element) -> int:
-    return int(parse_link_query_item(link, 'orgGrpID'))
+def parse_association_urls(dom: _Element) -> list[str]:
+    return cast(list[str], dom.xpath('//ul[@id="main-navi"]/li[contains(@class, "active")]//li/a/@href'))
+
+
+def parse_association_abbreviation(association_url: str) -> str:
+    return association_url.rsplit('/', 1)[1]
 
 
 def parse_association_name(dom: _Element) -> str:
-    return cast(list[str], dom.xpath('//*[@id="results"]/div/h1/text()[2]'))[0]
+    return cast(list[str], dom.xpath('//h2/a/text()'))[0]
+
+
+def parse_association_bhv_id(dom: _Element) -> int:
+    [bhv_id] = cast(list[str], dom.xpath('//div[@id="app"]/@data-og-id'))
+    return int(bhv_id)
 
 
 def parse_district_items(dom: _Element) -> list[_Element]:

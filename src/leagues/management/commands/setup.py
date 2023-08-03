@@ -40,42 +40,33 @@ class Command(BaseCommand):
         options['processed_districts'] = set()
         env.UPDATING.set_value(Value.TRUE)
 
-        scrape_associations(options)
-
-        for association in Association.objects.all():
-            scrape_districs(association, options)
+        try:
+            scrape_associations(options)
+        except Exception:
+            LOGGER.exception("Could not create Associations")
 
         env.UPDATING.set_value(Value.FALSE)
 
 
 def scrape_associations(options):
-    start_url = settings.NEW_ROOT_SOURCE_URL + "home/portal/"
-    start_html = http.get_text(start_url)
+    start_html = http.get_text(settings.NEW_ROOT_SOURCE_URL)
     start_dom = parsing.html_dom(start_html)
-    association_urls = parsing.parse_association_urls(start_dom, settings.NEW_ROOT_SOURCE_URL)
+    association_portal_urls = parsing.parse_association_urls(start_dom)
 
-    for association_url in association_urls:
-        association_html = http.get_text(association_url)
-        association_dom = parsing.html_dom(association_html)
-        bhv_id = parsing.parse_association_bhv_id_from_dom(association_dom)
-
+    for association_portal_url in association_portal_urls:
         try:
-            scrape_association(bhv_id, options)
+            scrape_association(association_portal_url, options)
         except Exception:
             LOGGER.exception("Could not create Association")
 
 
-def scrape_association(bhv_id: int, options):
-    url = Association.build_source_url(bhv_id)
-    html = http.get_text(url)
+def scrape_association(association_portal_url: str, options):
+    html = http.get_text(association_portal_url)
     dom = parsing.html_dom(html)
 
+    abbreviation = parsing.parse_association_abbreviation(association_portal_url)
     name = parsing.parse_association_name(dom)
-    try:
-        abbreviation = Association.get_association_abbreviation(name)
-    except KeyError:
-        LOGGER.warning("No abbreviation for association '%s'", name)
-        return
+    bhv_id = parsing.parse_association_bhv_id(dom)
 
     if options['associations'] and bhv_id not in options['associations']:
         LOGGER.debug('SKIPPING Association (options): %s %s', bhv_id, name)
@@ -87,9 +78,14 @@ def scrape_association(bhv_id: int, options):
     else:
         LOGGER.info('EXISTING Association: %s', association)
 
+    try:
+        scrape_districs(association, options)
+    except Exception:
+        LOGGER.exception("Could not create Districts")
+
 
 def scrape_districs(association: Association, options):
-    url = Association.build_source_url(association.bhv_id)
+    url = association.source_url()
     html = http.get_text(url)
     dom = parsing.html_dom(html)
 

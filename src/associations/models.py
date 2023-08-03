@@ -20,25 +20,3 @@ class Association(models.Model):
 
     def source_url(self):
         return self.build_source_url(self.bhv_id)
-
-    @staticmethod
-    def get_association_abbreviation(association_name):
-        association_abbreviations = {
-            'Badischer Handball-Verband': 'BHV',
-            'Fédération Luxembourgeoise de Handball': 'FLH',
-            'Hamburger Handball-Verband': 'HHV',
-            'Handball Baden-Württemberg': 'HBW',
-            'Handball-Verband Saar': 'HVS',
-            'Handballoberliga Rheinland-Pfalz/Saar': 'RPS',
-            'Handballverband Rheinhessen': 'HVR',
-            'Handballverband Schleswig-Holstein': 'HVSH',
-            'Handballverband Westfalen': 'HVWF',
-            'Handballverband Württemberg': 'HVW',
-            'Oberliga Hamburg - Schleswig-Holstein': 'HHSH',
-            'Pfälzer Handballverband': 'PfHV',
-            'Südbadischer Handballverband': 'SHV',
-            'Vorarlberger Handballverband': 'VHV',
-            # 'Mitteldeutscher Handball-Verband': 'MHV',
-            # 'Thüringer Handball-Verband': 'THV',
-        }
-        return association_abbreviations[association_name]
