@@ -16,7 +16,7 @@ class Association(models.Model):
 
     @staticmethod
     def build_source_url(bhv_id):
-        return f'{settings.ROOT_SOURCE_URL}Spielbetrieb/index.php?orgGrpID={bhv_id}'
+        return f'{settings.ROOT_SOURCE_URL}service/if_g_json.php?cmd=po&og={bhv_id}'
 
     def source_url(self):
         return self.build_source_url(self.bhv_id)

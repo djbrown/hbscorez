@@ -4,6 +4,8 @@ from datetime import datetime, timedelta
 from typing import cast
 from urllib.parse import parse_qs, urlsplit
 
+import json
+
 from lxml import html
 from lxml.etree import _Element
 
@@ -38,8 +40,11 @@ def parse_association_bhv_id(dom: _Element) -> int:
     return int(bhv_id)
 
 
-def parse_district_items(dom: _Element) -> list[_Element]:
-    return cast(list[_Element], dom.xpath('//select[@name="orgID"]/option[position()>1]'))
+def parse_district_items(response: str) -> dict | None:
+    try:
+        return json.loads(response)[0]['menu']['org']['list']
+    except ValueError:
+        return None
 
 
 def parse_district_link_date(link: _Element) -> str:

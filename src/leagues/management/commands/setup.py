@@ -86,21 +86,21 @@ def scrape_association(association_portal_url: str, options):
 
 def scrape_districs(association: Association, options):
     url = association.source_url()
-    html = http.get_text(url)
-    dom = parsing.html_dom(html)
+    response = http.get_text(url)
 
-    items = parsing.parse_district_items(dom)
-    for item in items:
+    districts = parsing.parse_district_items(response)
+
+    if districts is None:
+        return
+
+    for bhv_id, name in districts.items():
         try:
-            scrape_district(item, association, options)
+            scrape_district(int(bhv_id), name, association, options)
         except Exception:
             LOGGER.exception("Could not create District")
 
 
-def scrape_district(district_item, association: Association, options):
-    name = district_item.text
-    bhv_id = int(district_item.get('value'))
-
+def scrape_district(bhv_id, name, association: Association, options):
     if options['districts'] and bhv_id not in options['districts']:
         LOGGER.debug('SKIPPING District (options): %s %s', bhv_id, name)
         return
