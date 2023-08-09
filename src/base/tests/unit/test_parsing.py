@@ -1,10 +1,11 @@
+from pathlib import Path
+import json
+
 from django.conf import settings
 from django.test import TestCase
 
 from base import parsing
 
-from pathlib import Path
-import json
 
 def read_html(file_name):
     file: Path = settings.ROOT_DIR / 'src' / 'base' / 'tests' / 'unit' / file_name
@@ -60,6 +61,7 @@ class ParseAssociationTest(TestCase):
         expected = 35
         self.assertEqual(expected, actual)
 
+
 class ParseDistrictTest(TestCase):
     def test_parse_district_items(self):
         response = [
@@ -85,8 +87,9 @@ class ParseDistrictTest(TestCase):
                 }
             }
         ]
+
         districts = parsing.parse_district_items(json.dumps(response, indent=0, ensure_ascii=True))
-        
+
         self.assertTrue('4' in districts.keys())
         self.assertTrue('35' in districts.keys())
         self.assertTrue('191' in districts.keys())
@@ -98,4 +101,3 @@ class ParseDistrictTest(TestCase):
         self.assertTrue('Heidelberg' in districts.values())
 
         self.assertTrue('Schriesheim' not in districts.values())
-
