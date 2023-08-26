@@ -26,7 +26,7 @@ def parse_association_urls(dom: _Element) -> list[str]:
 
 
 def parse_association_abbreviation(association_url: str) -> str:
-    return association_url.rsplit('/', 1)[1]
+    return association_url.rsplit('/', 1)[1].upper()
 
 
 def parse_association_name(dom: _Element) -> str:
