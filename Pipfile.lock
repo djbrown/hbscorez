@@ -1120,12 +1120,8 @@
             "version": "==4.0.10"
         },
         "gitpython": {
-            "hashes": [
-                "sha256:8d9b8cb1e80b9735e8717c9362079d3ce4c6e5ddeebedd0361b228c3a67a62f6",
-                "sha256:e3d59b1c2c6ebb9dfa7a184daf3b6dd4914237e7488a1730a6d8f6f5d0b4187f"
-            ],
-            "markers": "python_version >= '3.7'",
-            "version": "==3.1.32"
+            "hashes": [],
+            "version": "==3.1.33"
         },
         "h11": {
             "hashes": [
