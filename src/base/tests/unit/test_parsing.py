@@ -42,7 +42,7 @@ class ParseAssociationTest(TestCase):
 
         actual = parsing.parse_association_abbreviation(url)
 
-        expected = 'bhv'
+        expected = 'BHV'
         self.assertEqual(expected, actual)
 
     def test_name(self):

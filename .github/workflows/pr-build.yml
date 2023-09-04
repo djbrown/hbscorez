@@ -1,0 +1,43 @@
+name: PR Build
+
+on:
+  pull_request:
+    branches: [master]
+
+  workflow_dispatch:
+
+jobs:
+  main:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+      - name: Install Pipenv
+        run: python -m pip install --upgrade pipenv
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+      - name: Cache Pipenv
+        id: cache-pipenv
+        uses: actions/cache@v3
+        with:
+          path: ~/.local/share/virtualenvs
+          key: pipenv-${{ hashFiles('Pipfile.lock') }}
+      - name: Install dependencies
+        if: steps.cache-pipenv.outputs.cache-hit != 'true'
+        run: pipenv install --deploy --dev
+
+      - name: Set up locale
+        run: |
+          sudo locale-gen de_DE.UTF-8
+          sudo dpkg-reconfigure locales
+
+      - name: Run unit tests
+        run: pipenv run hbunittest
+
+      - name: Run Mypy
+        run: pipenv run mypy src
+
+      - name: Run Flake8
+        run: pipenv run flake8

@@ -22,7 +22,6 @@ Alternatively, if you don't want to create an account on GitHub you can also use
 ## Package Management
 
 If you want to add new dependencies to the project, make sure their license is compatible with the MIT license.
-You may automatically generate attributions via `pipenv run attributions > ATTRIBUTIONS.csv`
 
 This Project uses [Pipenv](https://github.com/pypa/pipenv/) for managing Python Packages.  
 Install new dependencies from pypi via `pipenv install <PACKAGE>`.

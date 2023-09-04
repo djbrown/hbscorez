@@ -51,20 +51,20 @@ class Command(BaseCommand):
 def scrape_associations(options):
     start_html = http.get_text(settings.NEW_ROOT_SOURCE_URL)
     start_dom = parsing.html_dom(start_html)
-    association_portal_urls = parsing.parse_association_urls(start_dom)
+    association_urls = parsing.parse_association_urls(start_dom)
 
-    for association_portal_url in association_portal_urls:
+    for association_url in association_urls:
         try:
-            scrape_association(association_portal_url, options)
+            scrape_association(association_url, options)
         except Exception:
             LOGGER.exception("Could not create Association")
 
 
-def scrape_association(association_portal_url: str, options):
-    html = http.get_text(association_portal_url)
+def scrape_association(url: str, options):
+    html = http.get_text(url)
     dom = parsing.html_dom(html)
 
-    abbreviation = parsing.parse_association_abbreviation(association_portal_url)
+    abbreviation = parsing.parse_association_abbreviation(url)
     name = parsing.parse_association_name(dom)
     bhv_id = parsing.parse_association_bhv_id(dom)
 
@@ -72,7 +72,8 @@ def scrape_association(association_portal_url: str, options):
         LOGGER.debug('SKIPPING Association (options): %s %s', bhv_id, name)
         return
 
-    association, created = Association.objects.get_or_create(name=name, abbreviation=abbreviation, bhv_id=bhv_id)
+    defaults = {'name': name, 'abbreviation': abbreviation, 'bhv_id': bhv_id, 'url': url}
+    association, created = Association.objects.update_or_create(defaults=defaults, bhv_id=bhv_id)
     if created:
         LOGGER.info('CREATED Association: %s', association)
     else:
@@ -85,19 +86,16 @@ def scrape_association(association_portal_url: str, options):
 
 
 def scrape_districs(association: Association, options):
-    url = association.source_url()
+    url = association.api_url()
     response = http.get_text(url)
 
     districts = parsing.parse_district_items(response)
-
-    if districts is None:
-        return
 
     for bhv_id, name in districts.items():
         try:
             scrape_district(int(bhv_id), name, association, options)
         except Exception:
-            LOGGER.exception("Could not create District")
+            LOGGER.exception("Could not create District %s %s", bhv_id, name)
 
 
 def scrape_district(bhv_id, name, association: Association, options):
