@@ -72,7 +72,7 @@ def scrape_association(url: str, options):
         LOGGER.debug('SKIPPING Association (options): %s %s', bhv_id, name)
         return
 
-    defaults = {'name': name, 'abbreviation': abbreviation, 'bhv_id': bhv_id, 'url': url}
+    defaults = {'name': name, 'abbreviation': abbreviation, 'bhv_id': bhv_id, 'source_url': url}
     association, created = Association.objects.update_or_create(defaults=defaults, bhv_id=bhv_id)
     if created:
         LOGGER.info('CREATED Association: %s', association)
