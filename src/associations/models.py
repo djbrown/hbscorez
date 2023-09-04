@@ -15,8 +15,8 @@ class Association(models.Model):
         return reverse('associations:detail', kwargs={'bhv_id': self.bhv_id})
 
     @staticmethod
-    def api_url(bhv_id):
+    def build_api_url(bhv_id):
         return f'{settings.ROOT_SOURCE_URL}service/if_g_json.php?cmd=po&og={bhv_id}'
 
     def api_url(self):
-        return self.build_source_url(self.bhv_id)
+        return self.build_api_url(self.bhv_id)
