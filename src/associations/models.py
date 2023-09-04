@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.db import models
 from django.urls import reverse
 
@@ -13,3 +14,10 @@ class Association(models.Model):
 
     def get_absolute_url(self):
         return reverse('associations:detail', kwargs={'bhv_id': self.bhv_id})
+
+    @staticmethod
+    def build_api_url(bhv_id):
+        return f'{settings.ROOT_SOURCE_URL}service/if_g_json.php?cmd=po&og={bhv_id}'
+
+    def api_url(self):
+        return self.build_api_url(self.bhv_id)
