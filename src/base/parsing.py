@@ -41,8 +41,7 @@ def parse_association_bhv_id(dom: _Element) -> int:
 
 
 def parse_district_items(response: str) -> dict[str, str]:
-    try:
-        return json.loads(response)[0]['menu']['org']['list']
+    return json.loads(response)[0]['menu']['org']['list']
 
 
 def parse_district_link_date(link: _Element) -> str:
