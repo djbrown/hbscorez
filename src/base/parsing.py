@@ -40,7 +40,7 @@ def parse_association_bhv_id(dom: _Element) -> int:
     return int(bhv_id)
 
 
-def parse_district_items(response: str) -> dict[int, str]:
+def parse_district_items(response: str) -> dict[str, str]:
     try:
         return json.loads(response)[0]['menu']['org']['list']
 
