@@ -1,4 +1,5 @@
 from pathlib import Path
+import json
 
 from django.conf import settings
 from django.test import TestCase
@@ -59,3 +60,44 @@ class ParseAssociationTest(TestCase):
 
         expected = 35
         self.assertEqual(expected, actual)
+
+
+class ParseDistrictTest(TestCase):
+    def test_parse_district_items(self):
+        response = [
+            {
+                "menu": {
+                    "org": {
+                        "list": {
+                            "4": "Handball Baden-Württemberg",
+                            "35": "Badischer Handball-Verband",
+                            "191": "Bezirk Rhein-Neckar-Tauber",
+                            "196": "Bezirk Alb-Enz-Saal",
+                            "84": "Bezirk Nord",
+                            "43": "Bezirk Süd",
+                            "36": "Bruchsal",
+                            "37": "Heidelberg",
+                            "38": "Karlsruhe",
+                            "39": "Mannheim",
+                            "40": "Pforzheim",
+                            "82": "Neckar-Odenwald-Tauber"
+                        },
+                        "selectedID": "35"
+                    }
+                }
+            }
+        ]
+
+        districts = parsing.parse_district_items(json.dumps(response, indent=0, ensure_ascii=True))
+
+        self.assertTrue('4' in districts.keys())
+        self.assertTrue('35' in districts.keys())
+        self.assertTrue('191' in districts.keys())
+        self.assertTrue('37' in districts.keys())
+
+        self.assertTrue('Handball Baden-Württemberg' in districts.values())
+        self.assertTrue('Badischer Handball-Verband' in districts.values())
+        self.assertTrue('Bezirk Rhein-Neckar-Tauber' in districts.values())
+        self.assertTrue('Heidelberg' in districts.values())
+
+        self.assertTrue('Schriesheim' not in districts.values())

@@ -25,7 +25,7 @@ class SetupTest(IntegrationTestCase):
         self.assert_command('setup', '-a', 35, '-d', 35, '-s', 0)
         district = self.assert_objects(District)
         self.assertEqual(district.bhv_id, 35)
-        self.assertEqual(district.name, "BHV-Ligen")
+        self.assertEqual(district.name, "Badischer Handball-Verband")
 
     def test__setup__season(self):
         self.assert_command('setup', '-a', 35, '-d', 35, '-s', 2017, '-l', 0)
