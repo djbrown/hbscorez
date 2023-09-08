@@ -14,8 +14,6 @@
 [![Mypy Badge](https://www.mypy-lang.org/static/mypy_badge.svg)](https://mypy-lang.org/)
 [![Sauce Test Status](https://saucelabs.com/buildstatus/dan-brown)](https://saucelabs.com/u/dan-brown)
 [![FOSSA License Status](https://app.fossa.com/api/projects/custom%2B5488%2Fgithub.com%2Fdjbrown%2Fhbscorez.svg?type=shield)](https://app.fossa.com/projects/custom%2B5488%2Fgithub.com%2Fdjbrown%2Fhbscorez?ref=badge_shield)
-[![Updates](https://pyup.io/repos/github/djbrown/hbscorez/shield.svg)](https://pyup.io/repos/github/djbrown/hbscorez/)
-[![Python 3](https://pyup.io/repos/github/djbrown/hbscorez/python-3-shield.svg)](https://pyup.io/repos/github/djbrown/hbscorez/)
 
 This is the repo for the web application HbScorez running [hbscorez.de](https://hbscorez.de/).  
 HbScorez processes handball game reports of diverse handball associations, districts, and leagues.
@@ -29,9 +27,6 @@ It analyzes the player scores and displays the statistics and rankings.
 
 HbScorez is powered by **Django**  
 [<img src="https://www.djangoproject.com/m/img/logos/django-logo-positive.svg" height="50" alt="Django Logo"/>](https://www.djangoproject.com/)
-
-[ ~ Dependencies scanned by **PyUp.io** ~ ]  
-[<img src="https://pyup.io/static/images/logo.png" height="50"/>](https://pyup.io/)
 
 ## Running via Docker
 
