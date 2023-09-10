@@ -100,7 +100,7 @@ class ModelTestCase(TestCase):
         if filters is None:
             filters = {}
 
-        objects = model.objects.filter(**filters)
+        objects = model._default_manager.filter(**filters)  # pylint: disable=protected-access
         self.assertEqual(len(objects), count)
         return objects[0] if count == 1 else objects
 
