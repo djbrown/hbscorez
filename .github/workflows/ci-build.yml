@@ -139,16 +139,3 @@ jobs:
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
 
-      - name: Checkout README.md
-        uses: actions/checkout@v3
-        with:
-          sparse-checkout: |
-            README.md
-          sparse-checkout-cone-mode: false
-
-      - name: Update Docker Hub Description
-        uses: peter-evans/dockerhub-description@v3
-        with:
-          username: ${{ secrets.DOCKER_HUB_USERNAME }}
-          password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
-          repository: djbrown/hbscorez
