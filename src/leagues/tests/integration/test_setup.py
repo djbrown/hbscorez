@@ -4,23 +4,28 @@ from districts.models import District
 from leagues.models import League, Season
 
 
-class SetupTest(IntegrationTestCase):
-
+class AssociationTest(IntegrationTestCase):
     def test__setup__association(self):
         self.assert_command('setup', '-a', 35, '-d', 0)
         association = self.assert_objects(Association)
         self.assertEqual(association.bhv_id, 35)
         self.assertEqual(association.name, "Badischer Handball-Verband")
 
-    def test__setup__all_associations_and_districts(self):
-        self.assert_command('setup', '-s', 0)
+    def test__setup__association__update(self):
+        Association.objects.create(name="My Association", abbreviation="ABBR", bhv_id=35)
+
+        self.assert_command('setup', '-a', 35, '-d', 0)
+
+        association = self.assert_objects(Association)
+        self.assertEqual(association.name, "Badischer Handball-Verband")
+        self.assertEqual(association.abbreviation, "ABBR")
+
+    def test__setup__all_associations(self):
+        self.assert_command('setup', '-d', 0)
         self.assert_objects(Association, count=14)
-        self.assert_objects(District, count=65)
 
-    def test__setup__oberliga_hamburg_schleswig(self):
-        self.assert_command('setup', '-a', 77, '-d', 77, '-s', 2021, '-l', 77606)
-        self.assert_objects(League)
 
+class SetupTest(IntegrationTestCase):
     def test__setup__district(self):
         self.assert_command('setup', '-a', 35, '-d', 35, '-s', 0)
         district = self.assert_objects(District)
@@ -57,6 +62,11 @@ class SetupTest(IntegrationTestCase):
         for start_year in range(1999, 2004):
             exists = Season.objects.filter(start_year=start_year).exists()
             self.assertFalse(exists, f'Season {start_year} should not exist')
+
+
+    def test__setup__oberliga_hamburg_schleswig(self):
+        self.assert_command('setup', '-a', 77, '-d', 77, '-s', 2021, '-l', 77606)
+        self.assert_objects(League)
 
     def test__setup__meisterschaft(self):
         self.assert_command('setup', '-a', 3, '-d', 3, '-s', 2009, '-l', 9656, 9657, 10677)
