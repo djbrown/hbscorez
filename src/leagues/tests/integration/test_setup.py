@@ -70,8 +70,20 @@ class SeasonTest(IntegrationTestCase):
             self.assertFalse(exists, f'Season {start_year} should not exist')
 
 
-class SetupTest(IntegrationTestCase):
+class LeagueTest(IntegrationTestCase):
     def test__setup__league(self):
+        self.assert_command('setup', '-a', 35, '-d', 35, '-s', 2017, '-l', 26777)
+
+        league = self.assert_objects(League)
+        self.assertEqual(league.name, "Verbandsliga Männer")
+        self.assertEqual(league.abbreviation, "M-VL")
+        self.assertEqual(league.bhv_id, 26777)
+
+    def test__setup__league__update(self):
+        district = District.objects.create(name="My District", bhv_id=35)
+        season = Season.objects.create(start_year=2017)
+        League.objects.create(name="My League", abbreviation="ABBR", district=district, season=season, bhv_id=26777)
+
         self.assert_command('setup', '-a', 35, '-d', 35, '-s', 2017, '-l', 26777)
 
         league = self.assert_objects(League)
@@ -93,7 +105,7 @@ class SetupTest(IntegrationTestCase):
         self.assert_command('setup', '-a', 4, '-d', 4, '-s', 2019, '-l', 53980)
 
 
-class StartDate(IntegrationTestCase):
+class SeasonStartTest(IntegrationTestCase):
     def test_first_hit(self):
         self.assert_command('setup', '-a', 80, '-d', 80, '-s', 2018, '-l', 34744)
 

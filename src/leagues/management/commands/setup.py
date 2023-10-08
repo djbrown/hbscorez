@@ -226,12 +226,27 @@ def scrape_league(league_link, district, season, options):
         LOGGER.debug('SKIPPING League (youth league): %s %s %s', bhv_id, abbreviation, name)
         return
 
-    league, league_created = League.objects.get_or_create(
-        name=name, abbreviation=abbreviation, district=district, season=season, bhv_id=bhv_id)
-    if league_created:
+    league = League.objects.filter(bhv_id=bhv_id).first()
+    if not league:
+        league = League.objects.create(name=name, abbreviation=abbreviation,
+                                       district=district, season=season, bhv_id=bhv_id)
         LOGGER.info('CREATED League: %s', league)
+
+    updated = False
+
+    if league.name != name:
+        league.name = name
+        updated = True
+
+    if league.abbreviation != abbreviation:
+        league.abbreviation = abbreviation
+        updated = True
+
+    if updated:
+        league.save()
+        LOGGER.info('UPDATED League: %s', league)
     else:
-        LOGGER.info('EXISTING League: %s', league)
+        LOGGER.debug('UNCHANGED League: %s', league)
 
     if options['skip_teams']:
         return
