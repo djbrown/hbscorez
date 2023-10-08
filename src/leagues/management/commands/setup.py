@@ -113,17 +113,31 @@ def scrape_district(bhv_id, name, association: Association, options):
         LOGGER.debug('SKIPPING District (options): %s %s', bhv_id, name)
         return
 
-    district, created = District.objects.get_or_create(name=name, bhv_id=bhv_id)
-    district.associations.add(association)
-    if bhv_id in options['processed_districts']:
-        LOGGER.debug('SKIPPING District: %s %s (already processed)', bhv_id, name)
-        return
-
-    if created:
+    district = District.objects.filter(bhv_id=bhv_id).first()
+    if not district:
+        district = District.objects.create(name=name, bhv_id=bhv_id)
         LOGGER.info('CREATED District: %s', district)
-    else:
-        LOGGER.info('EXISTING District: %s', district)
+
+    if association not in district.associations.all():
+        LOGGER.info('ADDING District to Association: %s - %s', association, district)
+        district.associations.add(association)
+
+    if bhv_id in options['processed_districts']:
+        LOGGER.debug('SKIPPING District: %s (already processed)', district)
+        return
     options['processed_districts'].add(bhv_id)
+
+    updated = False
+
+    if district.name != name:
+        district.name = name
+        updated = True
+
+    if updated:
+        district.save()
+        LOGGER.info('UPDATED District: %s', district)
+    else:
+        LOGGER.debug('UNCHANGED District: %s', district)
 
     for start_year in range(2004, datetime.now().year + 1):
         try:

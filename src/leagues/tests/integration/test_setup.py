@@ -25,13 +25,27 @@ class AssociationTest(IntegrationTestCase):
         self.assert_objects(Association, count=14)
 
 
-class SetupTest(IntegrationTestCase):
+class DistrictTest(IntegrationTestCase):
     def test__setup__district(self):
         self.assert_command('setup', '-a', 35, '-d', 35, '-s', 0)
         district = self.assert_objects(District)
         self.assertEqual(district.bhv_id, 35)
         self.assertEqual(district.name, "Badischer Handball-Verband")
 
+    def test__setup__district__update(self):
+        District.objects.create(name="My District", bhv_id=35)
+
+        self.assert_command('setup', '-a', 35, '-d', 35, '-s', 0)
+
+        district = self.assert_objects(District)
+        self.assertEqual(district.name, "Badischer Handball-Verband")
+
+    def test__setup__all_districts(self):
+        self.assert_command('setup', '-s', 0)
+        self.assert_objects(District, count=65)
+
+
+class SetupTest(IntegrationTestCase):
     def test__setup__season(self):
         self.assert_command('setup', '-a', 35, '-d', 35, '-s', 2017, '-l', 0)
 
