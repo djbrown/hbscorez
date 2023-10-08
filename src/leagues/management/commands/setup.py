@@ -155,7 +155,7 @@ def scrape_season(district, start_year, options):
     if season_created:
         LOGGER.info('CREATED Season: %s', season)
     else:
-        LOGGER.info('EXISTING Season: %s', season)
+        LOGGER.debug('UNCHANGED Season: %s', season)
 
     for start_date in [date(start_year, 10, 1) + timedelta(days=10 * n) for n in range(4)]:
         LOGGER.debug('trying District Season: %s %s %s', district, season, start_date)

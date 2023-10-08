@@ -45,20 +45,12 @@ class DistrictTest(IntegrationTestCase):
         self.assert_objects(District, count=65)
 
 
-class SetupTest(IntegrationTestCase):
+class SeasonTest(IntegrationTestCase):
     def test__setup__season(self):
         self.assert_command('setup', '-a', 35, '-d', 35, '-s', 2017, '-l', 0)
 
         season = self.assert_objects(Season)
         self.assertEqual(season.start_year, 2017)
-
-    def test__setup__league(self):
-        self.assert_command('setup', '-a', 35, '-d', 35, '-s', 2017, '-l', 26777)
-
-        league = self.assert_objects(League)
-        self.assertEqual(league.name, "Verbandsliga Männer")
-        self.assertEqual(league.abbreviation, "M-VL")
-        self.assertEqual(league.bhv_id, 26777)
 
     def test__setup__exclude_irrelevant_seasons(self):
         self.assert_command('setup', '-a', 4, '-d', 3, '-l', 0)
@@ -68,7 +60,7 @@ class SetupTest(IntegrationTestCase):
             exists = Season.objects.filter(start_year=start_year).exists()
             self.assertTrue(exists, f'Season {start_year} should exist')
 
-    def test__setup__old_leagues(self):
+    def test__setup__old_seasons(self):
         self.assert_command('setup', '-a', 4, '-d', 3, '-l', 0)
 
         self.assert_objects(League, count=0)
@@ -77,6 +69,15 @@ class SetupTest(IntegrationTestCase):
             exists = Season.objects.filter(start_year=start_year).exists()
             self.assertFalse(exists, f'Season {start_year} should not exist')
 
+
+class SetupTest(IntegrationTestCase):
+    def test__setup__league(self):
+        self.assert_command('setup', '-a', 35, '-d', 35, '-s', 2017, '-l', 26777)
+
+        league = self.assert_objects(League)
+        self.assertEqual(league.name, "Verbandsliga Männer")
+        self.assertEqual(league.abbreviation, "M-VL")
+        self.assertEqual(league.bhv_id, 26777)
 
     def test__setup__oberliga_hamburg_schleswig(self):
         self.assert_command('setup', '-a', 77, '-d', 77, '-s', 2021, '-l', 77606)
