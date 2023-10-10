@@ -6,7 +6,7 @@ from django.db import transaction
 from django.db.models import Count, F, Q, Sum
 from django.db.models.functions import Coalesce, TruncMonth
 
-from base import parsing
+from base import http, parsing
 from games.models import Game, TeamOutcome
 from leagues.models import League
 from players.models import Player, Score
@@ -83,6 +83,7 @@ def scrape_game(game_row, league: League, sports_hall: SportsHall, ignore_list: 
                                    home_goals=home_goals, guest_goals=guest_goals,
                                    report_number=report_number, forfeiting_team=forfeiting_team)
         LOGGER.info('CREATED Game: %s', game)
+        return
 
     updated = False
 
@@ -245,3 +246,63 @@ def top_league_offenders(league):
     for scorers_group in offenders_by_place.values():
         scorers_group.sort(key=lambda p: p.name)
     return offenders_by_place
+
+
+def scrape_sports_hall(game_row, processed: set[int] = set()):
+    if len(game_row[3]) != 1:
+        return None
+    link = game_row[3][0]
+    number = int(link.text)
+    bhv_id = parsing.parse_sports_hall_bhv_id(link)
+
+    sports_hall = SportsHall.objects.filter(number=number, bhv_id=bhv_id).first()
+    if bhv_id in processed:
+        LOGGER.debug('SKIPPING Sports Hall: %s (already processed)', sports_hall)
+        return sports_hall
+
+    url = SportsHall.build_source_url(bhv_id)
+    html = http.get_text(url)
+    dom = parsing.html_dom(html)
+    table = parsing.parse_sports_hall_table(dom)
+
+    name = parsing.parse_sports_hall_name(table)
+    address = parsing.parse_sports_hall_address(table)
+    phone_number = parsing.parse_sports_hall_phone_number(table)
+    latitude, longitude = parsing.parse_sports_hall_coordinates(dom)
+
+    if not sports_hall:
+        sports_hall = SportsHall.objects.create(number=number, name=name, address=address,
+                                                phone_number=phone_number, latitude=latitude,
+                                                longitude=longitude, bhv_id=bhv_id)
+        LOGGER.info('CREATED Sports Hall: %s', sports_hall)
+        return sports_hall
+
+    updated = False
+
+    if sports_hall.name != name:
+        sports_hall.name = name
+        updated = True
+
+    if sports_hall.address != address:
+        sports_hall.address = address
+        updated = True
+
+    if sports_hall.phone_number != phone_number:
+        sports_hall.phone_number = phone_number
+        updated = True
+
+    if sports_hall.latitude != latitude:
+        sports_hall.latitude = latitude
+        updated = True
+
+    if sports_hall.longitude != longitude:
+        sports_hall.longitude = longitude
+        updated = True
+
+    if updated:
+        sports_hall.save()
+        LOGGER.info('UPDATED Sports Hall: %s', sports_hall)
+    else:
+        LOGGER.debug('UNCHANGED Sports Hall: %s', sports_hall)
+
+    return sports_hall

@@ -9,7 +9,6 @@ import json
 from lxml import html
 from lxml.etree import _Element
 
-from games.models import SportsHall
 from teams.models import Team
 
 
@@ -124,26 +123,29 @@ def parse_opening_whistle(text: str) -> datetime | None:
     raise ValueError(f'invalid opening whistle: {text}')
 
 
-def parse_sports_hall(dom: _Element) -> SportsHall:
-    table = cast(list[_Element], dom.xpath('//table[@class="gym"]'))[0]
-    name = cast(str, table[0][1][0].text)
+def parse_sports_hall_table(dom: _Element) -> _Element:
+    return cast(list[_Element], dom.xpath('//table[@class="gym"]'))[0]
+
+
+def parse_sports_hall_name(table: _Element) -> str:
+    return cast(str, table[0][1][0].text)
+
+
+def parse_sports_hall_address(table: _Element) -> str:
     city = cast(str, table[1][1].text)
     street = table[2][1].text
-    address = street + ", " + city if street else city
-    phone_number = table[3][1].text
+    return street + ", " + city if street else city
 
-    latitude, longitude = parse_coordinates(dom)
 
-    return SportsHall(name=name, address=address,
-                      phone_number=phone_number, latitude=latitude,
-                      longitude=longitude)
+def parse_sports_hall_phone_number(table: _Element) -> str:
+    return str(table[3][1].text)
 
 
 def parse_sports_hall_bhv_id(link: _Element) -> int:
     return int(parse_link_query_item(link, 'gymID'))
 
 
-def parse_coordinates(dom: _Element) -> tuple[str | None, str | None]:
+def parse_sports_hall_coordinates(dom: _Element) -> tuple[str | None, str | None]:
     map_scripts = cast(list[_Element], dom.xpath('//script[contains(text(),"new mxn.LatLonPoint")]'))
     if not map_scripts or not map_scripts[0].text:
         return (None, None)

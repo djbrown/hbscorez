@@ -10,7 +10,6 @@ from base.models import Value
 from districts.models import District
 from leagues.management.commands.setup import add_default_arguments
 from leagues.models import League, Season
-from sports_halls.models import SportsHall
 
 LOGGER = logging.getLogger('hbscorez')
 
@@ -25,6 +24,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         self.options = options
+        self.options['processed_sports_halls'] = set()
         env.UPDATING.set_value(Value.TRUE)
         self.import_associations()
         env.UPDATING.set_value(Value.FALSE)
@@ -74,31 +74,8 @@ class Command(BaseCommand):
         game_rows = parsing.parse_game_rows(dom)
         for game_row in game_rows:
             try:
-                sports_hall = scrape_sports_hall(game_row)
+                sports_hall = logic.scrape_sports_hall(game_row, processed=self.options['processed_sports_halls'])
+                self.options['processed_sports_halls'].add(sports_hall.bhv_id)
                 logic.scrape_game(game_row, league, sports_hall, self.options['games'])
             except Exception:
                 LOGGER.exception("Could not import Game")
-
-
-def scrape_sports_hall(game_row):
-    if len(game_row[3]) != 1:
-        return None
-    link = game_row[3][0]
-    number = int(link.text)
-    bhv_id = parsing.parse_sports_hall_bhv_id(link)
-
-    sports_hall = SportsHall.objects.filter(number=number, bhv_id=bhv_id)
-    if sports_hall.exists():
-        return sports_hall[0]
-
-    url = SportsHall.build_source_url(bhv_id)
-    html = http.get_text(url)
-    dom = parsing.html_dom(html)
-
-    sports_hall = parsing.parse_sports_hall(dom)
-    sports_hall.bhv_id = bhv_id
-    sports_hall.number = number
-    sports_hall.save()
-
-    LOGGER.info('CREATED Sports Hall: %s', sports_hall)
-    return sports_hall
