@@ -6,8 +6,11 @@ from django.db import transaction
 from django.db.models import Count, F, Q, Sum
 from django.db.models.functions import Coalesce, TruncMonth
 
+from base import parsing
 from games.models import Game, TeamOutcome
+from leagues.models import League
 from players.models import Player, Score
+from sports_halls.models import SportsHall
 from teams.models import Team
 
 LOGGER = logging.getLogger('hbscorez')
@@ -54,27 +57,90 @@ def duplicate_player_scores_exist(score: Score):
     return divided_players.exists() or duplicate_scores.exists()
 
 
-@transaction.atomic
-def split_by_number(original_name: str, team: Team):
-    LOGGER.info("DIVIDING Player: %s (%s)", original_name, team)
-
-    matches = Player.objects.filter(name=original_name, team=team)
-    if not matches.exists():
-        LOGGER.warning("SKIPPING Player (not found): %s (%s)", original_name, team)
+def scrape_game(game_row, league: League, sports_hall: SportsHall, ignore_list: list[int] = []):
+    if game_row[1].text == 'Nr.':
+        LOGGER.debug('SKIPPING Row (heading)')
         return
 
-    original_player = matches[0]
-    for score in original_player.score_set.all():
-        new_name = f"{original_player.name} ({score.player_number})"
-        new_player, created = Player.objects.get_or_create(name=new_name, team=original_player.team)
+    number = int(game_row[1].text)
+
+    if ignore_list and number not in ignore_list:
+        LOGGER.debug('SKIPPING Game (options): %s', number)
+        return
+
+    opening_whistle = parsing.parse_opening_whistle(game_row[2].text)
+    home_team = Team.objects.get(league=league, short_name=game_row[4].text)
+    guest_team = Team.objects.get(league=league, short_name=game_row[6].text)
+    home_goals, guest_goals = parsing.parse_goals(game_row)
+    report_number = parsing.parse_report_number(game_row[10])
+    forfeiting_team = parsing.parse_forfeiting_team(game_row[10], home_team, guest_team)
+
+    game = Game.objects.filter(number=number, league__season=league.season).first()
+    if not game:
+        game = Game.objects.create(number=number, league=league,
+                                   opening_whistle=opening_whistle, sports_hall=sports_hall,
+                                   home_team=home_team, guest_team=guest_team,
+                                   home_goals=home_goals, guest_goals=guest_goals,
+                                   report_number=report_number, forfeiting_team=forfeiting_team)
+        LOGGER.info('CREATED Game: %s', game)
+
+    updated = False
+
+    if game.home_goals != home_goals:
+        game.home_goals = home_goals
+        updated = True
+
+    if game.guest_goals != guest_goals:
+        game.guest_goals = guest_goals
+        updated = True
+
+    if game.report_number != report_number:
+        game.report_number = report_number
+        updated = True
+
+    if updated and game.score_set:
+        game.score_set.all().delete()
+        LOGGER.info('DELETED Game Scores: %s', game)
+
+    if game.opening_whistle != opening_whistle:
+        game.opening_whistle = opening_whistle
+        updated = True
+
+    if game.sports_hall != sports_hall:
+        game.sports_hall = sports_hall
+        updated = True
+
+    if game.forfeiting_team != forfeiting_team:
+        game.forfeiting_team = forfeiting_team
+        updated = True
+
+    if updated:
+        game.save()
+        LOGGER.info('UPDATED Game: %s', game)
+    else:
+        LOGGER.debug('UNCHANGED Game: %s', game)
+
+
+@transaction.atomic
+def split_by_number(name: str, team: Team):
+    LOGGER.info("DIVIDING Player: %s (%s)", name, team)
+
+    player = Player.objects.filter(name=name, team=team).first()
+    if not player:
+        LOGGER.warning("SKIPPING Player (not found): %s (%s)", name, team)
+        return
+
+    for score in player.score_set.all():
+        new_name = f"{player.name} ({score.player_number})"
+        new_player, created = Player.objects.get_or_create(name=new_name, team=player.team)
         if created:
             LOGGER.debug("CREATED Player: %s", new_player)
         score.player = new_player
         score.save()
 
-    if not original_player.score_set.all().exists():
-        LOGGER.debug("DELETING Player (no dangling scores): %s", original_player)
-        original_player.delete()
+    if not player.score_set.all().exists():
+        player.delete()
+        LOGGER.debug("DELETED Player (no dangling scores): %s", player)
 
 
 def league_games(league):
