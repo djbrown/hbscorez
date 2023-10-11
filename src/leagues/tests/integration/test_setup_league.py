@@ -3,7 +3,7 @@ from base.tests.base import IntegrationTestCase
 from leagues.models import League, LeagueName, Season
 
 
-class SetupTest(IntegrationTestCase):
+class SpecificTest(IntegrationTestCase):
 
     def test__setup__mvl_2016(self):
         self.assert_command('setup', '-a', 35, '-d', 35, '-s', 2016, '-l', 21666)

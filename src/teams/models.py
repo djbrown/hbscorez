@@ -31,18 +31,27 @@ class Team(models.Model):
 
     @staticmethod
     def create_or_update_team(name, short_name, league, bhv_id, logger: logging.Logger = logging.getLogger()):
-        team = Team.objects.filter(league=league, bhv_id=bhv_id).first()
-        if team:
-            if team.name != name or team.short_name != short_name:
-                team.name = name
-                team.short_name = short_name
-                team.save()
-                logger.info('UPDATED Team: %s', team)
-            else:
-                logger.info('EXISTING Team: %s', team)
-        else:
+        team = Team.objects.filter(bhv_id=bhv_id).first()
+        if not team:
             team = Team.objects.create(name=name, short_name=short_name, league=league, bhv_id=bhv_id)
             logger.info('CREATED Team: %s', team)
+            return
+
+        updated = False
+
+        if team.name != name:
+            team.name = name
+            updated = True
+
+        if team.short_name != short_name:
+            team.short_name = short_name
+            updated = True
+
+        if updated:
+            team.save()
+            logger.info('UPDATED Team: %s', team)
+        else:
+            logger.debug('UNCHANGED Team: %s', team)
 
     def source_url(self):
         return self.build_source_url(self.league.bhv_id, self.bhv_id)

@@ -1,9 +1,15 @@
 import datetime
+from pathlib import Path
 
+from django.conf import settings
+
+from base import logic, parsing
 from base.tests.base import IntegrationTestCase
 from games.models import Game
 from leagues.models import League, Season
 from leagues.tests.integration import test_setup_league
+from players.models import Score
+from sports_halls.models import SportsHall
 
 
 class ImportGamesTest(IntegrationTestCase):
@@ -16,14 +22,15 @@ class ImportGamesTest(IntegrationTestCase):
         game = self.assert_objects(Game)
 
         self.assertEqual(game.number, 210226)
+        self.assertEqual(game.league, league)
         self.assertEqual(game.opening_whistle, datetime.datetime(2017, 10, 7, 19, 45))
+        self.assertEqual(game.sports_hall.number, 22010)
+        self.assertEqual(game.sports_hall.bhv_id, 487)
         self.assertEqual(game.home_team.short_name, 'TSVG Malsch')
         self.assertEqual(game.guest_team.short_name, 'HSG Dittig/TBB')
         self.assertEqual(game.home_goals, 24)
         self.assertEqual(game.guest_goals, 22)
         self.assertEqual(game.report_number, 490394)
-        self.assertEqual(game.sports_hall.number, 22010)
-        self.assertEqual(game.league, league)
 
     def test__import_games__m_vl(self):
         self.assert_command('setup', '-a', 35, '-d', 35, '-s', 2017, '-l', 26777)
@@ -45,6 +52,39 @@ class ImportGamesTest(IntegrationTestCase):
 
         for league in leagues:
             self.assertGreater(league.game_set.count(), 0, msg=f"league without games: {league}")
+
+
+def read_html(file_name):
+    file: Path = settings.ROOT_DIR / 'src' / 'games' / 'tests' / file_name
+    content = file.read_text()
+    return parsing.html_dom(content)
+
+
+class Update(IntegrationTestCase):
+    def test_update_game(self):
+        self.assert_command('setup', '-a', 35, '-d', 35, '-s', 2017, '-l', 26777)
+        league = self.assert_objects(League)
+
+        self.assert_command('import_games', '-g', 210226)
+        self.assert_command('import_reports')
+        self.assert_objects(Game)
+        self.assert_objects(Score, count=27)
+
+        dom = read_html('game_table_single_game.html')
+        [game_row] = parsing.parse_game_rows(dom)
+        sports_hall = SportsHall.objects.create(
+            number=1, name="My Gym", address="addr", phone_number="tel", latitude="10", longitude="20", bhv_id=3)
+
+        logic.scrape_game(game_row, league, sports_hall)
+
+        game = self.assert_objects(Game)
+
+        self.assertEqual(game.opening_whistle, datetime.datetime(2017, 10, 8, 15, 0))
+        self.assertEqual(game.home_goals, 124)
+        self.assertEqual(game.guest_goals, 122)
+        self.assertEqual(game.report_number, 0)
+        self.assertEqual(game.sports_hall, sports_hall)
+        self.assertEqual(game.score_set.count(), 0)
 
 
 class Forfeit(IntegrationTestCase):

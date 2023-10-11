@@ -72,12 +72,22 @@ def scrape_association(url: str, options):
         LOGGER.debug('SKIPPING Association (options): %s %s', bhv_id, name)
         return
 
-    defaults = {'name': name, 'abbreviation': abbreviation, 'bhv_id': bhv_id, 'source_url': url}
-    association, created = Association.objects.update_or_create(defaults=defaults, bhv_id=bhv_id)
-    if created:
+    association = Association.objects.filter(bhv_id=bhv_id).first()
+    if not association:
+        association = Association.objects.create(name=name, abbreviation=abbreviation, bhv_id=bhv_id)
         LOGGER.info('CREATED Association: %s', association)
+
+    updated = False
+
+    if association.name != name:
+        association.name = name
+        updated = True
+
+    if updated:
+        association.save()
+        LOGGER.info('UPDATED Association: %s', association)
     else:
-        LOGGER.info('EXISTING Association: %s', association)
+        LOGGER.debug('UNCHANGED Association: %s', association)
 
     try:
         scrape_districs(association, options)
@@ -103,17 +113,31 @@ def scrape_district(bhv_id, name, association: Association, options):
         LOGGER.debug('SKIPPING District (options): %s %s', bhv_id, name)
         return
 
-    district, created = District.objects.get_or_create(name=name, bhv_id=bhv_id)
-    district.associations.add(association)
-    if bhv_id in options['processed_districts']:
-        LOGGER.debug('SKIPPING District: %s %s (already processed)', bhv_id, name)
-        return
-
-    if created:
+    district = District.objects.filter(bhv_id=bhv_id).first()
+    if not district:
+        district = District.objects.create(name=name, bhv_id=bhv_id)
         LOGGER.info('CREATED District: %s', district)
-    else:
-        LOGGER.info('EXISTING District: %s', district)
+
+    if association not in district.associations.all():
+        LOGGER.info('ADDING District to Association: %s - %s', association, district)
+        district.associations.add(association)
+
+    if bhv_id in options['processed_districts']:
+        LOGGER.debug('SKIPPING District: %s (already processed)', district)
+        return
     options['processed_districts'].add(bhv_id)
+
+    updated = False
+
+    if district.name != name:
+        district.name = name
+        updated = True
+
+    if updated:
+        district.save()
+        LOGGER.info('UPDATED District: %s', district)
+    else:
+        LOGGER.debug('UNCHANGED District: %s', district)
 
     for start_year in range(2004, datetime.now().year + 1):
         try:
@@ -131,7 +155,7 @@ def scrape_season(district, start_year, options):
     if season_created:
         LOGGER.info('CREATED Season: %s', season)
     else:
-        LOGGER.info('EXISTING Season: %s', season)
+        LOGGER.debug('UNCHANGED Season: %s', season)
 
     for start_date in [date(start_year, 10, 1) + timedelta(days=10 * n) for n in range(4)]:
         LOGGER.debug('trying District Season: %s %s %s', district, season, start_date)
@@ -202,12 +226,27 @@ def scrape_league(league_link, district, season, options):
         LOGGER.debug('SKIPPING League (youth league): %s %s %s', bhv_id, abbreviation, name)
         return
 
-    league, league_created = League.objects.get_or_create(
-        name=name, abbreviation=abbreviation, district=district, season=season, bhv_id=bhv_id)
-    if league_created:
+    league = League.objects.filter(bhv_id=bhv_id).first()
+    if not league:
+        league = League.objects.create(name=name, abbreviation=abbreviation,
+                                       district=district, season=season, bhv_id=bhv_id)
         LOGGER.info('CREATED League: %s', league)
+
+    updated = False
+
+    if league.name != name:
+        league.name = name
+        updated = True
+
+    if league.abbreviation != abbreviation:
+        league.abbreviation = abbreviation
+        updated = True
+
+    if updated:
+        league.save()
+        LOGGER.info('UPDATED League: %s', league)
     else:
-        LOGGER.info('EXISTING League: %s', league)
+        LOGGER.debug('UNCHANGED League: %s', league)
 
     if options['skip_teams']:
         return

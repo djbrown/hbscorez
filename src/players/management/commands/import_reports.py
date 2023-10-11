@@ -89,28 +89,39 @@ class Command(BaseCommand):
     def import_game(self, game: Game):
         if self.options['games'] and game.number not in self.options['games']:
             LOGGER.debug('SKIPPING Game (options): %s - %s', game.report_number, game)
-        elif game.report_number is None:
+            return
+
+        if game.report_number is None:
             LOGGER.debug('SKIPPING Game (no report): %s - %s', game.report_number, game)
-        elif ReportsBlacklist.objects.filter(report_number=game.report_number):
+            return
+
+        if ReportsBlacklist.objects.filter(report_number=game.report_number):
             LOGGER.debug('SKIPPING Report (blacklist): %s - %s', game.report_number, game)
-        elif game.home_team.retirement is not None or game.guest_team.retirement is not None:
+            return
+
+        if game.home_team.retirement is not None or game.guest_team.retirement is not None:
             if game.score_set.count() > 0:
-                LOGGER.info('DELETING Game Scores (retired team): %s - %s', game.report_number, game)
                 game.score_set.all().delete()
+                LOGGER.info('DELETED Game Scores (retired team): %s - %s', game.report_number, game)
             else:
                 LOGGER.debug('SKIPPING Game (retired team): %s - %s', game.report_number, game)
-        elif game.score_set.count() > 0:
+            return
+
+        if game.score_set.count() > 0:
             if not self.options['force_update']:
                 LOGGER.debug('SKIPPING Game (existing scores): %s - %s', game.report_number, game)
             else:
                 LOGGER.info('REIMPORTING Report: %s - %s', game.report_number, game)
                 game.score_set.all().delete()
                 import_game(game)
-        elif game.forfeiting_team is not None:
+            return
+
+        if game.forfeiting_team is not None:
             LOGGER.debug('SKIPPING Game (forfeit): %s - %s', game.report_number, game)
-        else:
-            LOGGER.info('IMPORTING Report: %s - %s', game.report_number, game)
-            import_game(game)
+            return
+
+        LOGGER.info('IMPORTING Report: %s - %s', game.report_number, game)
+        import_game(game)
 
 
 @transaction.atomic
