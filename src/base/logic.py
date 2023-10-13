@@ -255,7 +255,7 @@ def scrape_sports_hall(game_row, processed: set[int] = set()):
     number = int(link.text)
     bhv_id = parsing.parse_sports_hall_bhv_id(link)
 
-    sports_hall = SportsHall.objects.filter(number=number, bhv_id=bhv_id).first()
+    sports_hall = SportsHall.objects.filter(bhv_id=bhv_id).first()
     if bhv_id in processed:
         LOGGER.debug('SKIPPING Sports Hall: %s (already processed)', sports_hall)
         return sports_hall
@@ -278,6 +278,10 @@ def scrape_sports_hall(game_row, processed: set[int] = set()):
         return sports_hall
 
     updated = False
+
+    if sports_hall.number != number:
+        sports_hall.number = number
+        updated = True
 
     if sports_hall.name != name:
         sports_hall.name = name

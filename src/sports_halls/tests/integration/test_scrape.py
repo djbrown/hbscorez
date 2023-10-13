@@ -19,12 +19,13 @@ class Update(IntegrationTestCase):
     def test_update(self):
         dom = read_html('game_table_single_game.html')
         [game_row] = parsing.parse_game_rows(dom)
-        SportsHall.objects.create(number=22010, name="My Gym", address="addr", phone_number="tel",
+        SportsHall.objects.create(number=123456, name="My Gym", address="addr", phone_number="tel",
                                   latitude="10", longitude="20", bhv_id=487)
 
         logic.scrape_sports_hall(game_row)
         sports_hall = self.assert_objects(SportsHall)
 
+        self.assertEqual(sports_hall.number, 22010)
         self.assertEqual(sports_hall.name, "Rebland-Halle")
         self.assertEqual(sports_hall.address, "Unterer Jagdweg 69, D 69254 Malsch")
         self.assertEqual(sports_hall.phone_number, "07253-24150")
