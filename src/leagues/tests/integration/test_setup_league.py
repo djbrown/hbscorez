@@ -53,6 +53,8 @@ class SpecificTest(IntegrationTestCase):
         self.assertEqual(league.bhv_id, 27505)
         self.assertEqual(league.season, season)
 
+
+class LeagueNameTest(IntegrationTestCase):
     def test__setup__mklc2_2007(self):
         LeagueName.objects.create(bhv_id=7424, name="Männer Kreisliga C Staffel 3")
 

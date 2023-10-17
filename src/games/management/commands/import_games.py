@@ -75,7 +75,8 @@ class Command(BaseCommand):
         for game_row in game_rows:
             try:
                 sports_hall = logic.scrape_sports_hall(game_row, processed=self.options['processed_sports_halls'])
-                self.options['processed_sports_halls'].add(sports_hall.bhv_id)
+                if sports_hall is not None:
+                    self.options['processed_sports_halls'].add(sports_hall.bhv_id)
                 logic.scrape_game(game_row, league, sports_hall, self.options['games'])
             except Exception:
                 LOGGER.exception("Could not import Game")

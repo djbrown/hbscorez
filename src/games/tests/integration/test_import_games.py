@@ -140,3 +140,9 @@ class BuggedGameRows(IntegrationTestCase):
         self.assert_command('setup', '-a', 78, '-d', 151, '-s', 2023, '-l', 110541)
         self.assert_command('import_games')
         self.assert_objects(Game, count=3)
+
+    def test_missing_sports_hall(self):
+        self.assert_command('setup', '-a', 79, '-d', 79, '-s', 2023, '-l', 102551)
+        self.assert_command('import_games')
+        self.assert_objects(SportsHall, count=0)
+        self.assert_objects(Game, count=6)

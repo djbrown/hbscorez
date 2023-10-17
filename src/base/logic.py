@@ -248,7 +248,7 @@ def top_league_offenders(league):
     return offenders_by_place
 
 
-def scrape_sports_hall(game_row, processed: set[int] = set()):
+def scrape_sports_hall(game_row, processed: set[int] = set()) -> SportsHall | None:
     if len(game_row[3]) != 1:
         return None
     link = game_row[3][0]
