@@ -110,9 +110,9 @@ class ModelTestCase(TestCase):
 @skip_unless_any_tag('integration', 'slow')
 class IntegrationTestCase(ModelTestCase):
 
-    def assert_command(self, command_name, *arguments, expected_return_code=None):
-        return_code = call_command(command_name, *arguments)
-        self.assertEqual(return_code, expected_return_code)
+    def assert_command(self, command_name, *arguments, **options):
+        with self.assertNoLogs(level="ERROR"):
+            call_command(command_name, *arguments, **options)
 
 
 class LiveServerThreadWithReuse(LiveServerThread):
