@@ -18,7 +18,7 @@
     {% endblock %}
 
     {% if MATOMO_URL %}
-        <script>MATOMO_URL = "{{ MATOMO_URL }}";</script>
+        <script>const MATOMO_URL = "{{ MATOMO_URL }}";</script>
         <script src="{{ static('base/scripts/matomo.js') }}"></script>
     {% endif %}
 </head>
