@@ -105,7 +105,7 @@ def parse_team_names(text: str) -> tuple[str, str]:
 
 
 def parse_game_rows(dom: _Element) -> list[_Element]:
-    return cast(list[_Element], dom.xpath('//table[@class="gametable"]/tr[position() > 1]'))
+    return cast(list[_Element], dom.xpath('//table[@class="gametable"]/tr[td and not(@class="rgs")]'))
 
 
 def parse_team_short_names(game_rows: list[_Element]) -> list[str | None]:

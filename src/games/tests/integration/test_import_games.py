@@ -135,3 +135,8 @@ class BuggedGameRows(IntegrationTestCase):
         self.assert_command('setup', '-a', 3, '-d', 8, '-s', 2019, '-l', 46786)
         self.assert_command('import_games', '-g', 41013)
         self.assert_objects(Game)
+
+    def test_additional_title(self):
+        self.assert_command('setup', '-a', 78, '-d', 151, '-s', 2023, '-l', 110541)
+        self.assert_command('import_games')
+        self.assert_objects(Game, count=3)
