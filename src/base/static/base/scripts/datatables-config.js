@@ -96,7 +96,6 @@ $(document).ready(function () {
             // last item on previous page is most recent item
             table.page("previous").draw("page");
             highlightRow(nthDateCell(-1));
-            return;
         }
     }
 
