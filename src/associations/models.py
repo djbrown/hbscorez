@@ -7,7 +7,6 @@ class Association(models.Model):
     bhv_id = models.IntegerField('ID', unique=True)
     name = models.CharField('Name', max_length=255, unique=True)
     abbreviation = models.CharField('Abkürzung', max_length=255)
-    #source_url = models.URLField('URL')
 
     class Meta:
         verbose_name = 'Verband'

@@ -8,9 +8,14 @@ from associations.models import Association
 
 
 class District(models.Model):
-    name = models.TextField(unique=True)
-    associations = models.ManyToManyField(Association)
     bhv_id = models.IntegerField(unique=True)
+    name = models.CharField('Name', max_length=255, unique=True)
+    associations = models.ManyToManyField(Association)
+
+    class Meta:
+        verbose_name = 'Bezirk'
+        verbose_name_plural = 'Bezirke'
+        ordering = ['bhv_id']
 
     def __str__(self):
         return f'{self.bhv_id} {self.name}'

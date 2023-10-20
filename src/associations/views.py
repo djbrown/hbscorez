@@ -1,7 +1,7 @@
 from django.conf import settings
 from django.shortcuts import get_object_or_404, render
 
-from .models import Association
+from associations.models import Association
 
 
 def show_all(request):
