@@ -4,10 +4,14 @@ from django.urls import reverse
 
 
 class Association(models.Model):
-    name = models.TextField(unique=True)
-    abbreviation = models.TextField()
-    bhv_id = models.IntegerField(unique=True)
-    source_url = models.TextField()
+    bhv_id = models.IntegerField('ID', unique=True)
+    name = models.CharField('Name', max_length=255, unique=True)
+    abbreviation = models.CharField('Abkürzung', max_length=255)
+    #source_url = models.URLField('URL')
+
+    class Meta:
+        verbose_name = 'Verband'
+        verbose_name_plural = 'Verbände'
 
     def __str__(self):
         return f'{self.bhv_id} {self.abbreviation}'

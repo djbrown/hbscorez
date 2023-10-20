@@ -1,6 +1,6 @@
 from django.urls import path, include
 
-from .views import show_all, detail
+from associations.views import show_all, detail
 
 app_name = 'associations'
 
