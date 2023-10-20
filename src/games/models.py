@@ -9,6 +9,8 @@ from sports_halls.models import SportsHall
 from teams.models import Team
 
 
+
+
 class GameOutcome(Enum):
     HOME_WIN = auto()
     AWAY_WIN = auto()
@@ -31,24 +33,26 @@ class Leg(Enum):
 
 
 class Game(models.Model):
-    number = models.IntegerField()
-    league = models.ForeignKey(League, on_delete=models.CASCADE)
-    opening_whistle = models.DateTimeField(blank=True, null=True)
-    sports_hall = models.ForeignKey(SportsHall, on_delete=models.CASCADE, blank=True, null=True)
-    home_team = models.ForeignKey(Team, on_delete=models.CASCADE, related_name='home_team')
-    guest_team = models.ForeignKey(Team, on_delete=models.CASCADE, related_name='guest_team')
+    number = models.IntegerField('Spiel-Nr.')
+    league = models.ForeignKey(League, verbose_name='Liga', on_delete=models.CASCADE)
+    opening_whistle = models.DateTimeField('Anpfiff', blank=True, null=True)
+    sports_hall = models.ForeignKey(SportsHall, verbose_name='Sporthalle', on_delete=models.CASCADE, blank=True, null=True)
+    home_team = models.ForeignKey(Team, verbose_name='Heim', on_delete=models.CASCADE, related_name='home_team')
+    guest_team = models.ForeignKey(Team, verbose_name='Gast', on_delete=models.CASCADE, related_name='guest_team')
     home_goals = models.IntegerField(blank=True, null=True)
     guest_goals = models.IntegerField(blank=True, null=True)
-    report_number = models.IntegerField(unique=True, blank=True, null=True)
+    report_number = models.IntegerField('Bericht-Nr.', unique=True, blank=True, null=True)
     forfeiting_team = models.ForeignKey(Team, on_delete=models.CASCADE, blank=True, null=True,
                                         related_name='forfeiting_team')
-    spectators = models.IntegerField(blank=True, null=True)
+    spectators = models.IntegerField('Zuschauer', blank=True, null=True)
 
     class Meta:
-        unique_together = ('number', 'league')
+        verbose_name = 'Spiel'
+        verbose_name_plural = 'Spiele'
+        unique_together = ['number', 'league']
 
     def __str__(self):
-        return f'{self.number} {self.league} {self.home_team.short_name} vs. {self.guest_team.short_name}'
+        return f'{self.number} | {self.league}: {self.home_team.short_name} vs. {self.guest_team.short_name}'
 
     @staticmethod
     def build_report_source_url(report_number):
