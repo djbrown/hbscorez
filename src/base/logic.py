@@ -57,7 +57,10 @@ def duplicate_player_scores_exist(score: Score):
     return divided_players.exists() or duplicate_scores.exists()
 
 
-def scrape_game(game_row, league: League, sports_hall: SportsHall | None, ignore_list: list[int] = []):
+def scrape_game(game_row, league: League, sports_hall: SportsHall | None, ignore_list: list[int] = None):
+    if ignore_list is None:
+        ignore_list = []
+
     if game_row[1].text == 'Nr.':
         LOGGER.debug('SKIPPING Row (heading)')
         return
@@ -248,7 +251,10 @@ def top_league_offenders(league):
     return offenders_by_place
 
 
-def scrape_sports_hall(game_row, processed: set[int] = set()) -> SportsHall | None:
+def scrape_sports_hall(game_row, processed: set[int] = None) -> SportsHall | None:
+    if processed is None:
+        processed = set()
+
     if len(game_row[3]) != 1:
         return None
     link = game_row[3][0]

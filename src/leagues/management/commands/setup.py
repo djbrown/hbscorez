@@ -1,7 +1,6 @@
 import logging
 from datetime import date, datetime, timedelta
 
-from django.conf import settings
 from django.core.management import BaseCommand
 from django.db import transaction
 
