@@ -59,7 +59,7 @@ def scrape_association(url: str, options):
         return
 
     association = Association.objects.filter(bhv_id=bhv_id).first()
-    if not association:
+    if association is None:
         Association.objects.create(name=name, abbreviation=abbreviation, bhv_id=bhv_id, source_url=url)
         LOGGER.info('CREATED Association: %s', association)
         return

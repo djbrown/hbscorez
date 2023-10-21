@@ -32,7 +32,7 @@ class Team(models.Model):
     @staticmethod
     def create_or_update_team(name, short_name, league, bhv_id, logger: logging.Logger = logging.getLogger()):
         team = Team.objects.filter(bhv_id=bhv_id).first()
-        if not team:
+        if team is None:
             team = Team.objects.create(name=name, short_name=short_name, league=league, bhv_id=bhv_id)
             logger.info('CREATED Team: %s', team)
             return

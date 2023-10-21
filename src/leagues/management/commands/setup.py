@@ -75,7 +75,7 @@ def scrape_district(bhv_id, name, association: Association, options):
         return
 
     district = District.objects.filter(bhv_id=bhv_id).first()
-    if not district:
+    if district is None:
         district = District.objects.create(name=name, bhv_id=bhv_id)
         LOGGER.info('CREATED District: %s', district)
 
@@ -138,7 +138,7 @@ def scrape_season(district, start_year, options):
 
 
 @transaction.atomic
-def scrape_league(league_link, district, season, options):
+def scrape_league(league_link, district, season, options):  # pylint: disable=too-many-branches
     abbreviation = league_link.text
     bhv_id = parsing.parse_league_bhv_id(league_link)
 
@@ -188,7 +188,7 @@ def scrape_league(league_link, district, season, options):
         return
 
     league = League.objects.filter(bhv_id=bhv_id).first()
-    if not league:
+    if league is None:
         league = League.objects.create(name=name, abbreviation=abbreviation,
                                        district=district, season=season, bhv_id=bhv_id)
         LOGGER.info('CREATED League: %s', league)
