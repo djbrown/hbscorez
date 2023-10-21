@@ -48,6 +48,9 @@ jobs:
       - name: Run Flake8
         run: pipenv run flake8
 
+      - name: Run Pylint
+        run: pipenv run pylint src
+
       - name: coveralls
         run: pipenv run coveralls --service=github
         env:

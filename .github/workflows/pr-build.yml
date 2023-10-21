@@ -41,3 +41,6 @@ jobs:
 
       - name: Run Flake8
         run: pipenv run flake8
+
+      - name: Run Pylint
+        run: pipenv run pylint src
