@@ -41,58 +41,20 @@ class Command(BaseCommand):
         env.UPDATING.set_value(Value.TRUE)
 
         try:
-            scrape_associations(options)
+            setup_associations(options)
         except Exception:
-            LOGGER.exception("Could not create Associations")
+            LOGGER.exception("Could not setup Associations")
 
         env.UPDATING.set_value(Value.FALSE)
 
 
-def scrape_associations(options):
-    start_html = http.get_text(settings.NEW_ROOT_SOURCE_URL)
-    start_dom = parsing.html_dom(start_html)
-    association_urls = parsing.parse_association_urls(start_dom)
-
-    for association_url in association_urls:
+def setup_associations(options):
+    associations = Association.objects.filter()
+    for association in associations:
         try:
-            scrape_association(association_url, options)
+            scrape_districs(association, options)
         except Exception:
-            LOGGER.exception("Could not create Association")
-
-
-def scrape_association(url: str, options):
-    html = http.get_text(url)
-    dom = parsing.html_dom(html)
-
-    abbreviation = parsing.parse_association_abbreviation(url)
-    name = parsing.parse_association_name(dom)
-    bhv_id = parsing.parse_association_bhv_id(dom)
-
-    if options['associations'] and bhv_id not in options['associations']:
-        LOGGER.debug('SKIPPING Association (options): %s %s', bhv_id, name)
-        return
-
-    association = Association.objects.filter(bhv_id=bhv_id).first()
-    if not association:
-        association = Association.objects.create(name=name, abbreviation=abbreviation, bhv_id=bhv_id)
-        LOGGER.info('CREATED Association: %s', association)
-
-    updated = False
-
-    if association.name != name:
-        association.name = name
-        updated = True
-
-    if updated:
-        association.save()
-        LOGGER.info('UPDATED Association: %s', association)
-    else:
-        LOGGER.debug('UNCHANGED Association: %s', association)
-
-    try:
-        scrape_districs(association, options)
-    except Exception:
-        LOGGER.exception("Could not create Districts")
+            LOGGER.exception("Could not scrape Districts for Association %s", associations)
 
 
 def scrape_districs(association: Association, options):
@@ -143,7 +105,7 @@ def scrape_district(bhv_id, name, association: Association, options):
         try:
             scrape_season(district, start_year, options)
         except Exception:
-            LOGGER.exception("Could not create Season")
+            LOGGER.exception("Could not create Season %s for District %s", start_year, district)
 
 
 def scrape_season(district, start_year, options):
@@ -173,7 +135,7 @@ def scrape_season(district, start_year, options):
         try:
             scrape_league(league_link, district, season, options)
         except Exception:
-            LOGGER.exception("Could not create League")
+            LOGGER.exception("Could not create League %s", league_link)
 
 
 @transaction.atomic

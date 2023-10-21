@@ -38,7 +38,8 @@ class ParseRetiredTeamTest(TestCase):
 
 class RetiredTeamTest(IntegrationTestCase):
     def test_retired_team(self):
-        self.assert_command('setup', '-a', 3, '-d', 4, '-s', 2018, '-l', 35068)
+        self.assert_command('import_associations', '-a', 3)
+        self.assert_command('setup', '-d', 4, '-s', 2018, '-l', 35068)
         self.assert_command('import_games')
         self.assert_objects(Team, 16)
 
@@ -47,7 +48,8 @@ class RetiredTeamTest(IntegrationTestCase):
         self.assertEqual(retired_team.name, 'TV 1893 Neuhausen/E.')
 
     def test_another_retired_team(self):
-        self.assert_command('setup', '-a', 3, '-d', 7, '-s', 2017, '-l', 28454)
+        self.assert_command('import_associations', '-a', 3)
+        self.assert_command('setup', '-d', 7, '-s', 2017, '-l', 28454)
         self.assert_command('import_games')
         self.assert_objects(Team, 5)
 
@@ -56,7 +58,8 @@ class RetiredTeamTest(IntegrationTestCase):
         self.assertEqual(retired_team.name, 'TSG Stuttgart')
 
     def test_retirement_during_season(self):
-        self.assert_command('setup', '-a', 3, '-d', 7, '-s', 2017, '-l', 28454)
+        self.assert_command('import_associations', '-a', 3)
+        self.assert_command('setup', '-d', 7, '-s', 2017, '-l', 28454)
         team = self.assert_objects(Team, filters={'retirement__isnull': False})
         team.retirement = None
         team.save()
@@ -67,7 +70,8 @@ class RetiredTeamTest(IntegrationTestCase):
         self.assertGreater(team.player_set.count(), 0)
         self.assertGreater(Score.objects.filter(player__team=team).count(), 0)
 
-        self.assert_command('setup', '-a', 3, '-d', 7, '-s', 2017, '-l', 28454)
+        self.assert_command('import_associations', '-a', 3)
+        self.assert_command('setup', '-d', 7, '-s', 2017, '-l', 28454)
         self.assert_command('import_reports')
         team = self.assert_objects(Team, filters={'retirement__isnull': False})
         other_teams_scores_count_after = Score.objects.exclude(player__team=team).count()
@@ -77,5 +81,6 @@ class RetiredTeamTest(IntegrationTestCase):
         self.assertGreater(other_teams_scores_count_before, other_teams_scores_count_after)
 
     def test_nonexisting_retired_team(self):
-        self.assert_command('setup', '-a', 3, '-d', 7, '-s', 2019, '-l', 48708)
+        self.assert_command('import_associations', '-a', 3)
+        self.assert_command('setup', '-d', 7, '-s', 2019, '-l', 48708)
         self.assert_objects(League)
