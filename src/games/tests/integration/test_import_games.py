@@ -16,7 +16,8 @@ class ImportGamesTest(IntegrationTestCase):
 
     def test__import_games__specific_game(self):
         self.assert_command('import_associations', '-a', 35)
-        self.assert_command('setup', '-d', 35, '-s', 2017, '-l', 26777)
+        self.assert_command('import_districts', '-d', 35)
+        self.assert_command('setup', '-s', 2017, '-l', 26777)
         league = self.assert_objects(League)
 
         self.assert_command('import_games', '-g', 210226)
@@ -35,7 +36,8 @@ class ImportGamesTest(IntegrationTestCase):
 
     def test__import_games__m_vl(self):
         self.assert_command('import_associations', '-a', 35)
-        self.assert_command('setup', '-d', 35, '-s', 2017, '-l', 26777)
+        self.assert_command('import_districts', '-d', 35)
+        self.assert_command('setup', '-s', 2017, '-l', 26777)
         self.assert_objects(League)
 
         self.assert_command('import_games')
@@ -47,7 +49,8 @@ class ImportGamesTest(IntegrationTestCase):
 
     def test__import_games__m_vl__multiseason(self):
         self.assert_command('import_associations', '-a', 35)
-        self.assert_command('setup', '-d', 35, '-s', 2017, 2018, '-l', 26777, 34606)
+        self.assert_command('import_districts', '-d', 35)
+        self.assert_command('setup', '-s', 2017, 2018, '-l', 26777, 34606)
         self.assert_objects(Season, count=2)
         leagues = self.assert_objects(League, count=2)
 
@@ -66,7 +69,8 @@ def read_html(file_name):
 class Update(IntegrationTestCase):
     def test_update_game(self):
         self.assert_command('import_associations', '-a', 35)
-        self.assert_command('setup', '-d', 35, '-s', 2017, '-l', 26777)
+        self.assert_command('import_districts', '-d', 35)
+        self.assert_command('setup', '-s', 2017, '-l', 26777)
         league = self.assert_objects(League)
 
         self.assert_command('import_games', '-g', 210226)
@@ -94,7 +98,8 @@ class Update(IntegrationTestCase):
 class Forfeit(IntegrationTestCase):
     def test_forfeit_with_report(self):
         self.assert_command('import_associations', '-a', 3)
-        self.assert_command('setup', '-d', 10, '-s', 2018, '-l', 35537)
+        self.assert_command('import_districts', '-d', 10)
+        self.assert_command('setup', '-s', 2018, '-l', 35537)
 
         self.assert_command('import_games', '-g', 60201)
 
@@ -107,7 +112,8 @@ class Forfeit(IntegrationTestCase):
 
     def test_forfeit_without_report(self):
         self.assert_command('import_associations', '-a', 35)
-        self.assert_command('setup', '-d', 35, '-s', 2018, '-l', 34606)
+        self.assert_command('import_districts', '-d', 35)
+        self.assert_command('setup', '-s', 2018, '-l', 34606)
 
         self.assert_command('import_games', '-g', 210348)
 
@@ -139,19 +145,22 @@ class Youth(IntegrationTestCase):
 class BuggedGameRows(IntegrationTestCase):
     def test_additional_heading_row(self):
         self.assert_command('import_associations', '-a', 3)
-        self.assert_command('setup', '-d', 8, '-s', 2019, '-l', 46786)
+        self.assert_command('import_districts', '-d', 8)
+        self.assert_command('setup', '-s', 2019, '-l', 46786)
         self.assert_command('import_games', '-g', 41013)
         self.assert_objects(Game)
 
     def test_additional_title(self):
         self.assert_command('import_associations', '-a', 78)
-        self.assert_command('setup', '-d', 151, '-s', 2023, '-l', 110541)
+        self.assert_command('import_districts', '-d', 151)
+        self.assert_command('setup', '-s', 2023, '-l', 110541)
         self.assert_command('import_games')
         self.assert_objects(Game, count=3)
 
     def test_missing_sports_hall(self):
         self.assert_command('import_associations', '-a', 79)
-        self.assert_command('setup', '-d', 79, '-s', 2023, '-l', 102551)
+        self.assert_command('import_districts', '-d', 79)
+        self.assert_command('setup', '-s', 2023, '-l', 102551)
         self.assert_command('import_games')
         self.assert_objects(SportsHall, count=0)
         self.assert_objects(Game, count=6)

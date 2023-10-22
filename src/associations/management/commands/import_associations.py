@@ -20,8 +20,6 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
         add_default_arguments(parser)
-        parser.add_argument('--skip-teams', action='store_true',
-                            help="Skip processing Teams.")
 
     def handle(self, *args, **options):
         env.UPDATING.set_value(Value.TRUE)

@@ -36,7 +36,6 @@ class Command(BaseCommand):
                             help="Skip processing Teams.")
 
     def handle(self, *args, **options):
-        options['processed_districts'] = set()
         env.UPDATING.set_value(Value.TRUE)
 
         try:
@@ -48,63 +47,25 @@ class Command(BaseCommand):
 
 
 def setup_associations(options):
+    associations_filters = {}
     if options['associations']:
-        bhv_ids: list[int] = options['associations']
-        associations = Association.objects.filter(bhv_id__in=bhv_ids)
-    else:
-        associations = Association.objects.all()
+        associations_filters['bhv_id__in'] = options['associations']
+    associations = Association.objects.filter(**associations_filters)
+    associations_bhv_ids = [a.bhv_id for a in associations]
 
-    for association in associations:
+    districts_filters = {'associations__bhv_id__in': associations_bhv_ids}
+    if options['districts']:
+        districts_filters['bhv_id__in'] = options['districts']
+    districts = District.objects.filter(**districts_filters)
+
+    for district in districts:
         try:
-            scrape_districs(association, options)
+            scrape_seasons(district, options)
         except Exception:
-            LOGGER.exception("Could not scrape Districts for Association %s", associations)
+            LOGGER.exception("Could not setup Seasons for District %s", district)
 
 
-def scrape_districs(association: Association, options):
-    url = association.api_url()
-    response = http.get_text(url)
-
-    districts = parsing.parse_district_items(response)
-
-    for bhv_id, name in districts.items():
-        try:
-            scrape_district(int(bhv_id), name, association, options)
-        except Exception:
-            LOGGER.exception("Could not create District %s %s", bhv_id, name)
-
-
-def scrape_district(bhv_id, name, association: Association, options):
-    if options['districts'] and bhv_id not in options['districts']:
-        LOGGER.debug('SKIPPING District (options): %s %s', bhv_id, name)
-        return
-
-    district = District.objects.filter(bhv_id=bhv_id).first()
-    if district is None:
-        district = District.objects.create(name=name, bhv_id=bhv_id)
-        LOGGER.info('CREATED District: %s', district)
-
-    if association not in district.associations.all():
-        LOGGER.info('ADDING District to Association: %s - %s', association, district)
-        district.associations.add(association)
-
-    if bhv_id in options['processed_districts']:
-        LOGGER.debug('SKIPPING District: %s (already processed)', district)
-        return
-    options['processed_districts'].add(bhv_id)
-
-    updated = False
-
-    if district.name != name:
-        district.name = name
-        updated = True
-
-    if updated:
-        district.save()
-        LOGGER.info('UPDATED District: %s', district)
-    else:
-        LOGGER.debug('UNCHANGED District: %s', district)
-
+def scrape_seasons(district: District, options):
     for start_year in range(2004, datetime.now().year + 1):
         try:
             scrape_season(district, start_year, options)
