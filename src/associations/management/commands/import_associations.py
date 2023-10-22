@@ -25,14 +25,14 @@ class Command(BaseCommand):
         env.UPDATING.set_value(Value.TRUE)
 
         try:
-            scrape_associations(options)
+            import_associations(options)
         except Exception:
-            LOGGER.exception("Could not create Associations")
+            LOGGER.exception("Could not import Associations")
 
         env.UPDATING.set_value(Value.FALSE)
 
 
-def scrape_associations(options):
+def import_associations(options):
     start_html = http.get_text(settings.NEW_ROOT_SOURCE_URL)
     start_dom = parsing.html_dom(start_html)
     association_urls = parsing.parse_association_urls(start_dom)

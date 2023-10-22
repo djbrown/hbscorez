@@ -7,7 +7,7 @@ class CalendarTest(IntegrationTestCase):
     def test__rems_stuttgart__mkld(self):
         self.assert_command('import_associations', '-a', 3)
         self.assert_command('import_districts', '-d', 7)
-        self.assert_command('setup', '-s', 2017, '-l', 28454)
+        self.assert_command('import_leagues', '-s', 2017, '-l', 28454)
         self.assert_command('import_games')
 
         self.client.get('/mannschaften/391930/kalender/')

@@ -40,7 +40,7 @@ class RetiredTeamTest(IntegrationTestCase):
     def test_retired_team(self):
         self.assert_command('import_associations', '-a', 3)
         self.assert_command('import_districts', '-d', 4)
-        self.assert_command('setup', '-s', 2018, '-l', 35068)
+        self.assert_command('import_leagues', '-s', 2018, '-l', 35068)
         self.assert_command('import_games')
         self.assert_objects(Team, 16)
 
@@ -51,7 +51,7 @@ class RetiredTeamTest(IntegrationTestCase):
     def test_another_retired_team(self):
         self.assert_command('import_associations', '-a', 3)
         self.assert_command('import_districts', '-d', 7)
-        self.assert_command('setup', '-s', 2017, '-l', 28454)
+        self.assert_command('import_leagues', '-s', 2017, '-l', 28454)
         self.assert_command('import_games')
         self.assert_objects(Team, 5)
 
@@ -62,7 +62,7 @@ class RetiredTeamTest(IntegrationTestCase):
     def test_retirement_during_season(self):
         self.assert_command('import_associations', '-a', 3)
         self.assert_command('import_districts', '-d', 7)
-        self.assert_command('setup', '-s', 2017, '-l', 28454)
+        self.assert_command('import_leagues', '-s', 2017, '-l', 28454)
         team = self.assert_objects(Team, filters={'retirement__isnull': False})
         team.retirement = None
         team.save()
@@ -75,7 +75,7 @@ class RetiredTeamTest(IntegrationTestCase):
 
         self.assert_command('import_associations', '-a', 3)
         self.assert_command('import_districts', '-d', 7)
-        self.assert_command('setup', '-s', 2017, '-l', 28454)
+        self.assert_command('import_leagues', '-s', 2017, '-l', 28454)
         self.assert_command('import_reports')
         team = self.assert_objects(Team, filters={'retirement__isnull': False})
         other_teams_scores_count_after = Score.objects.exclude(player__team=team).count()
@@ -87,5 +87,5 @@ class RetiredTeamTest(IntegrationTestCase):
     def test_nonexisting_retired_team(self):
         self.assert_command('import_associations', '-a', 3)
         self.assert_command('import_districts', '-d', 7)
-        self.assert_command('setup', '-s', 2019, '-l', 48708)
+        self.assert_command('import_leagues', '-s', 2019, '-l', 48708)
         self.assert_objects(League)

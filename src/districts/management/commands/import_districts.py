@@ -1,8 +1,8 @@
 import logging
 
-from django.conf import settings
 from django.core.management import BaseCommand
 
+from associations.management.commands.import_associations import add_default_arguments as association_arguments
 from associations.models import Association
 from base import http, parsing
 from base.middleware import env
@@ -13,8 +13,7 @@ LOGGER = logging.getLogger('hbscorez')
 
 
 def add_default_arguments(parser):
-    parser.add_argument('--associations', '-a', nargs='+', type=int, metavar='orgGrpID',
-                        help="IDs of Associations.")
+    association_arguments(parser)
     parser.add_argument('--districts', '-d', nargs='+', type=int, metavar='orgID',
                         help="IDs of Districts.")
 
@@ -29,13 +28,14 @@ class Command(BaseCommand):
         options['processed_districts'] = set()
 
         try:
-            import_associations(options)
+            import_districts(options)
         except Exception:
-            LOGGER.exception("Could not create Associations")
+            LOGGER.exception("Could not import Districts")
 
         env.UPDATING.set_value(Value.FALSE)
 
-def import_associations(options):
+
+def import_districts(options):
     associations_filters = {}
     if options['associations']:
         associations_filters['bhv_id__in'] = options['associations']
@@ -46,6 +46,7 @@ def import_associations(options):
             scrape_districs(association, options)
         except Exception:
             LOGGER.exception("Could not scrape Districts for Association %s", associations)
+
 
 def scrape_districs(association: Association, options):
     url = association.api_url()

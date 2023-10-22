@@ -7,11 +7,10 @@ from players.models import Score
 
 
 class ImportGamesTest(IntegrationTestCase):
-
     def test_game_210116_sghh_hcn(self):
         self.assert_command('import_associations', '-a', 35)
         self.assert_command('import_districts', '-d', 35)
-        self.assert_command('setup', '-s', 2017, '-l', 26773)
+        self.assert_command('import_leagues', '-s', 2017, '-l', 26773)
         league = self.assert_objects(League)
 
         self.assert_command('import_games', '-g', 210116)
@@ -36,7 +35,7 @@ class ImportGamesTest(IntegrationTestCase):
     def test_game_96781(self):
         self.assert_command('import_associations', '-a', 3)
         self.assert_command('import_districts', '-d', 3)
-        self.assert_command('setup', '-s', 2019, '-l', 45956)
+        self.assert_command('import_leagues', '-s', 2019, '-l', 45956)
         league = self.assert_objects(League)
 
         self.assert_command('import_games', '-g', 96781)

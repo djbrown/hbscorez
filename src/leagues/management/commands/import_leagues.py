@@ -8,6 +8,7 @@ from associations.models import Association
 from base import http, parsing
 from base.middleware import env
 from base.models import Value
+from districts.management.commands.import_districts import add_default_arguments as district_arguments
 from districts.models import District
 from leagues.models import League, LeagueName, Season
 from teams.models import Team
@@ -16,10 +17,7 @@ LOGGER = logging.getLogger('hbscorez')
 
 
 def add_default_arguments(parser):
-    parser.add_argument('--associations', '-a', nargs='+', type=int, metavar='orgGrpID',
-                        help="IDs of Associations.")
-    parser.add_argument('--districts', '-d', nargs='+', type=int, metavar='orgID',
-                        help="IDs of Districts.")
+    district_arguments(parser)
     parser.add_argument('--seasons', '-s', nargs='+', type=int, metavar='start year',
                         help="Start Years of Seasons.")
     parser.add_argument('--leagues', '-l', nargs='+', type=int, metavar='score/sGID',
@@ -39,54 +37,67 @@ class Command(BaseCommand):
         env.UPDATING.set_value(Value.TRUE)
 
         try:
-            setup_associations(options)
+            import_leagues(options)
         except Exception:
-            LOGGER.exception("Could not setup Associations")
+            LOGGER.exception("Could not import Leagues")
 
         env.UPDATING.set_value(Value.FALSE)
 
 
-def setup_associations(options):
+def import_leagues(options):
     associations_filters = {}
     if options['associations']:
         associations_filters['bhv_id__in'] = options['associations']
     associations = Association.objects.filter(**associations_filters)
     associations_bhv_ids = [a.bhv_id for a in associations]
+    if not associations:
+        LOGGER.warning("No matching Associations found.")
+        return
 
     districts_filters = {'associations__bhv_id__in': associations_bhv_ids}
     if options['districts']:
         districts_filters['bhv_id__in'] = options['districts']
     districts = District.objects.filter(**districts_filters)
-
-    for district in districts:
-        try:
-            scrape_seasons(district, options)
-        except Exception:
-            LOGGER.exception("Could not setup Seasons for District %s", district)
-
-
-def scrape_seasons(district: District, options):
-    for start_year in range(2004, datetime.now().year + 1):
-        try:
-            scrape_season(district, start_year, options)
-        except Exception:
-            LOGGER.exception("Could not create Season %s for District %s", start_year, district)
-
-
-def scrape_season(district, start_year, options):
-    if options['seasons'] and start_year not in options['seasons']:
-        LOGGER.debug('SKIPPING Season (options): %s', start_year)
+    if not districts:
+        LOGGER.warning("No matching Districts found.")
         return
 
-    season, season_created = Season.objects.get_or_create(start_year=start_year)
-    if season_created:
-        LOGGER.info('CREATED Season: %s', season)
-    else:
-        LOGGER.debug('UNCHANGED Season: %s', season)
+    seasons = create_seasons(options)
 
-    for start_date in [date(start_year, 10, 1) + timedelta(days=10 * n) for n in range(4)]:
-        LOGGER.debug('trying District Season: %s %s %s', district, season, start_date)
-        url = District.build_source_url(district.bhv_id, start_date)
+    for district in districts:
+        for season in seasons:
+            try:
+                scrape_district_season(district, season, options)
+            except Exception:
+                LOGGER.exception("Could not create Leagues for District %s in Season %s", district, season)
+
+
+def create_seasons(options):
+    seasons = []
+
+    for start_year in range(2004, datetime.now().year + 1):
+        if options['seasons'] and start_year not in options['seasons']:
+            LOGGER.debug('SKIPPING Season (options): %s', start_year)
+            continue
+
+        season, season_created = Season.objects.get_or_create(start_year=start_year)
+        seasons.append(season)
+        if season_created:
+            LOGGER.info('CREATED Season: %s', season)
+        else:
+            LOGGER.debug('UNCHANGED Season: %s', season)
+
+    return seasons
+
+
+def scrape_district_season(district: District, season: Season, options):
+    season_begin = date(season.start_year, 10, 1)
+    interval_days = 10
+    interval_count = 4
+    for interval_number in range(interval_count):
+        interval_date = season_begin + timedelta(days=interval_days * interval_number)
+        LOGGER.debug('trying District Season: %s %s %s', district, season, interval_date)
+        url = District.build_source_url(district.bhv_id, interval_date)
         html = http.get_text(url)
         dom = parsing.html_dom(html)
         league_links = parsing.parse_league_links(dom)
