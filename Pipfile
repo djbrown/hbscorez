@@ -36,7 +36,6 @@ ptpython = "*"
 pyflakes = "*"
 pylama = "*"
 pylint = "*"
-astroid = "< 3.0.0" # https://github.com/pylint-dev/pylint-django/issues/405
 pylint-django = "*"
 pytest = "*"
 pytest-django = "*"
