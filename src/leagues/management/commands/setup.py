@@ -48,7 +48,12 @@ class Command(BaseCommand):
 
 
 def setup_associations(options):
-    associations = Association.objects.filter()
+    if options['associations']:
+        bhv_ids: list[int] = options['associations']
+        associations = Association.objects.filter(bhv_id__in=bhv_ids)
+    else:
+        associations = Association.objects.all()
+
     for association in associations:
         try:
             scrape_districs(association, options)

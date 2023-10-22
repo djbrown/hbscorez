@@ -11,6 +11,11 @@ class DistrictTest(IntegrationTestCase):
         self.assertEqual(district.bhv_id, 35)
         self.assertEqual(district.name, "Badischer Handball-Verband")
 
+    def test__setup__district__single_association(self):
+        self.assert_command('import_associations', '-a', 4, 35)
+        self.assert_command('setup', '-a', 4, '-s', 0)
+        self.assert_objects(District, 4)
+
     def test__setup__district__update(self):
         District.objects.create(name="My District", bhv_id=35)
 
