@@ -13,11 +13,15 @@ LEAGUE_SEARCH_FIELDS = ['name', 'abbreviation', 'bhv_id'] + \
 
 @ admin.register(Season)
 class SeasonAdmin(admin.ModelAdmin):
+    list_display = ('__str__',)
     search_fields = SEASON_SEARCH_FIELDS
 
 
 @ admin.register(League)
 class LeagueAdmin(admin.ModelAdmin):
+    list_display = ('bhv_id', 'name', 'season')
+    list_display_links = ('bhv_id', 'name')
+    list_filter = ('season',)
     search_fields = LEAGUE_SEARCH_FIELDS
 
 

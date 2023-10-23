@@ -21,13 +21,15 @@ class Season(models.Model):
 
 
 class League(models.Model):
-    name = models.TextField()
-    abbreviation = models.TextField()
+    bhv_id = models.IntegerField(verbose_name='ID', unique=True)
+    name = models.CharField(verbose_name='Name', max_length=255)
+    abbreviation = models.CharField(max_length=255)
     district = models.ForeignKey(District, verbose_name='Bezirk', on_delete=models.CASCADE)
     season = models.ForeignKey(Season, verbose_name='Saison', on_delete=models.CASCADE)
-    bhv_id = models.IntegerField(unique=True)
 
     class Meta:
+        verbose_name = 'Liga'
+        verbose_name_plural = 'Ligen'
         unique_together = (('name', 'district', 'season'), ('abbreviation', 'district', 'season'))
 
     def __str__(self):
