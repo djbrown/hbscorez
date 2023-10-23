@@ -10,7 +10,7 @@ class Season(models.Model):
     start_year = models.PositiveIntegerField(unique=True, validators=[
         validators.MinValueValidator(1990),
         validators.MaxValueValidator(2050)])
-    
+
     class Meta:
         ordering = ('start_year',)
         verbose_name = 'Saison'

@@ -9,7 +9,6 @@ class SportsHallAdmin(admin.ModelAdmin):
     list_display_links = ('bhv_id', 'number', 'name')
     search_fields = ('bhv_id', 'number', 'name', 'address')
 
-    
     @admin.display(description='Ort')
     def location(self, obj: SportsHall) -> str:
         return obj.address.rpartition(' ')[2]

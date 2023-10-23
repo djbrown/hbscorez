@@ -9,8 +9,6 @@ from sports_halls.models import SportsHall
 from teams.models import Team
 
 
-
-
 class GameOutcome(Enum):
     HOME_WIN = auto()
     AWAY_WIN = auto()
@@ -36,9 +34,12 @@ class Game(models.Model):
     number = models.IntegerField('Spiel-Nr.')
     league = models.ForeignKey(League, verbose_name='Liga', on_delete=models.CASCADE)
     opening_whistle = models.DateTimeField('Anpfiff', blank=True, null=True)
-    sports_hall = models.ForeignKey(SportsHall, verbose_name='Sporthalle', on_delete=models.CASCADE, blank=True, null=True)
-    home_team = models.ForeignKey(Team, verbose_name='Heimmannschaft', on_delete=models.CASCADE, related_name='home_team')
-    guest_team = models.ForeignKey(Team, verbose_name='Gastmannschaft', on_delete=models.CASCADE, related_name='guest_team')
+    sports_hall = models.ForeignKey(SportsHall, verbose_name='Sporthalle',
+                                    on_delete=models.CASCADE, blank=True, null=True)
+    home_team = models.ForeignKey(Team, verbose_name='Heimmannschaft',
+                                  on_delete=models.CASCADE, related_name='home_team')
+    guest_team = models.ForeignKey(Team, verbose_name='Gastmannschaft',
+                                   on_delete=models.CASCADE, related_name='guest_team')
     home_goals = models.IntegerField(verbose_name='Heim', blank=True, null=True)
     guest_goals = models.IntegerField(verbose_name='Gast', blank=True, null=True)
     report_number = models.IntegerField('Bericht-Nr.', unique=True, blank=True, null=True)

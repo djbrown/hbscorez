@@ -11,7 +11,6 @@ class SportsHall(models.Model):
     latitude = models.DecimalField(blank=True, null=True, max_digits=9, decimal_places=6)
     longitude = models.DecimalField(blank=True, null=True, max_digits=9, decimal_places=6)
 
-    
     class Meta:
         verbose_name = 'Sporthalle'
         verbose_name_plural = 'Sporthallen'
