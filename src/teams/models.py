@@ -10,20 +10,22 @@ from leagues.models import League
 
 
 class Team(models.Model):
-    name = models.TextField()
-    short_name = models.TextField()
-    league = models.ForeignKey(League, on_delete=models.CASCADE)
-    bhv_id = models.IntegerField(unique=True)
-    retirement = models.DateField(blank=True, null=True)
+    bhv_id = models.IntegerField(verbose_name='ID', unique=True)
+    name = models.CharField(verbose_name='Name', max_length=255)
+    short_name = models.CharField(verbose_name='Abkürzung', max_length=255)
+    league = models.ForeignKey(League, verbose_name='Liga', on_delete=models.CASCADE)
+    retirement = models.DateField(verbose_name='Abgemeldet am', blank=True, null=True)
 
     class Meta:
+        verbose_name = 'Mannschaft'
+        verbose_name_plural = 'Mannschaften'
         unique_together = (('name', 'league'), ('short_name', 'league'))
 
     def __str__(self):
-        return f'{self.bhv_id} {self.short_name}'
+        return f'{self.bhv_id} {self.short_name} ({self.league.season})'
 
     def get_absolute_url(self):
-        return reverse('teams:detail', kwargs={'bhv_id': self.bhv_id, })
+        return reverse('teams:detail', kwargs={'bhv_id': self.bhv_id})
 
     @staticmethod
     def build_source_url(league_bhv_id, team_bhv_id):

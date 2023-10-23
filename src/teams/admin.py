@@ -9,4 +9,14 @@ TEAM_SEARCH_FIELDS = ['name', 'short_name', 'bhv_id'] + \
 
 @admin.register(Team)
 class TeamAdmin(admin.ModelAdmin):
+    list_display = ('name', 'season', 'get_league')
+    list_filter = ('league__season',)
     search_fields = TEAM_SEARCH_FIELDS
+
+    @admin.display(description='Saison')
+    def season(self, obj: Team) -> str:
+        return obj.league.season
+    
+    @admin.display(description='Liga')
+    def get_league(self, obj: Team) -> str:
+        return obj.league.name

@@ -10,6 +10,11 @@ class Season(models.Model):
     start_year = models.PositiveIntegerField(unique=True, validators=[
         validators.MinValueValidator(1990),
         validators.MaxValueValidator(2050)])
+    
+    class Meta:
+        ordering = ('start_year',)
+        verbose_name = 'Saison'
+        verbose_name_plural = 'Saisons'
 
     def __str__(self):
         return f'{self.start_year}/{self.start_year + 1}'
@@ -18,8 +23,8 @@ class Season(models.Model):
 class League(models.Model):
     name = models.TextField()
     abbreviation = models.TextField()
-    district = models.ForeignKey(District, on_delete=models.CASCADE)
-    season = models.ForeignKey(Season, on_delete=models.CASCADE)
+    district = models.ForeignKey(District, verbose_name='Bezirk', on_delete=models.CASCADE)
+    season = models.ForeignKey(Season, verbose_name='Saison', on_delete=models.CASCADE)
     bhv_id = models.IntegerField(unique=True)
 
     class Meta:
