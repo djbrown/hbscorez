@@ -23,11 +23,11 @@ class DistrictAdmin(admin.ModelAdmin):
     }
 
     @admin.display(description='Verband')
-    def get_associations(self, obj: District) -> list[str]:
+    def get_associations(self, obj: District) -> str:
         association_links = [
             format_html('<a href="{}">{}</a>', reverse('admin:associations_association_change', args=[a.pk]), a.name) for a in obj.associations.all()
             ]
-        return format_html(', '.join(association_links))
+        return ', '.join(association_links)
 
 
 

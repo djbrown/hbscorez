@@ -40,20 +40,20 @@ class GameAdmin(admin.ModelAdmin):
     
     @admin.display(description='Saison', ordering='league__season__start_year')
     def league_year(self, obj: Game) -> str:
-        return obj.league.season
+        return str(obj.league.season)
     
     @admin.display(description='Liga')
     def league_name(self, obj: Game) -> str:
-        return obj.league.name
+        return str(obj.league.name)
     
     @admin.display(description='Anpfiff', ordering='opening_whistle')
-    def show_opening_whistle(self, obj: Game) -> str:
+    def show_opening_whistle(self, obj: Game) -> str | None:
         if not obj.opening_whistle:
-            return ''
+            return None
         return obj.opening_whistle.strftime('%d.%m.%Y %H:%M')
     
     @admin.display(description='Bericht')
-    def report(self, obj: Game) -> str:
+    def report(self, obj: Game) -> str | None:
         report_nr = obj.report_number
         if report_nr is None:
             return None

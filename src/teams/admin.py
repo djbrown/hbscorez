@@ -15,8 +15,8 @@ class TeamAdmin(admin.ModelAdmin):
 
     @admin.display(description='Saison')
     def season(self, obj: Team) -> str:
-        return obj.league.season
+        return str(obj.league.season)
     
     @admin.display(description='Liga')
     def get_league(self, obj: Team) -> str:
-        return obj.league.name
+        return str(obj.league.name)
