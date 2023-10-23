@@ -14,7 +14,8 @@ DISTRICT_SEARCH_FIELDS = ['name', 'bhv_id'] + \
 
 @admin.register(District)
 class DistrictAdmin(admin.ModelAdmin):
-    list_display = ['bhv_id', 'name', 'get_associations']
+    list_display = ('bhv_id', 'name', 'get_associations')
+    list_display_links = ('bhv_id', 'name')
     search_fields = DISTRICT_SEARCH_FIELDS
 
     formfield_overrides = {
