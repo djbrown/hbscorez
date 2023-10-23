@@ -3,13 +3,18 @@ from django.db import models
 
 
 class SportsHall(models.Model):
-    number = models.IntegerField(unique=True)
-    name = models.TextField()
-    address = models.TextField()
-    phone_number = models.TextField(blank=True, null=True)
+    bhv_id = models.IntegerField(verbose_name='ID', unique=True)
+    number = models.IntegerField(verbose_name='Hallennummer', unique=True)
+    name = models.CharField(verbose_name='Name', max_length=255)
+    address = models.CharField(verbose_name='Adresse', max_length=255)
+    phone_number = models.CharField(verbose_name='Telefonnummer', max_length=255, blank=True, null=True)
     latitude = models.DecimalField(blank=True, null=True, max_digits=9, decimal_places=6)
     longitude = models.DecimalField(blank=True, null=True, max_digits=9, decimal_places=6)
-    bhv_id = models.IntegerField(unique=True)
+
+    
+    class Meta:
+        verbose_name = 'Sporthalle'
+        verbose_name_plural = 'Sporthallen'
 
     def __str__(self):
         return f"{self.number} {self.name}"
