@@ -1,6 +1,10 @@
 from django.contrib import admin
 
-from .models import Env, GlobalMessage
+from base.models import Env, GlobalMessage
 
-admin.site.register(Env)
 admin.site.register(GlobalMessage)
+
+
+@admin.register(Env)
+class EnvAdmin(admin.ModelAdmin):
+    list_display = ('name', 'value')

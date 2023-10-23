@@ -9,8 +9,12 @@ class Value(Enum):
 
 
 class Env(models.Model):
-    name = models.TextField(unique=True)
+    name = models.CharField(unique=True, max_length=255)
     value = models.TextField()
+
+    class Meta:
+        verbose_name = 'Umgebungsvariable'
+        verbose_name_plural = 'Umgebungsvariablen'
 
     def set_value(self, value: Value):
         self.value = value.value
