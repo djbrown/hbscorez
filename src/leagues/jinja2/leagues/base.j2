@@ -12,7 +12,7 @@
         </li>
         <li class="breadcrumb-item"><a href="{{ league.district.get_absolute_url() }}">{{ league.district.name }}</a>
         </li>
-        <li class="breadcrumb-item active"><a>{{ league.abbreviation }} {{league.season}}</a></li>
+        <li class="breadcrumb-item active"><a>{{ league.abbreviation }} {{ league.season }}</a></li>
     </ol>
     <h1>{{ league.name }} {{ league.season.start_year }}/{{ league.season.start_year + 1 }}
         <a href="{{ league.source_url() }}"><span class="fas fa-link" title="Datenquelle"></span></a>

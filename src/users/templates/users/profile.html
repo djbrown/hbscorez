@@ -1,6 +1,6 @@
 {% extends "base/base.html" %}
 
-{% block title %}{{request.user.username }}{% endblock %}
+{% block title %}{{ request.user.username }}{% endblock %}
 
 
 {% block styles %}
@@ -37,7 +37,7 @@
             <button type="submit" class="btn btn-danger btn-sm">Verknüpfung löschen &times;</button>
         </form>
         {% else %}
-        {{player.team.league.season }} Verknüpfung gelöscht
+        {{ player.team.league.season }} Verknüpfung gelöscht
         {% endif %}
     </li>
     {% endfor %}
