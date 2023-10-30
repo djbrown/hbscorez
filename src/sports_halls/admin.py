@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import SportsHall
+from sports_halls.models import SportsHall
 
 
 @admin.register(SportsHall)

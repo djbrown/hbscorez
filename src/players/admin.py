@@ -1,9 +1,8 @@
 from django.contrib import admin
 
 from games.admin import GAME_SEARCH_FIELDS
+from players.models import Player, ReportsBlacklist, Score
 from teams.admin import TEAM_SEARCH_FIELDS
-
-from .models import Player, ReportsBlacklist, Score
 
 PLAYER_SEARCH_FIELDS = ['name'] + \
     ['team__' + field for field in TEAM_SEARCH_FIELDS]

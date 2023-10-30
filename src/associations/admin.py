@@ -1,7 +1,6 @@
 from django.contrib import admin
 
-from .models import Association
-
+from associations.models import Association
 
 ASSOCIATION_SEARCH_FIELDS = ['name', 'abbreviation', 'bhv_id']
 

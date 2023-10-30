@@ -2,7 +2,7 @@ import collections
 
 from django.shortcuts import get_object_or_404, render
 
-from .models import District
+from districts.models import District
 
 
 def detail(request, bhv_id):

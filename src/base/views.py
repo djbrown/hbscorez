@@ -1,7 +1,8 @@
 
-from django_contact_form.views import ContactFormView
 from django.urls import reverse_lazy
-from .forms import CaptchaContactForm
+from django_contact_form.views import ContactFormView
+
+from base.forms import CaptchaContactForm
 
 
 class ContactView(ContactFormView):

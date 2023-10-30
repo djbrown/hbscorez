@@ -14,10 +14,9 @@ from base.models import Value
 from games.models import Game
 from leagues.management.commands.import_leagues import add_default_arguments
 from leagues.models import Season
+from players.management.commands import parse_report
 from players.models import ReportsBlacklist
 from teams.models import Team
-
-from . import parse_report
 
 LOGGER = logging.getLogger('hbscorez')
 

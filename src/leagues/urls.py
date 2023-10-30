@@ -1,6 +1,6 @@
 from django.urls import include, path
 
-from .views import calendar, detail, games, offenders, scorers, teams
+from leagues.views import calendar, detail, games, offenders, scorers, teams
 
 app_name = 'leagues'
 
