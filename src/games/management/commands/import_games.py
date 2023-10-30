@@ -8,7 +8,7 @@ from base import http, logic, parsing
 from base.middleware import env
 from base.models import Value
 from districts.models import District
-from leagues.management.commands.setup import add_default_arguments
+from leagues.management.commands.import_leagues import add_default_arguments
 from leagues.models import League, Season
 
 LOGGER = logging.getLogger('hbscorez')

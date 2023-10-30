@@ -1,7 +1,6 @@
 import logging
 from datetime import date, datetime, timedelta
 
-from django.conf import settings
 from django.core.management import BaseCommand
 from django.db import transaction
 
@@ -9,6 +8,7 @@ from associations.models import Association
 from base import http, parsing
 from base.middleware import env
 from base.models import Value
+from districts.management.commands.import_districts import add_default_arguments as district_arguments
 from districts.models import District
 from leagues.models import League, LeagueName, Season
 from teams.models import Team
@@ -17,10 +17,7 @@ LOGGER = logging.getLogger('hbscorez')
 
 
 def add_default_arguments(parser):
-    parser.add_argument('--associations', '-a', nargs='+', type=int, metavar='orgGrpID',
-                        help="IDs of Associations.")
-    parser.add_argument('--districts', '-d', nargs='+', type=int, metavar='orgID',
-                        help="IDs of Districts.")
+    district_arguments(parser)
     parser.add_argument('--seasons', '-s', nargs='+', type=int, metavar='start year',
                         help="Start Years of Seasons.")
     parser.add_argument('--leagues', '-l', nargs='+', type=int, metavar='score/sGID',
@@ -37,129 +34,70 @@ class Command(BaseCommand):
                             help="Skip processing Teams.")
 
     def handle(self, *args, **options):
-        options['processed_districts'] = set()
         env.UPDATING.set_value(Value.TRUE)
 
         try:
-            scrape_associations(options)
+            import_leagues(options)
         except Exception:
-            LOGGER.exception("Could not create Associations")
+            LOGGER.exception("Could not import Leagues")
 
         env.UPDATING.set_value(Value.FALSE)
 
 
-def scrape_associations(options):
-    start_html = http.get_text(settings.NEW_ROOT_SOURCE_URL)
-    start_dom = parsing.html_dom(start_html)
-    association_urls = parsing.parse_association_urls(start_dom)
-
-    for association_url in association_urls:
-        try:
-            scrape_association(association_url, options)
-        except Exception:
-            LOGGER.exception("Could not create Association")
-
-
-def scrape_association(url: str, options):
-    html = http.get_text(url)
-    dom = parsing.html_dom(html)
-
-    abbreviation = parsing.parse_association_abbreviation(url)
-    name = parsing.parse_association_name(dom)
-    bhv_id = parsing.parse_association_bhv_id(dom)
-
-    if options['associations'] and bhv_id not in options['associations']:
-        LOGGER.debug('SKIPPING Association (options): %s %s', bhv_id, name)
+def import_leagues(options):
+    associations_filters = {}
+    if options['associations']:
+        associations_filters['bhv_id__in'] = options['associations']
+    associations = Association.objects.filter(**associations_filters)
+    associations_bhv_ids = [a.bhv_id for a in associations]
+    if not associations:
+        LOGGER.warning("No matching Associations found.")
         return
 
-    association = Association.objects.filter(bhv_id=bhv_id).first()
-    if not association:
-        association = Association.objects.create(name=name, abbreviation=abbreviation, bhv_id=bhv_id)
-        LOGGER.info('CREATED Association: %s', association)
-
-    updated = False
-
-    if association.name != name:
-        association.name = name
-        updated = True
-
-    if updated:
-        association.save()
-        LOGGER.info('UPDATED Association: %s', association)
-    else:
-        LOGGER.debug('UNCHANGED Association: %s', association)
-
-    try:
-        scrape_districs(association, options)
-    except Exception:
-        LOGGER.exception("Could not create Districts")
-
-
-def scrape_districs(association: Association, options):
-    url = association.api_url()
-    response = http.get_text(url)
-
-    districts = parsing.parse_district_items(response)
-
-    for bhv_id, name in districts.items():
-        try:
-            scrape_district(int(bhv_id), name, association, options)
-        except Exception:
-            LOGGER.exception("Could not create District %s %s", bhv_id, name)
-
-
-def scrape_district(bhv_id, name, association: Association, options):
-    if options['districts'] and bhv_id not in options['districts']:
-        LOGGER.debug('SKIPPING District (options): %s %s', bhv_id, name)
+    districts_filters = {'associations__bhv_id__in': associations_bhv_ids}
+    if options['districts']:
+        districts_filters['bhv_id__in'] = options['districts']
+    districts = District.objects.filter(**districts_filters)
+    if not districts:
+        LOGGER.warning("No matching Districts found.")
         return
 
-    district = District.objects.filter(bhv_id=bhv_id).first()
-    if not district:
-        district = District.objects.create(name=name, bhv_id=bhv_id)
-        LOGGER.info('CREATED District: %s', district)
+    seasons = create_seasons(options)
 
-    if association not in district.associations.all():
-        LOGGER.info('ADDING District to Association: %s - %s', association, district)
-        district.associations.add(association)
+    for district in districts:
+        for season in seasons:
+            try:
+                scrape_district_season(district, season, options)
+            except Exception:
+                LOGGER.exception("Could not create Leagues for District %s in Season %s", district, season)
 
-    if bhv_id in options['processed_districts']:
-        LOGGER.debug('SKIPPING District: %s (already processed)', district)
-        return
-    options['processed_districts'].add(bhv_id)
 
-    updated = False
-
-    if district.name != name:
-        district.name = name
-        updated = True
-
-    if updated:
-        district.save()
-        LOGGER.info('UPDATED District: %s', district)
-    else:
-        LOGGER.debug('UNCHANGED District: %s', district)
+def create_seasons(options):
+    seasons = []
 
     for start_year in range(2004, datetime.now().year + 1):
-        try:
-            scrape_season(district, start_year, options)
-        except Exception:
-            LOGGER.exception("Could not create Season")
+        if options['seasons'] and start_year not in options['seasons']:
+            LOGGER.debug('SKIPPING Season (options): %s', start_year)
+            continue
+
+        season, season_created = Season.objects.get_or_create(start_year=start_year)
+        seasons.append(season)
+        if season_created:
+            LOGGER.info('CREATED Season: %s', season)
+        else:
+            LOGGER.debug('UNCHANGED Season: %s', season)
+
+    return seasons
 
 
-def scrape_season(district, start_year, options):
-    if options['seasons'] and start_year not in options['seasons']:
-        LOGGER.debug('SKIPPING Season (options): %s', start_year)
-        return
-
-    season, season_created = Season.objects.get_or_create(start_year=start_year)
-    if season_created:
-        LOGGER.info('CREATED Season: %s', season)
-    else:
-        LOGGER.debug('UNCHANGED Season: %s', season)
-
-    for start_date in [date(start_year, 10, 1) + timedelta(days=10 * n) for n in range(4)]:
-        LOGGER.debug('trying District Season: %s %s %s', district, season, start_date)
-        url = District.build_source_url(district.bhv_id, start_date)
+def scrape_district_season(district: District, season: Season, options):
+    season_begin = date(season.start_year, 10, 1)
+    interval_days = 10
+    interval_count = 4
+    for interval_number in range(interval_count):
+        interval_date = season_begin + timedelta(days=interval_days * interval_number)
+        LOGGER.debug('trying District Season: %s %s %s', district, season, interval_date)
+        url = District.build_source_url(district.bhv_id, interval_date)
         html = http.get_text(url)
         dom = parsing.html_dom(html)
         league_links = parsing.parse_league_links(dom)
@@ -173,11 +111,11 @@ def scrape_season(district, start_year, options):
         try:
             scrape_league(league_link, district, season, options)
         except Exception:
-            LOGGER.exception("Could not create League")
+            LOGGER.exception("Could not create League %s", league_link)
 
 
 @transaction.atomic
-def scrape_league(league_link, district, season, options):
+def scrape_league(league_link, district, season, options):  # pylint: disable=too-many-branches
     abbreviation = league_link.text
     bhv_id = parsing.parse_league_bhv_id(league_link)
 
@@ -227,7 +165,7 @@ def scrape_league(league_link, district, season, options):
         return
 
     league = League.objects.filter(bhv_id=bhv_id).first()
-    if not league:
+    if league is None:
         league = League.objects.create(name=name, abbreviation=abbreviation,
                                        district=district, season=season, bhv_id=bhv_id)
         LOGGER.info('CREATED League: %s', league)

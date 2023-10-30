@@ -11,7 +11,7 @@ from teams.models import Team
 LOGGER = logging.getLogger('hbscorez')
 
 
-class CaptchaRegistrationForm(RegistrationForm):
+class CaptchaRegistrationForm(RegistrationForm):  # pylint: disable=too-many-ancestors
     captcha = forms.CharField(label='Captcha')
     captcha_image_base64 = None
     request = None

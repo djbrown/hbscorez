@@ -1,6 +1,7 @@
 import collections
 import logging
 import operator
+from typing import Any
 
 from django.db import transaction
 from django.db.models import Count, F, Q, Sum
@@ -57,7 +58,10 @@ def duplicate_player_scores_exist(score: Score):
     return divided_players.exists() or duplicate_scores.exists()
 
 
-def scrape_game(game_row, league: League, sports_hall: SportsHall | None, ignore_list: list[int] = []):
+def scrape_game(game_row, league: League, sports_hall: SportsHall | None, ignore_list: list[int] | None = None):
+    if ignore_list is None:
+        ignore_list = []
+
     if game_row[1].text == 'Nr.':
         LOGGER.debug('SKIPPING Row (heading)')
         return
@@ -76,7 +80,7 @@ def scrape_game(game_row, league: League, sports_hall: SportsHall | None, ignore
     forfeiting_team = parsing.parse_forfeiting_team(game_row[10], home_team, guest_team)
 
     game = Game.objects.filter(number=number, league__season=league.season).first()
-    if not game:
+    if game is None:
         game = Game.objects.create(number=number, league=league,
                                    opening_whistle=opening_whistle, sports_hall=sports_hall,
                                    home_team=home_team, guest_team=guest_team,
@@ -85,35 +89,23 @@ def scrape_game(game_row, league: League, sports_hall: SportsHall | None, ignore
         LOGGER.info('CREATED Game: %s', game)
         return
 
-    updated = False
-
-    if game.home_goals != home_goals:
-        game.home_goals = home_goals
-        updated = True
-
-    if game.guest_goals != guest_goals:
-        game.guest_goals = guest_goals
-        updated = True
-
-    if game.report_number != report_number:
-        game.report_number = report_number
-        updated = True
+    defaults: dict[str, Any | None] = {
+        'home_goals': home_goals,
+        'guest_goals': guest_goals,
+        'report_number': report_number,
+    }
+    updated = ensure_defaults(game, defaults)
 
     if updated and game.score_set:
         game.score_set.all().delete()
         LOGGER.info('DELETED Game Scores: %s', game)
 
-    if game.opening_whistle != opening_whistle:
-        game.opening_whistle = opening_whistle
-        updated = True
-
-    if game.sports_hall != sports_hall:
-        game.sports_hall = sports_hall
-        updated = True
-
-    if game.forfeiting_team != forfeiting_team:
-        game.forfeiting_team = forfeiting_team
-        updated = True
+    defaults = {
+        'opening_whistle': opening_whistle,
+        'sports_hall': sports_hall,
+        'forfeiting_team': forfeiting_team,
+    }
+    updated = ensure_defaults(game, defaults)
 
     if updated:
         game.save()
@@ -122,12 +114,21 @@ def scrape_game(game_row, league: League, sports_hall: SportsHall | None, ignore
         LOGGER.debug('UNCHANGED Game: %s', game)
 
 
+def ensure_defaults(obj, defaults: dict[str, Any]) -> bool:
+    updated = False
+    for key, value in defaults.items():
+        if getattr(obj, key) != value:
+            setattr(obj, key, value)
+            updated = True
+    return updated
+
+
 @transaction.atomic
 def split_by_number(name: str, team: Team):
     LOGGER.info("DIVIDING Player: %s (%s)", name, team)
 
     player = Player.objects.filter(name=name, team=team).first()
-    if not player:
+    if player is None:
         LOGGER.warning("SKIPPING Player (not found): %s (%s)", name, team)
         return
 
@@ -248,7 +249,10 @@ def top_league_offenders(league):
     return offenders_by_place
 
 
-def scrape_sports_hall(game_row, processed: set[int] = set()) -> SportsHall | None:
+def scrape_sports_hall(game_row, processed: set[int] | None = None) -> SportsHall | None:
+    if processed is None:
+        processed = set()
+
     if len(game_row[3]) != 1:
         return None
     link = game_row[3][0]
@@ -270,38 +274,23 @@ def scrape_sports_hall(game_row, processed: set[int] = set()) -> SportsHall | No
     phone_number = parsing.parse_sports_hall_phone_number(table)
     latitude, longitude = parsing.parse_sports_hall_coordinates(dom)
 
-    if not sports_hall:
+    if sports_hall is None:
         sports_hall = SportsHall.objects.create(number=number, name=name, address=address,
                                                 phone_number=phone_number, latitude=latitude,
                                                 longitude=longitude, bhv_id=bhv_id)
         LOGGER.info('CREATED Sports Hall: %s', sports_hall)
         return sports_hall
+    assert sports_hall is not None
 
-    updated = False
-
-    if sports_hall.number != number:
-        sports_hall.number = number
-        updated = True
-
-    if sports_hall.name != name:
-        sports_hall.name = name
-        updated = True
-
-    if sports_hall.address != address:
-        sports_hall.address = address
-        updated = True
-
-    if sports_hall.phone_number != phone_number:
-        sports_hall.phone_number = phone_number
-        updated = True
-
-    if sports_hall.latitude != latitude:
-        sports_hall.latitude = latitude
-        updated = True
-
-    if sports_hall.longitude != longitude:
-        sports_hall.longitude = longitude
-        updated = True
+    defaults = {
+        'number': number,
+        'name': name,
+        'address': address,
+        'phone_number': phone_number,
+        'latitude': latitude,
+        'longitude': longitude,
+    }
+    updated = ensure_defaults(sports_hall, defaults)
 
     if updated:
         sports_hall.save()

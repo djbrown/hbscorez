@@ -6,9 +6,11 @@ from games.tests.integration import test_import_games
 from players.models import Player, ReportsBlacklist, Score
 
 
-class TestImportReport(IntegrationTestCase):
+class CommandTest(IntegrationTestCase):
     def test_successful(self):
-        self.assert_command('setup', '-a', 77, '-d', 77, '-s', 2021, '-l', 77606)
+        self.assert_command('import_associations', '-a', 77)
+        self.assert_command('import_districts', '-d', 77)
+        self.assert_command('import_leagues', '-s', 2021, '-l', 77606)
         self.assert_command('import_games', '-g', 10001127)
         self.assert_command('import_reports')
 
@@ -29,10 +31,12 @@ class TestImportReport(IntegrationTestCase):
         self.assertEqual(score.team_suspension_time, None)
 
 
-class Forfeit(IntegrationTestCase):
+class ForfeitTest(IntegrationTestCase):
 
     def test(self):
-        self.assert_command('setup', '-a', 3, '-d', 10, '-s', 2018, '-l', 35537)
+        self.assert_command('import_associations', '-a', 3)
+        self.assert_command('import_districts', '-d', 10)
+        self.assert_command('import_leagues', '-s', 2018, '-l', 35537)
 
         self.assert_command('import_games', '-g', 60201)
 
@@ -42,9 +46,9 @@ class Forfeit(IntegrationTestCase):
             mock.assert_not_called()
 
 
-class Youth(IntegrationTestCase):
+class YouthTest(IntegrationTestCase):
     def test_youth(self):
-        test_import_games.Youth.test_youth(self)
+        test_import_games.YouthTest.test_youth(self)
 
         self.assert_command('import_reports')
 
@@ -54,8 +58,9 @@ class Youth(IntegrationTestCase):
 
 class ReportsBlacklistTest(IntegrationTestCase):
     def test_blacklist(self):
-
-        self.assert_command('setup', '-a', 78, '-d', 121, '-s', 2021, '-l', 69541)
+        self.assert_command('import_associations', '-a', 78)
+        self.assert_command('import_districts', '-d', 121)
+        self.assert_command('import_leagues', '-s', 2021, '-l', 69541)
         self.assert_command('import_games', '-g', 603101155)
         ReportsBlacklist.objects.create(report_number=1592331)
         self.assert_command('import_reports')
