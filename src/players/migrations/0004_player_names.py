@@ -10,6 +10,7 @@ LOGGER = logging.getLogger("hbscorez")
 
 class Migration(migrations.Migration):
     dependencies = [
+        ("teams", "0002_team_retirement"),
         ("players", "0003_reportsblacklist"),
     ]
 
@@ -45,4 +46,8 @@ class Migration(migrations.Migration):
             field=models.IntegerField(default=0),
         ),
         migrations.RunPython(delete_noname_players, elidable=True),
+        migrations.AlterUniqueTogether(
+            name="player",
+            unique_together={("name", "team")},
+        ),
     ]

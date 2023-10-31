@@ -13,6 +13,9 @@ class Player(models.Model):
     name = models.TextField()
     team = models.ForeignKey(Team, on_delete=models.CASCADE)
 
+    class Meta:
+        unique_together = ('name', 'team')
+
     def __str__(self):
         return f'{self.name} {self.team.short_name}'
 
