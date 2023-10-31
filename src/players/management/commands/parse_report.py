@@ -48,7 +48,7 @@ def import_score(table_row, game: Game, team: Team):
         return
 
     player = Player.objects.filter(name=player_name, team=team).first()
-    if player is None:
+    if player is None and player_name != "N.N. N.N.":
         player = Player.objects.create(name=player_name, team=team)
         LOGGER.info('CREATED Player: %s', player)
 

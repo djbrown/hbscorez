@@ -30,6 +30,13 @@ class CommandTest(IntegrationTestCase):
         self.assertEqual(score.report_time, None)
         self.assertEqual(score.team_suspension_time, None)
 
+    def test_league(self):
+        self.assert_command('import_associations', '-a', 35)
+        self.assert_command('import_districts', '-d', 191)
+        self.assert_command('import_leagues', '-s', 2023, '-l', 104191)
+        self.assert_command('import_games')
+        self.assert_command('import_reports')
+
 
 class ForfeitTest(IntegrationTestCase):
 
