@@ -28,7 +28,7 @@ class Player(models.Model):
 
 
 class Score(models.Model):
-    player = models.ForeignKey(Player, on_delete=models.CASCADE)
+    player = models.ForeignKey(Player, on_delete=models.SET_NULL, blank=True, null=True)
     player_number = models.IntegerField()
     game = models.ForeignKey(Game, on_delete=models.CASCADE)
     goals = models.IntegerField(default=0)
@@ -46,7 +46,7 @@ class Score(models.Model):
         unique_together = ('player', 'game')
 
     def __str__(self):
-        return f'{self.game.number} {self.player.name} ({self.player_number})'
+        return f'{self.game.number} {self.game.report_number} {self.player_number}'
 
 
 class ReportsBlacklist(models.Model):
