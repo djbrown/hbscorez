@@ -28,7 +28,8 @@ class ReassignedNumberTest(ModelTestCase):
 
         import_score(row, game, home_team)
 
-        self.assert_objects(Player)
+        player = self.assert_objects(Player)
+        self.assertEqual(player.name, "Tobias Emmerich")
 
     def test_lengthy_reassigned(self):
         district = District.objects.create(name="District", bhv_id=1)
@@ -46,4 +47,5 @@ class ReassignedNumberTest(ModelTestCase):
 
         import_score(row, game, home_team)
 
-        self.assert_objects(Player)
+        player = self.assert_objects(Player)
+        self.assertEqual(player.name, "Fabian Rotermund")
