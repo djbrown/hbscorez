@@ -37,6 +37,7 @@ pyflakes = "*"
 pylama = "*"
 pylint = "*"
 pylint-django = "*"
+pylint_migrations_plugin = {path = ".", editable = true}
 pytest = "*"
 pytest-django = "*"
 rope = "*"
