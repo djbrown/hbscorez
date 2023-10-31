@@ -39,7 +39,7 @@ class Game(models.Model):
     guest_team = models.ForeignKey(Team, on_delete=models.CASCADE, related_name='guest_team')
     home_goals = models.IntegerField(blank=True, null=True)
     guest_goals = models.IntegerField(blank=True, null=True)
-    report_number = models.IntegerField(unique=True, blank=True, null=True)
+    report_number = models.IntegerField(blank=True, null=True, unique=True)
     forfeiting_team = models.ForeignKey(Team, on_delete=models.CASCADE, blank=True, null=True,
                                         related_name='forfeiting_team')
     spectators = models.IntegerField(blank=True, null=True)

@@ -28,7 +28,8 @@ class Migration(migrations.Migration):
             name='Season',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('start_year', models.PositiveIntegerField(unique=True, validators=[django.core.validators.MinValueValidator(1990), django.core.validators.MaxValueValidator(2050)])),
+                ('start_year', models.PositiveIntegerField(unique=True, validators=[
+                 django.core.validators.MinValueValidator(1990), django.core.validators.MaxValueValidator(2050)])),
             ],
         ),
         migrations.AddField(

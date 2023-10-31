@@ -4,13 +4,12 @@ from django.db import migrations
 
 from base import http, parsing
 
-from ..models import League
-
 LOGGER = logging.getLogger('hbscorez')
 
 
-def update_league_names(*_):
-    for league in League.objects.all():
+def update_league_names(apps, _):
+    league_model = apps.get_model("leagues", "League")
+    for league in league_model.objects.all():
         html = http.get_text(league.source_url())
         dom = parsing.html_dom(html)
         name = parsing.parse_league_name(dom)
