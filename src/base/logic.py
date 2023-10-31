@@ -3,14 +3,13 @@ import logging
 import operator
 from typing import Any
 
-from django.db import transaction
 from django.db.models import Count, F, Q, Sum
 from django.db.models.functions import Coalesce, TruncMonth
 
 from base import http, parsing
 from games.models import Game, TeamOutcome
 from leagues.models import League
-from players.models import Player, Score
+from players.models import Player
 from sports_halls.models import SportsHall
 from teams.models import Team
 
@@ -32,30 +31,6 @@ def add_ranking_place(items: list, field: str):
             previous = items[index - 1]
             if getattr(previous, field) == getattr(item, field):
                 item.place = previous.place
-
-
-def add_score(score: Score):
-    LOGGER.debug('CREATING Score: %s %s', score.game, score.player.name)
-
-    if duplicate_player_scores_exist(score):
-        split_by_number(score.player.name, score.player.team)
-        score.player.name = f'{score.player.name} ({score.player_number})'
-
-    player, created = Player.objects.get_or_create(name=score.player.name, team=score.player.team)
-    if created:
-        LOGGER.debug('CREATED Player: %s', player)
-    else:
-        LOGGER.debug('EXISTING Player: %s', player)
-
-    score.player = player
-    score.save()
-
-
-def duplicate_player_scores_exist(score: Score):
-    divided_players = score.player.team.player_set.filter(name__regex=fr"^{score.player.name} \(\d+\)$")
-    duplicate_scores = Score.objects.filter(player__name=score.player.name, player__team=score.player.team,
-                                            game=score.game)
-    return divided_players.exists() or duplicate_scores.exists()
 
 
 def scrape_game(game_row, league: League, sports_hall: SportsHall | None, ignore_list: list[int] | None = None):
@@ -121,28 +96,6 @@ def ensure_defaults(obj, defaults: dict[str, Any]) -> bool:
             setattr(obj, key, value)
             updated = True
     return updated
-
-
-@transaction.atomic
-def split_by_number(name: str, team: Team):
-    LOGGER.info("DIVIDING Player: %s (%s)", name, team)
-
-    player = Player.objects.filter(name=name, team=team).first()
-    if player is None:
-        LOGGER.warning("SKIPPING Player (not found): %s (%s)", name, team)
-        return
-
-    for score in player.score_set.all():
-        new_name = f"{player.name} ({score.player_number})"
-        new_player, created = Player.objects.get_or_create(name=new_name, team=player.team)
-        if created:
-            LOGGER.debug("CREATED Player: %s", new_player)
-        score.player = new_player
-        score.save()
-
-    if not player.score_set.all().exists():
-        player.delete()
-        LOGGER.debug("DELETED Player (no dangling scores): %s", player)
 
 
 def league_games(league):

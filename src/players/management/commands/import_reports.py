@@ -16,7 +16,6 @@ from leagues.management.commands.import_leagues import add_default_arguments
 from leagues.models import Season
 from players.management.commands import parse_report
 from players.models import ReportsBlacklist
-from teams.models import Team
 
 LOGGER = logging.getLogger('hbscorez')
 
@@ -150,11 +149,5 @@ def import_report(game: Game, path: Path):
     game.spectators = parse_report.parse_spectators(spectators_table)
     game.save()
 
-    import_scores(home_table, game=game, team=game.home_team)
-    import_scores(guest_table, game=game, team=game.guest_team)
-
-
-def import_scores(table, game: Game, team: Team):
-    table_rows = table['data']
-    for table_row in table_rows[2:]:
-        parse_report.import_score(table_row, game, team)
+    parse_report.import_scores(home_table, game=game, team=game.home_team)
+    parse_report.import_scores(guest_table, game=game, team=game.guest_team)
