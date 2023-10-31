@@ -252,3 +252,9 @@ def scrape_sports_hall(game_row, processed: set[int] | None = None) -> SportsHal
         LOGGER.debug('UNCHANGED Sports Hall: %s', sports_hall)
 
     return sports_hall
+
+
+def delete_noname_players(*_):
+    for player in Player.objects.filter(name__startswith="N.N. N.N."):
+        player.delete()
+        LOGGER.info('DELETED noname player: %s', player)

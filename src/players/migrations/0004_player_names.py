@@ -3,6 +3,8 @@ import logging
 import django.db.models.deletion
 from django.db import migrations, models
 
+from base.logic import delete_noname_players
+
 LOGGER = logging.getLogger("hbscorez")
 
 
@@ -42,4 +44,5 @@ class Migration(migrations.Migration):
             name="penalty_tries",
             field=models.IntegerField(default=0),
         ),
+        migrations.RunPython(delete_noname_players, elidable=True),
     ]
