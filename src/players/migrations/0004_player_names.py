@@ -27,4 +27,19 @@ class Migration(migrations.Migration):
             name="player_number",
             field=models.IntegerField(),
         ),
+        migrations.AlterField(
+            model_name="score",
+            name="goals",
+            field=models.IntegerField(default=0),
+        ),
+        migrations.AlterField(
+            model_name="score",
+            name="penalty_goals",
+            field=models.IntegerField(default=0),
+        ),
+        migrations.AlterField(
+            model_name="score",
+            name="penalty_tries",
+            field=models.IntegerField(default=0),
+        ),
     ]
