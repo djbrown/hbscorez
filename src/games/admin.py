@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.utils.html import format_html
 from django.urls import reverse
 
-from games.models import Game
+from games.models import Game, GameOutcome
 from leagues.admin import LEAGUE_SEARCH_FIELDS
 from teams.admin import TEAM_SEARCH_FIELDS
 
