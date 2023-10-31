@@ -59,7 +59,8 @@ def scrape_association(url: str, options):
     try:
         association = Association.objects.get(bhv_id=bhv_id)
     except Association.MultipleObjectsReturned:
-        raise Exception()
+        LOGGER.debug('Database contains multiple association objects with same bhv_id.')
+        return
     except Association.DoesNotExist:
         association = Association.objects.create(name=name, abbreviation=abbreviation, bhv_id=bhv_id)
         LOGGER.info('CREATED Association: %s', association)
