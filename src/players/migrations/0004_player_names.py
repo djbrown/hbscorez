@@ -22,4 +22,9 @@ class Migration(migrations.Migration):
                 to="players.player",
             ),
         ),
+        migrations.AlterField(
+            model_name="score",
+            name="player_number",
+            field=models.IntegerField(),
+        ),
     ]

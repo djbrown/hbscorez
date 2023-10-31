@@ -29,7 +29,7 @@ class Player(models.Model):
 
 class Score(models.Model):
     player = models.ForeignKey(Player, on_delete=models.CASCADE)
-    player_number = models.IntegerField(blank=True, null=True)
+    player_number = models.IntegerField()
     game = models.ForeignKey(Game, on_delete=models.CASCADE)
     goals = models.IntegerField()
     penalty_goals = models.IntegerField()
