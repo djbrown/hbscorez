@@ -56,9 +56,12 @@ def scrape_association(url: str, options):
         LOGGER.debug('SKIPPING Association (options): %s %s', bhv_id, name)
         return
 
-    association = Association.objects.filter(bhv_id=bhv_id).first()
-    if association is None:
-        association = Association.objects.create(name=name, abbreviation=abbreviation, bhv_id=bhv_id, source_url=url)
+    try:
+        association = Association.objects.get(bhv_id=bhv_id)
+    except Association.MultipleObjectsReturned:
+        raise Exception()
+    except Association.DoesNotExist:
+        association = Association.objects.create(name=name, abbreviation=abbreviation, bhv_id=bhv_id)
         LOGGER.info('CREATED Association: %s', association)
         return
 
