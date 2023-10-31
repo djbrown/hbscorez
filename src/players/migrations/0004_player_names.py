@@ -3,7 +3,7 @@ import logging
 import django.db.models.deletion
 from django.db import migrations, models
 
-from base.logic import delete_noname_players
+from base.logic import delete_noname_players, unify_player_names
 
 LOGGER = logging.getLogger("hbscorez")
 
@@ -50,4 +50,5 @@ class Migration(migrations.Migration):
             name="player",
             unique_together={("name", "team")},
         ),
+        migrations.RunPython(unify_player_names, elidable=True),
     ]

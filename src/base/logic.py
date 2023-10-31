@@ -258,3 +258,16 @@ def delete_noname_players(*_):
     for player in Player.objects.filter(name__startswith="N.N. N.N."):
         player.delete()
         LOGGER.info('DELETED noname player: %s', player)
+
+
+def unify_player_names(*_):
+    for player in Player.objects.filter(name__contains="("):
+        target_name = player.name.split("(", 1)[0].strip()
+        target_player, _ = Player.objects.get_or_create(name=target_name, team=player.team)
+
+        for score in player.score_set.all():
+            score.player = target_player
+            score.save()
+
+        player.delete()
+        LOGGER.info('UNIFIED player %s to %s', player.name, target_player)
