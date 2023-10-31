@@ -20,9 +20,9 @@
     </ol>
     <h1>{{ player.public_name() }}</h1>
     <h2>Statistiken</h1>
-    <p>Spiele: {{scorer.total_goals}}
-    <p>Tore: {{scorer.total_goals}}
-    <p>7m: {{scorer.total_penalty_goals}} von {{scorer.total_penalty_tries}}
+    <p>Spiele: {{ scores.count() }}
+    <p>Tore: {{ scorer.total_goals }}
+    <p>7m: {{ scorer.total_penalty_goals }} von {{ scorer.total_penalty_tries }}
     <h2>Spiele</h2>
     <div class="table-responsive">
         <table id="data-table" class="table table-sm table-striped">

@@ -1,8 +1,7 @@
 from django.shortcuts import get_object_or_404, render
 
 from base import logic
-
-from .models import Player, Score
+from players.models import Player, Score
 
 
 def detail(request, key):

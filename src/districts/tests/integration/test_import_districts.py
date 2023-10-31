@@ -15,7 +15,7 @@ class CommandTest(IntegrationTestCase):
         self.assert_command('import_districts', '-a', 4)
         self.assert_objects(District, 4)
 
-    def test__update(self):
+    def test_update(self):
         District.objects.create(name="My District", bhv_id=35)
 
         self.assert_command('import_associations', '-a', 35)

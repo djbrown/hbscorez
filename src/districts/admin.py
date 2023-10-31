@@ -5,7 +5,6 @@ from django.forms import CheckboxSelectMultiple
 from django.db import models
 
 from associations.admin import ASSOCIATION_SEARCH_FIELDS
-
 from districts.models import District
 
 DISTRICT_SEARCH_FIELDS = ['name', 'bhv_id'] + \

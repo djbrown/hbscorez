@@ -2,10 +2,9 @@ from django.contrib import admin
 from django.utils.html import format_html
 from django.urls import reverse
 
+from games.models import Game
 from leagues.admin import LEAGUE_SEARCH_FIELDS
 from teams.admin import TEAM_SEARCH_FIELDS
-
-from games.models import Game, GameOutcome
 
 GAME_SEARCH_FIELDS = ['number'] + \
     ['home_team__' + field for field in TEAM_SEARCH_FIELDS] + \

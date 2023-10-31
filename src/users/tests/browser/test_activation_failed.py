@@ -5,8 +5,7 @@ from django.core import mail
 from selenium.webdriver.common.by import By
 
 from base.tests.base import BrowserTestCase
-
-from .test_registration import registration
+from users.tests.browser.test_registration import registration
 
 
 class TestActivationFailed(BrowserTestCase):

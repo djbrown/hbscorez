@@ -5,8 +5,7 @@ from districts.models import District
 from leagues.models import League, Season
 from players.models import Player
 from teams.models import Team
-
-from ...forms import LinkForm
+from users.forms import LinkForm
 
 
 class TestLinkForm(TestCase):

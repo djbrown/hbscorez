@@ -3,8 +3,7 @@ from django.shortcuts import get_object_or_404, render
 
 from base import logic
 from base.logic import add_ranking_place
-
-from .models import League
+from leagues.models import League
 
 
 def detail(request, bhv_id):

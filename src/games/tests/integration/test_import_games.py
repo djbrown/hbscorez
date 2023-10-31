@@ -14,7 +14,7 @@ from sports_halls.models import SportsHall
 
 class ImportGamesTest(IntegrationTestCase):
 
-    def test__import_games__specific_game(self):
+    def test_specific(self):
         self.assert_command('import_associations', '-a', 35)
         self.assert_command('import_districts', '-d', 35)
         self.assert_command('import_leagues', '-s', 2017, '-l', 26777)
@@ -34,7 +34,7 @@ class ImportGamesTest(IntegrationTestCase):
         self.assertEqual(game.guest_goals, 22)
         self.assertEqual(game.report_number, 490394)
 
-    def test__import_games__m_vl(self):
+    def test_mvl(self):
         self.assert_command('import_associations', '-a', 35)
         self.assert_command('import_districts', '-d', 35)
         self.assert_command('import_leagues', '-s', 2017, '-l', 26777)
@@ -43,11 +43,18 @@ class ImportGamesTest(IntegrationTestCase):
         self.assert_command('import_games')
         self.assert_objects(Game, 182)
 
-    def test__import_games__missing_district(self):
+    def test_missing_sports_hall(self):
+        self.assert_command('import_associations', '-a', 80)
+        self.assert_command('import_districts', '-d', 80)
+        self.assert_command('import_leagues', '-s', 2023, '-l', 109051)
+        self.assert_command('import_games', '-g', 21000112)
+        self.assert_objects(Game)
+
+    def test_missing_district(self):
         self.assert_command('import_games', '-a', 35, '-d', 0)
         self.assert_objects(Game, 0)
 
-    def test__import_games__m_vl__multiseason(self):
+    def test_multiseason(self):
         self.assert_command('import_associations', '-a', 35)
         self.assert_command('import_districts', '-d', 35)
         self.assert_command('import_leagues', '-s', 2017, 2018, '-l', 26777, 34606)

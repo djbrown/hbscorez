@@ -11,8 +11,7 @@ from associations.models import Association
 from leagues.models import Season
 from players.models import Player
 from teams.models import Team
-
-from .forms import LinkForm
+from users.forms import LinkForm
 
 
 class CaptchaRegistrationView(RegistrationView):

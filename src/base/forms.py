@@ -1,8 +1,8 @@
-from django_contact_form.forms import ContactForm
 from django import forms
 from django.core.exceptions import ValidationError
+from django_contact_form.forms import ContactForm
 
-from .captcha import encode_captcha_image_base64, generate_captcha
+from base.captcha import encode_captcha_image_base64, generate_captcha
 
 
 class CaptchaContactForm(ContactForm):

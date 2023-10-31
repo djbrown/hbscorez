@@ -23,7 +23,8 @@ class Migration(migrations.Migration):
                 ('published', models.BooleanField()),
                 ('name', models.TextField()),
                 ('team', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='teams.Team')),
-                ('user', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to=settings.AUTH_USER_MODEL)),
+                ('user', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL,
+                                           to=settings.AUTH_USER_MODEL)),
             ],
         ),
         migrations.CreateModel(

@@ -1,8 +1,7 @@
 from django.contrib import admin
 
 from districts.admin import DISTRICT_SEARCH_FIELDS
-
-from .models import League, LeagueName, Season
+from leagues.models import League, LeagueName, Season
 
 SEASON_SEARCH_FIELDS = ['start_year']
 
