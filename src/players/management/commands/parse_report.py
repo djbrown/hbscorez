@@ -44,8 +44,8 @@ def import_score(table_row, game: Game, team: Team):
     try:
         int(player_number)
     except ValueError as err:
-        LOGGER.warn('SKIPPING Score (invalid player number): %s (%s) %s\n%s',
-                    player_name, player_number, game.report_number, err)
+        LOGGER.warning('SKIPPING Score (invalid player number): %s (%s) %s\n%s',
+                       player_name, player_number, game.report_number, err)
         return
 
     if player_name == "N.N. N.N.":
@@ -56,7 +56,7 @@ def import_score(table_row, game: Game, team: Team):
             LOGGER.info('CREATED Player: %s', player)
         elif Score.objects.filter(game=game, player=player).exists():
             player = None
-            LOGGER.warn('DUPLICATE Score : %s (%s) - %s', player_name, player_number, game)
+            LOGGER.warning('DUPLICATE Score : %s (%s) - %s', player_name, player_number, game)
 
     goals_str = row_data[5]
     if goals_str == '':
