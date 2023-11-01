@@ -13,6 +13,9 @@ class Player(models.Model):
     name = models.TextField()
     team = models.ForeignKey(Team, on_delete=models.CASCADE)
 
+    class Meta:
+        unique_together = ('name', 'team')
+
     def __str__(self):
         return f'{self.name} {self.team.short_name}'
 
@@ -28,12 +31,12 @@ class Player(models.Model):
 
 
 class Score(models.Model):
-    player = models.ForeignKey(Player, on_delete=models.CASCADE)
-    player_number = models.IntegerField(blank=True, null=True)
+    player = models.ForeignKey(Player, on_delete=models.SET_NULL, blank=True, null=True)
+    player_number = models.IntegerField()
     game = models.ForeignKey(Game, on_delete=models.CASCADE)
-    goals = models.IntegerField()
-    penalty_goals = models.IntegerField()
-    penalty_tries = models.IntegerField()
+    goals = models.IntegerField(default=0)
+    penalty_goals = models.IntegerField(default=0)
+    penalty_tries = models.IntegerField(default=0)
     warning_time = models.DurationField(blank=True, null=True)
     first_suspension_time = models.DurationField(blank=True, null=True)
     second_suspension_time = models.DurationField(blank=True, null=True)
@@ -46,7 +49,7 @@ class Score(models.Model):
         unique_together = ('player', 'game')
 
     def __str__(self):
-        return f'{self.game.number} {self.player.name} ({self.player_number})'
+        return f'{self.game.number} {self.game.report_number} {self.player_number}'
 
 
 class ReportsBlacklist(models.Model):
