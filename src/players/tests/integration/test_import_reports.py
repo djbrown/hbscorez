@@ -37,6 +37,19 @@ class CommandTest(IntegrationTestCase):
         self.assert_command('import_games')
         self.assert_command('import_reports')
 
+    def test_duplicate(self):
+        self.assert_command('import_associations', '-a', 35)
+        self.assert_command('import_districts', '-d', 35)
+        self.assert_command('import_leagues', '-s', 2017, '-l', 26785)
+        self.assert_command('import_games', '-g', 210608)
+        self.assert_command('import_reports')
+
+        self.assert_objects(Score, 28)
+        self.assert_objects(Score, 12, filters={'player__team__name': "TV Ispringen"})
+        self.assert_objects(Score, 12, filters={'player__team__name': "HSG Linkenheim-Hochstetten-Liedolsheim"})
+        self.assert_objects(Score, 1, filters={'player__name': "Björn Langkabel"})
+        self.assert_objects(Score, 4, filters={'player__isnull': True})
+
 
 class ForfeitTest(IntegrationTestCase):
 

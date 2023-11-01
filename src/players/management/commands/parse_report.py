@@ -44,13 +44,19 @@ def import_score(table_row, game: Game, team: Team):
     try:
         int(player_number)
     except ValueError as err:
-        LOGGER.exception('INVALID player number): %s (%s) %s\n%s', player_name, player_number, game.report_number, err)
+        LOGGER.warn('SKIPPING Score (invalid player number): %s (%s) %s\n%s',
+                    player_name, player_number, game.report_number, err)
         return
 
-    player = Player.objects.filter(name=player_name, team=team).first()
-    if player is None and player_name != "N.N. N.N.":
-        player = Player.objects.create(name=player_name, team=team)
-        LOGGER.info('CREATED Player: %s', player)
+    if player_name == "N.N. N.N.":
+        player = None
+    else:
+        player, created = Player.objects.get_or_create(name=player_name, team=team)
+        if created:
+            LOGGER.info('CREATED Player: %s', player)
+        elif Score.objects.filter(game=game, player=player).exists():
+            player = None
+            LOGGER.warn('DUPLICATE Score : %s (%s) - %s', player_name, player_number, game)
 
     goals_str = row_data[5]
     if goals_str == '':

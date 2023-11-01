@@ -9,7 +9,7 @@ from django.db.models.functions import Coalesce, TruncMonth
 from base import http, parsing
 from games.models import Game, TeamOutcome
 from leagues.models import League
-from players.models import Player
+from players.models import Player, Score
 from sports_halls.models import SportsHall
 from teams.models import Team
 
@@ -266,7 +266,10 @@ def unify_player_names(*_):
         target_player, _ = Player.objects.get_or_create(name=target_name, team=player.team)
 
         for score in player.score_set.all():
-            score.player = target_player
+            if Score.objects.filter(game=score.game, player=target_player).exists():
+                score.player = None
+            else:
+                score.player = target_player
             score.save()
 
         player.delete()

@@ -186,3 +186,22 @@ class PlayerNamesMigrationTest(ModelTestCase):
         actual = self.assert_objects(Player)
         self.assertEqual(actual, existing)
         self.assertEqual(actual.score_set.count(), 2)
+
+    def test_unify_duplicate(self):
+        district = District.objects.create(name="District", bhv_id=1)
+        season = Season.objects.create(start_year=2023)
+        league = League.objects.create(name="League", abbreviation="LEAGUE", district=district, season=season, bhv_id=1)
+        home_team = Team.objects.create(name="Home Team", short_name="HOME", league=league, bhv_id=1)
+        guest_team = Team.objects.create(name="Guest Team",  short_name="GUEST", league=league, bhv_id=2)
+        game = Game.objects.create(number=1, league=league, home_team=home_team, guest_team=guest_team)
+
+        first = Player.objects.create(name="My Name (3)", team=home_team)
+        Score.objects.create(player=first, player_number=3, game=game)
+        second = Player.objects.create(name="My Name (4)", team=home_team)
+        Score.objects.create(player=second, player_number=4, game=game)
+
+        unify_player_names()
+
+        player = self.assert_objects(Player)
+        self.assert_objects(Score, filters={'player': player})
+        self.assert_objects(Score, filters={'player__isnull': True})
