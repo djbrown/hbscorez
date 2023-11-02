@@ -210,4 +210,6 @@ ROOT_SOURCE_URL = 'https://spo.handball4all.de/'
 
 NEW_ROOT_SOURCE_URL = 'https://www.handball4all.de/'
 
+API_URL_TEMPLATE = 'https://spo.handball4all.de/service/if_g_json.php?'
+
 BROWSER_TIMEOUT = 3

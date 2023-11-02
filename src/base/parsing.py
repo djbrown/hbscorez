@@ -11,6 +11,7 @@ from lxml.etree import _Element
 
 from teams.models import Team
 
+from base.http import _http
 
 def html_dom(html_text: str) -> _Element:
     return html.fromstring(html_text)
@@ -27,7 +28,11 @@ def parse_association_urls(dom: _Element) -> list[str]:
 
 
 def parse_association_abbreviation(association_url: str) -> str:
-    return association_url.rsplit('/', 1)[1].upper()
+    response = _http.get(association_url)
+    try:
+        return response.json()[0].get('head', {}).get('sname', '')
+    except ValueError:
+        return ''
 
 
 def parse_association_name(dom: _Element) -> str:
