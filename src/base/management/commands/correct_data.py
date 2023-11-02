@@ -5,7 +5,6 @@ from typing import Any
 from django.core.management import BaseCommand
 from django.db import transaction
 
-from base import logic
 from base.middleware import env
 from base.models import Value
 from games.models import Game, Team
@@ -75,9 +74,8 @@ def add_scores(league__bhv_id: int, game_number: int, home_score_data: dict[str,
 
 def _add_scores(game: Game, team: Team, scores_data: dict[str, dict[str, Any]]):
     for name, score_data in scores_data.items():
-        player = Player(name=name, team=team)
-        sco = Score(player=player, game=game, **score_data)
-        logic.add_score(score=sco)
+        player, _ = Player.objects.get_or_create(name=name, team=team)
+        Score.objects.get_or_create(player=player, game=game, **score_data)
 
 
 def fix_game_387733():
