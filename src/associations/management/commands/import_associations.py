@@ -48,17 +48,23 @@ def scrape_association(url: str, options):
     html = http.get_text(url)
     dom = parsing.html_dom(html)
 
-    abbreviation = parsing.parse_association_abbreviation(url)
-    name = parsing.parse_association_name(dom)
     bhv_id = parsing.parse_association_bhv_id(dom)
+    name = parsing.parse_association_name(dom)
+    
+    association_api_url = f'{settings.API_URL_TEMPLATE}cmd=po&og={bhv_id}'
+    abbreviation = parsing.parse_association_abbreviation(association_api_url)
 
     if options['associations'] and bhv_id not in options['associations']:
         LOGGER.debug('SKIPPING Association (options): %s %s', bhv_id, name)
         return
 
-    association = Association.objects.filter(bhv_id=bhv_id).first()
-    if association is None:
-        association = Association.objects.create(name=name, abbreviation=abbreviation, bhv_id=bhv_id, source_url=url)
+    try:
+        association = Association.objects.get(bhv_id=bhv_id)
+    except Association.MultipleObjectsReturned:
+        LOGGER.debug('Database contains multiple association objects with same bhv_id.')
+        return
+    except Association.DoesNotExist:
+        association = Association.objects.create(name=name, abbreviation=abbreviation, bhv_id=bhv_id)
         LOGGER.info('CREATED Association: %s', association)
         return
 

@@ -11,18 +11,25 @@ class Season(models.Model):
         validators.MinValueValidator(1990),
         validators.MaxValueValidator(2050)])
 
+    class Meta:
+        ordering = ('start_year',)
+        verbose_name = 'Saison'
+        verbose_name_plural = 'Saisons'
+
     def __str__(self):
         return f'{self.start_year}/{self.start_year + 1}'
 
 
 class League(models.Model):
-    name = models.TextField()
-    abbreviation = models.TextField()
-    district = models.ForeignKey(District, on_delete=models.CASCADE)
-    season = models.ForeignKey(Season, on_delete=models.CASCADE)
-    bhv_id = models.IntegerField(unique=True)
+    bhv_id = models.IntegerField(verbose_name='ID', unique=True)
+    name = models.CharField(verbose_name='Name', max_length=255)
+    abbreviation = models.CharField(max_length=255)
+    district = models.ForeignKey(District, verbose_name='Bezirk', on_delete=models.CASCADE)
+    season = models.ForeignKey(Season, verbose_name='Saison', on_delete=models.CASCADE)
 
     class Meta:
+        verbose_name = 'Liga'
+        verbose_name_plural = 'Ligen'
         unique_together = (('name', 'district', 'season'), ('abbreviation', 'district', 'season'))
 
     def __str__(self):

@@ -18,3 +18,4 @@ docker-stack*.yml
 geckodriver.log
 hbscorez.log
 src/hbscorez/settings_docker_stack*.py
+src/mails/

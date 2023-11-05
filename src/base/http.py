@@ -12,6 +12,14 @@ def get_text(url) -> str:
     response.encoding = 'utf-8'
     return response.text
 
+def get_json(url) -> list[dict]:
+    response = _http.get(url, timeout=5)
+    response.encoding = 'utf-8'
+    try:
+        return response.json()
+    except requests.exceptions.JSONDecodeError:
+        return dict()
+
 
 class EmptyResponseError(RequestException):
     """The response payload was empty."""

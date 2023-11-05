@@ -7,4 +7,5 @@ ASSOCIATION_SEARCH_FIELDS = ['name', 'abbreviation', 'bhv_id']
 
 @admin.register(Association)
 class AssociationAdmin(admin.ModelAdmin):
-    search_fields = ASSOCIATION_SEARCH_FIELDS
+    list_display = ['bhv_id', 'abbreviation', 'name']
+    search_fields = ['name', 'abbreviation', 'bhv_id']
