@@ -35,6 +35,14 @@ jobs:
 
       - name: Run unit tests
         run: pipenv run hbunittest
+        env:
+          TEST_OUTPUT_FILE_NAME: unit.xml
+      - name: Upload unit test results
+        uses: actions/upload-artifact@v3
+        if: success() || failure()
+        with:
+          name: unit-test-results
+          path: unit.xml
 
       - name: Run Mypy
         run: pipenv run mypy src

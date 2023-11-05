@@ -31,14 +31,30 @@ jobs:
           username: ${{ secrets.SAUCE_USERNAME }}
           accessKey: ${{ secrets.SAUCE_ACCESS_KEY }}
           tunnelIdentifier: nightly-build-${{ github.run_number }}
-
       - name: Run browser tests
         run: pipenv run hbbrowsertest
         env:
+          TEST_OUTPUT_FILE_NAME: browser.xml
           SAUCE_BUILD_NAME: nightly-build-${{ github.run_number }}
           SAUCE_TUNNEL_IDENTIFIER: nightly-build-${{ github.run_number }}
           SAUCE_USERNAME: ${{ secrets.SAUCE_USERNAME }}
           SAUCE_ACCESS_KEY: ${{ secrets.SAUCE_ACCESS_KEY }}
+      - name: Browser Test Report
+        uses: dorny/test-reporter@v1
+        if: success() || failure()
+        with:
+          name: Browser Tests
+          path: browser.xml
+          reporter: java-junit
 
       - name: Run integration tests
         run: pipenv run hbintegrationtest
+        env:
+          TEST_OUTPUT_FILE_NAME: integration.xml
+      - name: Integration Test Report
+        uses: dorny/test-reporter@v1
+        if: success() || failure()
+        with:
+          name: Integration Tests
+          path: integration.xml
+          reporter: java-junit

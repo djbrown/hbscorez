@@ -1,3 +1,4 @@
+import os
 from pathlib import Path
 
 ROOT_DIR: Path = Path.cwd()
@@ -196,6 +197,16 @@ AXES_LOCKOUT_TEMPLATE = 'users/login.html'
 # django-registration
 
 ACCOUNT_ACTIVATION_DAYS = 3
+
+
+# unittest-xml-reporting
+
+if os.getenv('CI'):
+    TEST_RUNNER = 'xmlrunner.extra.djangotestrunner.XMLTestRunner'
+
+    TEST_OUTPUT_DIR = os.getenv('TEST_OUTPUT_DIR', '.')
+
+    TEST_OUTPUT_FILE_NAME = os.getenv('TEST_OUTPUT_FILE_NAME')
 
 
 # custom settings

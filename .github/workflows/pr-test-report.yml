@@ -1,0 +1,24 @@
+name: "Test Report"
+
+on:
+  workflow_run:
+    workflows: ["PR Build"]
+    types:
+      - completed
+
+permissions:
+  contents: read
+  actions: read
+  checks: write
+
+jobs:
+  report:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Unit Test Report
+        uses: dorny/test-reporter@v1
+        with:
+          artifact: unit-test-results
+          name: Unit Tests
+          path: unit.xml
+          reporter: java-junit

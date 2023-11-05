@@ -34,6 +34,8 @@ jobs:
           sudo dpkg-reconfigure locales
       - name: Run tests with coverage
         run: pipenv run hbcoverage
+        env:
+          TEST_OUTPUT_FILE_NAME: unit.xml
       - name: Generate coverage report
         run: pipenv run coverage xml
       - name: Upload coverage report
@@ -41,6 +43,13 @@ jobs:
         with:
           name: coverage report
           path: coverage.xml
+      - name: Unit Test Report
+        uses: dorny/test-reporter@v1
+        if: success() || failure()
+        with:
+          name: Unit Tests
+          path: unit.xml
+          reporter: java-junit
 
       - name: Run Mypy
         run: pipenv run mypy src
@@ -79,7 +88,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: coverage report
-      - uses: paambaati/codeclimate-action@v3.2.0  # see https://github.com/paambaati/codeclimate-action/issues/638
+      - uses: paambaati/codeclimate-action@v3.2.0 # see https://github.com/paambaati/codeclimate-action/issues/638
         env:
           CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
 
@@ -141,4 +150,3 @@ jobs:
 
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
-

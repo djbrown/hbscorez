@@ -30,6 +30,7 @@ coveralls = "*"
 django-stubs = "*"
 dparse = {version = "*", extras = ["pipenv"]}
 flake8 = "*"
+lxml-stubs = "*"
 mypy = "*"
 # prospector = "*"
 ptpython = "*"
@@ -43,7 +44,7 @@ rope = "*"
 sauceclient = "*"
 selenium = "*"
 types-requests = "*"
-lxml-stubs = "*"
+unittest-xml-reporting = "*"
 
 [requires]
 python_version = "3.10"
