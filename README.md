@@ -60,6 +60,7 @@ App is reachable under [127.0.0.1:8000](http://127.0.0.1:8000)
 - `import_associations`: Associations
 - `import_districts`: Districts
 - `import_leagues`: Seasons, Leagues, Teams
+- `import_clubs`: Clubs
 - `import_games`: Games, Sport Halls
 - `import_reports`: Players, Scores
 
