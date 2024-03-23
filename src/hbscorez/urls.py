@@ -39,12 +39,11 @@ urlpatterns = [
     path('registrierung/', include('django_registration.backends.activation.urls')),
     path('benutzer/', include(user_urls)),
     path('sitemap.xml', sitemap, {'sitemaps': {
-        # https://github.com/typeddjango/django-stubs/pull/1111
-        'associations': GenericSitemap(ASSOCIATIONS),  # type: ignore[arg-type]
-        'districts': GenericSitemap(DISTRICTS),  # type: ignore[arg-type]
-        'leagues': GenericSitemap(LEAGUES),  # type: ignore[arg-type]
-        'teams': GenericSitemap(TEAMS),  # type: ignore[arg-type]
-        'players': GenericSitemap(PLAYERS),  # type: ignore[arg-type]
+        'associations': GenericSitemap(ASSOCIATIONS),
+        'districts': GenericSitemap(DISTRICTS),
+        'leagues': GenericSitemap(LEAGUES),
+        'teams': GenericSitemap(TEAMS),
+        'players': GenericSitemap(PLAYERS),
     }}, name='django.contrib.sitemaps.views.sitemap'),
     path('', include(base_urls)),
     path('verbaende/', include(association_urls)),
