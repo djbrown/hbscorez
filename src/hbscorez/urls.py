@@ -19,7 +19,7 @@ from players import urls as player_urls
 from players.models import Player
 from sports_halls import urls as sports_hall_urls
 from teams import urls as team_urls
-from teams.models import Team
+from teams.models import Club, Team
 from users import urls as user_urls
 from users.forms import CaptchaRegistrationForm
 from users.views import CaptchaRegistrationView
@@ -27,6 +27,7 @@ from users.views import CaptchaRegistrationView
 ASSOCIATIONS = {'queryset': Association.objects.get_queryset().order_by('pk')}
 DISTRICTS = {'queryset': District.objects.get_queryset().order_by('pk')}
 LEAGUES = {'queryset': League.objects.get_queryset().order_by('pk')}
+CLUBS = {'queryset': Club.objects.get_queryset().order_by('pk')}
 TEAMS = {'queryset': Team.objects.get_queryset().order_by('pk')}
 GAMES = {'queryset': Game.objects.get_queryset().order_by('pk')}
 PLAYERS = {'queryset': Player.objects.get_queryset().order_by('pk')}
@@ -42,6 +43,7 @@ urlpatterns = [
         'associations': GenericSitemap(ASSOCIATIONS),
         'districts': GenericSitemap(DISTRICTS),
         'leagues': GenericSitemap(LEAGUES),
+        'clubs': GenericSitemap(CLUBS),
         'teams': GenericSitemap(TEAMS),
         'players': GenericSitemap(PLAYERS),
     }}, name='django.contrib.sitemaps.views.sitemap'),
