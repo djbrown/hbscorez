@@ -1,6 +1,7 @@
 from datetime import datetime, timedelta
 
 from django.test import TestCase
+from django.utils import timezone
 
 from districts.models import District
 from games.models import Game, Leg
@@ -15,10 +16,10 @@ class NormalGames(TestCase):
         team_1 = Team.objects.create(name='Team 1', short_name='T1', league=league, bhv_id=1)
         team_2 = Team.objects.create(name='Team 2', short_name='T2', league=league, bhv_id=2)
 
-        earlier_opening_whistle = datetime.now() - timedelta(days=7)
+        earlier_opening_whistle = timezone.now() - timedelta(days=7)
         first_leg_game = Game.objects.create(number=1, league=league, opening_whistle=earlier_opening_whistle,
                                              home_team=team_1, guest_team=team_2)
-        second_leg_game = Game.objects.create(number=2, league=league, opening_whistle=datetime.now(),
+        second_leg_game = Game.objects.create(number=2, league=league, opening_whistle=timezone.now(),
                                               home_team=team_2, guest_team=team_1)
 
         self.assertEqual(first_leg_game.leg(), Leg.FIRST)
@@ -58,7 +59,7 @@ class NormalGames(TestCase):
 
 
 def create_test_game(number, league, home_team, guest_team, expected_leg: Leg, unscheduled=False) -> tuple[Game, Leg]:
-    opening_whistle = datetime.now() + timedelta(weeks=number * 2) if not unscheduled else None
+    opening_whistle = timezone.now() + timedelta(weeks=number * 2) if not unscheduled else None
     game = Game.objects.create(number=number, league=league, opening_whistle=opening_whistle,
                                home_team=home_team, guest_team=guest_team)
     return game, expected_leg
@@ -86,7 +87,7 @@ class UnscheduledGames(TestCase):
         team_1 = Team.objects.create(name='Team 1', short_name='T1', league=league, bhv_id=1)
         team_2 = Team.objects.create(name='Team 2', short_name='T2', league=league, bhv_id=2)
 
-        game = Game.objects.create(number=1, league=league, opening_whistle=datetime.now(),
+        game = Game.objects.create(number=1, league=league, opening_whistle=timezone.now(),
                                    home_team=team_1, guest_team=team_2)
 
         Game.objects.create(number=2, league=league, opening_whistle=None, home_team=team_2, guest_team=team_1)
@@ -101,11 +102,11 @@ class TripleGames(TestCase):
         team_2 = Team.objects.create(name='Team 2', short_name='T2', league=league, bhv_id=2)
 
         first = Game.objects.create(number=1, league=league, home_team=team_1, guest_team=team_2,
-                                    opening_whistle=datetime.now() - timedelta(days=7))
+                                    opening_whistle=timezone.now() - timedelta(days=7))
         between = Game.objects.create(number=2, league=league, home_team=team_1, guest_team=team_2,
-                                      opening_whistle=datetime.now() - timedelta(days=5))
+                                      opening_whistle=timezone.now() - timedelta(days=5))
         second = Game.objects.create(number=3, league=league, home_team=team_2,
-                                     guest_team=team_1, opening_whistle=datetime.now())
+                                     guest_team=team_1, opening_whistle=timezone.now())
 
         self.assertEqual(first.leg(), Leg.FIRST)
         self.assertEqual(between.leg(), Leg.BEWTEEN)
@@ -117,10 +118,10 @@ class TripleGames(TestCase):
         team_2 = Team.objects.create(name='Team 2', short_name='T2', league=league, bhv_id=2)
 
         first = Game.objects.create(number=1, league=league, home_team=team_1, guest_team=team_2,
-                                    opening_whistle=datetime.now() - timedelta(days=7))
+                                    opening_whistle=timezone.now() - timedelta(days=7))
         unsheduled = Game.objects.create(number=2, league=league, home_team=team_1, guest_team=team_2)
         second = Game.objects.create(number=3, league=league, home_team=team_2,
-                                     guest_team=team_1, opening_whistle=datetime.now())
+                                     guest_team=team_1, opening_whistle=timezone.now())
 
         self.assertEqual(first.leg(), Leg.UNKNOWN)
         self.assertEqual(unsheduled.leg(), Leg.UNKNOWN)
@@ -165,13 +166,13 @@ class QuadrupleGames(TestCase):
         team_2 = Team.objects.create(name='Team 2', short_name='T2', league=league, bhv_id=2)
 
         first = Game.objects.create(number=1, league=league, home_team=team_1, guest_team=team_2,
-                                    opening_whistle=datetime.now() - timedelta(days=7))
+                                    opening_whistle=timezone.now() - timedelta(days=7))
         second = Game.objects.create(number=2, league=league, home_team=team_2, guest_team=team_1,
-                                     opening_whistle=datetime.now() - timedelta(days=5))
+                                     opening_whistle=timezone.now() - timedelta(days=5))
         third = Game.objects.create(number=3, league=league, home_team=team_1, guest_team=team_2,
-                                    opening_whistle=datetime.now() - timedelta(days=3))
+                                    opening_whistle=timezone.now() - timedelta(days=3))
         fourth = Game.objects.create(number=4, league=league, home_team=team_2, guest_team=team_1,
-                                     opening_whistle=datetime.now())
+                                     opening_whistle=timezone.now())
 
         self.assertEqual(first.leg(), Leg.UNKNOWN)
         self.assertEqual(second.leg(), Leg.UNKNOWN)

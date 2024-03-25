@@ -106,7 +106,7 @@ LANGUAGE_CODE = 'de'
 
 TIME_ZONE = 'Europe/Berlin'
 
-USE_L10N = True
+USE_I18N = False
 
 
 # logging

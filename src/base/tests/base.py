@@ -49,9 +49,9 @@ class Runner(DiscoverRunner):
         argv.extend(test_labels)
         return pytest.main(argv)
 
-    def build_suite(self, test_labels=None, extra_tests=None, **kwargs):
+    def build_suite(self, test_labels=None, **kwargs):
         os.environ["DUMMY"] = "VALUE"
-        suite = DiscoverRunner.build_suite(self, test_labels, extra_tests, **kwargs)
+        suite = DiscoverRunner.build_suite(self, test_labels, **kwargs)
         return filter_tests_by_explicit_tags(suite, self.tags)
 
 
