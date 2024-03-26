@@ -104,6 +104,13 @@ def parse_club_option(option: str) -> tuple[str, int]:
     raise ValueError(f'invalid club option text: {option}')
 
 
+def parse_team_club_name(team_name: str) -> str:
+    match: re.Match[str] | None = re.match(r"^(.*?)( \d)?$", team_name)
+    if match:
+        return match.group(1)
+    raise ValueError(f'cannot parse team club name: {team_name}')
+
+
 def parse_team_bhv_id(link: _Element) -> int:
     return int(parse_link_query_item(link, 'teamID'))
 
