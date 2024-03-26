@@ -42,7 +42,7 @@ def scrape_association(association: Association, options):
 
     LOGGER.info('SCRAPING Association: %s', association)
 
-    url = f"{settings.ROOT_SOURCE_URL}Spielbetrieb/index.php?A=g_club&orgGrpID={association.bhv_id}&orgID=1"
+    url = f"{settings.ROOT_SOURCE_URL}Spielbetrieb/mannschaftsspielplaene.php?orgGrpID={association.bhv_id}"
     html = http.get_text(url)
     dom = parsing.html_dom(html)
 
