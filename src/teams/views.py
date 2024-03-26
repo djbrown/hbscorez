@@ -1,10 +1,11 @@
-from datetime import datetime, timedelta
+from datetime import timedelta
 from enum import Enum, auto
 
 from django.db.models import Count, F, Q, Sum
 from django.db.models.functions import Coalesce
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, render
+from django.utils import timezone
 from icalendar import Calendar, Event, vText
 from returns.result import Result
 
@@ -111,7 +112,7 @@ def _create_event(team: Team, game: Game) -> Result[Event, ErrCode]:
 
     start = game.opening_whistle
     end = start + timedelta(minutes=90)
-    dtstamp = datetime.now()
+    dtstamp = timezone.now()
     location = game.sports_hall.address if game.sports_hall else None
     uid = f'game/{game.number}@hbscorez.de'
 

@@ -1,5 +1,7 @@
 import datetime
 
+from django.utils import timezone
+
 from base.tests.base import IntegrationTestCase
 from games.models import Game
 from leagues.models import League
@@ -17,7 +19,7 @@ class ImportGamesTest(IntegrationTestCase):
         game = self.assert_objects(Game)
 
         self.assertEqual(game.number, 210116)
-        self.assertEqual(game.opening_whistle, datetime.datetime(2018, 2, 18, 17, 30))
+        self.assertEqual(game.opening_whistle, timezone.make_aware(datetime.datetime(2018, 2, 18, 17, 30)))
         self.assertEqual(game.home_team.short_name, 'SG Heidel/Helm')
         self.assertEqual(game.guest_team.short_name, 'HC Neuenbürg')
         self.assertEqual(game.home_goals, 29)
@@ -42,7 +44,7 @@ class ImportGamesTest(IntegrationTestCase):
         game = self.assert_objects(Game)
 
         self.assertEqual(game.number, 96781)
-        self.assertEqual(game.opening_whistle, datetime.datetime(2019, 9, 14, 19, 00))
+        self.assertEqual(game.opening_whistle, timezone.make_aware(datetime.datetime(2019, 9, 14, 19, 00)))
         self.assertEqual(game.home_team.short_name, 'TV Weingarten')
         self.assertEqual(game.guest_team.short_name, 'SG Argental')
         self.assertEqual(game.home_goals, 19)

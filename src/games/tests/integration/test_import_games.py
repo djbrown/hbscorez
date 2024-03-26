@@ -2,6 +2,7 @@ import datetime
 from pathlib import Path
 
 from django.conf import settings
+from django.utils import timezone
 
 from base import logic, parsing
 from base.tests.base import IntegrationTestCase
@@ -25,7 +26,7 @@ class ImportGamesTest(IntegrationTestCase):
 
         self.assertEqual(game.number, 210226)
         self.assertEqual(game.league, league)
-        self.assertEqual(game.opening_whistle, datetime.datetime(2017, 10, 7, 19, 45))
+        self.assertEqual(game.opening_whistle, timezone.make_aware(datetime.datetime(2017, 10, 7, 19, 45)))
         self.assertEqual(game.sports_hall.number, 22010)
         self.assertEqual(game.sports_hall.bhv_id, 487)
         self.assertEqual(game.home_team.short_name, 'TSVG Malsch')
@@ -94,7 +95,7 @@ class UpdateTest(IntegrationTestCase):
 
         game = self.assert_objects(Game)
 
-        self.assertEqual(game.opening_whistle, datetime.datetime(2017, 10, 8, 15, 0))
+        self.assertEqual(game.opening_whistle, timezone.make_aware(datetime.datetime(2017, 10, 8, 15, 0)))
         self.assertEqual(game.home_goals, 124)
         self.assertEqual(game.guest_goals, 122)
         self.assertEqual(game.report_number, 0)
