@@ -32,10 +32,10 @@ class Team(models.Model):
         return f'{settings.ROOT_SOURCE_URL}Spielbetrieb/index.php?orgGrpID=1&score={league_bhv_id}&teamID={team_bhv_id}'
 
     @staticmethod
-    def create_or_update_team(name, short_name, league, bhv_id, logger: logging.Logger = logging.getLogger()):
+    def create_or_update_team(name, short_name, league, club, bhv_id, logger: logging.Logger = logging.getLogger()):
         team = Team.objects.filter(bhv_id=bhv_id).first()
         if team is None:
-            team = Team.objects.create(name=name, short_name=short_name, league=league, bhv_id=bhv_id)
+            team = Team.objects.create(name=name, short_name=short_name, league=league, club=club, bhv_id=bhv_id)
             logger.info('CREATED Team: %s', team)
             return
 
@@ -47,6 +47,10 @@ class Team(models.Model):
 
         if team.short_name != short_name:
             team.short_name = short_name
+            updated = True
+
+        if team.club != club:
+            team.club = club
             updated = True
 
         if updated:
