@@ -9,6 +9,7 @@ from api import urls as api_urls
 from associations import urls as association_urls
 from associations.models import Association
 from base import urls as base_urls
+from clubs import urls as club_urls
 from clubs.models import Club
 from districts import urls as district_urls
 from districts.models import District
@@ -50,6 +51,7 @@ urlpatterns = [
     }}, name='django.contrib.sitemaps.views.sitemap'),
     path('', include(base_urls)),
     path('verbaende/', include(association_urls)),
+    path('vereine/', include(club_urls)),
     path('kreise/', include(district_urls)),
     path('ligen/', include(league_urls)),
     path('mannschaften/', include(team_urls)),

@@ -98,7 +98,7 @@ def parse_club_option_texts(dom) -> list[str]:
 
 
 def parse_club_option(option: str) -> tuple[str, int]:
-    match: re.Match[str] | None = re.match(r"(.+) \((.+)\)", option)
+    match: re.Match[str] | None = re.match(r"(.+) \((\d+)\)", option)
     if match:
         return match.group(1), int(match.group(2))
     raise ValueError(f'invalid club option text: {option}')

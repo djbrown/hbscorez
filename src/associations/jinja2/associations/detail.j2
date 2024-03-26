@@ -12,4 +12,10 @@
     <li><a href="{{ district.get_absolute_url() }}">{{ district.name }}</a></li>
     {% endfor %}
 </ul>
+<h2>Vereine</h2>
+<ul>
+    {% for club in association.club_set.order_by('name') %}
+    <li><a href="{{ club.get_absolute_url() }}">{{ club.name }}</a></li>
+    {% endfor %}
+</ul>
 {% endblock %}
