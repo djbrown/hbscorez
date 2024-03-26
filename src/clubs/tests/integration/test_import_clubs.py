@@ -30,12 +30,12 @@ class ImportClubsTest(IntegrationTestCase):
         self.assert_objects(Club, count=11)
 
     def test_single_club_filtered(self):
-        self.assert_command('import_associations', '-a', 35)
+        self.assert_command('import_associations', '-a', 95)
         association = self.assert_objects(Association)
 
-        self.assert_command('import_clubs', '-a', 35, '-c', 437)
+        self.assert_command('import_clubs', '-a', 95, '-c', 9702)
         club = self.assert_objects(Club)
 
-        self.assertEqual(club.name, 'SG Gundelsheim')
+        self.assertEqual(club.name, 'Lettland')
         self.assertTrue(club.associations.get(), association)
-        self.assertEqual(club.bhv_id, 437)
+        self.assertEqual(club.bhv_id, 9702)

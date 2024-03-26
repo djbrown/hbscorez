@@ -20,6 +20,7 @@ INSTALLED_APPS = [
     'axes',
     'base',
     'associations',
+    'clubs',
     'districts',
     'leagues',
     'teams',
