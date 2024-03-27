@@ -50,6 +50,11 @@ App is reachable under [127.0.0.1:8000](http://127.0.0.1:8000)
 
 `pipenv run ./src/manage.py runserver`
 
+## Domain Model
+
+![domain_model.puml](https://www.plantuml.com/plantuml/proxy?src=https://raw.github.com/djbrown/hbscorez/master/domain_model.puml&fmt=svg)
+
+
 ## Main Management Commands
 
 - `import_associations`: Associations

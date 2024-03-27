@@ -1,0 +1,17 @@
+@startuml
+Association }o..o{ Club
+Association }o..o{ District
+Club ||--o{ Team
+District ||--o{ League
+Season ||..o{ League
+League ||--o{ Team
+League ||--o{ Game
+Team ||--o{ Game
+Team ||--o{ Game
+Team ||--o{ Player
+Game }o--o| SportsHall
+Game }o--o{ Player
+Game ||--o{ Score
+Player ||--o{ Score
+Player }o--o| User
+@enduml
