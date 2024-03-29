@@ -8,6 +8,7 @@ from associations.models import Association
 from base import http, parsing
 from base.middleware import env
 from base.models import Value
+from clubs.models import Club
 from districts.management.commands.import_districts import add_default_arguments as district_arguments
 from districts.models import District
 from leagues.models import League, LeagueName, Season
@@ -200,6 +201,9 @@ def scrape_team(link, league):
     bhv_id = parsing.parse_team_bhv_id(link)
     name = link.text
 
+    club_name = parsing.parse_team_club_name(name)
+    club = Club.objects.filter(name=club_name).first()
+
     url = Team.build_source_url(league.bhv_id, bhv_id)
     html = http.get_text(url)
     dom = parsing.html_dom(html)
@@ -207,4 +211,4 @@ def scrape_team(link, league):
     short_team_names = parsing.parse_team_short_names(game_rows)
     short_team_name = Team.find_matching_short_name(name, short_team_names)
 
-    Team.create_or_update_team(name, short_team_name, league, bhv_id, LOGGER)
+    Team.create_or_update_team(name, short_team_name, league, club, bhv_id, LOGGER)

@@ -1,0 +1,31 @@
+{% extends 'base/base.j2' %}
+{% block title %}{{ club.name }} | {{ super() }}{% endblock %}
+{% block content %}
+<ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{{ url('associations:list') }}">Verbände</a></li>
+    <li class="breadcrumb-item">
+        {% for association in club.associations.all() %}
+        <a class="breadcrumb-item-part" href="{{ association.get_absolute_url() }}">{{ association.abbreviation }}</a>
+        {% endfor %}
+    </li>
+    <li class="breadcrumb-item active"><a>{{ club.name }}</a></li>
+</ol>
+<h1>{{ club.name }}&nbsp;<a href="{{ club.source_url() }}"><span class="fas fa-link" title="Datenquelle"></span></a></h1>
+
+{% for season, teams in teams_by_season.items() %}
+<h2>{{ season }}/{{ season + 1 }}</h2>
+<ul>
+    {% for team in teams %}
+    <li>
+        <a href="{{ team.get_absolute_url() }}">{{ team.name }}</a>
+        {% if team.league.abbreviation.upper().startswith("M") %}
+        ♂️
+        {% elif team.league.abbreviation.upper().startswith("F") %}
+        ♀️
+        {% endif %}
+        (<a href="{{ team.league.get_absolute_url() }}">{{ team.league.abbreviation }}</a>)
+    </li>
+    {% endfor %}
+</ul>
+{% endfor %}
+{% endblock %}

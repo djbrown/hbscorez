@@ -93,6 +93,24 @@ def parse_retirements(dom: _Element) -> list[tuple[str, datetime]]:
     return retirements
 
 
+def parse_club_option_texts(dom) -> list[str]:
+    return cast(list[str], dom.xpath('//select[@name="club"]/option/text()'))
+
+
+def parse_club_option(option: str) -> tuple[str, int]:
+    match: re.Match[str] | None = re.match(r"(.+) \((\d+)\)", option)
+    if match:
+        return match.group(1), int(match.group(2))
+    raise ValueError(f'invalid club option text: {option}')
+
+
+def parse_team_club_name(team_name: str) -> str:
+    match: re.Match[str] | None = re.match(r"^(.*?)( \d)?$", team_name)
+    if match:
+        return match.group(1)
+    raise ValueError(f'cannot parse team club name: {team_name}')
+
+
 def parse_team_bhv_id(link: _Element) -> int:
     return int(parse_link_query_item(link, 'teamID'))
 

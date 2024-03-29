@@ -1,17 +1,23 @@
 @startuml
-Association }o..o{ Club
-Association }o..o{ District
-Club ||--o{ Team
-District ||--o{ League
-Season ||..o{ League
-League ||--o{ Team
-League ||--o{ Game
-Team ||--o{ Game
-Team ||--o{ Game
-Team ||--o{ Player
-Game }o--o| SportsHall
-Game }o--o{ Player
-Game ||--o{ Score
-Player ||--o{ Score
-Player }o--o| User
+    skinparam linetype ortho
+
+    Club      "*"  }o--o{  "*"    Association
+    District  "*"  }o--o{  "*"    Association
+    League    "*"  }o--||  "1"    District
+    League    "*"  }o--||  "1"    Season
+    Team      "*"  }o--o|  "?"    Club
+    Team      "*"  }o--||  "1"    League
+    Game      "*"  }o--||  "1"    League
+    Game      "*"  }o--o|  "?"    SportsHall
+    Game      "*"  }o--||  "2-3"  Team #orange
+    Player    "*"  }o--o|  "?"    User
+    Player    "*"  }o--||  "1"    Team
+    Score     "*"  }o--||  "1"    Player
+    Score     "*"  }o--||  "1"    Game
+
+    note top of Game
+      1 home_team
+      1 guest_team
+      ? forfeiting_team
+    end note
 @enduml
