@@ -10,11 +10,22 @@
     </li>
     <li class="breadcrumb-item active"><a>{{ club.name }}</a></li>
 </ol>
-<h1>{{ club.name }}&nbsp;<a href="{{ club.source_url }}"><span class="fas fa-link" title="Datenquelle"></span></a></h1>
-<h2>Teams</h2>
+<h1>{{ club.name }}&nbsp;<a href="{{ club.source_url() }}"><span class="fas fa-link" title="Datenquelle"></span></a></h1>
+
+{% for season, teams in teams_by_season.items() %}
+<h2>{{ season }}/{{ season + 1 }}</h2>
 <ul>
-    {% for team in club.team_set.order_by('league__name') %}
-    <li><a href="{{ team.get_absolute_url() }}">{{ team.name }}</a> (<a href="{{ team.league.get_absolute_url() }}">{{ team.league.abbreviation }}</a>)</li>
+    {% for team in teams %}
+    <li>
+        <a href="{{ team.get_absolute_url() }}">{{ team.name }}</a>
+        {% if team.league.abbreviation.upper().startswith("M") %}
+        ♂️
+        {% elif team.league.abbreviation.upper().startswith("F") %}
+        ♀️
+        {% endif %}
+        (<a href="{{ team.league.get_absolute_url() }}">{{ team.league.abbreviation }}</a>)
+    </li>
     {% endfor %}
 </ul>
+{% endfor %}
 {% endblock %}
