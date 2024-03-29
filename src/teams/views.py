@@ -86,7 +86,7 @@ def calendar(_, bhv_id):
         result = _create_event(team, game)
         result.bind(cal.add_component)
 
-    return HttpResponse(cal.to_ical(), "text/calendar")
+    return HttpResponse(cal.to_ical(), 'text/calendar')
 
 
 class ErrCode(Enum):

@@ -66,23 +66,23 @@ class ParseDistrictTest(TestCase):
     def test_parse_district_items(self):
         response = [
             {
-                "menu": {
-                    "org": {
-                        "list": {
-                            "4": "Handball Baden-Württemberg",
-                            "35": "Badischer Handball-Verband",
-                            "191": "Bezirk Rhein-Neckar-Tauber",
-                            "196": "Bezirk Alb-Enz-Saal",
-                            "84": "Bezirk Nord",
-                            "43": "Bezirk Süd",
-                            "36": "Bruchsal",
-                            "37": "Heidelberg",
-                            "38": "Karlsruhe",
-                            "39": "Mannheim",
-                            "40": "Pforzheim",
-                            "82": "Neckar-Odenwald-Tauber"
+                'menu': {
+                    'org': {
+                        'list': {
+                            '4': "Handball Baden-Württemberg",
+                            '35': "Badischer Handball-Verband",
+                            '191': "Bezirk Rhein-Neckar-Tauber",
+                            '196': "Bezirk Alb-Enz-Saal",
+                            '84': "Bezirk Nord",
+                            '43': "Bezirk Süd",
+                            '36': "Bruchsal",
+                            '37': "Heidelberg",
+                            '38': "Karlsruhe",
+                            '39': "Mannheim",
+                            '40': "Pforzheim",
+                            '82': "Neckar-Odenwald-Tauber"
                         },
-                        "selectedID": "35"
+                        'selectedID': "35"
                     }
                 }
             }

@@ -17,7 +17,7 @@ class RenamedTeam(ModelTestCase):
 
         Team.create_or_update_team('Team Eins', 'Team E', league, None, 1)
 
-        self.assert_objects(Team, filters={"name": 'Team Eins', "short_name": 'Team E'})
+        self.assert_objects(Team, filters={'name': "Team Eins", 'short_name': "Team E"})
 
 
 class ShortName(TestCase):

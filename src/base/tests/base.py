@@ -112,7 +112,7 @@ class ModelTestCase(TestCase):
 class IntegrationTestCase(ModelTestCase):
 
     def assert_command(self, command_name, *arguments, **options):
-        with self.assertNoLogs(logging.getLogger('hbscorez'), level="ERROR"):
+        with self.assertNoLogs(logging.getLogger('hbscorez'), level='ERROR'):
             call_command(command_name, *arguments, **options)
 
 
@@ -132,10 +132,10 @@ class LiveServerThreadWithReuse(LiveServerThread):
 
 
 _CI = 'CI' in os.environ
-_SAUCE_BUILD = os.environ.get("SAUCE_BUILD_NAME")
-_SAUCE_TUNNEL = os.environ.get("SAUCE_TUNNEL_IDENTIFIER")
-_SAUCE_USER = os.environ.get("SAUCE_USERNAME")
-_SAUCE_KEY = os.environ.get("SAUCE_ACCESS_KEY")
+_SAUCE_BUILD = os.environ.get('SAUCE_BUILD_NAME')
+_SAUCE_TUNNEL = os.environ.get('SAUCE_TUNNEL_IDENTIFIER')
+_SAUCE_USER = os.environ.get('SAUCE_USERNAME')
+_SAUCE_KEY = os.environ.get('SAUCE_ACCESS_KEY')
 
 
 @pytest.mark.browser

@@ -6,19 +6,20 @@
     0% {
         transform: rotate(0deg);
     }
+
     100% {
         transform: rotate(360deg);
     }
 }
 
-.breadcrumb-item-part + .breadcrumb-item-part::before {
+.breadcrumb-item-part+.breadcrumb-item-part::before {
     color: #868e96;
     content: ",";
     display: inline-block;
     padding-right: .5rem;
 }
 
-.nav-pills > .nav-item.nav-link {
+.nav-pills>.nav-item.nav-link {
     border: 1px solid #007bff;
 }
 
@@ -44,6 +45,6 @@ h1 {
     width: 100%;
 }
 
-.leader-card ol > li:first-child {
+.leader-card ol>li:first-child {
     font-weight: bold;
 }

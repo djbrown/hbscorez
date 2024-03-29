@@ -9,11 +9,11 @@ class CaptchaContactForm(ContactForm):
     captcha = forms.CharField(label="Captcha")
 
     def __init__(self, *args, **kwargs):
-        session_captcha = kwargs.get("request").session.get('captcha')
+        session_captcha = kwargs.get('request').session.get('captcha')
 
         if session_captcha is None:
             session_captcha = generate_captcha()
-            kwargs.get("request").session['captcha'] = session_captcha
+            kwargs.get('request').session['captcha'] = session_captcha
 
         self.captcha = session_captcha
         self.captcha_image_base64 = encode_captcha_image_base64(self.captcha)
@@ -29,6 +29,6 @@ class CaptchaContactForm(ContactForm):
         self.captcha_image_base64 = encode_captcha_image_base64(self.captcha)
 
         if input_captcha != session_captcha:
-            raise ValidationError('Falsches Captcha.')
+            raise ValidationError("Falsches Captcha.")
 
         return input_captcha

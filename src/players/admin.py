@@ -24,4 +24,4 @@ class ScoreAdmin(admin.ModelAdmin):
 
 @admin.register(ReportsBlacklist)
 class ReportsBlacklistAdmin(admin.ModelAdmin):
-    search_fields = ["report_number", "note"]
+    search_fields = ['report_number', 'note']

@@ -4,8 +4,8 @@ from django.db import models
 
 
 class Value(Enum):
-    TRUE = "TRUE"
-    FALSE = "FALSE"
+    TRUE = 'TRUE'
+    FALSE = 'FALSE'
 
 
 class Env(models.Model):

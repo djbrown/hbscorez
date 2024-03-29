@@ -42,15 +42,15 @@ def rename_player(team_bhv_id, old_name, new_name):
                 score.player = new_player
                 score.save()
             old_player.delete()
-            LOGGER.info('moved Player: %s to %s', old_name, new_player)
+            LOGGER.info("moved Player: %s to %s", old_name, new_player)
     except Player.DoesNotExist:
-        LOGGER.warning('skip Player (not found): %s (%s)', old_name, team_bhv_id)
+        LOGGER.warning("skip Player (not found): %s (%s)", old_name, team_bhv_id)
 
 
 def _score(player_number: int, goals: int = 0, penalty_tries: int = 0,
            penalty_goals: int = 0, **kwargs) -> dict[str, Any]:
-    return {"player_number": player_number, "goals": goals, "penalty_tries": penalty_tries,
-            "penalty_goals": penalty_goals, **kwargs}
+    return {'player_number': player_number, 'goals': goals, 'penalty_tries': penalty_tries,
+            'penalty_goals': penalty_goals, **kwargs}
 
 
 def time(minutes: int, seconds: int = 0):
