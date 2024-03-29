@@ -10,6 +10,7 @@ from base.middleware import env
 from base.models import Value
 from districts.models import District
 from teams.models import Club
+from teams.models import Team
 
 LOGGER = logging.getLogger('hbscorez')
 
@@ -67,3 +68,16 @@ def import_club(association: Association, name: str, bhv_id, options):
         LOGGER.info('CREATED Club: %s', club)
     else:
         LOGGER.info('EXISTING Club: %s', club)
+
+    update_teams(club)
+
+
+def update_teams(club):
+    teams = Team.objects.filter()
+    for team in teams:
+        if team.club is None:
+            team.club = club
+            team.save()
+            LOGGER.info('UPDATED Team (Club): %s - %s ', team, club)
+        elif team.club != club:
+            LOGGER.warning('CONFLICTING Team Club: %s has "%s" instead of %s"', team, team.club, club)

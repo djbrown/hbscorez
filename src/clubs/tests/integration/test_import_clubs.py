@@ -1,5 +1,6 @@
 from associations.models import Association
 from base.tests.base import IntegrationTestCase
+from games.models import Team
 from teams.models import Club
 
 
@@ -39,3 +40,15 @@ class ImportClubsTest(IntegrationTestCase):
         self.assertEqual(club.name, 'Lettland')
         self.assertTrue(club.associations.get(), association)
         self.assertEqual(club.bhv_id, 9702)
+
+    def test_update_team(self):
+        self.assert_command('import_associations', '-a', 80)
+        self.assert_command('import_districts', '-d', 80)
+        self.assert_command('import_leagues', '-s', 2023, '-l', 109051)
+
+        team = self.assert_objects(Team, filters={'bhv_id': 1036036})
+        self.assertIsNone(team.club)
+
+        self.assert_command('import_clubs', '-a', 80, '-c', 213031)
+
+        self.assert_objects(Team, filters={'bhv_id': 1036036, 'club__bhv_id': 213031})
