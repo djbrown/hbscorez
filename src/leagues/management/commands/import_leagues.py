@@ -1,7 +1,6 @@
 import logging
 from datetime import date, datetime, timedelta
 
-from clubs.models import Club
 from django.core.management import BaseCommand
 from django.db import transaction
 
@@ -9,6 +8,7 @@ from associations.models import Association
 from base import http, parsing
 from base.middleware import env
 from base.models import Value
+from clubs.models import Club
 from districts.management.commands.import_districts import add_default_arguments as district_arguments
 from districts.models import District
 from leagues.models import League, LeagueName, Season
