@@ -107,8 +107,9 @@ jobs:
         with:
           name: coverage report
       - uses: codecov/codecov-action@v4
-        fail_ci_if_error: true
-        token: ${{ secrets.CODECOV_TOKEN }}
+        with:
+          fail_ci_if_error: true
+          token: ${{ secrets.CODECOV_TOKEN }}
 
   licenses:
     runs-on: ubuntu-latest
