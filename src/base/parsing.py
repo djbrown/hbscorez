@@ -5,6 +5,7 @@ from datetime import datetime, timedelta
 from typing import cast
 from urllib.parse import parse_qs, urlsplit
 
+from django.utils import timezone
 from lxml import html
 from lxml.etree import _Element
 
@@ -141,9 +142,9 @@ def parse_opening_whistle(text: str) -> datetime | None:
         return None
     locale.setlocale(locale.LC_ALL, "de_DE.UTF-8")
     if len(text) == 12:
-        return datetime.strptime(text, "%a, %d.%m.%y")
+        return timezone.make_aware(datetime.strptime(text, "%a, %d.%m.%y"))
     if len(text) == 20:
-        return datetime.strptime(text, "%a, %d.%m.%y, %H:%Mh")
+        return timezone.make_aware(datetime.strptime(text, "%a, %d.%m.%y, %H:%Mh"))
     raise ValueError(f"invalid opening whistle: {text}")
 
 

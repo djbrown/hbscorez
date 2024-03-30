@@ -1,6 +1,7 @@
 from datetime import datetime
 
 from django.test import TestCase
+from django.utils import timezone
 
 from base import parsing
 
@@ -18,7 +19,7 @@ class OpeningWhistleParseTest(TestCase):
 
         actual = parsing.parse_opening_whistle(datetime_text)
 
-        expected = datetime(2017, 9, 9, 19, 30, 0)
+        expected = timezone.make_aware(datetime(2017, 9, 9, 19, 30, 0))
 
         self.assertEqual(expected, actual)
 
@@ -27,6 +28,6 @@ class OpeningWhistleParseTest(TestCase):
 
         actual = parsing.parse_opening_whistle(datetime_text)
 
-        expected = datetime(2018, 3, 6, 3, 54, 0)
+        expected = timezone.make_aware(datetime(2018, 3, 6, 3, 54, 0))
 
         self.assertEqual(expected, actual)
