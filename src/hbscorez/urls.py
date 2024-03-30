@@ -26,39 +26,48 @@ from users import urls as user_urls
 from users.forms import CaptchaRegistrationForm
 from users.views import CaptchaRegistrationView
 
-ASSOCIATIONS = {'queryset': Association.objects.get_queryset().order_by('pk')}
-CLUBS = {'queryset': Club.objects.get_queryset().order_by('pk')}
-DISTRICTS = {'queryset': District.objects.get_queryset().order_by('pk')}
-LEAGUES = {'queryset': League.objects.get_queryset().order_by('pk')}
-TEAMS = {'queryset': Team.objects.get_queryset().order_by('pk')}
-GAMES = {'queryset': Game.objects.get_queryset().order_by('pk')}
-PLAYERS = {'queryset': Player.objects.get_queryset().order_by('pk')}
+ASSOCIATIONS = {"queryset": Association.objects.get_queryset().order_by("pk")}
+CLUBS = {"queryset": Club.objects.get_queryset().order_by("pk")}
+DISTRICTS = {"queryset": District.objects.get_queryset().order_by("pk")}
+LEAGUES = {"queryset": League.objects.get_queryset().order_by("pk")}
+TEAMS = {"queryset": Team.objects.get_queryset().order_by("pk")}
+GAMES = {"queryset": Game.objects.get_queryset().order_by("pk")}
+PLAYERS = {"queryset": Player.objects.get_queryset().order_by("pk")}
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('registrierung/register/',
-         CaptchaRegistrationView.as_view(form_class=CaptchaRegistrationForm),
-         name='django_registration_register'),
-    path('registrierung/', include('django_registration.backends.activation.urls')),
-    path('benutzer/', include(user_urls)),
-    path('sitemap.xml', sitemap, {'sitemaps': {
-        'associations': GenericSitemap(ASSOCIATIONS),
-        'clubs': GenericSitemap(CLUBS),
-        'districts': GenericSitemap(DISTRICTS),
-        'leagues': GenericSitemap(LEAGUES),
-        'teams': GenericSitemap(TEAMS),
-        'players': GenericSitemap(PLAYERS),
-    }}, name='django.contrib.sitemaps.views.sitemap'),
-    path('', include(base_urls)),
-    path('verbaende/', include(association_urls)),
-    path('vereine/', include(club_urls)),
-    path('kreise/', include(district_urls)),
-    path('ligen/', include(league_urls)),
-    path('mannschaften/', include(team_urls)),
-    path('spiele/', include(game_urls)),
-    path('sporthallen/', include(sports_hall_urls)),
-    path('spieler/', include(player_urls)),
-    path('api/', include(api_urls)),
+    path("admin/", admin.site.urls),
+    path(
+        "registrierung/register/",
+        CaptchaRegistrationView.as_view(form_class=CaptchaRegistrationForm),
+        name="django_registration_register",
+    ),
+    path("registrierung/", include("django_registration.backends.activation.urls")),
+    path("benutzer/", include(user_urls)),
+    path(
+        "sitemap.xml",
+        sitemap,
+        {
+            "sitemaps": {
+                "associations": GenericSitemap(ASSOCIATIONS),
+                "clubs": GenericSitemap(CLUBS),
+                "districts": GenericSitemap(DISTRICTS),
+                "leagues": GenericSitemap(LEAGUES),
+                "teams": GenericSitemap(TEAMS),
+                "players": GenericSitemap(PLAYERS),
+            }
+        },
+        name="django.contrib.sitemaps.views.sitemap",
+    ),
+    path("", include(base_urls)),
+    path("verbaende/", include(association_urls)),
+    path("vereine/", include(club_urls)),
+    path("kreise/", include(district_urls)),
+    path("ligen/", include(league_urls)),
+    path("mannschaften/", include(team_urls)),
+    path("spiele/", include(game_urls)),
+    path("sporthallen/", include(sports_hall_urls)),
+    path("spieler/", include(player_urls)),
+    path("api/", include(api_urls)),
 ]
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

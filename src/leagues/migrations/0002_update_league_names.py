@@ -4,7 +4,7 @@ from django.db import migrations
 
 from base import http, parsing
 
-LOGGER = logging.getLogger('hbscorez')
+LOGGER = logging.getLogger("hbscorez")
 
 
 def update_league_names(apps, _):
@@ -16,14 +16,14 @@ def update_league_names(apps, _):
         if name != league.name:
             league.name = name
             league.save()
-            LOGGER.info('RENAMED LEAGUE: %s', league)
+            LOGGER.info("RENAMED LEAGUE: %s", league)
 
 
 class Migration(migrations.Migration):
     atomic = False
 
     dependencies = [
-        ('leagues', '0001_initial'),
+        ("leagues", "0001_initial"),
     ]
 
     operations = [

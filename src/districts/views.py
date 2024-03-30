@@ -14,4 +14,4 @@ def detail(request, bhv_id):
     sorted_groups = collections.OrderedDict(sorted(grouped.items(), key=lambda t: t[0], reverse=True))
     for leagues in sorted_groups.values():
         leagues.sort(key=lambda league: league.abbreviation)
-    return render(request, 'districts/detail.j2', {'district': district, 'leagues': sorted_groups})
+    return render(request, "districts/detail.j2", {"district": district, "leagues": sorted_groups})

@@ -18,13 +18,13 @@ class NonameTest(ModelTestCase):
         season = Season.objects.create(start_year=2023)
         league = League.objects.create(name="League", abbreviation="LEAGUE", district=district, season=season, bhv_id=1)
         home_team = Team.objects.create(name="Home Team", short_name="HOME", league=league, bhv_id=1)
-        guest_team = Team.objects.create(name="Guest Team",  short_name="GUEST", league=league, bhv_id=2)
+        guest_team = Team.objects.create(name="Guest Team", short_name="GUEST", league=league, bhv_id=2)
         game = Game.objects.create(number=1, league=league, home_team=home_team, guest_team=guest_team)
 
-        path = Path(__file__).parent / 'report-with-nonames.pdf'
-        table = tabula.read_pdf(path, output_format='json', pages=2, lattice=True)[0]
+        path = Path(__file__).parent / "report-with-nonames.pdf"
+        table = tabula.read_pdf(path, output_format="json", pages=2, lattice=True)[0]
 
-        import_score(table['data'][5], game, home_team)
+        import_score(table["data"][5], game, home_team)
 
         self.assert_objects(Score)
         self.assert_objects(Player, 0)
@@ -34,15 +34,15 @@ class NonameTest(ModelTestCase):
         season = Season.objects.create(start_year=2023)
         league = League.objects.create(name="League", abbreviation="LEAGUE", district=district, season=season, bhv_id=1)
         home_team = Team.objects.create(name="Home Team", short_name="HOME", league=league, bhv_id=1)
-        guest_team = Team.objects.create(name="Guest Team",  short_name="GUEST", league=league, bhv_id=2)
+        guest_team = Team.objects.create(name="Guest Team", short_name="GUEST", league=league, bhv_id=2)
         game = Game.objects.create(number=1, league=league, home_team=home_team, guest_team=guest_team)
 
         Player.objects.create(name="N.N. N.N.", team=home_team)
 
-        path = Path(__file__).parent / 'report-with-nonames.pdf'
-        table = tabula.read_pdf(path, output_format='json', pages=2, lattice=True)[0]
+        path = Path(__file__).parent / "report-with-nonames.pdf"
+        table = tabula.read_pdf(path, output_format="json", pages=2, lattice=True)[0]
 
-        import_score(table['data'][5], game, home_team)
+        import_score(table["data"][5], game, home_team)
 
         self.assert_objects(Score)
         self.assert_objects(Player)
@@ -52,16 +52,16 @@ class NonameTest(ModelTestCase):
         season = Season.objects.create(start_year=2023)
         league = League.objects.create(name="League", abbreviation="LEAGUE", district=district, season=season, bhv_id=1)
         home_team = Team.objects.create(name="Home Team", short_name="HOME", league=league, bhv_id=1)
-        guest_team = Team.objects.create(name="Guest Team",  short_name="GUEST", league=league, bhv_id=2)
+        guest_team = Team.objects.create(name="Guest Team", short_name="GUEST", league=league, bhv_id=2)
         game = Game.objects.create(number=1, league=league, home_team=home_team, guest_team=guest_team)
 
-        path = Path(__file__).parent / 'report-with-nonames.pdf'
-        table = tabula.read_pdf(path, output_format='json', pages=2, lattice=True)[0]
+        path = Path(__file__).parent / "report-with-nonames.pdf"
+        table = tabula.read_pdf(path, output_format="json", pages=2, lattice=True)[0]
 
         import_scores(table, game, home_team)
 
         self.assert_objects(Score, 14)
-        self.assert_objects(Score, 3, filters={'player__isnull': True})
+        self.assert_objects(Score, 3, filters={"player__isnull": True})
 
 
 class ReassignedNumberTest(ModelTestCase):
@@ -70,13 +70,13 @@ class ReassignedNumberTest(ModelTestCase):
         season = Season.objects.create(start_year=2023)
         league = League.objects.create(name="League", abbreviation="LEAGUE", district=district, season=season, bhv_id=1)
         home_team = Team.objects.create(name="Home Team", short_name="HOME", league=league, bhv_id=1)
-        guest_team = Team.objects.create(name="Guest Team",  short_name="GUEST", league=league, bhv_id=2)
+        guest_team = Team.objects.create(name="Guest Team", short_name="GUEST", league=league, bhv_id=2)
         game = Game.objects.create(number=1, league=league, home_team=home_team, guest_team=guest_team)
         self.assert_objects(Player, count=0)
 
-        path = Path(__file__).parent / 'report-with-reassigned-numbers.pdf'
-        table = tabula.read_pdf(path, output_format='json', pages=2, lattice=True)[0]
-        row = table['data'][9]
+        path = Path(__file__).parent / "report-with-reassigned-numbers.pdf"
+        table = tabula.read_pdf(path, output_format="json", pages=2, lattice=True)[0]
+        row = table["data"][9]
 
         import_score(row, game, home_team)
 
@@ -88,14 +88,14 @@ class ReassignedNumberTest(ModelTestCase):
         season = Season.objects.create(start_year=2023)
         league = League.objects.create(name="League", abbreviation="LEAGUE", district=district, season=season, bhv_id=1)
         home_team = Team.objects.create(name="Home Team", short_name="HOME", league=league, bhv_id=1)
-        guest_team = Team.objects.create(name="Guest Team",  short_name="GUEST", league=league, bhv_id=2)
+        guest_team = Team.objects.create(name="Guest Team", short_name="GUEST", league=league, bhv_id=2)
         game = Game.objects.create(number=1, league=league, home_team=home_team, guest_team=guest_team)
 
         Player.objects.create(name="Tobias Emmerich", team=home_team)
 
-        path = Path(__file__).parent / 'report-with-reassigned-numbers.pdf'
-        table = tabula.read_pdf(path, output_format='json', pages=2, lattice=True)[0]
-        row = table['data'][9]
+        path = Path(__file__).parent / "report-with-reassigned-numbers.pdf"
+        table = tabula.read_pdf(path, output_format="json", pages=2, lattice=True)[0]
+        row = table["data"][9]
 
         import_score(row, game, home_team)
 
@@ -107,14 +107,14 @@ class ReassignedNumberTest(ModelTestCase):
         season = Season.objects.create(start_year=2023)
         league = League.objects.create(name="League", abbreviation="LEAGUE", district=district, season=season, bhv_id=1)
         home_team = Team.objects.create(name="Home Team", short_name="HOME", league=league, bhv_id=1)
-        guest_team = Team.objects.create(name="Guest Team",  short_name="GUEST", league=league, bhv_id=2)
+        guest_team = Team.objects.create(name="Guest Team", short_name="GUEST", league=league, bhv_id=2)
         game = Game.objects.create(number=1, league=league, home_team=home_team, guest_team=guest_team)
 
         Player.objects.create(name="Fabian Rotermund", team=home_team)
 
-        path = Path(__file__).parent / 'report-with-reassigned-lengthy-name.pdf'
-        table = tabula.read_pdf(path, output_format='json', pages=2, lattice=True)[0]
-        row = table['data'][11]
+        path = Path(__file__).parent / "report-with-reassigned-lengthy-name.pdf"
+        table = tabula.read_pdf(path, output_format="json", pages=2, lattice=True)[0]
+        row = table["data"][11]
 
         import_score(row, game, home_team)
 
@@ -128,7 +128,7 @@ class PlayerNamesMigrationTest(ModelTestCase):
         season = Season.objects.create(start_year=2023)
         league = League.objects.create(name="League", abbreviation="LEAGUE", district=district, season=season, bhv_id=1)
         home_team = Team.objects.create(name="Home Team", short_name="HOME", league=league, bhv_id=1)
-        guest_team = Team.objects.create(name="Guest Team",  short_name="GUEST", league=league, bhv_id=2)
+        guest_team = Team.objects.create(name="Guest Team", short_name="GUEST", league=league, bhv_id=2)
         game = Game.objects.create(number=1, league=league, home_team=home_team, guest_team=guest_team)
 
         Score.objects.create(player_number=1, game=game)
@@ -144,7 +144,7 @@ class PlayerNamesMigrationTest(ModelTestCase):
         delete_noname_players()
 
         self.assert_objects(Player)
-        self.assert_objects(Score, filters={'player__isnull': False})
+        self.assert_objects(Score, filters={"player__isnull": False})
         self.assert_objects(Score, 5)
 
     def test_unify(self):
@@ -152,7 +152,7 @@ class PlayerNamesMigrationTest(ModelTestCase):
         season = Season.objects.create(start_year=2023)
         league = League.objects.create(name="League", abbreviation="LEAGUE", district=district, season=season, bhv_id=1)
         home_team = Team.objects.create(name="Home Team", short_name="HOME", league=league, bhv_id=1)
-        guest_team = Team.objects.create(name="Guest Team",  short_name="GUEST", league=league, bhv_id=2)
+        guest_team = Team.objects.create(name="Guest Team", short_name="GUEST", league=league, bhv_id=2)
         game1 = Game.objects.create(number=1, league=league, home_team=home_team, guest_team=guest_team)
         game2 = Game.objects.create(number=2, league=league, home_team=home_team, guest_team=guest_team)
 
@@ -172,7 +172,7 @@ class PlayerNamesMigrationTest(ModelTestCase):
         season = Season.objects.create(start_year=2023)
         league = League.objects.create(name="League", abbreviation="LEAGUE", district=district, season=season, bhv_id=1)
         home_team = Team.objects.create(name="Home Team", short_name="HOME", league=league, bhv_id=1)
-        guest_team = Team.objects.create(name="Guest Team",  short_name="GUEST", league=league, bhv_id=2)
+        guest_team = Team.objects.create(name="Guest Team", short_name="GUEST", league=league, bhv_id=2)
         game1 = Game.objects.create(number=1, league=league, home_team=home_team, guest_team=guest_team)
         game2 = Game.objects.create(number=2, league=league, home_team=home_team, guest_team=guest_team)
 
@@ -192,7 +192,7 @@ class PlayerNamesMigrationTest(ModelTestCase):
         season = Season.objects.create(start_year=2023)
         league = League.objects.create(name="League", abbreviation="LEAGUE", district=district, season=season, bhv_id=1)
         home_team = Team.objects.create(name="Home Team", short_name="HOME", league=league, bhv_id=1)
-        guest_team = Team.objects.create(name="Guest Team",  short_name="GUEST", league=league, bhv_id=2)
+        guest_team = Team.objects.create(name="Guest Team", short_name="GUEST", league=league, bhv_id=2)
         game = Game.objects.create(number=1, league=league, home_team=home_team, guest_team=guest_team)
 
         first = Player.objects.create(name="My Name (3)", team=home_team)
@@ -203,5 +203,5 @@ class PlayerNamesMigrationTest(ModelTestCase):
         unify_player_names()
 
         player = self.assert_objects(Player)
-        self.assert_objects(Score, filters={'player': player})
-        self.assert_objects(Score, filters={'player__isnull': True})
+        self.assert_objects(Score, filters={"player": player})
+        self.assert_objects(Score, filters={"player__isnull": True})

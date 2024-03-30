@@ -13,7 +13,7 @@ from players.models import Player, Score
 from sports_halls.models import SportsHall
 from teams.models import Team
 
-LOGGER = logging.getLogger('hbscorez')
+LOGGER = logging.getLogger("hbscorez")
 
 
 def add_ranking_place(items: list, field: str):
@@ -37,14 +37,14 @@ def scrape_game(game_row, league: League, sports_hall: SportsHall | None, ignore
     if ignore_list is None:
         ignore_list = []
 
-    if game_row[1].text == 'Nr.':
-        LOGGER.debug('SKIPPING Row (heading)')
+    if game_row[1].text == "Nr.":
+        LOGGER.debug("SKIPPING Row (heading)")
         return
 
     number = int(game_row[1].text)
 
     if ignore_list and number not in ignore_list:
-        LOGGER.debug('SKIPPING Game (options): %s', number)
+        LOGGER.debug("SKIPPING Game (options): %s", number)
         return
 
     opening_whistle = parsing.parse_opening_whistle(game_row[2].text)
@@ -56,37 +56,44 @@ def scrape_game(game_row, league: League, sports_hall: SportsHall | None, ignore
 
     game = Game.objects.filter(number=number, league__season=league.season).first()
     if game is None:
-        game = Game.objects.create(number=number, league=league,
-                                   opening_whistle=opening_whistle, sports_hall=sports_hall,
-                                   home_team=home_team, guest_team=guest_team,
-                                   home_goals=home_goals, guest_goals=guest_goals,
-                                   report_number=report_number, forfeiting_team=forfeiting_team)
-        LOGGER.info('CREATED Game: %s', game)
+        game = Game.objects.create(
+            number=number,
+            league=league,
+            opening_whistle=opening_whistle,
+            sports_hall=sports_hall,
+            home_team=home_team,
+            guest_team=guest_team,
+            home_goals=home_goals,
+            guest_goals=guest_goals,
+            report_number=report_number,
+            forfeiting_team=forfeiting_team,
+        )
+        LOGGER.info("CREATED Game: %s", game)
         return
 
     defaults: dict[str, Any | None] = {
-        'home_goals': home_goals,
-        'guest_goals': guest_goals,
-        'report_number': report_number,
+        "home_goals": home_goals,
+        "guest_goals": guest_goals,
+        "report_number": report_number,
     }
     updated = ensure_defaults(game, defaults)
 
     if updated and game.score_set:
         game.score_set.all().delete()
-        LOGGER.info('DELETED Game Scores: %s', game)
+        LOGGER.info("DELETED Game Scores: %s", game)
 
     defaults = {
-        'opening_whistle': opening_whistle,
-        'sports_hall': sports_hall,
-        'forfeiting_team': forfeiting_team,
+        "opening_whistle": opening_whistle,
+        "sports_hall": sports_hall,
+        "forfeiting_team": forfeiting_team,
     }
     updated = ensure_defaults(game, defaults)
 
     if updated:
         game.save()
-        LOGGER.info('UPDATED Game: %s', game)
+        LOGGER.info("UPDATED Game: %s", game)
     else:
-        LOGGER.debug('UNCHANGED Game: %s', game)
+        LOGGER.debug("UNCHANGED Game: %s", game)
 
 
 def ensure_defaults(obj, defaults: dict[str, Any]) -> bool:
@@ -99,9 +106,7 @@ def ensure_defaults(obj, defaults: dict[str, Any]) -> bool:
 
 
 def league_games(league):
-    games = league.game_set \
-        .annotate(month=TruncMonth('opening_whistle')) \
-        .order_by('opening_whistle')
+    games = league.game_set.annotate(month=TruncMonth("opening_whistle")).order_by("opening_whistle")
     games_by_month = collections.defaultdict(list)
     for game in games:
         games_by_month[game.month].append(game)
@@ -123,8 +128,8 @@ def top_league_teams(league):
     teams = league.team_set.all()
     for team in teams:
         team.points = team_points(team)
-    teams = sorted(teams, key=operator.attrgetter('points'), reverse=True)
-    add_ranking_place(teams, 'points')
+    teams = sorted(teams, key=operator.attrgetter("points"), reverse=True)
+    add_ranking_place(teams, "points")
     teams_by_rank = collections.defaultdict(list)
     for team in teams:
         if team.place <= 5:
@@ -135,37 +140,41 @@ def top_league_teams(league):
 
 
 def scorer(player: Player):
-    return Player.objects.filter(pk=player.pk) \
-        .annotate(games=Count('score')) \
-        .annotate(total_goals=Coalesce(Sum('score__goals'), 0)) \
-        .annotate(total_penalty_tries=Sum('score__penalty_tries')) \
-        .annotate(total_penalty_goals=Sum('score__penalty_goals')) \
-        .annotate(total_field_goals=F('total_goals') - F('total_penalty_goals')) \
+    return (
+        Player.objects.filter(pk=player.pk)
+        .annotate(games=Count("score"))
+        .annotate(total_goals=Coalesce(Sum("score__goals"), 0))
+        .annotate(total_penalty_tries=Sum("score__penalty_tries"))
+        .annotate(total_penalty_goals=Sum("score__penalty_goals"))
+        .annotate(total_field_goals=F("total_goals") - F("total_penalty_goals"))
         .first()
+    )
 
 
 def league_scorers(league):
-    scorers = Player.objects \
-        .filter(team__league=league) \
-        .annotate(games=Count('score')) \
-        .filter(games__gt=0) \
-        .annotate(total_goals=Coalesce(Sum('score__goals'), 0)) \
-        .filter(total_goals__gt=0) \
-        .annotate(total_penalty_goals=Sum('score__penalty_goals')) \
-        .annotate(total_field_goals=F('total_goals') - F('total_penalty_goals')) \
-        .order_by('-total_goals')
-    add_ranking_place(scorers, 'total_goals')
+    scorers = (
+        Player.objects.filter(team__league=league)
+        .annotate(games=Count("score"))
+        .filter(games__gt=0)
+        .annotate(total_goals=Coalesce(Sum("score__goals"), 0))
+        .filter(total_goals__gt=0)
+        .annotate(total_penalty_goals=Sum("score__penalty_goals"))
+        .annotate(total_field_goals=F("total_goals") - F("total_penalty_goals"))
+        .order_by("-total_goals")
+    )
+    add_ranking_place(scorers, "total_goals")
     return scorers
 
 
 def top_league_scorers(league):
-    players = Player.objects \
-        .filter(team__league=league) \
-        .annotate(games=Count('score')) \
-        .filter(games__gt=0) \
-        .annotate(total_goals=Coalesce(Sum('score__goals'), 0)) \
-        .order_by('-total_goals')
-    add_ranking_place(players, 'total_goals')
+    players = (
+        Player.objects.filter(team__league=league)
+        .annotate(games=Count("score"))
+        .filter(games__gt=0)
+        .annotate(total_goals=Coalesce(Sum("score__goals"), 0))
+        .order_by("-total_goals")
+    )
+    add_ranking_place(players, "total_goals")
     scorers_by_rank = collections.defaultdict(list)
     for player in players:
         if player.place <= 5:
@@ -176,18 +185,21 @@ def top_league_scorers(league):
 
 
 def league_offenders(league):
-    offenders = Player.objects \
-        .filter(team__league=league) \
-        .annotate(games=Count('score')) \
-        .annotate(warnings=Count('score__warning_time')) \
-        .annotate(suspensions=Count('score__first_suspension_time') +
-                  Count('score__second_suspension_time') +
-                  Count('score__third_suspension_time')) \
-        .annotate(disqualifications=Count('score__disqualification_time')) \
-        .annotate(offender_points=F('warnings') + 2 * F('suspensions') + 3 * F('disqualifications')) \
-        .filter(offender_points__gt=0) \
-        .order_by('-offender_points')
-    add_ranking_place(offenders, 'offender_points')
+    offenders = (
+        Player.objects.filter(team__league=league)
+        .annotate(games=Count("score"))
+        .annotate(warnings=Count("score__warning_time"))
+        .annotate(
+            suspensions=Count("score__first_suspension_time")
+            + Count("score__second_suspension_time")
+            + Count("score__third_suspension_time")
+        )
+        .annotate(disqualifications=Count("score__disqualification_time"))
+        .annotate(offender_points=F("warnings") + 2 * F("suspensions") + 3 * F("disqualifications"))
+        .filter(offender_points__gt=0)
+        .order_by("-offender_points")
+    )
+    add_ranking_place(offenders, "offender_points")
     return offenders
 
 
@@ -214,7 +226,7 @@ def scrape_sports_hall(game_row, processed: set[int] | None = None) -> SportsHal
 
     sports_hall = SportsHall.objects.filter(bhv_id=bhv_id).first()
     if bhv_id in processed:
-        LOGGER.debug('SKIPPING Sports Hall: %s (already processed)', sports_hall)
+        LOGGER.debug("SKIPPING Sports Hall: %s (already processed)", sports_hall)
         return sports_hall
 
     url = SportsHall.build_source_url(bhv_id)
@@ -228,28 +240,34 @@ def scrape_sports_hall(game_row, processed: set[int] | None = None) -> SportsHal
     latitude, longitude = parsing.parse_sports_hall_coordinates(dom)
 
     if sports_hall is None:
-        sports_hall = SportsHall.objects.create(number=number, name=name, address=address,
-                                                phone_number=phone_number, latitude=latitude,
-                                                longitude=longitude, bhv_id=bhv_id)
-        LOGGER.info('CREATED Sports Hall: %s', sports_hall)
+        sports_hall = SportsHall.objects.create(
+            number=number,
+            name=name,
+            address=address,
+            phone_number=phone_number,
+            latitude=latitude,
+            longitude=longitude,
+            bhv_id=bhv_id,
+        )
+        LOGGER.info("CREATED Sports Hall: %s", sports_hall)
         return sports_hall
     assert sports_hall is not None
 
     defaults = {
-        'number': number,
-        'name': name,
-        'address': address,
-        'phone_number': phone_number,
-        'latitude': latitude,
-        'longitude': longitude,
+        "number": number,
+        "name": name,
+        "address": address,
+        "phone_number": phone_number,
+        "latitude": latitude,
+        "longitude": longitude,
     }
     updated = ensure_defaults(sports_hall, defaults)
 
     if updated:
         sports_hall.save()
-        LOGGER.info('UPDATED Sports Hall: %s', sports_hall)
+        LOGGER.info("UPDATED Sports Hall: %s", sports_hall)
     else:
-        LOGGER.debug('UNCHANGED Sports Hall: %s', sports_hall)
+        LOGGER.debug("UNCHANGED Sports Hall: %s", sports_hall)
 
     return sports_hall
 
@@ -257,7 +275,7 @@ def scrape_sports_hall(game_row, processed: set[int] | None = None) -> SportsHal
 def delete_noname_players(*_):
     for player in Player.objects.filter(name__startswith="N.N. N.N."):
         player.delete()
-        LOGGER.info('DELETED noname player: %s', player)
+        LOGGER.info("DELETED noname player: %s", player)
 
 
 def unify_player_names(*_):
@@ -273,4 +291,4 @@ def unify_player_names(*_):
             score.save()
 
         player.delete()
-        LOGGER.info('UNIFIED player %s to %s', player.name, target_player)
+        LOGGER.info("UNIFIED player %s to %s", player.name, target_player)

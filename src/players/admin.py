@@ -4,12 +4,13 @@ from games.admin import GAME_SEARCH_FIELDS
 from players.models import Player, ReportsBlacklist, Score
 from teams.admin import TEAM_SEARCH_FIELDS
 
-PLAYER_SEARCH_FIELDS = ['name'] + \
-    ['team__' + field for field in TEAM_SEARCH_FIELDS]
+PLAYER_SEARCH_FIELDS = ["name"] + ["team__" + field for field in TEAM_SEARCH_FIELDS]
 
-SCORE_SEARCH_FIELDS = ['player_number'] + \
-    ['player__' + field for field in PLAYER_SEARCH_FIELDS] + \
-    ['game__' + field for field in GAME_SEARCH_FIELDS]
+SCORE_SEARCH_FIELDS = (
+    ["player_number"]
+    + ["player__" + field for field in PLAYER_SEARCH_FIELDS]
+    + ["game__" + field for field in GAME_SEARCH_FIELDS]
+)
 
 
 @admin.register(Player)
@@ -24,4 +25,4 @@ class ScoreAdmin(admin.ModelAdmin):
 
 @admin.register(ReportsBlacklist)
 class ReportsBlacklistAdmin(admin.ModelAdmin):
-    search_fields = ['report_number', 'note']
+    search_fields = ["report_number", "note"]

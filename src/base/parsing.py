@@ -1,10 +1,9 @@
+import json
 import locale
 import re
 from datetime import datetime, timedelta
 from typing import cast
 from urllib.parse import parse_qs, urlsplit
-
-import json
 
 from lxml import html
 from lxml.etree import _Element
@@ -17,7 +16,7 @@ def html_dom(html_text: str) -> _Element:
 
 
 def parse_link_query_item(link: _Element, query_key: str) -> str:
-    href = link.get('href')
+    href = link.get("href")
     query = cast(str, urlsplit(href).query)
     return parse_qs(query)[query_key][0]
 
@@ -27,11 +26,11 @@ def parse_association_urls(dom: _Element) -> list[str]:
 
 
 def parse_association_abbreviation(association_url: str) -> str:
-    return association_url.rsplit('/', 1)[1].upper()
+    return association_url.rsplit("/", 1)[1].upper()
 
 
 def parse_association_name(dom: _Element) -> str:
-    return cast(list[str], dom.xpath('//h2/a/text()'))[0]
+    return cast(list[str], dom.xpath("//h2/a/text()"))[0]
 
 
 def parse_association_bhv_id(dom: _Element) -> int:
@@ -40,11 +39,11 @@ def parse_association_bhv_id(dom: _Element) -> int:
 
 
 def parse_district_items(response: str) -> dict[str, str]:
-    return json.loads(response)[0]['menu']['org']['list']
+    return json.loads(response)[0]["menu"]["org"]["list"]
 
 
 def parse_district_link_date(link: _Element) -> str:
-    return parse_link_query_item(link, 'do')
+    return parse_link_query_item(link, "do")
 
 
 def parse_league_links(dom: _Element) -> list[_Element]:
@@ -52,7 +51,7 @@ def parse_league_links(dom: _Element) -> list[_Element]:
 
 
 def parse_league_bhv_id(link: _Element) -> int:
-    return int(parse_link_query_item(link, 'score'))
+    return int(parse_link_query_item(link, "score"))
 
 
 def parse_district_season_start_year(district_season_heading: str) -> int | None:
@@ -62,18 +61,25 @@ def parse_district_season_start_year(district_season_heading: str) -> int | None
 
 def parse_league_name(dom: _Element) -> str:
     heading = cast(list[str], dom.xpath('//*[@id="results"]/div/h1/text()[2]'))[0]
-    return heading.rsplit(' - ', 1)[0]
+    return heading.rsplit(" - ", 1)[0]
 
 
 def parse_team_links(dom: _Element) -> list[_Element]:
-    return cast(list[_Element], dom.xpath('//table[@class="scoretable"]/tr[position() > 1]/td[3]/a')) or \
-        cast(list[_Element], dom.xpath('//table[@class="scoretable"]/tr[position() > 1]/td[2]/a'))
+    return cast(
+        list[_Element],
+        dom.xpath('//table[@class="scoretable"]/tr[position() > 1]/td[3]/a'),
+    ) or cast(
+        list[_Element],
+        dom.xpath('//table[@class="scoretable"]/tr[position() > 1]/td[2]/a'),
+    )
 
 
 def parse_retirements(dom: _Element) -> list[tuple[str, datetime]]:
     retirements = []
-    paragraphs = cast(list[html.HtmlMixin], dom.xpath(
-        '//table[@class="scoretable"]/following::div[following::table[@class="gametable"]]'))
+    paragraphs = cast(
+        list[html.HtmlMixin],
+        dom.xpath('//table[@class="scoretable"]/following::div[following::table[@class="gametable"]]'),
+    )
     for paragraph in paragraphs:
         text: str = cast(str, paragraph.text_content())
         matches = re.match(r"(?:Der|Die) (.*) hat.* ([0123]\d\.[012]\d\.\d{2,4}).* zurückgezogen.*", text)
@@ -81,12 +87,12 @@ def parse_retirements(dom: _Element) -> list[tuple[str, datetime]]:
             team_name = matches.group(1)
 
             def date_from_text(text):
-                for date_format in ['%d.%m.%y', '%d.%m.%Y']:
+                for date_format in ["%d.%m.%y", "%d.%m.%Y"]:
                     try:
                         return datetime.strptime(text, date_format).date()
                     except ValueError:
                         pass
-                raise ValueError('no date format is valid')
+                raise ValueError("no date format is valid")
 
             retirement_date = date_from_text(matches.group(2))
             retirements.append((team_name, retirement_date))
@@ -101,25 +107,25 @@ def parse_club_option(option: str) -> tuple[str, int]:
     match: re.Match[str] | None = re.match(r"(.+) \((\d+)\)", option)
     if match:
         return match.group(1), int(match.group(2))
-    raise ValueError(f'invalid club option text: {option}')
+    raise ValueError(f"invalid club option text: {option}")
 
 
 def parse_team_club_name(team_name: str) -> str:
     match: re.Match[str] | None = re.match(r"^(.*?)( \d)?$", team_name)
     if match:
         return match.group(1)
-    raise ValueError(f'cannot parse team club name: {team_name}')
+    raise ValueError(f"cannot parse team club name: {team_name}")
 
 
 def parse_team_bhv_id(link: _Element) -> int:
-    return int(parse_link_query_item(link, 'teamID'))
+    return int(parse_link_query_item(link, "teamID"))
 
 
 def parse_team_names(text: str) -> tuple[str, str]:
     match: re.Match[str] | None = re.match(r"(.+) - (.+)", text)
     if match:
         return match.group(1), match.group(2)
-    raise ValueError(f'invalid team names: {text}')
+    raise ValueError(f"invalid team names: {text}")
 
 
 def parse_game_rows(dom: _Element) -> list[_Element]:
@@ -127,7 +133,7 @@ def parse_game_rows(dom: _Element) -> list[_Element]:
 
 
 def parse_team_short_names(game_rows: list[_Element]) -> list[str | None]:
-    return [c.text for game_row in game_rows for c in cast(list[_Element], game_row.xpath('td'))[4:7:2]]
+    return [c.text for game_row in game_rows for c in cast(list[_Element], game_row.xpath("td"))[4:7:2]]
 
 
 def parse_opening_whistle(text: str) -> datetime | None:
@@ -135,10 +141,10 @@ def parse_opening_whistle(text: str) -> datetime | None:
         return None
     locale.setlocale(locale.LC_ALL, "de_DE.UTF-8")
     if len(text) == 12:
-        return datetime.strptime(text, '%a, %d.%m.%y')
+        return datetime.strptime(text, "%a, %d.%m.%y")
     if len(text) == 20:
-        return datetime.strptime(text, '%a, %d.%m.%y, %H:%Mh')
-    raise ValueError(f'invalid opening whistle: {text}')
+        return datetime.strptime(text, "%a, %d.%m.%y, %H:%Mh")
+    raise ValueError(f"invalid opening whistle: {text}")
 
 
 def parse_sports_hall_table(dom: _Element) -> _Element:
@@ -160,7 +166,7 @@ def parse_sports_hall_phone_number(table: _Element) -> str:
 
 
 def parse_sports_hall_bhv_id(link: _Element) -> int:
-    return int(parse_link_query_item(link, 'gymID'))
+    return int(parse_link_query_item(link, "gymID"))
 
 
 def parse_sports_hall_coordinates(dom: _Element) -> tuple[str | None, str | None]:
@@ -170,7 +176,7 @@ def parse_sports_hall_coordinates(dom: _Element) -> tuple[str | None, str | None
     match = re.search(r"new mxn.LatLonPoint\(([.0-9]+),([.0-9]+)\)", map_scripts[0].text)
     if match:
         return match.group(1), match.group(2)
-    raise ValueError(f'coordinates not found: {map_scripts}')
+    raise ValueError(f"coordinates not found: {map_scripts}")
 
 
 def parse_goals(game_row: _Element) -> tuple[int | None, int | None]:
@@ -192,8 +198,8 @@ def parse_goals(game_row: _Element) -> tuple[int | None, int | None]:
 
 
 def parse_report_number(cell: _Element) -> int | None:
-    if len(cell) >= 1 and cell[0].text == 'PI':
-        return int(parse_link_query_item(cell[0], 'sGID'))
+    if len(cell) >= 1 and cell[0].text == "PI":
+        return int(parse_link_query_item(cell[0], "sGID"))
 
     return None
 
@@ -211,7 +217,7 @@ def parse_game_time(text: str) -> timedelta | None:
     if not text:
         return None
 
-    minutes, seconds = text.split(':')
+    minutes, seconds = text.split(":")
     return timedelta(minutes=int(minutes), seconds=int(seconds))
 
 

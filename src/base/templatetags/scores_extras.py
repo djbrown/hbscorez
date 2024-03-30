@@ -8,7 +8,7 @@ def dec(value, arg):
 
 
 def team_logo_url():
-    return static('base/images/favicons/favicon.png')
+    return static("base/images/favicons/favicon.png")
 
 
 def team_outcome_badge(outcome: TeamOutcome):
@@ -16,9 +16,9 @@ def team_outcome_badge(outcome: TeamOutcome):
         return "-"
 
     mapping = {
-        TeamOutcome.WIN: ('success', 'Sieg'),
-        TeamOutcome.TIE: ('warning', 'Unentschieden'),
-        TeamOutcome.LOSS: ('danger', 'Niederlage')
+        TeamOutcome.WIN: ("success", "Sieg"),
+        TeamOutcome.TIE: ("warning", "Unentschieden"),
+        TeamOutcome.LOSS: ("danger", "Niederlage"),
     }
     return f'<span class="badge bg-{mapping[outcome][0]}">{mapping[outcome][1]}</span>'
 
@@ -28,8 +28,8 @@ def game_outcome_badge(outcome: GameOutcome):
         return "-"
 
     mapping = {
-        GameOutcome.HOME_WIN: 'Heimsieg',
-        GameOutcome.AWAY_WIN: 'Auswärtssieg',
-        GameOutcome.TIE: 'Unentschieden',
+        GameOutcome.HOME_WIN: "Heimsieg",
+        GameOutcome.AWAY_WIN: "Auswärtssieg",
+        GameOutcome.TIE: "Unentschieden",
     }
     return f'<span class="badge bg-secondary">{mapping[outcome]}</span>'

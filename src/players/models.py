@@ -14,20 +14,19 @@ class Player(models.Model):
     team = models.ForeignKey(Team, on_delete=models.CASCADE)
 
     class Meta:
-        unique_together = ('name', 'team')
+        unique_together = ("name", "team")
 
     def __str__(self):
-        return f'{self.name} {self.team.short_name}'
+        return f"{self.name} {self.team.short_name}"
 
     def get_absolute_url(self):
-        return reverse('players:detail', kwargs={'key': self.pk})
+        return reverse("players:detail", kwargs={"key": self.pk})
 
     def public_name(self):
-        if self.user is not None and self.published is True \
-                or settings.PUBLIC_NAMES is True:
+        if self.user is not None and self.published is True or settings.PUBLIC_NAMES is True:
             return self.name
 
-        return 'Anonym'
+        return "Anonym"
 
 
 class Score(models.Model):
@@ -46,10 +45,10 @@ class Score(models.Model):
     team_suspension_time = models.DurationField(blank=True, null=True)
 
     class Meta:
-        unique_together = ('player', 'game')
+        unique_together = ("player", "game")
 
     def __str__(self):
-        return f'{self.game.number} {self.game.report_number} {self.player_number}'
+        return f"{self.game.number} {self.game.report_number} {self.player_number}"
 
 
 class ReportsBlacklist(models.Model):
@@ -57,4 +56,4 @@ class ReportsBlacklist(models.Model):
     note = models.TextField(blank=True, null=True)
 
     def __str__(self):
-        return f'{self.report_number}'
+        return f"{self.report_number}"

@@ -1,5 +1,3 @@
-app_name = 'games'
+app_name = "games"
 
-urlpatterns: list = [
-
-]
+urlpatterns: list = []

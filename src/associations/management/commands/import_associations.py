@@ -8,12 +8,18 @@ from base import http, parsing
 from base.middleware import env
 from base.models import Value
 
-LOGGER = logging.getLogger('hbscorez')
+LOGGER = logging.getLogger("hbscorez")
 
 
 def add_default_arguments(parser):
-    parser.add_argument('--associations', '-a', nargs='+', type=int, metavar='orgGrpID',
-                        help="IDs of Associations.")
+    parser.add_argument(
+        "--associations",
+        "-a",
+        nargs="+",
+        type=int,
+        metavar="orgGrpID",
+        help="IDs of Associations.",
+    )
 
 
 class Command(BaseCommand):
@@ -52,14 +58,14 @@ def scrape_association(url: str, options):
     name = parsing.parse_association_name(dom)
     bhv_id = parsing.parse_association_bhv_id(dom)
 
-    if options['associations'] and bhv_id not in options['associations']:
-        LOGGER.debug('SKIPPING Association (options): %s %s', bhv_id, name)
+    if options["associations"] and bhv_id not in options["associations"]:
+        LOGGER.debug("SKIPPING Association (options): %s %s", bhv_id, name)
         return
 
     association = Association.objects.filter(bhv_id=bhv_id).first()
     if association is None:
         association = Association.objects.create(name=name, abbreviation=abbreviation, bhv_id=bhv_id, source_url=url)
-        LOGGER.info('CREATED Association: %s', association)
+        LOGGER.info("CREATED Association: %s", association)
         return
 
     updated = False
@@ -70,6 +76,6 @@ def scrape_association(url: str, options):
 
     if updated:
         association.save()
-        LOGGER.info('UPDATED Association: %s', association)
+        LOGGER.info("UPDATED Association: %s", association)
     else:
-        LOGGER.debug('UNCHANGED Association: %s', association)
+        LOGGER.debug("UNCHANGED Association: %s", association)

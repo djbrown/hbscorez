@@ -19,24 +19,24 @@ class Team(models.Model):
     retirement = models.DateField(blank=True, null=True)
 
     class Meta:
-        unique_together = (('name', 'league'), ('short_name', 'league'))
+        unique_together = (("name", "league"), ("short_name", "league"))
 
     def __str__(self):
-        return f'{self.bhv_id} {self.short_name}'
+        return f"{self.bhv_id} {self.short_name}"
 
     def get_absolute_url(self):
-        return reverse('teams:detail', kwargs={'bhv_id': self.bhv_id, })
+        return reverse("teams:detail", kwargs={"bhv_id": self.bhv_id})
 
     @staticmethod
     def build_source_url(league_bhv_id, team_bhv_id):
-        return f'{settings.ROOT_SOURCE_URL}Spielbetrieb/index.php?orgGrpID=1&score={league_bhv_id}&teamID={team_bhv_id}'
+        return f"{settings.ROOT_SOURCE_URL}Spielbetrieb/index.php?orgGrpID=1&score={league_bhv_id}&teamID={team_bhv_id}"
 
     @staticmethod
     def create_or_update_team(name, short_name, league, club, bhv_id, logger: logging.Logger = logging.getLogger()):
         team = Team.objects.filter(bhv_id=bhv_id).first()
         if team is None:
             team = Team.objects.create(name=name, short_name=short_name, league=league, club=club, bhv_id=bhv_id)
-            logger.info('CREATED Team: %s', team)
+            logger.info("CREATED Team: %s", team)
             return
 
         updated = False
@@ -55,9 +55,9 @@ class Team(models.Model):
 
         if updated:
             team.save()
-            logger.info('UPDATED Team: %s', team)
+            logger.info("UPDATED Team: %s", team)
         else:
-            logger.debug('UNCHANGED Team: %s', team)
+            logger.debug("UNCHANGED Team: %s", team)
 
     def source_url(self):
         return self.build_source_url(self.league.bhv_id, self.bhv_id)
@@ -80,9 +80,9 @@ class Team(models.Model):
             try:
                 team = Team.objects.get(league=league, name=team_name)
             except Team.DoesNotExist:
-                logger.warning('RETIRING team not found: %s %s', team_name, league)
+                logger.warning("RETIRING team not found: %s %s", team_name, league)
                 continue
             if team.retirement != retirement_date:
                 team.retirement = retirement_date
-                logger.info('RETIRING team %s on %s', team, retirement_date)
+                logger.info("RETIRING team %s on %s", team, retirement_date)
                 team.save()

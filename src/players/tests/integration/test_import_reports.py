@@ -8,11 +8,11 @@ from players.models import Player, ReportsBlacklist, Score
 
 class CommandTest(IntegrationTestCase):
     def test_successful(self):
-        self.assert_command('import_associations', '-a', 77)
-        self.assert_command('import_districts', '-d', 77)
-        self.assert_command('import_leagues', '-s', 2021, '-l', 77606)
-        self.assert_command('import_games', '-g', 10001127)
-        self.assert_command('import_reports')
+        self.assert_command("import_associations", "-a", 77)
+        self.assert_command("import_districts", "-d", 77)
+        self.assert_command("import_leagues", "-s", 2021, "-l", 77606)
+        self.assert_command("import_games", "-g", 10001127)
+        self.assert_command("import_reports")
 
         scores = self.assert_objects(Score, count=28)
         self.assertEqual(scores[0].game.report_number, 1525036)
@@ -31,38 +31,38 @@ class CommandTest(IntegrationTestCase):
         self.assertEqual(score.team_suspension_time, None)
 
     def test_league(self):
-        self.assert_command('import_associations', '-a', 35)
-        self.assert_command('import_districts', '-d', 191)
-        self.assert_command('import_leagues', '-s', 2023, '-l', 104191)
-        self.assert_command('import_games')
-        self.assert_command('import_reports')
+        self.assert_command("import_associations", "-a", 35)
+        self.assert_command("import_districts", "-d", 191)
+        self.assert_command("import_leagues", "-s", 2023, "-l", 104191)
+        self.assert_command("import_games")
+        self.assert_command("import_reports")
 
     def test_duplicate(self):
-        self.assert_command('import_associations', '-a', 35)
-        self.assert_command('import_districts', '-d', 35)
-        self.assert_command('import_leagues', '-s', 2017, '-l', 26785)
-        self.assert_command('import_games', '-g', 210608)
-        self.assert_command('import_reports')
+        self.assert_command("import_associations", "-a", 35)
+        self.assert_command("import_districts", "-d", 35)
+        self.assert_command("import_leagues", "-s", 2017, "-l", 26785)
+        self.assert_command("import_games", "-g", 210608)
+        self.assert_command("import_reports")
 
         self.assert_objects(Score, 28)
-        self.assert_objects(Score, 12, filters={'player__team__name': "TV Ispringen"})
-        self.assert_objects(Score, 12, filters={'player__team__name': "HSG Linkenheim-Hochstetten-Liedolsheim"})
-        self.assert_objects(Score, 1, filters={'player__name': "Björn Langkabel"})
-        self.assert_objects(Score, 4, filters={'player__isnull': True})
+        self.assert_objects(Score, 12, filters={"player__team__name": "TV Ispringen"})
+        self.assert_objects(Score, 12, filters={"player__team__name": "HSG Linkenheim-Hochstetten-Liedolsheim"})
+        self.assert_objects(Score, 1, filters={"player__name": "Björn Langkabel"})
+        self.assert_objects(Score, 4, filters={"player__isnull": True})
 
 
 class ForfeitTest(IntegrationTestCase):
 
     def test(self):
-        self.assert_command('import_associations', '-a', 3)
-        self.assert_command('import_districts', '-d', 10)
-        self.assert_command('import_leagues', '-s', 2018, '-l', 35537)
+        self.assert_command("import_associations", "-a", 3)
+        self.assert_command("import_districts", "-d", 10)
+        self.assert_command("import_leagues", "-s", 2018, "-l", 35537)
 
-        self.assert_command('import_games', '-g', 60201)
+        self.assert_command("import_games", "-g", 60201)
 
         mock: Mock
-        with patch('players.management.commands.import_reports.import_report') as mock:
-            self.assert_command('import_reports')
+        with patch("players.management.commands.import_reports.import_report") as mock:
+            self.assert_command("import_reports")
             mock.assert_not_called()
 
 
@@ -70,7 +70,7 @@ class YouthTest(IntegrationTestCase):
     def test_youth(self):
         test_import_games.YouthTest.test_youth(self)
 
-        self.assert_command('import_reports')
+        self.assert_command("import_reports")
 
         self.assert_objects(Score, count=0)
         self.assert_objects(Player, count=0)
@@ -78,12 +78,12 @@ class YouthTest(IntegrationTestCase):
 
 class ReportsBlacklistTest(IntegrationTestCase):
     def test_blacklist(self):
-        self.assert_command('import_associations', '-a', 78)
-        self.assert_command('import_districts', '-d', 121)
-        self.assert_command('import_leagues', '-s', 2021, '-l', 69541)
-        self.assert_command('import_games', '-g', 603101155)
+        self.assert_command("import_associations", "-a", 78)
+        self.assert_command("import_districts", "-d", 121)
+        self.assert_command("import_leagues", "-s", 2021, "-l", 69541)
+        self.assert_command("import_games", "-g", 603101155)
         ReportsBlacklist.objects.create(report_number=1592331)
-        self.assert_command('import_reports')
+        self.assert_command("import_reports")
 
         self.assert_objects(Score, count=0)
         self.assert_objects(Player, count=0)

@@ -10,7 +10,7 @@ from base.models import Value
 from games.models import Game, Team
 from players.models import Player, Score
 
-LOGGER = logging.getLogger('hbscorez')
+LOGGER = logging.getLogger("hbscorez")
 
 
 class Command(BaseCommand):
@@ -32,12 +32,12 @@ def rename_player(team_bhv_id, old_name, new_name):
         old_player = Player.objects.get(name=old_name, team__bhv_id=team_bhv_id)
         new_player, created = Player.objects.get_or_create(name=new_name, team=old_player.team)
         if old_player == new_player:
-            LOGGER.info('skip Player (old equals new): %s', new_player)
+            LOGGER.info("skip Player (old equals new): %s", new_player)
         else:
             if created:
-                LOGGER.debug('CREATED Player: %s', new_player)
+                LOGGER.debug("CREATED Player: %s", new_player)
             else:
-                LOGGER.debug('EXISTING Player: %s', new_player)
+                LOGGER.debug("EXISTING Player: %s", new_player)
             for score in old_player.score_set.all():
                 score.player = new_player
                 score.save()
@@ -47,10 +47,16 @@ def rename_player(team_bhv_id, old_name, new_name):
         LOGGER.warning("skip Player (not found): %s (%s)", old_name, team_bhv_id)
 
 
-def _score(player_number: int, goals: int = 0, penalty_tries: int = 0,
-           penalty_goals: int = 0, **kwargs) -> dict[str, Any]:
-    return {'player_number': player_number, 'goals': goals, 'penalty_tries': penalty_tries,
-            'penalty_goals': penalty_goals, **kwargs}
+def _score(
+    player_number: int, goals: int = 0, penalty_tries: int = 0, penalty_goals: int = 0, **kwargs
+) -> dict[str, Any]:
+    return {
+        "player_number": player_number,
+        "goals": goals,
+        "penalty_tries": penalty_tries,
+        "penalty_goals": penalty_goals,
+        **kwargs,
+    }
 
 
 def time(minutes: int, seconds: int = 0):
@@ -58,18 +64,22 @@ def time(minutes: int, seconds: int = 0):
 
 
 @transaction.atomic
-def add_scores(league__bhv_id: int, game_number: int, home_score_data: dict[str, dict[str, Any]],
-               guest_score_data: dict[str, dict[str, Any]]):
-    LOGGER.info('add Scores %s %s', league__bhv_id, game_number)
+def add_scores(
+    league__bhv_id: int,
+    game_number: int,
+    home_score_data: dict[str, dict[str, Any]],
+    guest_score_data: dict[str, dict[str, Any]],
+):
+    LOGGER.info("add Scores %s %s", league__bhv_id, game_number)
     try:
         game = Game.objects.get(league__bhv_id=league__bhv_id, number=game_number)
         if game.score_set.exists():
-            LOGGER.warning('skip Game (existing scores): %s', game)
+            LOGGER.warning("skip Game (existing scores): %s", game)
         else:
             _add_scores(game, game.home_team, home_score_data)
             _add_scores(game, game.guest_team, guest_score_data)
     except Game.DoesNotExist:
-        LOGGER.warning('skip Game (not found): %s %s', league__bhv_id, game_number)
+        LOGGER.warning("skip Game (not found): %s %s", league__bhv_id, game_number)
 
 
 def _add_scores(game: Game, team: Team, scores_data: dict[str, dict[str, Any]]):
@@ -138,15 +148,13 @@ def fix_game_96781():
     sga = {
         "Wiebke Krause": _score(1),
         "Lydia Hepp": _score(2, 1, first_suspension_time=time(50, 21)),
-        "Dalin Kozok": _score(5, 2, warning_time=time(9),
-                              first_suspension_time=time(21, 36)),
+        "Dalin Kozok": _score(5, 2, warning_time=time(9), first_suspension_time=time(21, 36)),
         "Katharina Stellmacher": _score(6, first_suspension_time=time(27, 16)),
         "Jessica Mayer": _score(7, 1),
         "Selina Haack": _score(8, 2, warning_time=time(6)),
         "Janina Hirscher": _score(9, 8),
         "Leonie Wölfle": _score(13, 1),
-        "Ramona Endraß": _score(14, 7, warning_time=time(14),
-                                first_suspension_time=time(40, 37)),
+        "Ramona Endraß": _score(14, 7, warning_time=time(14), first_suspension_time=time(40, 37)),
         "Lisa Dreher": _score(17),
         "Cathrin Müller": _score(16),
         "Annika Duttle": _score(15, 1),
@@ -169,9 +177,9 @@ def fix_game_201059():
         "Leo Vesligaj": _score(22, 2, warning_time=time(30)),
         "Lukas Francik": _score(23, warning_time=time(27)),
         "Martin Mäck": _score(26),
-        "Bastian Klett": _score(28, 4, 5, 4, warning_time=time(4),
-                                first_suspension_time=time(29, 22),
-                                second_suspension_time=time(34, 26)),
+        "Bastian Klett": _score(
+            28, 4, 5, 4, warning_time=time(4), first_suspension_time=time(29, 22), second_suspension_time=time(34, 26)
+        ),
         "Philipp Eberhardt": _score(98, 1),
     }
     hcn = {
@@ -197,17 +205,20 @@ def fix_game_91021():
     tvn = {
         "Oliver Pohr": _score(3),
         "Tim Reusch": _score(4, 5, warning_time=time(23, 30)),
-        "Maximilian Friessnig": _score(10, 2, first_suspension_time=time(4, 51),
-                                       second_suspension_time=time(19, 49),
-                                       third_suspension_time=time(44, 8),
-                                       disqualification_time=time(44, 8)),
+        "Maximilian Friessnig": _score(
+            10,
+            2,
+            first_suspension_time=time(4, 51),
+            second_suspension_time=time(19, 49),
+            third_suspension_time=time(44, 8),
+            disqualification_time=time(44, 8),
+        ),
         "Marius Spitz": _score(12),
         "Johannes Rödel": _score(14, 1),
         "Felix Stahl": _score(19),
         "Lukas Herdtner": _score(21, 8, warning_time=time(15, 40)),
         "Steffen Buck": _score(22, first_suspension_time=time(49, 40)),
-        "Julius Haug": _score(24, warning_time=time(17, 20),
-                              first_suspension_time=time(43)),
+        "Julius Haug": _score(24, warning_time=time(17, 20), first_suspension_time=time(43)),
         "Lukas Friesch": _score(25, 2),
         "Patrick Bauer": _score(45, 3),
         "Kai Augustin": _score(95),
@@ -215,14 +226,11 @@ def fix_game_91021():
     }
     hsga = {
         "Edis Camovic": _score(1),
-        "Lukas Mayer": _score(7, 2, first_suspension_time=time(12, 20),
-                              disqualification_time=time(29, 48)),
+        "Lukas Mayer": _score(7, 2, first_suspension_time=time(12, 20), disqualification_time=time(29, 48)),
         "Eike Soren Schmiederer": _score(8, 2),
-        "Simon Flügel": _score(11, warning_time=time(26, 56),
-                               first_suspension_time=time(58, 50)),
+        "Simon Flügel": _score(11, warning_time=time(26, 56), first_suspension_time=time(58, 50)),
         "Philipp Schmid": _score(18),
-        "Michael Maier": _score(21, 5, first_suspension_time=time(20, 56),
-                                second_suspension_time=time(51, 10)),
+        "Michael Maier": _score(21, 5, first_suspension_time=time(20, 56), second_suspension_time=time(51, 10)),
         "Steffen Link": _score(24, 2, warning_time=time(17, 20)),
         "Patrick Lebherz": _score(27, 5, 2, 2),
         "Bruno Jerger": _score(31, 2),

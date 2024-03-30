@@ -11,18 +11,25 @@ class ParseReportNumberTest(TestCase):
         self.assertEqual(expected, actual)
 
     def test_empty(self):
-        markup = '<td></td>'
+        markup = "<td></td>"
         expected = None
         self.assert_from_markup(markup, expected)
 
     def test_number(self):
-        markup = '<td><a href="https://spo.handball4all.de/misc/sboPublicReports.php?sGID=123456"' \
-                 ' target="_blank">PI</a>  </td>'
+        markup = (
+            "<td>"
+            '<a href="https://spo.handball4all.de/misc/sboPublicReports.php?sGID=123456" target="_blank">PI</a>  '
+            "</td>"
+        )
         expected = 123456
         self.assert_from_markup(markup, expected)
 
     def test_rescheduled(self):
-        markup = '<td><a href="https://spo.handball4all.de/misc/sboPublicReports.php?sGID=123456"' \
-                 ' target="_blank">PI</a> <a style="cursor:help" title="geä. Anspielzeit">geä..</a></td>'
+        markup = (
+            "<td>"
+            '<a href="https://spo.handball4all.de/misc/sboPublicReports.php?sGID=123456" target="_blank">PI</a> '
+            '<a style="cursor:help" title="geä. Anspielzeit">geä..</a>'
+            "</td>"
+        )
         expected = 123456
         self.assert_from_markup(markup, expected)

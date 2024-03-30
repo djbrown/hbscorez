@@ -1,22 +1,23 @@
 from django.test import TestCase
+
 from leagues.models import League
 
 YOUTH_LEAGUES = [
-    ('wJE-KK-1', 'männliche Jgd. E - Kreisklasse Staffel 1'),
-    ('gJF', 'gemischte Jugend F'),
-    ('Minis', 'Minispielfeste'),
-    ('Mini-Mix', 'Kreisliga Ostholstein Mini-Mix'),
-    ('wMinis', 'Minispielfeste weibliche Jugend'),
-    ('wJC-RHL', 'weibliche Jgd. C - Rheinhessenliga'),
-    ('gJE-VRT-V', 'gem. Jugend E VR-Talentiade Kreisvorentscheide'),
-    ('rso-li-mjD', 'RSO-Liga männl.D'),
+    ("wJE-KK-1", "männliche Jgd. E - Kreisklasse Staffel 1"),
+    ("gJF", "gemischte Jugend F"),
+    ("Minis", "Minispielfeste"),
+    ("Mini-Mix", "Kreisliga Ostholstein Mini-Mix"),
+    ("wMinis", "Minispielfeste weibliche Jugend"),
+    ("wJC-RHL", "weibliche Jgd. C - Rheinhessenliga"),
+    ("gJE-VRT-V", "gem. Jugend E VR-Talentiade Kreisvorentscheide"),
+    ("rso-li-mjD", "RSO-Liga männl.D"),
 ]
 
 NON_YOUTH_LEAGUES = [
-    ('Inkl-SO', 'Spielrunde Special Olympics'),
-    ('M-RHL', 'Männer Rheinhessenliga'),
-    ('M-VL', 'Männer Verbandsliga'),
-    ('F-Pok-K', 'Kreispokal Frauen'),
+    ("Inkl-SO", "Spielrunde Special Olympics"),
+    ("M-RHL", "Männer Rheinhessenliga"),
+    ("M-VL", "Männer Verbandsliga"),
+    ("F-Pok-K", "Kreispokal Frauen"),
 ]
 
 

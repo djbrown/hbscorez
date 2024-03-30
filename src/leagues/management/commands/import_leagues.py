@@ -14,25 +14,21 @@ from districts.models import District
 from leagues.models import League, LeagueName, Season
 from teams.models import Team
 
-LOGGER = logging.getLogger('hbscorez')
+LOGGER = logging.getLogger("hbscorez")
 
 
 def add_default_arguments(parser):
     district_arguments(parser)
-    parser.add_argument('--seasons', '-s', nargs='+', type=int, metavar='start year',
-                        help="Start Years of Seasons.")
-    parser.add_argument('--leagues', '-l', nargs='+', type=int, metavar='score/sGID',
-                        help="IDs of Leagues.")
-    parser.add_argument('--youth', action='store_true',
-                        help="Include youth leagues.")
+    parser.add_argument("--seasons", "-s", nargs="+", type=int, metavar="start year", help="Start Years of Seasons.")
+    parser.add_argument("--leagues", "-l", nargs="+", type=int, metavar="score/sGID", help="IDs of Leagues.")
+    parser.add_argument("--youth", action="store_true", help="Include youth leagues.")
 
 
 class Command(BaseCommand):
 
     def add_arguments(self, parser):
         add_default_arguments(parser)
-        parser.add_argument('--skip-teams', action='store_true',
-                            help="Skip processing Teams.")
+        parser.add_argument("--skip-teams", action="store_true", help="Skip processing Teams.")
 
     def handle(self, *args, **options):
         env.UPDATING.set_value(Value.TRUE)
@@ -47,17 +43,17 @@ class Command(BaseCommand):
 
 def import_leagues(options):
     associations_filters = {}
-    if options['associations']:
-        associations_filters['bhv_id__in'] = options['associations']
+    if options["associations"]:
+        associations_filters["bhv_id__in"] = options["associations"]
     associations = Association.objects.filter(**associations_filters)
     associations_bhv_ids = [a.bhv_id for a in associations]
     if not associations:
         LOGGER.warning("No matching Associations found.")
         return
 
-    districts_filters = {'associations__bhv_id__in': associations_bhv_ids}
-    if options['districts']:
-        districts_filters['bhv_id__in'] = options['districts']
+    districts_filters = {"associations__bhv_id__in": associations_bhv_ids}
+    if options["districts"]:
+        districts_filters["bhv_id__in"] = options["districts"]
     districts = District.objects.filter(**districts_filters)
     if not districts:
         LOGGER.warning("No matching Districts found.")
@@ -77,16 +73,16 @@ def create_seasons(options):
     seasons = []
 
     for start_year in range(2004, datetime.now().year + 1):
-        if options['seasons'] and start_year not in options['seasons']:
-            LOGGER.debug('SKIPPING Season (options): %s', start_year)
+        if options["seasons"] and start_year not in options["seasons"]:
+            LOGGER.debug("SKIPPING Season (options): %s", start_year)
             continue
 
         season, season_created = Season.objects.get_or_create(start_year=start_year)
         seasons.append(season)
         if season_created:
-            LOGGER.info('CREATED Season: %s', season)
+            LOGGER.info("CREATED Season: %s", season)
         else:
-            LOGGER.debug('UNCHANGED Season: %s', season)
+            LOGGER.debug("UNCHANGED Season: %s", season)
 
     return seasons
 
@@ -97,7 +93,7 @@ def scrape_district_season(district: District, season: Season, options):
     interval_count = 4
     for interval_number in range(interval_count):
         interval_date = season_begin + timedelta(days=interval_days * interval_number)
-        LOGGER.debug('trying District Season: %s %s %s', district, season, interval_date)
+        LOGGER.debug("trying District Season: %s %s %s", district, season, interval_date)
         url = District.build_source_url(district.bhv_id, interval_date)
         html = http.get_text(url)
         dom = parsing.html_dom(html)
@@ -105,7 +101,7 @@ def scrape_district_season(district: District, season: Season, options):
         if league_links:
             break
     else:
-        LOGGER.warning('District Season without Leagues: %s %s', district, season)
+        LOGGER.warning("District Season without Leagues: %s %s", district, season)
         return
 
     for league_link in league_links:
@@ -120,12 +116,12 @@ def scrape_league(league_link, district, season, options):  # pylint: disable=to
     abbreviation = league_link.text
     bhv_id = parsing.parse_league_bhv_id(league_link)
 
-    if options['leagues'] and bhv_id not in options['leagues']:
-        LOGGER.debug('SKIPPING League (options): %s %s', bhv_id, abbreviation)
+    if options["leagues"] and bhv_id not in options["leagues"]:
+        LOGGER.debug("SKIPPING League (options): %s %s", bhv_id, abbreviation)
         return
 
-    if abbreviation == 'TEST':
-        LOGGER.debug('SKIPPING League (test league): %s %s', bhv_id, abbreviation)
+    if abbreviation == "TEST":
+        LOGGER.debug("SKIPPING League (test league): %s %s", bhv_id, abbreviation)
         return
 
     url = League.build_source_url(bhv_id)
@@ -139,37 +135,50 @@ def scrape_league(league_link, district, season, options):  # pylint: disable=to
         pass
 
     irrelevant_league_name_indicators = [
-        'Platzierungsrunde',
-        'Kreisvergleichsspiele',
-        'pokal', 'Pokal', 'Trophy',
-        'Vorbereitung', 'F-FS', 'M-FS', 'Quali',
-        'Freiwurf', 'Maxi', 'turnier', 'Turnier', 'Cup', 'wettbewerb',
-        'Test', 'Planung', 'planung',
+        "Platzierungsrunde",
+        "Kreisvergleichsspiele",
+        "pokal",
+        "Pokal",
+        "Trophy",
+        "Vorbereitung",
+        "F-FS",
+        "M-FS",
+        "Quali",
+        "Freiwurf",
+        "Maxi",
+        "turnier",
+        "Turnier",
+        "Cup",
+        "wettbewerb",
+        "Test",
+        "Planung",
+        "planung",
     ]
 
     if any(n in name for n in irrelevant_league_name_indicators):
-        LOGGER.debug('SKIPPING League (name): %s %s', bhv_id, name)
+        LOGGER.debug("SKIPPING League (name): %s %s", bhv_id, name)
         return
 
     team_links = parsing.parse_team_links(dom)
     if not team_links:
-        LOGGER.debug('SKIPPING League (no team table): %s %s', bhv_id, name)
+        LOGGER.debug("SKIPPING League (no team table): %s %s", bhv_id, name)
         return
 
     game_rows = parsing.parse_game_rows(dom)
     if not game_rows:
-        LOGGER.debug('SKIPPING League (no games): %s %s', bhv_id, name)
+        LOGGER.debug("SKIPPING League (no games): %s %s", bhv_id, name)
         return
 
-    if League.is_youth(abbreviation, name) and not options['youth']:
-        LOGGER.debug('SKIPPING League (youth league): %s %s %s', bhv_id, abbreviation, name)
+    if League.is_youth(abbreviation, name) and not options["youth"]:
+        LOGGER.debug("SKIPPING League (youth league): %s %s %s", bhv_id, abbreviation, name)
         return
 
     league = League.objects.filter(bhv_id=bhv_id).first()
     if league is None:
-        league = League.objects.create(name=name, abbreviation=abbreviation,
-                                       district=district, season=season, bhv_id=bhv_id)
-        LOGGER.info('CREATED League: %s', league)
+        league = League.objects.create(
+            name=name, abbreviation=abbreviation, district=district, season=season, bhv_id=bhv_id
+        )
+        LOGGER.info("CREATED League: %s", league)
 
     updated = False
 
@@ -183,11 +192,11 @@ def scrape_league(league_link, district, season, options):  # pylint: disable=to
 
     if updated:
         league.save()
-        LOGGER.info('UPDATED League: %s', league)
+        LOGGER.info("UPDATED League: %s", league)
     else:
-        LOGGER.debug('UNCHANGED League: %s', league)
+        LOGGER.debug("UNCHANGED League: %s", league)
 
-    if options['skip_teams']:
+    if options["skip_teams"]:
         return
 
     for team_link in team_links:

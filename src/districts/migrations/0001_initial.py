@@ -8,17 +8,17 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('associations', '0001_initial'),
+        ("associations", "0001_initial"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='District',
+            name="District",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.TextField(unique=True)),
-                ('bhv_id', models.IntegerField(unique=True)),
-                ('associations', models.ManyToManyField(to='associations.Association')),
+                ("id", models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
+                ("name", models.TextField(unique=True)),
+                ("bhv_id", models.IntegerField(unique=True)),
+                ("associations", models.ManyToManyField(to="associations.Association")),
             ],
         ),
     ]

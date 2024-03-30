@@ -36,15 +36,15 @@ class Runner(DiscoverRunner):
 
         argv = []
         if self.verbosity == 0:
-            argv.append('--quiet')
+            argv.append("--quiet")
         if self.verbosity == 2:
-            argv.append('--verbose')
+            argv.append("--verbose")
         if self.verbosity == 3:
-            argv.append('-vv')
+            argv.append("-vv")
         if self.failfast:
-            argv.append('--exitfirst')
+            argv.append("--exitfirst")
         if self.keepdb:
-            argv.append('--reuse-db')
+            argv.append("--reuse-db")
 
         argv.extend(test_labels)
         return pytest.main(argv)
@@ -66,10 +66,10 @@ def filter_tests_by_explicit_tags(suite, cmd_tags):
             continue
 
         # gather class and function tags
-        class_tags = set(getattr(test, 'explicit_tags', set()))
-        func_name = getattr(test, '_testMethodName', str(test))
+        class_tags = set(getattr(test, "explicit_tags", set()))
+        func_name = getattr(test, "_testMethodName", str(test))
         func = getattr(test, func_name, test)
-        func_tags = set(getattr(func, 'explicit_tags', set()))
+        func_tags = set(getattr(func, "explicit_tags", set()))
         code_tags = class_tags.union(func_tags)
 
         if should_include_test(cmd_tags, code_tags):
@@ -87,11 +87,12 @@ def skip_unless_any_tag(*tags):
 
     def decorator(obj):
         obj = base_decorator(obj)
-        if hasattr(obj, 'explicit_tags'):
+        if hasattr(obj, "explicit_tags"):
             obj.tags = obj.tags.union(tags)
         else:
-            setattr(obj, 'explicit_tags', set(tags))
+            setattr(obj, "explicit_tags", set(tags))
         return obj
+
     return decorator
 
 
@@ -108,11 +109,11 @@ class ModelTestCase(TestCase):
 
 @pytest.mark.integration
 @pytest.mark.slow
-@skip_unless_any_tag('integration', 'slow')
+@skip_unless_any_tag("integration", "slow")
 class IntegrationTestCase(ModelTestCase):
 
     def assert_command(self, command_name, *arguments, **options):
-        with self.assertNoLogs(logging.getLogger('hbscorez'), level='ERROR'):
+        with self.assertNoLogs(logging.getLogger("hbscorez"), level="ERROR"):
             call_command(command_name, *arguments, **options)
 
 
@@ -131,16 +132,16 @@ class LiveServerThreadWithReuse(LiveServerThread):
         )
 
 
-_CI = 'CI' in os.environ
-_SAUCE_BUILD = os.environ.get('SAUCE_BUILD_NAME')
-_SAUCE_TUNNEL = os.environ.get('SAUCE_TUNNEL_IDENTIFIER')
-_SAUCE_USER = os.environ.get('SAUCE_USERNAME')
-_SAUCE_KEY = os.environ.get('SAUCE_ACCESS_KEY')
+_CI = "CI" in os.environ
+_SAUCE_BUILD = os.environ.get("SAUCE_BUILD_NAME")
+_SAUCE_TUNNEL = os.environ.get("SAUCE_TUNNEL_IDENTIFIER")
+_SAUCE_USER = os.environ.get("SAUCE_USERNAME")
+_SAUCE_KEY = os.environ.get("SAUCE_ACCESS_KEY")
 
 
 @pytest.mark.browser
 @pytest.mark.slow
-@skip_unless_any_tag('browser', 'slow')
+@skip_unless_any_tag("browser", "slow")
 class BrowserTestCase(StaticLiveServerTestCase):
 
     port = 8001
@@ -153,7 +154,7 @@ class BrowserTestCase(StaticLiveServerTestCase):
             self.driver = self.sauce_chrome_webdriver()
         else:
             options = FirefoxOptions()
-            options.add_argument('-headless')
+            options.add_argument("-headless")
             self.driver = Firefox(options=options)
         self.driver.implicitly_wait(10)
 
@@ -162,16 +163,16 @@ class BrowserTestCase(StaticLiveServerTestCase):
         method_name = self._testMethodName
 
         options = SafariOptions()
-        options.browser_version = '14'
-        options.platform_name = 'macOS 11.00'
+        options.browser_version = "14"
+        options.platform_name = "macOS 11.00"
         sauce_options = {
-            'name': f'{class_name}.{method_name}',
-            'build': _SAUCE_BUILD,
-            'tunnelIdentifier': _SAUCE_TUNNEL,
-            'username': _SAUCE_USER,
-            'accessKey': _SAUCE_KEY,
+            "name": f"{class_name}.{method_name}",
+            "build": _SAUCE_BUILD,
+            "tunnelIdentifier": _SAUCE_TUNNEL,
+            "username": _SAUCE_USER,
+            "accessKey": _SAUCE_KEY,
         }
-        options.set_capability('sauce:options', sauce_options)
+        options.set_capability("sauce:options", sauce_options)
 
         remote_url = "https://ondemand.us-west-1.saucelabs.com:443/wd/hub"
         return Remote(command_executor=remote_url, options=options)
@@ -180,22 +181,21 @@ class BrowserTestCase(StaticLiveServerTestCase):
         self.driver.quit()
         if _CI:
             sauce_client = SauceClient(_SAUCE_USER, _SAUCE_KEY)
-            status = (sys.exc_info() == (None, None, None))
-            sauce_client.jobs.update_job(job_id=self.driver.session_id, build=_SAUCE_TUNNEL,
-                                         passed=status)
+            status = sys.exc_info() == (None, None, None)
+            sauce_client.jobs.update_job(job_id=self.driver.session_id, build=_SAUCE_TUNNEL, passed=status)
 
     def navigate(self, view_name: str, *args, **kwargs):
         path = reverse(view_name, args=args, kwargs=kwargs)
         self.driver.get(self.live_server_url + path)
 
     def assert_view(self, view_name: str):
-        path: str = self.driver.current_url.replace(self.live_server_url, '')
+        path: str = self.driver.current_url.replace(self.live_server_url, "")
         resolved: ResolverMatch = resolve(path)
         self.assertEqual(resolved.view_name, view_name)
 
     @contextmanager
     def load(self, timeout=1):
-        page = self.driver.find_element(By.TAG_NAME, 'html')
+        page = self.driver.find_element(By.TAG_NAME, "html")
         yield
         WebDriverWait(self.driver, timeout).until(staleness_of(page))
 
@@ -206,7 +206,7 @@ class BrowserTestCase(StaticLiveServerTestCase):
         WebDriverWait(self.driver, timeout).until(condition)
 
 
-class _UrlHasChanged():
+class _UrlHasChanged:
 
     def __init__(self, url):
         self.old_url = url

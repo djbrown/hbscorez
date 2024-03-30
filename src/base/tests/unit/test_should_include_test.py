@@ -1,4 +1,5 @@
 from django.test import TestCase
+
 from base.tests.base import should_include_test
 
 
