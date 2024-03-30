@@ -92,7 +92,7 @@ class UpdateTest(IntegrationTestCase):
             number=1, name="My Gym", address="addr", phone_number="tel", latitude="10", longitude="20", bhv_id=3
         )
 
-        logic.scrape_game(game_row, league, sports_hall)
+        logic.scrape_game(game_row, league)
 
         game = self.assert_objects(Game)
 

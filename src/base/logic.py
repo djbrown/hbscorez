@@ -36,12 +36,9 @@ def add_ranking_place(items: list, field: str):
 def scrape_game(
     game_row,
     league: League,
-    ignore_list: list[int] | None = None,
+    whitelist: list[int] | None = None,
     processed_sports_halls: set[int] | None = None,
 ):
-    if ignore_list is None:
-        ignore_list = []
-
     if processed_sports_halls is None:
         processed_sports_halls = set()
 
@@ -51,7 +48,7 @@ def scrape_game(
 
     number = int(game_row[1].text)
 
-    if ignore_list and number not in ignore_list:
+    if whitelist and number not in whitelist:
         LOGGER.debug("SKIPPING Game (options): %s", number)
         return
 
