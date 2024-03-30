@@ -34,7 +34,7 @@ class Game(models.Model):
     number = models.IntegerField()
     league = models.ForeignKey(League, on_delete=models.CASCADE)
     opening_whistle = models.DateTimeField(blank=True, null=True)
-    sports_hall = models.ForeignKey(SportsHall, on_delete=models.CASCADE, blank=True, null=True)
+    sports_hall = models.ForeignKey(SportsHall, on_delete=models.SET_NULL, blank=True, null=True)
     home_team = models.ForeignKey(Team, on_delete=models.CASCADE, related_name="home_team")
     guest_team = models.ForeignKey(Team, on_delete=models.CASCADE, related_name="guest_team")
     home_goals = models.IntegerField(blank=True, null=True)
@@ -42,7 +42,7 @@ class Game(models.Model):
     report_number = models.IntegerField(blank=True, null=True, unique=True)
     forfeiting_team = models.ForeignKey(
         Team,
-        on_delete=models.CASCADE,
+        on_delete=models.SET_NULL,
         blank=True,
         null=True,
         related_name="forfeiting_team",
