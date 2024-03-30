@@ -21,7 +21,6 @@ returns = "*"
 tabula-py = "*"
 
 [dev-packages]
-autopep8 = "*"
 bandit = "*"
 black = "*"
 codacy-coverage = "*"
@@ -30,6 +29,7 @@ coveralls = "*"
 django-stubs = "*"
 dparse = {version = "*", extras = ["pipenv"]}
 flake8 = "*"
+isort = "*"
 lxml-stubs = "*"
 mypy = "*"
 # prospector = "*"

@@ -51,6 +51,12 @@ jobs:
           path: unit.xml
           reporter: java-junit
 
+      - name: Check format
+        run: pipenv run black src --check
+
+      - name: Check import order
+        run: pipenv run isort src --check
+
       - name: Run Mypy
         run: pipenv run mypy src
 
