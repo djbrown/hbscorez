@@ -11,16 +11,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: "3.10"
       - name: Install Pipenv
         run: python -m pip install --upgrade pipenv
       - name: Checkout Repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Cache Pipenv
         id: cache-pipenv
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ~/.local/share/virtualenvs
           key: pipenv-${{ hashFiles('Pipfile.lock') }}
@@ -89,12 +89,12 @@ jobs:
     needs: main
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Download coverage report
         uses: actions/download-artifact@v3
         with:
           name: coverage report
-      - uses: paambaati/codeclimate-action@v3.2.0 # see https://github.com/paambaati/codeclimate-action/issues/638
+      - uses: paambaati/codeclimate-action@v5 # see https://github.com/paambaati/codeclimate-action/issues/638
         env:
           CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
 
@@ -106,13 +106,13 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: coverage report
-      - uses: codecov/codecov-action@v3
+      - uses: codecov/codecov-action@v4
 
   licenses:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: "Run FOSSA Scan"
         uses: fossas/fossa-action@v1
         with:
@@ -128,10 +128,10 @@ jobs:
     steps:
       - name: Set up Docker Buildx
         id: buildx
-        uses: docker/setup-buildx-action@v2
+        uses: docker/setup-buildx-action@v3
 
       - name: Cache Docker layers
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: /tmp/.buildx-cache
           key: buildx-${{ github.sha }}
@@ -139,14 +139,14 @@ jobs:
             buildx-
 
       - name: Login to Docker Hub
-        uses: docker/login-action@v2
+        uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
 
       - name: Build and push
         id: docker_build
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v5
         with:
           push: true
           tags: djbrown/hbscorez:latest
