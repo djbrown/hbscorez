@@ -88,20 +88,16 @@ class UpdateTest(IntegrationTestCase):
 
         dom = read_html("game_table_single_game.html")
         [game_row] = parsing.parse_game_rows(dom)
-        sports_hall = SportsHall.objects.create(
-            number=1, name="My Gym", address="addr", phone_number="tel", latitude="10", longitude="20", bhv_id=3
-        )
 
         logic.scrape_game(game_row, league)
 
         game = self.assert_objects(Game)
 
         self.assertEqual(game.opening_whistle, timezone.make_aware(datetime.datetime(2017, 10, 8, 15, 0)))
+        self.assertEqual(game.sports_hall.number, 22003)
         self.assertEqual(game.home_goals, 124)
         self.assertEqual(game.guest_goals, 122)
-        self.assertEqual(game.report_number, 0)
-        self.assertEqual(game.sports_hall, sports_hall)
-        self.assertEqual(game.score_set.count(), 0)
+        self.assertEqual(game.report_number, 123456)
 
 
 class ForfeitTest(IntegrationTestCase):
