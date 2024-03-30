@@ -171,7 +171,7 @@ def parse_sports_hall_bhv_id(link: _Element) -> int:
     return int(parse_link_query_item(link, "gymID"))
 
 
-def parse_sports_hall_coordinates(dom: _Element) -> tuple[str | None, str | None]:
+def parse_sports_hall_coordinates(dom: _Element) -> tuple[Decimal | None, Decimal | None]:
     map_scripts = cast(list[_Element], dom.xpath('//script[contains(text(),"new mxn.LatLonPoint")]'))
     if not map_scripts or not map_scripts[0].text:
         return (None, None)

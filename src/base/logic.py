@@ -42,6 +42,9 @@ def scrape_game(
     if ignore_list is None:
         ignore_list = []
 
+    if processed_sports_halls is None:
+        processed_sports_halls = set()
+
     if game_row[1].text == "Nr.":
         LOGGER.debug("SKIPPING Row (heading)")
         return
