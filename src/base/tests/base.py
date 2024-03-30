@@ -1,4 +1,3 @@
-import logging
 import os
 import sys
 from contextlib import contextmanager
@@ -113,7 +112,7 @@ class ModelTestCase(TestCase):
 class IntegrationTestCase(ModelTestCase):
 
     def assert_command(self, command_name, *arguments, **options):
-        with self.assertNoLogs(logging.getLogger("hbscorez"), level="ERROR"):
+        with self.assertNoLogs("hbscorez", level="ERROR"):
             call_command(command_name, *arguments, **options)
 
 

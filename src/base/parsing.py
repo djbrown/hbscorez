@@ -2,6 +2,7 @@ import json
 import locale
 import re
 from datetime import datetime, timedelta
+from decimal import Decimal
 from typing import cast
 from urllib.parse import parse_qs, urlsplit
 
@@ -176,7 +177,7 @@ def parse_sports_hall_coordinates(dom: _Element) -> tuple[str | None, str | None
         return (None, None)
     match = re.search(r"new mxn.LatLonPoint\(([.0-9]+),([.0-9]+)\)", map_scripts[0].text)
     if match:
-        return match.group(1), match.group(2)
+        return Decimal(match.group(1)), Decimal(match.group(2))
     raise ValueError(f"coordinates not found: {map_scripts}")
 
 
