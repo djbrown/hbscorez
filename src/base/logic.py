@@ -33,7 +33,12 @@ def add_ranking_place(items: list, field: str):
                 item.place = previous.place
 
 
-def scrape_game(game_row, league: League, sports_hall: SportsHall | None, ignore_list: list[int] | None = None):
+def scrape_game(
+    game_row,
+    league: League,
+    ignore_list: list[int] | None = None,
+    processed_sports_halls: set[int] | None = None,
+):
     if ignore_list is None:
         ignore_list = []
 
@@ -53,6 +58,13 @@ def scrape_game(game_row, league: League, sports_hall: SportsHall | None, ignore
     home_goals, guest_goals = parsing.parse_goals(game_row)
     report_number = parsing.parse_report_number(game_row[10])
     forfeiting_team = parsing.parse_forfeiting_team(game_row[10], home_team, guest_team)
+
+    try:
+        sports_hall = scrape_sports_hall(game_row, processed=processed_sports_halls)
+    except Exception:
+        LOGGER.exception("Could not import Sports Hall")
+    if sports_hall is not None:
+        processed_sports_halls.add(sports_hall.bhv_id)
 
     game = Game.objects.filter(number=number, league__season=league.season).first()
     if game is None:
