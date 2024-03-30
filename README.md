@@ -19,9 +19,18 @@ This is the repo for the web application HbScorez running [hbscorez.de](https://
 HbScorez processes handball game reports of diverse handball associations, districts, and leagues.
 It analyzes the player scores and displays the statistics and rankings.
 
-## Project Management and Issue Tracking
+## Code of Conduct
 
-**[redmine.djbrown.de](https://redmine.djbrown.de/projects/hbscorez)**
+See [CODE_OF_CONDUCT.md](.github/CODE_OF_CONDUCT.md)
+
+## Feedback
+
+The preferred way of giving feedback is via [GitHub Issues](https://github.com/djbrown/hbscorez/issues).  
+You may use one of the [Issue Templates](https://github.com/djbrown/hbscorez/issues/new/choose) which suggests useful context information depending on the type of feedback.
+
+## Contributing
+
+See [CONTRIBUTING.md](.github/CONTRIBUTING.md)
 
 ## Acknowledgements
 
@@ -75,6 +84,3 @@ The project is available as open source under the terms of the [MIT License](htt
 [![FOSSA License Report](https://app.fossa.com/api/projects/custom%2B5488%2Fgithub.com%2Fdjbrown%2Fhbscorez.svg?type=large)](https://app.fossa.com/projects/custom%2B5488%2Fgithub.com%2Fdjbrown%2Fhbscorez?ref=badge_large)
 [![Sauce Labs Browsers](https://saucelabs.com/browser-matrix/dan-brown.svg)](https://saucelabs.com/u/dan-brown)
 
-## Contributing
-
-See [CONTRIBUTING.md](.github/CONTRIBUTING.md)

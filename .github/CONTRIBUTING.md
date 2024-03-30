@@ -1,23 +1,14 @@
-# Code of Conduct
+# Contributing
 
-See [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)
+The preferred way of contributing directly is by creating a [GitHub Fork](https://github.com/djbrown/hbscorez/fork).
+You may setup and work on your fork according to the steps, respecting the following chapters of this guide.
+Once the contribution is ready, you may propose a [GitHub Pull Request](https://github.com/djbrown/hbscorez/pulls).
+The Pull Request will then be automatically checked agains every development policy automatically.
+Also the Pull Request has to be reviewed by the maintainer and may receive some feedback to consider.
+Once the Pull Request is successfully approved by the maintainer, it will be merged into the main branch.
 
-## How to Contribute to Open Source
-
-Want to contribute to open source?  
-A guide to making open source contributions, for first-timers and for veterans:  
+Also here is a more general guide to making open source contributions, for first-timers and for veterans:  
 [Open Source Guides](https://opensource.guide/)
-
-## Project Management
-
-Task planning and tracking is done in [Redmine](https://redmine.djbrown.de/projects/hbscorez).
-
-## Feedback
-
-The preferred way of giving feedback is via GitHub Issues.  
-You may use one of the [Issue Templates](https://github.com/djbrown/hbscorez/issues/new/choose) to see a list of relevant information.
-
-Alternatively, if you don't want to create an account on GitHub you can also use the [Redmine Forum](https://redmine.djbrown.de/projects/hbscorez/boards) anonymously.
 
 ## Package Management
 
@@ -30,9 +21,12 @@ Add `--dev` flag for development dependencies.
 ## Code Formatting and Style Guide
 
 You may contribute to this Project using any IDE, Editor or Terminal you like, as long as your modifications obey the conventions defined by the [Style Guide for Python Code (PEP8)](https://www.python.org/dev/peps/pep-0008/).
-The following command will clean your code accordingly: `pipenv run autopep8`
+The following commands will format your code accordingly:
 
-Also make sure to check messages from the following commands before proposing:
+- order imports: `pipenv run isort src`
+- format code: `pipenv run black`
+
+Also make sure to check messages from the following linter commands before proposing:
 
 - `pipenv run mypy src`
 - `pipenv run flake8`
