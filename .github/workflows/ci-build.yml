@@ -94,7 +94,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: coverage report
-      - uses: paambaati/codeclimate-action@v5 # see https://github.com/paambaati/codeclimate-action/issues/638
+      - uses: paambaati/codeclimate-action@v5 # see https://github.com/paambaati/codeclimate-action/issues/731
         env:
           CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
 
@@ -117,11 +117,11 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
       - name: "Run FOSSA Scan"
-        uses: fossas/fossa-action@v1
+        uses: fossas/fossa-action@v1.3.3 # see https://github.com/fossas/fossa-action/issues/39
         with:
           api-key: ${{secrets.FOSSA_API_KEY}}
       - name: "Run FOSSA Test"
-        uses: fossas/fossa-action@v1
+        uses: fossas/fossa-action@v1.3.3 # see https://github.com/fossas/fossa-action/issues/39
         with:
           api-key: ${{secrets.FOSSA_API_KEY}}
           run-tests: true
