@@ -32,6 +32,8 @@ jobs:
         run: |
           sudo locale-gen de_DE.UTF-8
           sudo dpkg-reconfigure locales
+      - name: Install fonts
+        run: sudo apt install fonts-liberation
       - name: Run tests with coverage
         run: pipenv run hbcoverage
         env:

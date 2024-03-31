@@ -24,6 +24,8 @@ jobs:
         run: |
           sudo locale-gen de_DE.UTF-8
           sudo dpkg-reconfigure locales
+      - name: Install fonts
+        run: sudo apt install fonts-liberation
 
       - name: Start saucelabs tunnel
         uses: saucelabs/sauce-connect-action@v2 # see https://github.com/saucelabs/sauce-connect-action/issues/86
