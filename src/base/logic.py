@@ -83,18 +83,14 @@ def scrape_game(
         LOGGER.info("CREATED Game: %s", game)
         return
 
+    if report_number != game.report_number:
+        game.score_set.all().delete()
+        LOGGER.info("DELETED Game Scores: %s", game)
+
     defaults: dict[str, Any | None] = {
         "home_goals": home_goals,
         "guest_goals": guest_goals,
         "report_number": report_number,
-    }
-    updated = ensure_defaults(game, defaults)
-
-    if updated and game.score_set:
-        game.score_set.all().delete()
-        LOGGER.info("DELETED Game Scores: %s", game)
-
-    defaults = {
         "opening_whistle": opening_whistle,
         "sports_hall": sports_hall,
         "forfeiting_team": forfeiting_team,

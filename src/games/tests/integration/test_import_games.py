@@ -99,6 +99,24 @@ class UpdateTest(IntegrationTestCase):
         self.assertEqual(game.guest_goals, 122)
         self.assertEqual(game.report_number, 123456)
 
+    def test_score_relevant_change(self):
+        self.assert_command("import_associations", "-a", 35)
+        self.assert_command("import_districts", "-d", 191)
+        self.assert_command("import_leagues", "-s", 2023, "-l", 104191)
+        self.assert_command("import_games", "-g", "221424")
+
+        game: Game = self.assert_objects(Game)
+        self.assertEqual(game.home_goals, 32)
+
+        game.home_goals = None
+        game.report_number = None
+        game.save()
+
+        self.assert_command("import_games", "-g", "221424")
+        game: Game = self.assert_objects(Game)
+        self.assertEqual(game.home_goals, 32)
+        self.assertEqual(game.report_number, 2340416)
+
 
 class ForfeitTest(IntegrationTestCase):
     def test_forfeit_with_report(self):
