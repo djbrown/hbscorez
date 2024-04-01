@@ -3,7 +3,7 @@ FROM python:3.10-bullseye
 RUN mkdir /code
 WORKDIR /code
 
-RUN pip install pipenv=2023.12.1
+RUN pip install pipenv==2023.12.1
 RUN apt update \
     && apt install -y --no-install-recommends default-jre fonts-liberation gsfonts locales \
     && apt clean \
