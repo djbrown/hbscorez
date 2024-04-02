@@ -127,7 +127,7 @@ LOGGING: dict = {
     },
     "handlers": {
         "file": {
-            "level": "DEBUG",
+            "level": "WARNING",
             "class": "logging.FileHandler",
             "filename": ROOT_DIR / "hbscorez.log",
             "formatter": "verbose",
