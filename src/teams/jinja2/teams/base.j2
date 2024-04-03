@@ -17,6 +17,8 @@
     </li>
     <li class="breadcrumb-item active"><a>{{ team.short_name }}</a></li>
 </ol>
+{% if team.club %}
 <b>Verein:</b> <a href="{{ team.club.get_absolute_url() }}">{{ team.club.name }}</a>
+{% endif %}
 <h1>{{ team.name }}&nbsp;<a href="{{ team.source_url() }}"><span class="fas fa-link" title="Datenquelle"></span></a></h1>
 {% endblock %}
