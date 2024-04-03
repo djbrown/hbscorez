@@ -51,4 +51,5 @@ class ImportClubsTest(IntegrationTestCase):
 
         self.assert_command("import_clubs", "-a", 80, "-c", 213031)
 
-        self.assert_objects(Team, filters={"bhv_id": 1036036, "club__bhv_id": 213031})
+        actual = self.assert_objects(Team, filters={"club__bhv_id": 213031})
+        self.assertEqual(actual.bhv_id, team.bhv_id)

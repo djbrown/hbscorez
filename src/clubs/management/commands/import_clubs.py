@@ -72,7 +72,7 @@ def import_club(association: Association, name: str, bhv_id, options):
 
 
 def update_teams(club):
-    teams = Team.objects.filter()
+    teams = Team.objects.filter(name__regex=rf"^{club.name}( \d)?$")
     for team in teams:
         if team.club is None:
             team.club = club
