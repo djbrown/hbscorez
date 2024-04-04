@@ -27,4 +27,4 @@ class CommandTest(IntegrationTestCase):
     def test_all(self):
         self.assert_command("import_associations")
         self.assert_command("import_districts")
-        self.assert_objects(District, count=66)
+        self.assert_objects(District, count=68)

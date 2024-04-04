@@ -26,4 +26,4 @@ class CommandTest(IntegrationTestCase):
 
     def test_all(self):
         self.assert_command("import_associations")
-        self.assert_objects(Association, 14)
+        self.assert_objects(Association, 15)
