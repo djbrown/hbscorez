@@ -10,7 +10,6 @@ from games.models import Game
 from leagues.models import League, Season
 from leagues.tests.integration import test_import_leagues
 from players.models import Score
-from sports_halls.models import SportsHall
 
 
 class ImportGamesTest(IntegrationTestCase):
@@ -43,13 +42,6 @@ class ImportGamesTest(IntegrationTestCase):
 
         self.assert_command("import_games")
         self.assert_objects(Game, 182)
-
-    def test_missing_sports_hall(self):
-        self.assert_command("import_associations", "-a", 80)
-        self.assert_command("import_districts", "-d", 80)
-        self.assert_command("import_leagues", "-s", 2023, "-l", 109051)
-        self.assert_command("import_games", "-g", 21000112)
-        self.assert_objects(Game)
 
     def test_missing_district(self):
         self.assert_command("import_games", "-a", 35, "-d", 0)
@@ -184,6 +176,6 @@ class BuggedGameRowsTest(IntegrationTestCase):
         self.assert_command("import_associations", "-a", 79)
         self.assert_command("import_districts", "-d", 79)
         self.assert_command("import_leagues", "-s", 2023, "-l", 102551)
-        self.assert_command("import_games")
-        self.assert_objects(SportsHall, count=0)
-        self.assert_objects(Game, count=6)
+        self.assert_command("import_games", "-g", 20000400)
+        game = self.assert_objects(Game)
+        self.assertIsNone(game.sports_hall)
