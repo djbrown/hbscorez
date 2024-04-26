@@ -21,7 +21,7 @@ class ImportClubsTest(IntegrationTestCase):
         self.assert_objects(Association)
 
         self.assert_command("import_clubs")
-        clubs = self.assert_objects(Club, count=12)
+        self.assert_objects(Club, count=12)
 
     def test_single_association_filtered(self):
         self.assert_command("import_associations", "-a", 79, 4)
