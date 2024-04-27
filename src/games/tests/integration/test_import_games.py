@@ -173,9 +173,9 @@ class BuggedGameRowsTest(IntegrationTestCase):
         self.assert_objects(Game, count=3)
 
     def test_missing_sports_hall(self):
-        self.assert_command("import_associations", "-a", 79)
-        self.assert_command("import_districts", "-d", 79)
-        self.assert_command("import_leagues", "-s", 2023, "-l", 102551)
-        self.assert_command("import_games", "-g", 20000400)
+        self.assert_command("import_associations", "-a", 78)
+        self.assert_command("import_districts", "-d", 136)
+        self.assert_command("import_leagues", "-s", 2023, "-l", 107286)
+        self.assert_command("import_games", "-g", 606101092)
         game = self.assert_objects(Game)
         self.assertIsNone(game.sports_hall)
