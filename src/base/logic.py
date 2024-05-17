@@ -62,9 +62,10 @@ def scrape_game(
     sports_hall = None
     try:
         sports_hall = scrape_sports_hall(game_row, processed=processed_sports_halls)
-        processed_sports_halls.add(sports_hall.bhv_id)
     except Exception:
         LOGGER.exception("Could not import Sports Hall")
+    if sports_hall is not None:
+        processed_sports_halls.add(sports_hall.bhv_id)
 
     game = Game.objects.filter(number=number, league__season=league.season).first()
     if game is None:
