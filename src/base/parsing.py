@@ -175,7 +175,7 @@ def parse_sports_hall_coordinates(dom: _Element) -> tuple[Decimal | None, Decima
     map_scripts = cast(list[_Element], dom.xpath('//script[contains(text(),"new mxn.LatLonPoint")]'))
     if not map_scripts or not map_scripts[0].text:
         return (None, None)
-    match = re.search(r"new mxn.LatLonPoint\(([.0-9]+),([.0-9]+)\)", map_scripts[0].text)
+    match = re.search(r"new mxn.LatLonPoint\((-?[.0-9]+),(-?[.0-9]+)\)", map_scripts[0].text)
     if match:
         return Decimal(match.group(1)), Decimal(match.group(2))
     raise ValueError(f"coordinates not found: {map_scripts}")

@@ -1,4 +1,5 @@
 import json
+from decimal import Decimal
 from pathlib import Path
 
 from django.conf import settings
@@ -101,3 +102,13 @@ class ParseDistrictTest(TestCase):
         self.assertTrue("Heidelberg" in districts.values())
 
         self.assertTrue("Schriesheim" not in districts.values())
+
+
+class ParseSportsHallTest(TestCase):
+    def test_negative_longitude(self):
+        dom = read_html("sport_hall_negative_longitude.html")
+
+        actual = parsing.parse_sports_hall_coordinates(dom)
+
+        expected = (Decimal("26.0377"), Decimal("-80.2951"))
+        self.assertEqual(expected, actual)
