@@ -66,6 +66,14 @@ jobs:
       - name: Run Pylint
         run: pipenv run pylint src
 
+  coveralls:
+    runs-on: ubuntu-latest
+    needs: main
+    steps:
+      - name: Download coverage report
+        uses: actions/download-artifact@v4
+        with:
+          name: coverage report
       - name: coveralls
         run: pipenv run coveralls --service=github
         env:
