@@ -179,3 +179,11 @@ class BuggedGameRowsTest(IntegrationTestCase):
         self.assert_command("import_games", "-g", 606101092)
         game = self.assert_objects(Game)
         self.assertIsNone(game.sports_hall)
+
+    def test_error_scraping_sports_hall(self):
+        self.assert_command("import_associations", "-a", 78)
+        self.assert_command("import_districts", "-d", 126)
+        self.assert_command("import_leagues", "-s", 2023, "-l", 104371)
+        self.assert_command("import_games", "-g", 604302079, allow_error_logs=True)
+        game = self.assert_objects(Game)
+        self.assertIsNone(game.sports_hall)

@@ -111,8 +111,11 @@ class ModelTestCase(TestCase):
 @skip_unless_any_tag("integration", "slow")
 class IntegrationTestCase(ModelTestCase):
 
-    def assert_command(self, command_name, *arguments, **options):
-        with self.assertNoLogs("hbscorez", level="ERROR"):
+    def assert_command(self, command_name, *arguments, allow_error_logs=False, **options):
+        if not allow_error_logs:
+            with self.assertNoLogs("hbscorez", level="ERROR"):
+                call_command(command_name, *arguments, **options)
+        else:
             call_command(command_name, *arguments, **options)
 
 
