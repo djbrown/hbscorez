@@ -74,10 +74,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: coverage report
-      - name: coveralls
-        run: pipenv run coveralls --service=github
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - uses: coverallsapp/github-action@v2
 
   codacy:
     runs-on: ubuntu-latest

@@ -25,7 +25,6 @@ bandit = "*"
 black = "*"
 codacy-coverage = "*"
 coverage = "*"
-coveralls = "*"
 django-stubs = "*"
 dparse = {version = "*", extras = ["pipenv"]}
 flake8 = "*"
