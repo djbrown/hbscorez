@@ -74,6 +74,10 @@ def scrape_association(url: str, options):
         association.name = name
         updated = True
 
+    if association.source_url != url:
+        association.source_url = url
+        updated = True
+
     if updated:
         association.save()
         LOGGER.info("UPDATED Association: %s", association)
