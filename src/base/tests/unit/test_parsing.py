@@ -21,20 +21,20 @@ class ParseAssociationTest(TestCase):
         actual = parsing.parse_association_urls(dom)
 
         expected = [
-            "https://www.handball4all.de/home/portal/bhv",
-            "https://www.handball4all.de/home/portal/hhv",
-            "https://www.handball4all.de/home/portal/lux",
-            "https://www.handball4all.de/home/portal/hhhvsh",
-            "https://www.handball4all.de/home/portal/hbbw",
-            "https://www.handball4all.de/home/portal/rps",
-            "https://www.handball4all.de/home/portal/pfalz",
-            "https://www.handball4all.de/home/portal/hvrh",
-            "https://www.handball4all.de/home/portal/hvs",
-            "https://www.handball4all.de/home/portal/hvsh",
-            "https://www.handball4all.de/home/portal/shv",
-            "https://www.handball4all.de/home/portal/vhv",
-            "https://www.handball4all.de/home/portal/westfalen",
-            "https://www.handball4all.de/home/portal/hvw",
+            "/home/portal/baden",
+            "/home/portal/hamburg",
+            "/home/portal/luxemburg",
+            "/home/portal/oberliga-hh/hvsh",
+            "/home/portal/oberliga-hbw",
+            "/home/portal/oberliga-rps",
+            "/home/portal/pfalz",
+            "/home/portal/rheinhessen",
+            "/home/portal/saarland",
+            "/home/portal/schleswig-holstein",
+            "/home/portal/suedbaden",
+            "/home/portal/vorarlberg",
+            "/home/portal/westfalen",
+            "/home/portal/wuerttemberg",
         ]
         self.assertEqual(expected, actual)
 

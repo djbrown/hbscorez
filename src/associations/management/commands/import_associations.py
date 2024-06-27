@@ -45,7 +45,7 @@ def import_associations(options):
 
     for association_url in association_urls:
         try:
-            scrape_association(association_url, options)
+            scrape_association(settings.NEW_ROOT_SOURCE_URL + association_url, options)
         except Exception:
             LOGGER.exception("Could not create Association")
 

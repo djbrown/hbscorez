@@ -24,7 +24,7 @@ def parse_link_query_item(link: _Element, query_key: str) -> str:
 
 
 def parse_association_urls(dom: _Element) -> list[str]:
-    return cast(list[str], dom.xpath('//ul[@id="main-navi"]/li[contains(@class, "active")]//li/a/@href'))
+    return cast(list[str], dom.xpath('//div[@id="navigationmenu"]/ul/li[contains(@class, "active")]//li/a/@href'))[1:]
 
 
 def parse_association_abbreviation(association_url: str) -> str:
