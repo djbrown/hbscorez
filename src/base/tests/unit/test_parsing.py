@@ -39,11 +39,12 @@ class ParseAssociationTest(TestCase):
         self.assertEqual(expected, actual)
 
     def test_abbreviation(self):
-        url = "https://www.handball4all.de/home/portal/bhv"
+        file: Path = settings.ROOT_DIR / "src" / "base" / "tests" / "unit" / "association.json"
+        json_text = file.read_text()
 
-        actual = parsing.parse_association_abbreviation(url)
+        actual = parsing.parse_association_abbreviation(json_text)
 
-        expected = "BHV"
+        expected = "PfHV"
         self.assertEqual(expected, actual)
 
     def test_name(self):

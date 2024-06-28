@@ -17,6 +17,10 @@ def html_dom(html_text: str) -> _Element:
     return html.fromstring(html_text)
 
 
+def json_data(json_text):
+    return json.loads(json_text)
+
+
 def parse_link_query_item(link: _Element, query_key: str) -> str:
     href = link.get("href")
     query = cast(str, urlsplit(href).query)
@@ -27,8 +31,9 @@ def parse_association_urls(dom: _Element) -> list[str]:
     return cast(list[str], dom.xpath('//div[@id="navigationmenu"]/ul/li[contains(@class, "active")]//li/a/@href'))[1:]
 
 
-def parse_association_abbreviation(association_url: str) -> str:
-    return association_url.rsplit("/", 1)[1].upper()
+def parse_association_abbreviation(json_text: str) -> str:
+    data = json.loads(json_text)
+    return data[0]["head"]["sname"]
 
 
 def parse_association_name(dom: _Element) -> str:
@@ -40,8 +45,8 @@ def parse_association_bhv_id(dom: _Element) -> int:
     return int(bhv_id)
 
 
-def parse_district_items(response: str) -> dict[str, str]:
-    return json.loads(response)[0]["menu"]["org"]["list"]
+def parse_district_items(json_text: str) -> dict[str, str]:
+    return json.loads(json_text)[0]["menu"]["org"]["list"]
 
 
 def parse_district_link_date(link: _Element) -> str:

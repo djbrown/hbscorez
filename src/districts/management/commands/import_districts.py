@@ -49,9 +49,9 @@ def import_districts(options):
 
 def scrape_districs(association: Association, options):
     url = association.api_url()
-    response = http.get_text(url)
+    json = http.get_text(url)
 
-    districts = parsing.parse_district_items(response)
+    districts = parsing.parse_district_items(json)
 
     for bhv_id, name in districts.items():
         try:

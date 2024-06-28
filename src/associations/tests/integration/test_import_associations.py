@@ -7,8 +7,8 @@ class CommandTest(IntegrationTestCase):
         self.assert_command("import_associations", "-a", 35)
         association = self.assert_objects(Association)
         self.assertEqual(association.name, "Badischer Handball-Verband")
-        self.assertEqual(association.abbreviation, "BHV")
         self.assertEqual(association.bhv_id, 35)
+        self.assertEqual(association.abbreviation, "BHV")
 
     def test_update(self):
         Association.objects.create(
@@ -21,9 +21,10 @@ class CommandTest(IntegrationTestCase):
         self.assert_command("import_associations", "-a", 35)
         association = self.assert_objects(Association)
         self.assertEqual(association.name, "Badischer Handball-Verband")
-        self.assertEqual(association.abbreviation, "bad")
+        self.assertEqual(association.abbreviation, "BHV")
         self.assertEqual(association.bhv_id, 35)
+        self.assertEqual(association.source_url, "https://www.handball4all.de/home/portal/baden")
 
     def test_all(self):
         self.assert_command("import_associations")
-        self.assert_objects(Association, 15)
+        self.assert_objects(Association, 14)
