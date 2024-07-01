@@ -63,7 +63,7 @@ def scrape_association(url: str, options):
         return
 
     api_url = Association.build_api_url(bhv_id)
-    json = http.get_text(api_url)
+    json = http.get_throttled(api_url)
     abbreviation = parsing.parse_association_abbreviation(json)
 
     association = Association.objects.filter(bhv_id=bhv_id).first()
