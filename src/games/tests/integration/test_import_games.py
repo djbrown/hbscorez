@@ -86,7 +86,7 @@ class UpdateTest(IntegrationTestCase):
         game = self.assert_objects(Game)
 
         self.assertEqual(game.opening_whistle, timezone.make_aware(datetime.datetime(2017, 10, 8, 15, 0)))
-        self.assertEqual(game.sports_hall.number, 22003)
+        self.assertEqual(game.sports_hall.number, 22010)
         self.assertEqual(game.home_goals, 124)
         self.assertEqual(game.guest_goals, 122)
         self.assertEqual(game.report_number, 123456)
