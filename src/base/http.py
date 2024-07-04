@@ -15,7 +15,7 @@ def get_text(url) -> str:
     return response.text
 
 
-def get_throttled(url, wait=5) -> str:
+def get_throttled(url, wait=10) -> str:
     time.sleep(wait)
     return get_text(url)
 
