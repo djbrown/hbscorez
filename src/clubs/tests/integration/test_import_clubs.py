@@ -21,25 +21,25 @@ class ImportClubsTest(IntegrationTestCase):
         self.assert_objects(Association)
 
         self.assert_command("import_clubs")
-        self.assert_objects(Club, count=17)
+        self.assert_objects(Club, count=14)
 
     def test_single_association_filtered(self):
         self.assert_command("import_associations", "-a", 79, 4)
         self.assert_objects(Association, count=2)
 
         self.assert_command("import_clubs", "-a", 79)
-        self.assert_objects(Club, count=17)
+        self.assert_objects(Club, count=14)
 
     def test_single_club_filtered(self):
         self.assert_command("import_associations", "-a", 95)
         association = self.assert_objects(Association)
 
-        self.assert_command("import_clubs", "-a", 95, "-c", 9702)
+        self.assert_command("import_clubs", "-a", 95, "-c", 290002)
         club = self.assert_objects(Club)
 
-        self.assertEqual(club.name, "Lettland")
+        self.assertEqual(club.name, "HC Berchem")
         self.assertTrue(club.associations.get(), association)
-        self.assertEqual(club.bhv_id, 9702)
+        self.assertEqual(club.bhv_id, 290002)
 
     def test_update_team(self):
         self.assert_command("import_associations", "-a", 80)
