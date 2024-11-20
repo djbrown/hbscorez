@@ -220,4 +220,6 @@ def scrape_team(link, league):
     short_team_names = parsing.parse_team_short_names(game_rows)
     short_team_name = Team.find_matching_short_name(name, short_team_names)
 
-    Team.create_or_update_team(name, short_team_name, league, club, bhv_id, LOGGER)
+    Team.create_or_update_team(
+        name=name, short_name=short_team_name, league=league, club=club, bhv_id=bhv_id, logger=LOGGER
+    )
