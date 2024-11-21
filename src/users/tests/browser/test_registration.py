@@ -69,6 +69,12 @@ def registration(self):
     activation_link = message.body.splitlines()[6]
     self.driver.get(activation_link)
 
+    self.assert_view("django_registration_activate")
+    activation_key_textfield = self.driver.find_element(By.NAME, "activation_key")
+
+    with self.wait():
+        activation_key_textfield.submit()
+
     self.assert_view("django_registration_activation_complete")
     self.assertEqual(User.objects.all().count(), 1)
     login_link = self.driver.find_element(By.ID, "link-login-redirect")

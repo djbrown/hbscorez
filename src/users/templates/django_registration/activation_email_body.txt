@@ -4,7 +4,7 @@ Hallo {{ user.username }},
 vielen Dank für Deine Registrierungsanfrage auf HbScorez!
 
 Gehe auf folgede Seite, um Deine Registrierung abzuschließen:
-{{ scheme }}://{{ site.domain }}{% url 'django_registration_activate' activation_key %}
+{{ scheme }}://{{ site.domain }}{% url 'django_registration_activate' %}?activation_key={{ activation_key }}
 Dieser Link verfällt nach {{ expiration_days }} Tagen automatisch.
 
 Diese E-Mail wurde automatisch generiert.

@@ -186,12 +186,12 @@ class BrowserTestCase(StaticLiveServerTestCase):
             status = sys.exc_info() == (None, None, None)
             sauce_client.jobs.update_job(job_id=self.driver.session_id, build=_SAUCE_TUNNEL, passed=status)
 
-    def navigate(self, view_name: str, *args, **kwargs):
-        path = reverse(view_name, args=args, kwargs=kwargs)
-        self.driver.get(self.live_server_url + path)
+    def navigate(self, view_name: str, query: str = ""):
+        path = reverse(view_name)
+        self.driver.get(self.live_server_url + path + query)
 
     def assert_view(self, view_name: str):
-        path: str = self.driver.current_url.replace(self.live_server_url, "")
+        path: str = self.driver.current_url.replace(self.live_server_url, "").split("?")[0]
         resolved: ResolverMatch = resolve(path)
         self.assertEqual(resolved.view_name, view_name)
 

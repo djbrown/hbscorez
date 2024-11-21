@@ -1,0 +1,22 @@
+{% extends 'base/base.html' %}
+
+{% block title %}Aktivieren | {{ block.super }}{% endblock %}
+
+{% block content %}
+<h1>Aktivieren</h1>
+<form method="post">
+    
+    {% csrf_token %}
+
+    <div class="mb-3">
+        <label for="activation_key" class="form-label">Aktivierungsschlüssel</label>
+        <input name="activation_key" type="text" id="activation_key" required readonly
+            class="form-control{% if form.activation_key.errors or activation_error %} is-invalid{% endif %}"
+            {% if form.activation_key.value %} value="{{ form.activation_key.value }}" {% endif %} />
+        <small class="form-text text-muted">{{ form.activation_key.help_text|safe }}</small>
+        <div class="invalid-feedback">{{ form.activation_key.errors }}{{ activation_error.message }}</div>
+    </div>
+
+    <input type="submit" value="Aktivieren" class="btn btn-success" />
+</form>
+{% endblock %}

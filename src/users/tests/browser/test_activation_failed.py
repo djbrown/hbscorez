@@ -10,8 +10,12 @@ from users.tests.browser.test_registration import registration
 
 class TestActivationFailed(BrowserTestCase):
     def test_invalid_key(self):
-        self.navigate("django_registration_activate", activation_key="x")
-        alert = self.driver.find_element(By.CLASS_NAME, "alert")
+        self.navigate("django_registration_activate", "?activation_key=x")
+        self.assert_view("django_registration_activate")
+        with self.load():
+            self.driver.find_element(By.TAG_NAME, "form").submit()
+
+        alert = self.driver.find_element(By.CSS_SELECTOR, "ul.errorlist li")
         self.assertEqual(alert.text, "The activation key you provided is invalid.")
 
     def test_already_activated(self):
@@ -20,8 +24,10 @@ class TestActivationFailed(BrowserTestCase):
         activation_link = message.body.splitlines()[6]
         self.driver.get(activation_link)
         self.assert_view("django_registration_activate")
+        with self.load():
+            self.driver.find_element(By.TAG_NAME, "form").submit()
 
-        alert = self.driver.find_element(By.CLASS_NAME, "alert")
+        alert = self.driver.find_element(By.CLASS_NAME, "invalid-feedback")
         self.assertEqual(alert.text, "The account you tried to activate has already been activated.")
 
     @unittest.skip("Yet to find a way to mock time.time in LiveServer")
@@ -54,6 +60,8 @@ class TestActivationFailed(BrowserTestCase):
         activation_link = message.body.splitlines()[6]
         self.driver.get(activation_link)
         self.assert_view("django_registration_activate")
+        with self.load():
+            self.driver.find_element(By.TAG_NAME, "form").submit()
 
         alert = self.driver.find_element(By.CLASS_NAME, "alert")
         self.assertEqual(alert.text, "The account you tried to activate has already been activated.")
