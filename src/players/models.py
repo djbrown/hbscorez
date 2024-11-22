@@ -53,7 +53,7 @@ class Score(models.Model):
 
 class ReportsBlacklist(models.Model):
     report_number = models.IntegerField(unique=True)
-    note = models.TextField(blank=True, null=True)
+    note = models.TextField(blank=True)
 
     def __str__(self):
         return f"{self.report_number}"

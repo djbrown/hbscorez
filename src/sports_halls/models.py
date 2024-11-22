@@ -6,7 +6,7 @@ class SportsHall(models.Model):
     number = models.IntegerField(unique=True)
     name = models.TextField()
     address = models.TextField()
-    phone_number = models.TextField(blank=True, null=True)
+    phone_number = models.TextField(blank=True)
     latitude = models.DecimalField(blank=True, null=True, max_digits=9, decimal_places=6)
     longitude = models.DecimalField(blank=True, null=True, max_digits=9, decimal_places=6)
     bhv_id = models.IntegerField(unique=True)
