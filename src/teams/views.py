@@ -82,7 +82,7 @@ def calendar(_, bhv_id):
         "X-WR-CALDESC",
         f'Spielplan der Mannschaft "{team.name}"'
         + f" in der Saison {team.league.season.start_year}/{team.league.season.start_year + 1}"
-        + f' in der Liga "{team.league.name}" des Bereichs "{team.league.district.name}"',
+        + f' in der Liga "{team.league.name}" des Bezirks "{team.league.district.name}"',
     )
 
     for game in team_games:

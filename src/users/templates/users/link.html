@@ -27,7 +27,7 @@
     </div>
 
     <div class="mb-3">
-        <label for="districts" class="form-label">Bereich</label>
+        <label for="districts" class="form-label">Bezirk</label>
         <select id="districts" class="form-select">
             {% if team %}
             {% for d in team.league.district.associations.first.district_set.all %}
