@@ -54,11 +54,11 @@ class CommandTest(IntegrationTestCase):
 class ForfeitTest(IntegrationTestCase):
 
     def test(self):
-        self.assert_command("import_associations", "-a", 3)
-        self.assert_command("import_districts", "-d", 10)
-        self.assert_command("import_leagues", "-s", 2018, "-l", 35537)
+        self.assert_command("import_associations", "-a", 83)
+        self.assert_command("import_districts", "-d", 83)
+        self.assert_command("import_leagues", "-s", 2023, "-l", 107686)
 
-        self.assert_command("import_games", "-g", 60201)
+        self.assert_command("import_games", "-g", 24000443)
 
         mock: Mock
         with patch("players.management.commands.import_reports.import_report") as mock:

@@ -112,28 +112,28 @@ class UpdateTest(IntegrationTestCase):
 
 class ForfeitTest(IntegrationTestCase):
     def test_forfeit_with_report(self):
-        self.assert_command("import_associations", "-a", 3)
-        self.assert_command("import_districts", "-d", 10)
-        self.assert_command("import_leagues", "-s", 2018, "-l", 35537)
+        self.assert_command("import_associations", "-a", 83)
+        self.assert_command("import_districts", "-d", 83)
+        self.assert_command("import_leagues", "-s", 2023, "-l", 107686)
 
-        self.assert_command("import_games", "-g", 60201)
+        self.assert_command("import_games", "-g", 24000443)
 
         game: Game = self.assert_objects(Game)
-        self.assertEqual(game.number, 60201)
-        self.assertEqual(game.report_number, 710203)
+        self.assertEqual(game.number, 24000443)
+        self.assertEqual(game.report_number, 2518871)
         self.assertEqual(game.home_goals, 0)
         self.assertEqual(game.guest_goals, 0)
-        self.assertEqual(game.forfeiting_team, game.guest_team)
+        self.assertEqual(game.forfeiting_team, game.home_team)
 
     def test_forfeit_without_report(self):
-        self.assert_command("import_associations", "-a", 35)
-        self.assert_command("import_districts", "-d", 35)
-        self.assert_command("import_leagues", "-s", 2018, "-l", 34606)
+        self.assert_command("import_associations", "-a", 83)
+        self.assert_command("import_districts", "-d", 83)
+        self.assert_command("import_leagues", "-s", 2023, "-l", 107686)
 
-        self.assert_command("import_games", "-g", 210348)
+        self.assert_command("import_games", "-g", 24000484)
 
         game: Game = self.assert_objects(Game)
-        self.assertEqual(game.number, 210348)
+        self.assertEqual(game.number, 24000484)
         self.assertEqual(game.report_number, None)
         self.assertEqual(game.home_goals, 0)
         self.assertEqual(game.guest_goals, 0)
