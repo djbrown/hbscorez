@@ -41,13 +41,6 @@ class Game(models.Model):
     guest_goals = models.IntegerField(blank=True, null=True)
     report_number = models.IntegerField(blank=True, null=True, unique=True)
     remark = models.TextField(blank=True)
-    forfeiting_team = models.ForeignKey(
-        Team,
-        on_delete=models.SET_NULL,
-        blank=True,
-        null=True,
-        related_name="forfeiting_team",
-    )
     spectators = models.IntegerField(blank=True, null=True)
 
     class Meta:
@@ -116,14 +109,21 @@ class Game(models.Model):
         }
         return mapping[self.leg()]
 
+    def forfeiting_team(self) -> Team | None:
+        if "2:0" in self.remark:
+            return self.guest_team
+        if "0:2" in self.remark:
+            return self.home_team
+        return None
+
     def outcome(self) -> GameOutcome:
         if self.home_goals is None and self.guest_goals is None:
             return GameOutcome.OPEN
         home_goals: int = Maybe.from_optional(self.home_goals).unwrap()
         guest_goals: int = Maybe.from_optional(self.guest_goals).unwrap()
-        if home_goals > guest_goals or self.forfeiting_team == self.guest_team:
+        if home_goals > guest_goals or self.forfeiting_team() == self.guest_team:
             return GameOutcome.HOME_WIN
-        if home_goals < guest_goals or self.forfeiting_team == self.home_team:
+        if home_goals < guest_goals or self.forfeiting_team() == self.home_team:
             return GameOutcome.AWAY_WIN
         if home_goals == guest_goals:
             return GameOutcome.TIE

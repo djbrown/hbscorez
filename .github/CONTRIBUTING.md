@@ -23,7 +23,7 @@ Add `--dev` flag for development dependencies.
 You may contribute to this Project using any IDE, Editor or Terminal you like, as long as your modifications obey the conventions defined by the [Style Guide for Python Code (PEP8)](https://www.python.org/dev/peps/pep-0008/).
 The following commands will format your code accordingly:
 
-- format code: `pipenv run black`
+- format code: `pipenv run black src`
 - sort imports: `pipenv run isort src`
 
 Also make sure to check messages from the following linter commands before proposing:

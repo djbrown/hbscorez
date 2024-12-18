@@ -125,7 +125,7 @@ class ForfeitTest(IntegrationTestCase):
         self.assertEqual(game.remark, "(0:2), gg. Heim, techn. Wertung")
         self.assertEqual(game.home_goals, 0)
         self.assertEqual(game.guest_goals, 0)
-        self.assertEqual(game.forfeiting_team, game.home_team)
+        self.assertEqual(game.forfeiting_team(), game.home_team)
 
     def test_forfeit_without_report(self):
         self.assert_command("import_associations", "-a", 83)
@@ -140,7 +140,7 @@ class ForfeitTest(IntegrationTestCase):
         self.assertEqual(game.remark, "(2:0), gg. Gast")
         self.assertEqual(game.home_goals, 0)
         self.assertEqual(game.guest_goals, 0)
-        self.assertEqual(game.forfeiting_team, game.guest_team)
+        self.assertEqual(game.forfeiting_team(), game.guest_team)
 
 
 class YouthTest(IntegrationTestCase):

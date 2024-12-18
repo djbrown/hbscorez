@@ -10,8 +10,6 @@ from django.utils import timezone
 from lxml import html
 from lxml.etree import _Element
 
-from teams.models import Team
-
 
 def html_dom(html_text: str) -> _Element:
     return html.fromstring(html_text)
@@ -216,15 +214,6 @@ def parse_game_remark(cell: _Element) -> str:
     if titles:
         return titles[0]
     return ""
-
-
-def parse_forfeiting_team(cell: _Element, home_team: Team, guest_team: Team) -> Team | None:
-    text = str(html.tostring(cell))
-    if "2:0" in text:
-        return guest_team
-    if "0:2" in text:
-        return home_team
-    return None
 
 
 def parse_game_time(text: str) -> timedelta | None:

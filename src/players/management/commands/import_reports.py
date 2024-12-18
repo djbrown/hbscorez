@@ -130,7 +130,7 @@ class Command(BaseCommand):
                 import_game(game)
             return
 
-        if game.forfeiting_team is not None:
+        if game.forfeiting_team() is not None:
             LOGGER.debug("SKIPPING Game (forfeit): %s - %s", game.report_number, game)
             return
 
