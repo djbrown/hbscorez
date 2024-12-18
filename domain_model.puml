@@ -18,6 +18,6 @@
     note top of Game
       1 home_team
       1 guest_team
-      ? forfeiting_team
+      ? forfeiting_team()
     end note
 @enduml

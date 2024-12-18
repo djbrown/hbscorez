@@ -90,6 +90,7 @@ class UpdateTest(IntegrationTestCase):
         self.assertEqual(game.home_goals, 124)
         self.assertEqual(game.guest_goals, 122)
         self.assertEqual(game.report_number, 123456)
+        self.assertEqual(game.remark, "some remark")
 
     def test_score_relevant_change(self):
         self.assert_command("import_associations", "-a", 35)
@@ -121,6 +122,7 @@ class ForfeitTest(IntegrationTestCase):
         game: Game = self.assert_objects(Game)
         self.assertEqual(game.number, 24000443)
         self.assertEqual(game.report_number, 2518871)
+        self.assertEqual(game.remark, "(0:2), gg. Heim, techn. Wertung")
         self.assertEqual(game.home_goals, 0)
         self.assertEqual(game.guest_goals, 0)
         self.assertEqual(game.forfeiting_team, game.home_team)
@@ -135,6 +137,7 @@ class ForfeitTest(IntegrationTestCase):
         game: Game = self.assert_objects(Game)
         self.assertEqual(game.number, 24000484)
         self.assertEqual(game.report_number, None)
+        self.assertEqual(game.remark, "(2:0), gg. Gast")
         self.assertEqual(game.home_goals, 0)
         self.assertEqual(game.guest_goals, 0)
         self.assertEqual(game.forfeiting_team, game.guest_team)

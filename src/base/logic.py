@@ -57,6 +57,7 @@ def scrape_game(
     guest_team = Team.objects.get(league=league, short_name=game_row[6].text)
     home_goals, guest_goals = parsing.parse_goals(game_row)
     report_number = parsing.parse_report_number(game_row[10])
+    remark = parsing.parse_game_remark(game_row[10])
     forfeiting_team = parsing.parse_forfeiting_team(game_row[10], home_team, guest_team)
 
     sports_hall = None
@@ -79,6 +80,7 @@ def scrape_game(
             home_goals=home_goals,
             guest_goals=guest_goals,
             report_number=report_number,
+            remark=remark,
             forfeiting_team=forfeiting_team,
         )
         LOGGER.info("CREATED Game: %s", game)
@@ -94,6 +96,7 @@ def scrape_game(
         "report_number": report_number,
         "opening_whistle": opening_whistle,
         "sports_hall": sports_hall,
+        "remark": remark,
         "forfeiting_team": forfeiting_team,
     }
     updated = ensure_defaults(game, defaults)

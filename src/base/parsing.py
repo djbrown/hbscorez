@@ -211,6 +211,13 @@ def parse_report_number(cell: _Element) -> int | None:
     return None
 
 
+def parse_game_remark(cell: _Element) -> str:
+    titles = cell.xpath("a/@title")
+    if titles:
+        return titles[0]
+    return ""
+
+
 def parse_forfeiting_team(cell: _Element, home_team: Team, guest_team: Team) -> Team | None:
     text = str(html.tostring(cell))
     if "2:0" in text:

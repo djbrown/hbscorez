@@ -40,6 +40,7 @@ class Game(models.Model):
     home_goals = models.IntegerField(blank=True, null=True)
     guest_goals = models.IntegerField(blank=True, null=True)
     report_number = models.IntegerField(blank=True, null=True, unique=True)
+    remark = models.TextField(blank=True)
     forfeiting_team = models.ForeignKey(
         Team,
         on_delete=models.SET_NULL,
