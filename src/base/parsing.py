@@ -212,7 +212,7 @@ def parse_report_number(cell: _Element) -> int | None:
 
 
 def parse_game_remark(cell: _Element) -> str:
-    titles = cell.xpath("a/@title")
+    titles = cast(list[str], cell.xpath("a/@title"))
     if titles:
         return titles[0]
     return ""
