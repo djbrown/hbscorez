@@ -6,14 +6,14 @@
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=djbrown_hbscorez&metric=alert_status)](https://sonarcloud.io/dashboard?id=djbrown_hbscorez)
 [![Coveralls Coverage Status](https://coveralls.io/repos/github/djbrown/hbscorez/badge.svg)](https://coveralls.io/github/djbrown/hbscorez)
 [![Codecov Coverage Status](https://codecov.io/github/djbrown/hbscorez/coverage.svg)](https://codecov.io/github/djbrown/hbscorez/)
-[![Codacy Quality Status](https://api.codacy.com/project/badge/Grade/aa168e5b5c154b1ba8b891afa0998d9e)](https://www.codacy.com/app/djbrown/hbscorez?utm_source=github.com&utm_medium=referral&utm_content=djbrown/hbscorez&utm_campaign=Badge_Grade)
-[![Codacy Coverage Status](https://app.codacy.com/project/badge/Coverage/aa168e5b5c154b1ba8b891afa0998d9e)](https://www.codacy.com/manual/djbrown/hbscorez/dashboard?utm_source=github.com&utm_medium=referral&utm_content=djbrown/hbscorez&utm_campaign=Badge_Coverage)
+[![Codacy Quality Status](https://app.codacy.com/project/badge/Grade/aa168e5b5c154b1ba8b891afa0998d9e)](https://app.codacy.com/gh/djbrown/hbscorez/dashboard)
+[![Codacy Coverage Status](https://app.codacy.com/project/badge/Coverage/aa168e5b5c154b1ba8b891afa0998d9e)](https://app.codacy.com/gh/djbrown/hbscorez/dashboard)
 [![Code Climate Maintainability](https://api.codeclimate.com/v1/badges/db7cf3c32bc124e21e8e/maintainability)](https://codeclimate.com/github/djbrown/hbscorez/maintainability)
 [![Code Climate Test Coverage](https://api.codeclimate.com/v1/badges/db7cf3c32bc124e21e8e/test_coverage)](https://codeclimate.com/github/djbrown/hbscorez/test_coverage)
 [![CodeScene Code Health](https://codescene.io/projects/40238/status-badges/code-health)](https://codescene.io/projects/40238)
 [![Mypy Badge](https://www.mypy-lang.org/static/mypy_badge.svg)](https://mypy-lang.org/)
 [![Sauce Test Status](https://saucelabs.com/buildstatus/dan-brown)](https://saucelabs.com/u/dan-brown)
-[![FOSSA License Status](https://app.fossa.com/api/projects/custom%2B5488%2Fgithub.com%2Fdjbrown%2Fhbscorez.svg?type=shield)](https://app.fossa.com/projects/custom%2B5488%2Fgithub.com%2Fdjbrown%2Fhbscorez?ref=badge_shield)
+[![FOSSA License Status](https://app.fossa.com/api/projects/custom%2B5488%2Fgithub.com%2Fdjbrown%2Fhbscorez.svg?type=shield)](https://app.fossa.com/projects/custom%2B5488%2Fgithub.com%2Fdjbrown%2Fhbscorez)
 
 This is the repo for the web application HbScorez running [hbscorez.de](https://hbscorez.de/).  
 HbScorez processes handball game reports of diverse handball associations, districts, and leagues.
