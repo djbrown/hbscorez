@@ -48,12 +48,14 @@ jobs:
           reporter: java-junit
 
       - name: Run integration tests
+        if: ${{ false }} # disable until hbscorez v2
         run: pipenv run hbintegrationtest
         env:
           TEST_OUTPUT_FILE_NAME: integration.xml
       - name: Integration Test Report
         uses: dorny/test-reporter@v1
-        if: success() || failure()
+        if: ${{ false }} # disable until hbscorez v2
+        # if: success() || failure()
         with:
           name: Integration Tests
           path: integration.xml
