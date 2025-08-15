@@ -46,7 +46,7 @@ types-requests = "*"
 unittest-xml-reporting = "*"
 
 [requires]
-python_version = "3.10"
+python_version = "3.13"
 
 [scripts]
 hbscorez = "./src/manage.py runserver"
