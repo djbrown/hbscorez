@@ -42,7 +42,7 @@ jobs:
           SAUCE_ACCESS_KEY: ${{ secrets.SAUCE_ACCESS_KEY }}
       - name: Browser Test Report
         uses: dorny/test-reporter@v2
-        if: success() || failure()
+        if: ${{ !cancelled() }}
         with:
           name: Browser Tests
           path: browser.xml
@@ -56,7 +56,7 @@ jobs:
       - name: Integration Test Report
         uses: dorny/test-reporter@v2
         if: ${{ false }} # disable until hbscorez v2
-        # if: success() || failure()
+        # if: ${{ !cancelled() }}
         with:
           name: Integration Tests
           path: integration.xml

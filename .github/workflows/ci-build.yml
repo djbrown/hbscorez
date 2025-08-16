@@ -45,7 +45,7 @@ jobs:
           path: coverage.xml
       - name: Unit Test Report
         uses: dorny/test-reporter@v2
-        if: success() || failure()
+        if: ${{ !cancelled() }}
         with:
           name: Unit Tests
           path: unit.xml
