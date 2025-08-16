@@ -105,7 +105,7 @@ jobs:
       - uses: qltysh/qlty-action/coverage@v2
         with:
           oidc: true
-          files: .coverage
+          files: coverage.xml
 
   codecov:
     runs-on: ubuntu-latest
