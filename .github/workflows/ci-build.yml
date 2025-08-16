@@ -103,9 +103,9 @@ jobs:
         with:
           name: coverage report
       - uses: qltysh/qlty-action/coverage@v2
-      with:
-        oidc: true
-        files: .coverage
+        with:
+          oidc: true
+          files: .coverage
 
   codecov:
     runs-on: ubuntu-latest
