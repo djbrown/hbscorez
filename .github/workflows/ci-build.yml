@@ -44,7 +44,7 @@ jobs:
           name: coverage report
           path: coverage.xml
       - name: Unit Test Report
-        uses: dorny/test-reporter@v1
+        uses: dorny/test-reporter@v2
         if: success() || failure()
         with:
           name: Unit Tests

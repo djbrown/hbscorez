@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Unit Test Report
-        uses: dorny/test-reporter@v1
+        uses: dorny/test-reporter@v2
         with:
           artifact: unit-test-results
           name: Unit Tests
