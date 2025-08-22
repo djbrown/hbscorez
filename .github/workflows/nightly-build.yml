@@ -32,6 +32,7 @@ jobs:
           accessKey: ${{ secrets.SAUCE_ACCESS_KEY }}
           region: us-west-1
           tunnelName: nightly-build-${{ github.run_number }}
+          proxyLocalhost: direct
       - name: Run browser tests
         run: pipenv run hbbrowsertest
         env:
