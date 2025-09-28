@@ -31,26 +31,8 @@ class Runner(DiscoverRunner):
         self.keepdb = keepdb
         super().__init__(**kwargs)
 
-    def run_testss(self, test_labels, **kwargs):
-
-        argv = []
-        if self.verbosity == 0:
-            argv.append("--quiet")
-        if self.verbosity == 2:
-            argv.append("--verbose")
-        if self.verbosity == 3:
-            argv.append("-vv")
-        if self.failfast:
-            argv.append("--exitfirst")
-        if self.keepdb:
-            argv.append("--reuse-db")
-
-        argv.extend(test_labels)
-        return pytest.main(argv)
-
     def build_suite(self, test_labels=None, **kwargs):
-        os.environ["DUMMY"] = "VALUE"
-        suite = DiscoverRunner.build_suite(self, test_labels, **kwargs)
+        suite = super().build_suite(test_labels, **kwargs)
         return filter_tests_by_explicit_tags(suite, self.tags)
 
 
