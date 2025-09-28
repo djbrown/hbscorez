@@ -1,6 +1,0 @@
-update: insecure
-schedule: "every month"
-search: false
-requirements:
-  - Pipfile
-  - Pipfile.lock
