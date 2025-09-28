@@ -75,10 +75,6 @@ jobs:
         with:
           name: coverage report
       - uses: coverallsapp/github-action@v2
-        with:
-          coverage-reporter-version: v0.6.15
-          # see https://github.com/coverallsapp/github-action/issues/250
-          # see https://github.com/coverallsapp/coverage-reporter/issues/180
 
   codacy:
     runs-on: ubuntu-latest
