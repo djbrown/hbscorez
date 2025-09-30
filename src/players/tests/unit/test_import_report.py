@@ -26,7 +26,7 @@ class NonameTest(ModelTestCase):
 
         import_score(table["data"][5], game, home_team)
 
-        self.assert_objects(Score)
+        self.assert_object(Score)
         self.assert_objects(Player, 0)
 
     def test_preexisting(self):
@@ -44,8 +44,8 @@ class NonameTest(ModelTestCase):
 
         import_score(table["data"][5], game, home_team)
 
-        self.assert_objects(Score)
-        self.assert_objects(Player)
+        self.assert_object(Score)
+        self.assert_object(Player)
 
     def test_multiple(self):
         district = District.objects.create(name="District", bhv_id=1)
@@ -80,7 +80,7 @@ class ReassignedNumberTest(ModelTestCase):
 
         import_score(row, game, home_team)
 
-        player = self.assert_objects(Player)
+        player = self.assert_object(Player)
         self.assertEqual(player.name, "Tobias Emmerich")
 
     def test_preexisting(self):
@@ -99,7 +99,7 @@ class ReassignedNumberTest(ModelTestCase):
 
         import_score(row, game, home_team)
 
-        player = self.assert_objects(Player)
+        player = self.assert_object(Player)
         self.assertEqual(player.name, "Tobias Emmerich")
 
     def test_lengthy_reassigned(self):
@@ -118,7 +118,7 @@ class ReassignedNumberTest(ModelTestCase):
 
         import_score(row, game, home_team)
 
-        player = self.assert_objects(Player)
+        player = self.assert_object(Player)
         self.assertEqual(player.name, "Fabian Rotermund")
 
 
@@ -143,8 +143,8 @@ class PlayerNamesMigrationTest(ModelTestCase):
 
         delete_noname_players()
 
-        self.assert_objects(Player)
-        self.assert_objects(Score, filters={"player__isnull": False})
+        self.assert_object(Player)
+        self.assert_object(Score, filters={"player__isnull": False})
         self.assert_objects(Score, 5)
 
     def test_unify(self):
@@ -163,7 +163,7 @@ class PlayerNamesMigrationTest(ModelTestCase):
 
         unify_player_names()
 
-        player = self.assert_objects(Player)
+        player = self.assert_object(Player)
         self.assertEqual(player.name, "My Name")
         self.assertEqual(player.score_set.count(), 2)
 
@@ -183,7 +183,7 @@ class PlayerNamesMigrationTest(ModelTestCase):
 
         unify_player_names()
 
-        actual = self.assert_objects(Player)
+        actual = self.assert_object(Player)
         self.assertEqual(actual, existing)
         self.assertEqual(actual.score_set.count(), 2)
 
@@ -202,6 +202,6 @@ class PlayerNamesMigrationTest(ModelTestCase):
 
         unify_player_names()
 
-        player = self.assert_objects(Player)
-        self.assert_objects(Score, filters={"player": player})
-        self.assert_objects(Score, filters={"player__isnull": True})
+        player = self.assert_object(Player)
+        self.assert_object(Score, filters={"player": player})
+        self.assert_object(Score, filters={"player__isnull": True})

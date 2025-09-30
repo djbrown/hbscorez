@@ -6,7 +6,7 @@ class CommandTest(IntegrationTestCase):
     def test_specific(self):
         self.assert_command("import_associations", "-a", 35)
         self.assert_command("import_districts", "-d", 35)
-        district = self.assert_objects(District)
+        district = self.assert_object(District)
         self.assertEqual(district.bhv_id, 35)
         self.assertEqual(district.name, "Badischer Handball-Verband")
 
@@ -21,7 +21,7 @@ class CommandTest(IntegrationTestCase):
         self.assert_command("import_associations", "-a", 35)
         self.assert_command("import_districts", "-d", 35)
 
-        district = self.assert_objects(District)
+        district = self.assert_object(District)
         self.assertEqual(district.name, "Badischer Handball-Verband")
 
     def test_all(self):

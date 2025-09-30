@@ -47,7 +47,7 @@ class CommandTest(IntegrationTestCase):
         self.assert_objects(Score, 28)
         self.assert_objects(Score, 12, filters={"player__team__name": "TV Ispringen"})
         self.assert_objects(Score, 12, filters={"player__team__name": "HSG Linkenheim-Hochstetten-Liedolsheim"})
-        self.assert_objects(Score, 1, filters={"player__name": "Björn Langkabel"})
+        self.assert_object(Score, filters={"player__name": "Björn Langkabel"})
         self.assert_objects(Score, 4, filters={"player__isnull": True})
 
 

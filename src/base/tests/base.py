@@ -1,7 +1,7 @@
 import os
 import sys
 from contextlib import contextmanager
-from typing import Type
+from typing import Type, TypeVar
 
 import pytest
 from django.conf import settings
@@ -77,15 +77,25 @@ def skip_unless_any_tag(*tags):
     return decorator
 
 
+M = TypeVar("M", bound=Model)
+
+
 class ModelTestCase(TestCase):
 
-    def assert_objects(self, model: Type[Model], count=1, filters=None) -> Model | QuerySet[Model]:
+    def assert_object(self, model: Type[M], filters=None) -> M:
+        if filters is None:
+            filters = {}
+
+        return model._default_manager.get(**filters)  # pylint: disable=protected-access
+
+    def assert_objects(self, model: Type[M], count: int, filters=None) -> QuerySet[M]:
         if filters is None:
             filters = {}
 
         objects = model._default_manager.filter(**filters)  # pylint: disable=protected-access
-        self.assertEqual(len(objects), count)
-        return objects[0] if count == 1 else objects
+        if count is not None:
+            self.assertEqual(len(objects), count)
+        return objects
 
 
 @pytest.mark.integration

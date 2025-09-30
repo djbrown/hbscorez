@@ -11,4 +11,4 @@ class CalendarTest(IntegrationTestCase):
 
         self.client.get("/mannschaften/391930/kalender/")
 
-        self.assert_objects(Team, count=1, filters={"retirement__isnull": False})
+        self.assert_object(Team, filters={"retirement__isnull": False})

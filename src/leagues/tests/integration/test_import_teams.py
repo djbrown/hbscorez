@@ -9,4 +9,4 @@ class TeamTest(IntegrationTestCase):
         self.assert_command("import_districts", "-d", 80)
         self.assert_command("import_leagues", "-s", 2023, "-l", 109051)
 
-        self.assert_objects(Team, filters={"bhv_id": 1036036, "club__bhv_id": 213031})
+        self.assert_object(Team, filters={"bhv_id": 1036036, "club__bhv_id": 213031})

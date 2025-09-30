@@ -5,7 +5,7 @@ from base.tests.base import IntegrationTestCase
 class CommandTest(IntegrationTestCase):
     def test_specific(self):
         self.assert_command("import_associations", "-a", 35)
-        association = self.assert_objects(Association)
+        association = self.assert_object(Association)
         self.assertEqual(association.name, "Badischer Handball-Verband")
         self.assertEqual(association.bhv_id, 35)
         self.assertEqual(association.abbreviation, "BHV")
@@ -19,7 +19,7 @@ class CommandTest(IntegrationTestCase):
         )
 
         self.assert_command("import_associations", "-a", 35)
-        association = self.assert_objects(Association)
+        association = self.assert_object(Association)
         self.assertEqual(association.name, "Badischer Handball-Verband")
         self.assertEqual(association.abbreviation, "BHV")
         self.assertEqual(association.bhv_id, 35)

@@ -45,7 +45,7 @@ class RetiredTeamTest(IntegrationTestCase):
         self.assert_objects(Team, 16)
 
         retirement = date(2018, 6, 29)
-        retired_team = self.assert_objects(Team, filters={"retirement": retirement})
+        retired_team = self.assert_object(Team, filters={"retirement": retirement})
         self.assertEqual(retired_team.name, "TV 1893 Neuhausen/E.")
 
     def test_another_retired_team(self):
@@ -56,14 +56,14 @@ class RetiredTeamTest(IntegrationTestCase):
         self.assert_objects(Team, 5)
 
         retirement = date(2018, 3, 1)
-        retired_team = self.assert_objects(Team, filters={"retirement": retirement})
+        retired_team = self.assert_object(Team, filters={"retirement": retirement})
         self.assertEqual(retired_team.name, "TSG Stuttgart")
 
     def test_retirement_during_season(self):
         self.assert_command("import_associations", "-a", 3)
         self.assert_command("import_districts", "-d", 7)
         self.assert_command("import_leagues", "-s", 2017, "-l", 28454)
-        team = self.assert_objects(Team, filters={"retirement__isnull": False})
+        team = self.assert_object(Team, filters={"retirement__isnull": False})
         team.retirement = None
         team.save()
         self.assert_command("import_games", "-g", "30901")
@@ -77,7 +77,7 @@ class RetiredTeamTest(IntegrationTestCase):
         self.assert_command("import_districts", "-d", 7)
         self.assert_command("import_leagues", "-s", 2017, "-l", 28454)
         self.assert_command("import_reports")
-        team = self.assert_objects(Team, filters={"retirement__isnull": False})
+        team = self.assert_object(Team, filters={"retirement__isnull": False})
         other_teams_scores_count_after = Score.objects.exclude(player__team=team).count()
 
         self.assertGreater(team.player_set.count(), 0)
@@ -88,4 +88,4 @@ class RetiredTeamTest(IntegrationTestCase):
         self.assert_command("import_associations", "-a", 3)
         self.assert_command("import_districts", "-d", 7)
         self.assert_command("import_leagues", "-s", 2019, "-l", 48708)
-        self.assert_objects(League)
+        self.assert_object(League)

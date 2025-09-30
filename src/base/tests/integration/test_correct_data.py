@@ -13,10 +13,10 @@ class ImportGamesTest(IntegrationTestCase):
         self.assert_command("import_associations", "-a", 35)
         self.assert_command("import_districts", "-d", 35)
         self.assert_command("import_leagues", "-s", 2017, "-l", 26773)
-        league = self.assert_objects(League)
+        league = self.assert_object(League)
 
         self.assert_command("import_games", "-g", 210116)
-        game = self.assert_objects(Game)
+        game = self.assert_object(Game)
 
         self.assertEqual(game.number, 210116)
         self.assertEqual(game.opening_whistle, timezone.make_aware(datetime.datetime(2018, 2, 18, 17, 30)))
@@ -38,10 +38,10 @@ class ImportGamesTest(IntegrationTestCase):
         self.assert_command("import_associations", "-a", 3)
         self.assert_command("import_districts", "-d", 3)
         self.assert_command("import_leagues", "-s", 2019, "-l", 45956)
-        league = self.assert_objects(League)
+        league = self.assert_object(League)
 
         self.assert_command("import_games", "-g", 96781)
-        game = self.assert_objects(Game)
+        game = self.assert_object(Game)
 
         self.assertEqual(game.number, 96781)
         self.assertEqual(game.opening_whistle, timezone.make_aware(datetime.datetime(2019, 9, 14, 19, 00)))

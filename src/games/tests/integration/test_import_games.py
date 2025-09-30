@@ -18,10 +18,10 @@ class ImportGamesTest(IntegrationTestCase):
         self.assert_command("import_associations", "-a", 35)
         self.assert_command("import_districts", "-d", 35)
         self.assert_command("import_leagues", "-s", 2017, "-l", 26777)
-        league = self.assert_objects(League)
+        league = self.assert_object(League)
 
         self.assert_command("import_games", "-g", 210226)
-        game = self.assert_objects(Game)
+        game = self.assert_object(Game)
 
         self.assertEqual(game.number, 210226)
         self.assertEqual(game.league, league)
@@ -38,7 +38,7 @@ class ImportGamesTest(IntegrationTestCase):
         self.assert_command("import_associations", "-a", 35)
         self.assert_command("import_districts", "-d", 35)
         self.assert_command("import_leagues", "-s", 2017, "-l", 26777)
-        self.assert_objects(League)
+        self.assert_object(League)
 
         self.assert_command("import_games")
         self.assert_objects(Game, 182)
@@ -71,11 +71,11 @@ class UpdateTest(IntegrationTestCase):
         self.assert_command("import_associations", "-a", 35)
         self.assert_command("import_districts", "-d", 35)
         self.assert_command("import_leagues", "-s", 2017, "-l", 26777)
-        league = self.assert_objects(League)
+        league = self.assert_object(League)
 
         self.assert_command("import_games", "-g", 210226)
         self.assert_command("import_reports")
-        self.assert_objects(Game)
+        self.assert_object(Game)
         self.assert_objects(Score, count=27)
 
         dom = read_html("game_table_single_game.html")
@@ -83,7 +83,7 @@ class UpdateTest(IntegrationTestCase):
 
         logic.scrape_game(game_row, league)
 
-        game = self.assert_objects(Game)
+        game = self.assert_object(Game)
 
         self.assertEqual(game.opening_whistle, timezone.make_aware(datetime.datetime(2017, 10, 8, 15, 0)))
         self.assertEqual(game.sports_hall.number, 22010)
@@ -98,7 +98,7 @@ class UpdateTest(IntegrationTestCase):
         self.assert_command("import_leagues", "-s", 2023, "-l", 104191)
         self.assert_command("import_games", "-g", "221424")
 
-        game: Game = self.assert_objects(Game)
+        game: Game = self.assert_object(Game)
         self.assertEqual(game.home_goals, 32)
 
         game.home_goals = None
@@ -106,7 +106,7 @@ class UpdateTest(IntegrationTestCase):
         game.save()
 
         self.assert_command("import_games", "-g", "221424")
-        game: Game = self.assert_objects(Game)
+        game: Game = self.assert_object(Game)
         self.assertEqual(game.home_goals, 32)
         self.assertEqual(game.report_number, 2340416)
 
@@ -119,7 +119,7 @@ class ForfeitTest(IntegrationTestCase):
 
         self.assert_command("import_games", "-g", 24000443)
 
-        game: Game = self.assert_objects(Game)
+        game: Game = self.assert_object(Game)
         self.assertEqual(game.number, 24000443)
         self.assertEqual(game.report_number, 2518871)
         self.assertEqual(game.remark, "(0:2), gg. Heim, techn. Wertung")
@@ -134,7 +134,7 @@ class ForfeitTest(IntegrationTestCase):
 
         self.assert_command("import_games", "-g", 24000484)
 
-        game: Game = self.assert_objects(Game)
+        game: Game = self.assert_object(Game)
         self.assertEqual(game.number, 24000484)
         self.assertEqual(game.report_number, None)
         self.assertEqual(game.remark, "(2:0), gg. Gast")
@@ -149,7 +149,7 @@ class YouthTest(IntegrationTestCase):
 
         self.assert_command("import_games", "--youth")
 
-        league: League = self.assert_objects(League)
+        league: League = self.assert_object(League)
         self.assertGreater(league.game_set.count(), 0)
 
     def test_no_youth(self):
@@ -166,7 +166,7 @@ class BuggedGameRowsTest(IntegrationTestCase):
         self.assert_command("import_districts", "-d", 8)
         self.assert_command("import_leagues", "-s", 2019, "-l", 46786)
         self.assert_command("import_games", "-g", 41013)
-        self.assert_objects(Game)
+        self.assert_object(Game)
 
     def test_additional_title(self):
         self.assert_command("import_associations", "-a", 78)
@@ -180,5 +180,5 @@ class BuggedGameRowsTest(IntegrationTestCase):
         self.assert_command("import_districts", "-d", 136)
         self.assert_command("import_leagues", "-s", 2023, "-l", 107286)
         self.assert_command("import_games", "-g", 606101092)
-        game = self.assert_objects(Game)
+        game = self.assert_object(Game)
         self.assertIsNone(game.sports_hall)

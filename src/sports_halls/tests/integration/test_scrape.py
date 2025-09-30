@@ -29,7 +29,7 @@ class Update(IntegrationTestCase):
         )
 
         logic.scrape_sports_hall(game_row)
-        sports_hall = self.assert_objects(SportsHall)
+        sports_hall = self.assert_object(SportsHall)
 
         self.assertEqual(sports_hall.number, 22010)
         self.assertEqual(sports_hall.name, "Rebland-Halle")

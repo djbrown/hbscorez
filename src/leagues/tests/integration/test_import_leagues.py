@@ -9,7 +9,7 @@ class SeasonTest(IntegrationTestCase):
         self.assert_command("import_districts", "-d", 35)
         self.assert_command("import_leagues", "-s", 2017, "-l", 0)
 
-        season = self.assert_objects(Season)
+        season = self.assert_object(Season)
         self.assertEqual(season.start_year, 2017)
 
     def test_all(self):
@@ -40,7 +40,7 @@ class SeasonStartTest(IntegrationTestCase):
         self.assert_command("import_districts", "-d", 80)
         self.assert_command("import_leagues", "-s", 2018, "-l", 34744)
 
-        self.assert_objects(League, count=1)
+        self.assert_object(League)
 
     def test_first_hit_multiseason(self):
         self.assert_command("import_associations", "-a", 80)
@@ -54,7 +54,7 @@ class SeasonStartTest(IntegrationTestCase):
         self.assert_command("import_districts", "-d", 81)
         self.assert_command("import_leagues", "-s", 2018, "-l", 37511)
 
-        self.assert_objects(League, count=1)
+        self.assert_object(League)
 
     def test_later_hit_multiseason(self):
         self.assert_command("import_associations", "-a", 81)
@@ -70,7 +70,7 @@ class CommandTest(IntegrationTestCase):
         self.assert_command("import_districts", "-d", 35)
         self.assert_command("import_leagues", "-s", 2017, "-l", 26777)
 
-        league = self.assert_objects(League)
+        league = self.assert_object(League)
         self.assertEqual(league.name, "Verbandsliga Männer")
         self.assertEqual(league.abbreviation, "M-VL")
         self.assertEqual(league.bhv_id, 26777)
@@ -78,13 +78,13 @@ class CommandTest(IntegrationTestCase):
     def test_update(self):
         self.assert_command("import_associations", "-a", 35)
         self.assert_command("import_districts", "-d", 35)
-        district = self.assert_objects(District)
+        district = self.assert_object(District)
         season = Season.objects.create(start_year=2017)
         League.objects.create(name="My League", abbreviation="ABBR", district=district, season=season, bhv_id=26777)
 
         self.assert_command("import_leagues", "-s", 2017, "-l", 26777)
 
-        league = self.assert_objects(League)
+        league = self.assert_object(League)
         self.assertEqual(league.name, "Verbandsliga Männer")
         self.assertEqual(league.abbreviation, "M-VL")
         self.assertEqual(league.bhv_id, 26777)
@@ -93,7 +93,7 @@ class CommandTest(IntegrationTestCase):
         self.assert_command("import_associations", "-a", 77)
         self.assert_command("import_districts", "-d", 77)
         self.assert_command("import_leagues", "-s", 2021, "-l", 77606)
-        self.assert_objects(League)
+        self.assert_object(League)
 
 
 class SpecificLeagueTest(IntegrationTestCase):
@@ -103,10 +103,10 @@ class SpecificLeagueTest(IntegrationTestCase):
         self.assert_command("import_districts", "-d", 35)
         self.assert_command("import_leagues", "-s", 2016, "-l", 21666)
 
-        season = self.assert_objects(Season)
+        season = self.assert_object(Season)
         self.assertEqual(season.start_year, 2016)
 
-        league = self.assert_objects(League)
+        league = self.assert_object(League)
         self.assertEqual(league.name, "Verbandsliga Männer")
         self.assertEqual(league.abbreviation, "M-VL")
         self.assertEqual(league.bhv_id, 21666)
@@ -117,10 +117,10 @@ class SpecificLeagueTest(IntegrationTestCase):
         self.assert_command("import_districts", "-d", 35)
         self.assert_command("import_leagues", "-s", 2017, "-l", 26777)
 
-        season = self.assert_objects(Season)
+        season = self.assert_object(Season)
         self.assertEqual(season.start_year, 2017)
 
-        league = self.assert_objects(League)
+        league = self.assert_object(League)
         self.assertEqual(league.name, "Verbandsliga Männer")
         self.assertEqual(league.abbreviation, "M-VL")
         self.assertEqual(league.bhv_id, 26777)
@@ -131,10 +131,10 @@ class SpecificLeagueTest(IntegrationTestCase):
         self.assert_command("import_districts", "-d", 3)
         self.assert_command("import_leagues", "-s", 2016, "-l", 21747)
 
-        season = self.assert_objects(Season)
+        season = self.assert_object(Season)
         self.assertEqual(season.start_year, 2016)
 
-        league = self.assert_objects(League)
+        league = self.assert_object(League)
         self.assertEqual(league.name, "Männer Württemberg-Liga Süd")
         self.assertEqual(league.abbreviation, "M-WL-S")
         self.assertEqual(league.bhv_id, 21747)
@@ -145,10 +145,10 @@ class SpecificLeagueTest(IntegrationTestCase):
         self.assert_command("import_districts", "-d", 3)
         self.assert_command("import_leagues", "-s", 2017, "-l", 27505)
 
-        season = self.assert_objects(Season)
+        season = self.assert_object(Season)
         self.assertEqual(season.start_year, 2017)
 
-        league = self.assert_objects(League)
+        league = self.assert_object(League)
         self.assertEqual(league.name, "Männer Württemberg-Liga Süd")
         self.assertEqual(league.abbreviation, "M-WL-S")
         self.assertEqual(league.bhv_id, 27505)
@@ -226,7 +226,7 @@ class FewGames(IntegrationTestCase):
         self.assert_command("import_districts", "-d", 146)
         self.assert_command("import_leagues", "-s", 2021, "-l", 83521)
 
-        self.assert_objects(League)
+        self.assert_object(League)
 
 
 class YouthTest(IntegrationTestCase):
@@ -235,7 +235,7 @@ class YouthTest(IntegrationTestCase):
         self.assert_command("import_districts", "-d", 35)
         self.assert_command("import_leagues", "-s", 2019, "-l", 46921, "--youth")
 
-        league: League = self.assert_objects(League)
+        league: League = self.assert_object(League)
         self.assertTrue(league.youth)
 
     def test_no_youth(self):
