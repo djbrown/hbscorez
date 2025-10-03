@@ -51,9 +51,9 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         self.options = options
         settings.REPORTS_PATH.mkdir(parents=True, exist_ok=True)
-        env.UPDATING.set_value(Value.TRUE)
+        env.updating().set_value(Value.TRUE)
         self.import_associations()
-        env.UPDATING.set_value(Value.FALSE)
+        env.updating().set_value(Value.FALSE)
 
     def import_associations(self):
         for association in Association.objects.all():

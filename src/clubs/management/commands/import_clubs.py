@@ -25,9 +25,9 @@ class Command(BaseCommand):
 
     def handle(self, *_, **options):
         self.options = options
-        env.UPDATING.set_value(Value.TRUE)
+        env.updating().set_value(Value.TRUE)
         scrape_associations(options)
-        env.UPDATING.set_value(Value.FALSE)
+        env.updating().set_value(Value.FALSE)
 
 
 def scrape_associations(options):

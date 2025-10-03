@@ -28,14 +28,14 @@ class Command(BaseCommand):
         add_default_arguments(parser)
 
     def handle(self, *args, **options):
-        env.UPDATING.set_value(Value.TRUE)
+        env.updating().set_value(Value.TRUE)
 
         try:
             import_associations(options)
         except Exception:
             LOGGER.exception("Could not import Associations")
 
-        env.UPDATING.set_value(Value.FALSE)
+        env.updating().set_value(Value.FALSE)
 
 
 def import_associations(options):

@@ -16,13 +16,13 @@ LOGGER = logging.getLogger("hbscorez")
 class Command(BaseCommand):
 
     def handle(self, *args, **options):
-        env.UPDATING.set_value(Value.TRUE)
+        env.updating().set_value(Value.TRUE)
         fix_game_387733()
         fix_game_210116()
         fix_game_96781()
         fix_game_201059()
         fix_game_91021()
-        env.UPDATING.set_value(Value.FALSE)
+        env.updating().set_value(Value.FALSE)
 
 
 @transaction.atomic

@@ -23,7 +23,7 @@ class Command(BaseCommand):
         add_default_arguments(parser)
 
     def handle(self, *args, **options):
-        env.UPDATING.set_value(Value.TRUE)
+        env.updating().set_value(Value.TRUE)
         options["processed_districts"] = set()
 
         try:
@@ -31,7 +31,7 @@ class Command(BaseCommand):
         except Exception:
             LOGGER.exception("Could not import Districts")
 
-        env.UPDATING.set_value(Value.FALSE)
+        env.updating().set_value(Value.FALSE)
 
 
 def import_districts(options):

@@ -31,14 +31,14 @@ class Command(BaseCommand):
         parser.add_argument("--skip-teams", action="store_true", help="Skip processing Teams.")
 
     def handle(self, *args, **options):
-        env.UPDATING.set_value(Value.TRUE)
+        env.updating().set_value(Value.TRUE)
 
         try:
             import_leagues(options)
         except Exception:
             LOGGER.exception("Could not import Leagues")
 
-        env.UPDATING.set_value(Value.FALSE)
+        env.updating().set_value(Value.FALSE)
 
 
 def import_leagues(options):

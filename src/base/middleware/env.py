@@ -12,7 +12,8 @@ def _ensure_env(name: str, default: models.Value, force: bool = False) -> models
     return models.Env.objects.create(name=name, value=default.value)
 
 
-UPDATING = _ensure_env("UPDATING", models.Value.FALSE)
+def updating():
+    return _ensure_env("UPDATING", models.Value.FALSE)
 
 
 class EnvironmentMiddleware:
