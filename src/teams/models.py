@@ -29,7 +29,7 @@ class Team(models.Model):
 
     @staticmethod
     def build_source_url(league_bhv_id, team_bhv_id):
-        return f"{settings.ROOT_SOURCE_URL}Spielbetrieb/index.php?orgGrpID=1&score={league_bhv_id}&teamID={team_bhv_id}"
+        return f"{settings.HBNET_ROOT_URL}/Spielbetrieb/index.php?orgGrpID=1&score={league_bhv_id}&teamID={team_bhv_id}"
 
     @staticmethod
     def create_or_update_team(*, name, short_name, league, club, bhv_id, logger: logging.Logger = logging.getLogger()):
