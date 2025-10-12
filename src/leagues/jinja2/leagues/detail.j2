@@ -1,5 +1,5 @@
-{% extends 'leagues/base.j2' %}
-{% block description %}Übersichtsseite der Liga '{{ league.name }}' des Bezirks '{{ league.district.name }}'{% endblock %}
+{% extends "leagues/base.j2" %}
+{% block description %}Übersichtsseite der Liga '{{ league.name }}' des Bezirks '{{ league.district.name }}'{% endblock description %}
 {% block content %}
 {{ super() }}
 <nav class="nav nav-pills mb-3">
@@ -26,7 +26,7 @@
                     <li value="{{ place }}">
                         {% for team in group %}
                         <a href="{{ url('teams:detail', args=[team.bhv_id]) }} ">{{ team.name }}</a>
-                        ({{ team.points }}&nbsp;Punkte)<br />
+                        ({{ team.points }}&nbsp;Punkte)<br>
                         {% endfor %}
                     </li>
                     {% endfor %}
@@ -43,7 +43,7 @@
                     <li value="{{ place }}">
                         {% for scorer in group %}
                         <a href="{{ url('players:detail', args=[scorer.pk]) }} ">{{ scorer.public_name() }}</a>
-                        ({{ scorer.total_goals }}&nbsp;Tore)<br />
+                        ({{ scorer.total_goals }}&nbsp;Tore)<br>
                         {% endfor %}
                     </li>
                     {% endfor %}
@@ -60,7 +60,7 @@
                     <li value="{{ place }}">
                         {% for offender in group %}
                         <a href="{{ url('players:detail', args=[offender.pk]) }} ">{{ offender.public_name() }}</a>
-                        ({{ offender.offender_points }}&nbsp;Punkte)<br />
+                        ({{ offender.offender_points }}&nbsp;Punkte)<br>
                         {% endfor %}
                     </li>
                     {% endfor %}
@@ -69,4 +69,4 @@
         </div>
     </div>
 </div>
-{% endblock %}
+{% endblock content %}

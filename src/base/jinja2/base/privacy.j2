@@ -1,5 +1,5 @@
-{% extends 'base/base.j2' %}
-{% block title %}Datenschutz | {{ super() }}{% endblock %}
+{% extends "base/base.j2" %}
+{% block title %}Datenschutz | {{ super() }}{% endblock title %}
 {% block content %}
     <h1>Allgemeine Datenschutzerklärung</h1>
     <p>Durch die Nutzung meiner Website erklärst Du Dich mit der Erhebung, Verarbeitung und Nutzung von Daten gemäß der
@@ -44,6 +44,7 @@
             <li>URL der besuchten Seite</li>
             <li>verwendeter Browser</li>
         </ul>
+    </p>
 
     <h2>Cookies</h2>
     <p>
@@ -89,4 +90,4 @@
         Solltest Du trotzdem auf eine Urheberrechtsverletzung aufmerksam werden, bitte ich um einen entsprechenden
         Hinweis.
         Bei Bekanntwerden von Rechtsverletzungen werde ich derartige Inhalte umgehend entfernen.</p>
-{% endblock %}
+{% endblock content %}

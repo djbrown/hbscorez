@@ -75,7 +75,7 @@ $(document).ready(function () {
     const dateColumnIndex = $("thead > tr > th:contains('Datum')", $table).index() - 1;
 
     /**
-     * @param n number of the target dates row, starting with 1 for the first row<br/>
+     * @param n number of the target dates row, starting with 1 for the first row<br>
      *          negative n are counted from the end, starting with -1 for the last row
      */
     function nthDateCell(n) {

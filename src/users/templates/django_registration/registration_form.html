@@ -1,6 +1,6 @@
-{% extends 'base/base.html' %}
+{% extends "base/base.html" %}
 
-{% block title %}Registrieren | {{ block.super }}{% endblock %}
+{% block title %}Registrieren | {{ block.super }}{% endblock title %}
 
 {% block content %}
 <h1>Registrieren</h1>
@@ -12,7 +12,7 @@
         <label for="username" class="form-label">Benutzername</label>
         <input name="username" type="text" id="username" placeholder="Benutzername" required
             class="form-control{% if form.username.errors %} is-invalid{% elif form.username.value %} is-valid{% endif %}"
-            {% if form.username.value %} value="{{ form.username.value }}" {% endif %} />
+            {% if form.username.value %} value="{{ form.username.value }}" {% endif %}>
         <small class="form-text text-muted">{{ form.username.help_text|safe }}</small>
         <div class="invalid-feedback">{{ form.username.errors }}</div>
     </div>
@@ -21,7 +21,7 @@
         <label for="email" class="form-label">E-Mail</label>
         <input name="email" type="email" id="email" placeholder="E-Mail" required
             class="form-control{% if form.email.errors %} is-invalid{% elif form.email.value %} is-valid{% endif %}"
-            {% if form.email.value %} value="{{ form.email.value }}" {% endif %} />
+            {% if form.email.value %} value="{{ form.email.value }}" {% endif %}>
         <small class="form-text text-muted">{{ form.email.help_text|safe }}</small>
         <div class="invalid-feedback">{{ form.email.errors }}</div>
     </div>
@@ -29,7 +29,7 @@
     <div class="mb-3">
         <label for="password1" class="form-label">Passwort</label>
         <input name="password1" type="password" id="password1" placeholder="Passwort" required
-            class="form-control{% if form.password2.errors %} is-invalid{% endif %}" />
+            class="form-control{% if form.password2.errors %} is-invalid{% endif %}">
         <small class="form-text text-muted">{{ form.password1.help_text|safe }}</small>
         <div class="invalid-feedback">{{ form.password2.errors }}</div>
     </div>
@@ -37,20 +37,20 @@
     <div class="mb-3">
         <label for="password2" class="form-label">Passwort bestätigen</label>
         <input name="password2" type="password" id="password2" placeholder="Passwort" required
-            class="form-control{% if form.password2.errors %} is-invalid{% endif %}" />
+            class="form-control{% if form.password2.errors %} is-invalid{% endif %}">
         <small class="form-text text-muted">{{ form.password2.help_text|safe }}</small>
     </div>
 
     <div class="mb-3">
-        <label for="captcha" class="form-label">Captcha</label><br />
-        <img src="data:image/png;base64,{{ form.captcha_image_base64 }}" class="img-thumbnail mb-2" alt="captcha" />
+        <label for="captcha" class="form-label">Captcha</label><br>
+        <img src="data:image/png;base64,{{ form.captcha_image_base64 }}" class="img-thumbnail mb-2" alt="captcha" height="160" width="160">
         <input name="captcha" type="text" id="captcha" placeholder="Captcha" required
-            class="form-control{% if form.captcha.errors %} is-invalid{% endif %}" />
+            class="form-control{% if form.captcha.errors %} is-invalid{% endif %}">
         <small class="form-text text-muted">{{ form.captcha.help_text|safe }}</small>
         <div class="invalid-feedback">{{ form.captcha.errors }}</div>
     </div>
 
-    <input type="submit" value="Registrieren" class="btn btn-success" />
+    <input type="submit" value="Registrieren" class="btn btn-success">
 
 </form>
-{% endblock %}
+{% endblock content %}
