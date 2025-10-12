@@ -11,7 +11,7 @@ def show_all(request):
         "associations/list.j2",
         {
             "associations": associations,
-            "root_url": settings.NEW_ROOT_SOURCE_URL,
+            "root_url": settings.HBNET_ROOT_URL + "/verbaende",
         },
     )
 

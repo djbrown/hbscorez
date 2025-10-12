@@ -18,7 +18,7 @@ class Club(models.Model):
 
     @staticmethod
     def build_source_url(bhv_id):
-        return f"{settings.ROOT_SOURCE_URL}Spielbetrieb/index.php?orgGrpID=1&club={bhv_id}"
+        return f"{settings.HBNET_ROOT_URL}/Spielbetrieb/index.php?orgGrpID=1&club={bhv_id}"
 
     def source_url(self):
         return self.build_source_url(self.bhv_id)
