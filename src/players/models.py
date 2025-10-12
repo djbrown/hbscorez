@@ -8,7 +8,7 @@ from teams.models import Team
 
 
 class Player(models.Model):
-    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
     published = models.BooleanField(default=False)
     name = models.TextField()
     team = models.ForeignKey(Team, on_delete=models.CASCADE)
