@@ -18,7 +18,7 @@ jobs:
       - name: Unit Test Report
         uses: dorny/test-reporter@v2
         with:
-          artifact: unit-test-results
+          artifact: coverage report
           name: Unit Tests
           path: unit.xml
           reporter: java-junit
