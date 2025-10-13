@@ -37,7 +37,7 @@ class Command(BaseCommand):
 def import_districts(options):
     associations_filters = {}
     if options["associations"]:
-        associations_filters["bhv_id__in"] = options["associations"]
+        associations_filters["short_name__in"] = options["associations"]
     associations = Association.objects.filter(**associations_filters)
 
     for association in associations:

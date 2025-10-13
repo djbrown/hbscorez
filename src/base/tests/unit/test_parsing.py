@@ -46,12 +46,12 @@ class ParseAssociationTest(TestCase):
         expected = "Badischer Handball-Verband"
         self.assertEqual(expected, actual)
 
-    def test_bhv_id(self):
-        dom = read_html("association.html")
+    def test_short_name(self):
+        url = "http://localhost/some/path/Association-ID"
 
-        actual = parsing.parse_association_bhv_id(dom)
+        actual = parsing.parse_association_short_name(url)
 
-        expected = 35
+        expected = "Association-ID"
         self.assertEqual(expected, actual)
 
 

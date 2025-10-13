@@ -34,9 +34,8 @@ def parse_association_name(dom: _Element) -> str:
     return cast(list[str], dom.xpath("//h2/a/text()"))[0]
 
 
-def parse_association_bhv_id(dom: _Element) -> int:
-    [bhv_id] = cast(list[str], dom.xpath('//div[@id="app"]/@data-og-id'))
-    return int(bhv_id)
+def parse_association_short_name(url: str) -> str:
+    return url.rsplit("/")[-1]
 
 
 def parse_district_items(json_text: str) -> dict[str, str]:

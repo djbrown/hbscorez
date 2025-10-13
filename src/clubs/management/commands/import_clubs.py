@@ -19,7 +19,7 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
         parser.add_argument(
-            "--associations", "-a", nargs="+", type=int, metavar="orgGrpID", help="IDs of Associations."
+            "--associations", "-a", nargs="+", type=int, metavar="short_name", help="short names of Associations."
         )
         parser.add_argument("--clubs", "-c", nargs="+", type=int, metavar="bhv_id", help="IDs of Clubs.")
 
@@ -36,13 +36,13 @@ def scrape_associations(options):
 
 
 def scrape_association(association: Association, options):
-    if options["associations"] and association.bhv_id not in options["associations"]:
+    if options["associations"] and association.short_name not in options["associations"]:
         LOGGER.debug("SKIPPING Association: %s (options)", association)
         return
 
     LOGGER.info("SCRAPING Association: %s", association)
 
-    url = f"{settings.H4A_ROOT_SPO_URL}/Spielbetrieb/mannschaftsspielplaene.php?orgGrpID={association.bhv_id}"
+    url = f"{settings.H4A_ROOT_SPO_URL}/Spielbetrieb/mannschaftsspielplaene.php?orgGrpID={association.short_name}"
     html = http.get_text(url)
     dom = parsing.html_dom(html)
 

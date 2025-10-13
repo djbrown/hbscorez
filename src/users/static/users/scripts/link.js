@@ -14,7 +14,7 @@ $(() => {
 
         $.get("/api/associations/", (response) => {
             response.associations.sort((a, b) => a.name.localeCompare(b.name)).forEach((association) => {
-                $associations.append(`<option value="${association.bhvId}">${association.name} (${association.abbreviation})</option>`);
+                $associations.append(`<option value="${association.shortName}">${association.name}</option>`);
             });
         });
     }
