@@ -1,4 +1,3 @@
-from django.conf import settings
 from django.db import models
 from django.urls import reverse
 
@@ -14,7 +13,6 @@ class Association(models.Model):
 
     def get_absolute_url(self):
         return reverse("associations:detail", kwargs={"short_name": self.short_name})
-
 
     def api_url(self):
         raise NotImplementedError("H4A API is offline")
