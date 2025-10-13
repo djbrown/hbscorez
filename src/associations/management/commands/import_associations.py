@@ -62,13 +62,9 @@ def scrape_association(url: str, options):
         LOGGER.debug("SKIPPING Association (options): %s %s", bhv_id, name)
         return
 
-    api_url = Association.build_api_url(bhv_id)
-    json = http.get_throttled(api_url)
-    abbreviation = parsing.parse_association_abbreviation(json)
-
-    association = Association.objects.filter(bhv_id=bhv_id).first()
+    association = Association.objects.filter(hbnet_id=hbnet_id).first()
     if association is None:
-        association = Association.objects.create(name=name, abbreviation=abbreviation, bhv_id=bhv_id, source_url=url)
+        association = Association.objects.create(name=name, bhv_id=bhv_id, source_url=url)
         LOGGER.info("CREATED Association: %s", association)
         return
 
@@ -76,10 +72,6 @@ def scrape_association(url: str, options):
 
     if association.name != name:
         association.name = name
-        updated = True
-
-    if association.abbreviation != abbreviation:
-        association.abbreviation = abbreviation
         updated = True
 
     if association.source_url != url:
