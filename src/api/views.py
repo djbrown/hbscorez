@@ -10,7 +10,6 @@ def associations(_):
         {
             "bhvId": a.bhv_id,
             "name": a.name,
-            "abbreviation": a.abbreviation,
         }
         for a in Association.objects.all()
     ]
