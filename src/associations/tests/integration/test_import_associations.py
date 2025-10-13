@@ -12,19 +12,19 @@ class CommandTest(IntegrationTestCase):
 
     def test_update(self):
         Association.objects.create(
-            name="Badischer HV",
-            short_name="Short",
-            source_url="http://localhost",
-            abbreviation="Test",
+            name="Test Name",
+            short_name="Baden",
+            source_url="http://localhost/test/url",
+            abbreviation="Test-Abbreviation",
         )
 
         self.assert_command("import_associations", "-a", "Baden")
         association = self.assert_object(Association)
         self.assertEqual(association.name, "Badischer Handball-Verband")
         self.assertEqual(association.short_name, "Baden")
-        self.assertEqual(association.source_url, "https://www.handball4all.de/home/portal/baden")
-        self.assertEqual(association.abbreviation, "Test")
+        self.assertEqual(association.source_url, "https://www.handball.net/verbaende/Baden")
+        self.assertEqual(association.abbreviation, "Test-Abbreviation")
 
     def test_all(self):
         self.assert_command("import_associations")
-        self.assert_objects(Association, 14)
+        self.assert_objects(Association, 25)

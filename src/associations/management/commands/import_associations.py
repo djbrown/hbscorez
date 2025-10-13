@@ -39,13 +39,13 @@ class Command(BaseCommand):
 
 
 def import_associations(options):
-    start_html = http.get_text(settings.HBNET_ROOT_URL + "/verbaende")
-    start_dom = parsing.html_dom(start_html)
-    association_urls = parsing.parse_association_urls(start_dom)
+    associations_html = http.get_text(settings.HBNET_ROOT_URL + "/verbaende")
+    associations_dom = parsing.html_dom(associations_html)
+    association_paths = parsing.parse_association_paths(associations_dom)
 
-    for association_url in association_urls:
+    for association_path in association_paths:
         try:
-            url = settings.HBNET_ROOT_URL + "/" + association_url[1:]
+            url = settings.HBNET_ROOT_URL + association_path
             scrape_association(url, options)
         except Exception:
             LOGGER.exception("Could not create Association")

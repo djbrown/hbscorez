@@ -15,26 +15,37 @@ def read_html(file_name):
 
 
 class ParseAssociationTest(TestCase):
-    def test_urls(self):
-        dom = read_html("portal.html")
+    def test_paths(self):
+        dom = read_html("associations.html")
 
-        actual = parsing.parse_association_urls(dom)
+        actual = parsing.parse_association_paths(dom)
 
         expected = [
-            "/home/portal/baden",
-            "/home/portal/hamburg",
-            "/home/portal/luxemburg",
-            "/home/portal/oberliga-hh/hvsh",
-            "/home/portal/oberliga-hbw",
-            "/home/portal/oberliga-rps",
-            "/home/portal/pfalz",
-            "/home/portal/rheinhessen",
-            "/home/portal/saarland",
-            "/home/portal/schleswig-holstein",
-            "/home/portal/suedbaden",
-            "/home/portal/vorarlberg",
-            "/home/portal/westfalen",
-            "/home/portal/wuerttemberg",
+            "/verbaende/Baden",
+            "/verbaende/Bayern",
+            "/verbaende/Berlin",
+            "/verbaende/Brandenburg",
+            "/verbaende/Hamburg",
+            "/verbaende/Hessen",
+            "/verbaende/Mecklenburg-Vorpommern",
+            "/verbaende/Niedersachsen",
+            "/verbaende/Pfalz",
+            "/verbaende/Rheinhessen",
+            "/verbaende/Rheinland",
+            "/verbaende/Saar",
+            "/verbaende/Sachsen",
+            "/verbaende/Sachsen-Anhalt",
+            "/verbaende/Schleswig-Holstein",
+            "/verbaende/Suedbaden",
+            "/verbaende/Thueringer",
+            "/verbaende/Westfalen",
+            "/verbaende/Wuerttemberg",
+            "/verbaende/Nordrhein",
+            "/verbaende/Rheinhessen-Pfalz",
+            "/verbaende/BWHV-Ligen",
+            "/verbaende/DHB",
+            "/verbaende/IHF",
+            "/verbaende/EHF",
         ]
         self.assertEqual(expected, actual)
 
