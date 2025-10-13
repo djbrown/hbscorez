@@ -25,22 +25,16 @@ def parse_link_query_item(link: _Element, query_key: str) -> str:
     return parse_qs(query)[query_key][0]
 
 
-def parse_association_urls(dom: _Element) -> list[str]:
-    return cast(list[str], dom.xpath('//div[@id="navigationmenu"]/ul/li[contains(@class, "active")]//li/a/@href'))[1:]
-
-
-def parse_association_abbreviation(json_text: str) -> str:
-    data = json.loads(json_text)
-    return data[0]["head"]["sname"]
+def parse_association_paths(dom: _Element) -> list[str]:
+    return cast(list[str], dom.xpath('//a[contains(@class, "list-item")]/@href'))
 
 
 def parse_association_name(dom: _Element) -> str:
-    return cast(list[str], dom.xpath("//h2/a/text()"))[0]
+    return cast(list[str], dom.xpath("//h1/text()"))[0]
 
 
-def parse_association_bhv_id(dom: _Element) -> int:
-    [bhv_id] = cast(list[str], dom.xpath('//div[@id="app"]/@data-og-id'))
-    return int(bhv_id)
+def parse_association_short_name(url: str) -> str:
+    return url.rsplit("/")[-1]
 
 
 def parse_district_items(json_text: str) -> dict[str, str]:

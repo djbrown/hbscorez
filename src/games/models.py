@@ -51,7 +51,7 @@ class Game(models.Model):
 
     @staticmethod
     def build_report_source_url(report_number):
-        return settings.ROOT_SOURCE_URL + f"misc/sboPublicReports.php?sGID={report_number}"
+        return settings.H4A_ROOT_SPO_URL + f"/misc/sboPublicReports.php?sGID={report_number}"
 
     def report_source_url(self):
         if self.report_number is None:

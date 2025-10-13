@@ -35,7 +35,7 @@ See [CONTRIBUTING.md](.github/CONTRIBUTING.md)
 ## Acknowledgements
 
 HbScorez is powered by **Django**  
-[<img src="https://www.djangoproject.com/m/img/logos/django-logo-positive.svg" height="50" alt="Django Logo"/>](https://www.djangoproject.com/)
+[<img src="https://www.djangoproject.com/m/img/logos/django-logo-positive.svg" height="50" alt="Django Logo">](https://www.djangoproject.com/)
 
 ## Running via Docker
 

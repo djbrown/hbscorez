@@ -1,6 +1,6 @@
-{% extends 'leagues/base.j2' %}
-{% block title %}Spiele - {{ super() }}{% endblock %}
-{% block description %}Spielergebnisse der Liga '{{ league.name }}' des Bezirks '{{ league.district.name }}'{% endblock %}
+{% extends "leagues/base.j2" %}
+{% block title %}Spiele - {{ super() }}{% endblock title %}
+{% block description %}Spielergebnisse der Liga '{{ league.name }}' des Bezirks '{{ league.district.name }}'{% endblock description %}
 {% block content %}
 {{ super() }}
 <nav class="nav nav-pills mb-3">
@@ -38,14 +38,14 @@
             <td>{{ d }}</td>
             <td>{{ t if t != "00:00" else "-" }}</td>
             <td>
-                {#<img class="table-team-logo" src="{{ team_logo_url(opponent) }}" width="25" alt="HbScorez Logo">#}
-                <img class="table-team-logo" src="{{ static('base/images/favicons/favicon.png') }}" width="25"
-                     alt="HbScorez Logo"/>
+                {#<img class="table-team-logo" src="{{ team_logo_url(opponent) }}" height="25" width="25" alt="HbScorez Logo">#}
+                <img class="table-team-logo" src="{{ static('base/images/favicons/favicon.png') }}" height="25" width="25"
+                     alt="HbScorez Logo">
                 <a href="{{ game.home_team.get_absolute_url() }}">{{ game.home_team.short_name }}</a>
             </td>
             <td>
-                <img class="table-team-logo" src="{{ static('base/images/favicons/favicon.png') }}" width="25"
-                     alt="HbScorez Logo"/>
+                <img class="table-team-logo" src="{{ static('base/images/favicons/favicon.png') }}" height="25" width="25"
+                     alt="HbScorez Logo">
                 <a href="{{ game.guest_team.get_absolute_url() }}">{{ game.guest_team.short_name }}</a>
             </td>
             <td>{{ game_outcome_badge(game.outcome())|safe }}</td>
@@ -82,4 +82,4 @@
         </tfoot>
     </table>
 </div>
-{% endblock %}
+{% endblock content %}

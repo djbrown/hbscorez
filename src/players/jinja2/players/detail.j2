@@ -1,5 +1,5 @@
-{% extends 'base/base.j2' %}
-{% block title %}{{ player.public_name() }} | {{ super() }}{% endblock %}
+{% extends "base/base.j2" %}
+{% block title %}{{ player.public_name() }} | {{ super() }}{% endblock title %}
 {% block content %}
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{{ url('associations:list') }}">Verbände</a></li>
@@ -19,10 +19,10 @@
         </li>
     </ol>
     <h1>{{ player.public_name() }}</h1>
-    <h2>Statistiken</h1>
-    <p>Spiele: {{ scores.count() }}
-    <p>Tore: {{ scorer.total_goals }}
-    <p>7m: {{ scorer.total_penalty_goals }} von {{ scorer.total_penalty_tries }}
+    <h2>Statistiken</h2>
+    <p>Spiele: {{ scores.count() }}</p>
+    <p>Tore: {{ scorer.total_goals }}</p>
+    <p>7m: {{ scorer.total_penalty_goals }} von {{ scorer.total_penalty_tries }}</p>
     <h2>Spiele</h2>
     <div class="table-responsive">
         <table id="data-table" class="table table-sm table-striped">
@@ -49,9 +49,9 @@
                     <td>{{ date(score.game.opening_whistle, 'SHORT_DATE_FORMAT' ) }}</td>
                     <td>{{ time(score.game.opening_whistle) }}</td>
                     <td>
-                        {#<img class="table-team-logo" src="{{ player.team_logo_url(opponent_team) }}" width="25"
+                        {#<img class="table-team-logo" src="{{ player.team_logo_url(opponent_team) }}" height="25" width="25"
                             alt="HbScorez Logo">#}
-                        <img class="table-team-logo" src="{{ static('base/images/favicons/favicon.png') }}" width="25"
+                        <img class="table-team-logo" src="{{ static('base/images/favicons/favicon.png') }}" height="25" width="25"
                             alt="HbScorez Logo">
                         <a href="{{ opponent_team.get_absolute_url() }}">{{ opponent_team.short_name }}</a>
                     </td>
@@ -88,4 +88,4 @@
             </tfoot>
         </table>
     </div>
-{% endblock %}
+{% endblock content %}
