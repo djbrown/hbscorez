@@ -33,7 +33,7 @@ class Command(BaseCommand):
             self.import_association(association)
 
     def import_association(self, association: Association):
-        if self.options["associations"] and association.bhv_id not in self.options["associations"]:
+        if self.options["associations"] and association.short_name not in self.options["associations"]:
             LOGGER.debug("SKIPPING Association: %s (options)", association)
             return
 

@@ -4,26 +4,26 @@ from base.tests.base import IntegrationTestCase
 
 class CommandTest(IntegrationTestCase):
     def test_specific(self):
-        self.assert_command("import_associations", "-a", 35)
+        self.assert_command("import_associations", "-a", "Baden")
         association = self.assert_object(Association)
         self.assertEqual(association.name, "Badischer Handball-Verband")
-        self.assertEqual(association.bhv_id, 35)
+        self.assertEqual(association.short_name, "Baden")
         self.assertEqual(association.abbreviation, None)
 
     def test_update(self):
         Association.objects.create(
             name="Badischer HV",
-            abbreviation="Test",
-            bhv_id=35,
+            short_name="Short",
             source_url="http://localhost",
+            abbreviation="Test",
         )
 
-        self.assert_command("import_associations", "-a", 35)
+        self.assert_command("import_associations", "-a", "Baden")
         association = self.assert_object(Association)
         self.assertEqual(association.name, "Badischer Handball-Verband")
-        self.assertEqual(association.abbreviation, "Test")
-        self.assertEqual(association.bhv_id, 35)
+        self.assertEqual(association.short_name, "Baden")
         self.assertEqual(association.source_url, "https://www.handball4all.de/home/portal/baden")
+        self.assertEqual(association.abbreviation, "Test")
 
     def test_all(self):
         self.assert_command("import_associations")

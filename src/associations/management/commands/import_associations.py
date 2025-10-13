@@ -16,8 +16,8 @@ def add_default_arguments(parser):
         "--associations",
         "-a",
         nargs="+",
-        type=int,
-        metavar="orgGrpID",
+        type=str,
+        metavar="short_name",
         help="IDs of Associations.",
     )
 
@@ -56,15 +56,15 @@ def scrape_association(url: str, options):
     dom = parsing.html_dom(html)
 
     name = parsing.parse_association_name(dom)
-    bhv_id = parsing.parse_association_bhv_id(dom)
+    short_name = parsing.parse_association_short_name(url)
 
-    if options["associations"] and bhv_id not in options["associations"]:
-        LOGGER.debug("SKIPPING Association (options): %s %s", bhv_id, name)
+    if options["associations"] and short_name not in options["associations"]:
+        LOGGER.debug("SKIPPING Association (options): %s %s", short_name, name)
         return
 
-    association = Association.objects.filter(hbnet_id=hbnet_id).first()
+    association = Association.objects.filter(short_name=short_name).first()
     if association is None:
-        association = Association.objects.create(name=name, bhv_id=bhv_id, source_url=url)
+        association = Association.objects.create(name=name, short_name=short_name, source_url=url)
         LOGGER.info("CREATED Association: %s", association)
         return
 

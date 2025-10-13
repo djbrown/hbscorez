@@ -59,8 +59,8 @@ class Command(BaseCommand):
         for association in Association.objects.all():
             self.import_association(association)
 
-    def import_association(self, association):
-        if self.options["associations"] and association.bhv_id not in self.options["associations"]:
+    def import_association(self, association: Association):
+        if self.options["associations"] and association.short_name not in self.options["associations"]:
             LOGGER.debug("SKIPPING Association: %s (options)", association)
             return
 

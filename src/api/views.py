@@ -8,8 +8,8 @@ from leagues.models import League, Season
 def associations(_):
     light_associations = [
         {
-            "bhvId": a.bhv_id,
             "name": a.name,
+            "shortName": a.short_name,
         }
         for a in Association.objects.all()
     ]
@@ -17,8 +17,8 @@ def associations(_):
     return JsonResponse({"associations": light_associations})
 
 
-def association_districts(_, bhv_id):
-    association_results = Association.objects.filter(bhv_id=bhv_id)
+def association_districts(_, short_name):
+    association_results = Association.objects.filter(short_name=short_name)
 
     if not association_results.exists():
         return JsonResponse({"error": "No matching Association found."}, status=404)
