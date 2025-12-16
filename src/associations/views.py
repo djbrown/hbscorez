@@ -11,11 +11,11 @@ def show_all(request):
         "associations/list.j2",
         {
             "associations": associations,
-            "root_url": settings.NEW_ROOT_SOURCE_URL,
+            "source_url": settings.HBNET_ROOT_URL + "/verbaende",
         },
     )
 
 
-def detail(request, bhv_id):
-    association = get_object_or_404(Association, bhv_id=bhv_id)
+def detail(request, short_name):
+    association = get_object_or_404(Association, short_name=short_name)
     return render(request, "associations/detail.j2", {"association": association})

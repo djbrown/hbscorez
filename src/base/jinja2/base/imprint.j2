@@ -1,7 +1,7 @@
-{% extends 'base/base.j2' %}
-{% block title %}Impressum | {{ super() }}{% endblock %}
+{% extends "base/base.j2" %}
+{% block title %}Impressum | {{ super() }}{% endblock title %}
 {% block content %}
     <h1>Impressum</h1>
     <p>Angaben gemäß § 5 Telemediengesetz (TMG)</p>
-    <img class="img-fluid" src="{{ static('base/images/contact/contact.svg') }}" width="300" alt="Adresse"/>
-{% endblock %}
+    <img class="img-fluid" src="{{ static('base/images/contact/contact.svg') }}" alt="Adresse" height="110" width="300">
+{% endblock content %}

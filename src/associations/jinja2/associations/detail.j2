@@ -1,9 +1,9 @@
-{% extends 'base/base.j2' %}
-{% block title %}{{ association.name }} | {{ super() }}{% endblock %}
+{% extends "base/base.j2" %}
+{% block title %}{{ association.name }} | {{ super() }}{% endblock title %}
 {% block content %}
 <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="{{ url('associations:list') }}">Verbände</a></li>
-    <li class="breadcrumb-item active"><a>{{ association.abbreviation }}</a></li>
+    <li class="breadcrumb-item active"><a>{{ association.name }}</a></li>
 </ol>
 <h1>{{ association.name }}&nbsp;<a href="{{ association.source_url }}"><span class="fas fa-link" title="Datenquelle"></span></a></h1>
 <h2>Bezirke</h2>
@@ -18,4 +18,4 @@
     <li><a href="{{ club.get_absolute_url() }}">{{ club.name }}</a></li>
     {% endfor %}
 </ul>
-{% endblock %}
+{% endblock content %}

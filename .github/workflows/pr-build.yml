@@ -27,28 +27,46 @@ jobs:
       - name: Install dependencies
         if: steps.cache-pipenv.outputs.cache-hit != 'true'
         run: pipenv install --deploy --dev
-
       - name: Set up locale
         run: |
           sudo locale-gen de_DE.UTF-8
           sudo dpkg-reconfigure locales
 
-      - name: Run unit tests
-        run: pipenv run hbunittest
+      - name: Run unit tests with coverage
+        run: pipenv run hbcoverage
         env:
           TEST_OUTPUT_FILE_NAME: unit.xml
+      - name: Generate coverage report
+        run: pipenv run coverage xml
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v5
       - name: Upload unit test results
         uses: actions/upload-artifact@v5
         if: success() || failure()
         with:
-          name: unit-test-results
+          name: coverage report
+          path: coverage.xml
+      - name: Unit Test Report
+        uses: dorny/test-reporter@v2
+        if: ${{ !cancelled() }}
+        with:
+          name: Unit Tests
           path: unit.xml
+          reporter: java-junit
 
+      - name: Check format
+        run: pipenv run black src --check
+      - name: Check import order
+        run: pipenv run isort src --check
       - name: Run Mypy
         run: pipenv run mypy src
-
       - name: Run Flake8
         run: pipenv run flake8
-
       - name: Run Pylint
         run: pipenv run pylint src
+      - name: Run djLint html
+        run: pipenv run djlint src --profile=html
+      - name: Run djLint django
+        run: pipenv run djlint src --profile=django
+      - name: Run djLint jinja
+        run: pipenv run djlint src --profile=jinja

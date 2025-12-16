@@ -1,7 +1,7 @@
-{% extends 'teams/base.j2' %}
-{% block title %}Straffällige - {{ super() }}{% endblock %}
+{% extends "teams/base.j2" %}
+{% block title %}Straffällige - {{ super() }}{% endblock title %}
 {% block description %}Ranking der straffälligsten Spieler der Mannschaft '{{ team.name }}' in der Liga '
-    {{ team.league.name }}' des Bezirks '{{ team.league.district.name }}'{% endblock %}
+    {{ team.league.name }}' des Bezirks '{{ team.league.district.name }}'{% endblock description %}
 {% block content %}
     {{ super() }}
     <nav class="nav nav-pills mb-3">
@@ -52,4 +52,4 @@
             </tfoot>
         </table>
     </div>
-{% endblock %}
+{% endblock content %}

@@ -1,5 +1,5 @@
-{% extends 'base/base.j2' %}
-{% block title %}{{ club.name }} | {{ super() }}{% endblock %}
+{% extends "base/base.j2" %}
+{% block title %}{{ club.name }} | {{ super() }}{% endblock title %}
 {% block content %}
 <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="{{ url('associations:list') }}">Verbände</a></li>
@@ -28,4 +28,4 @@
     {% endfor %}
 </ul>
 {% endfor %}
-{% endblock %}
+{% endblock content %}

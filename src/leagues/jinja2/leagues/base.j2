@@ -1,5 +1,5 @@
-{% extends 'base/base.j2' %}
-{% block title %}{{ league.name }} | {{ super() }}{% endblock %}
+{% extends "base/base.j2" %}
+{% block title %}{{ league.name }} | {{ super() }}{% endblock title %}
 {% block content %}
     {{ super() }}
     <ol class="breadcrumb">
@@ -22,4 +22,4 @@
         <a href="{{ team.get_absolute_url() }}">{{ team.name }}</a> wurde am {{ date(team.retirement) }} zurückgezogen.
     </div>
     {% endfor %}
-{% endblock %}
+{% endblock content %}

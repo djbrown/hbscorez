@@ -44,14 +44,14 @@ class Command(BaseCommand):
 def import_leagues(options):
     associations_filters = {}
     if options["associations"]:
-        associations_filters["bhv_id__in"] = options["associations"]
+        associations_filters["short_name__in"] = options["associations"]
     associations = Association.objects.filter(**associations_filters)
-    associations_bhv_ids = [a.bhv_id for a in associations]
+    associations_short_names = [a.short_name for a in associations]
     if not associations:
         LOGGER.warning("No matching Associations found.")
         return
 
-    districts_filters = {"associations__bhv_id__in": associations_bhv_ids}
+    districts_filters = {"associations__short_name__in": associations_short_names}
     if options["districts"]:
         districts_filters["bhv_id__in"] = options["districts"]
     districts = District.objects.filter(**districts_filters)
