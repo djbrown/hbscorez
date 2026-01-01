@@ -71,7 +71,7 @@ jobs:
     needs: main
     steps:
       - name: Download coverage report
-        uses: actions/download-artifact@v6
+        uses: actions/download-artifact@v7
         with:
           name: coverage report
       - uses: coverallsapp/github-action@v2
@@ -81,7 +81,7 @@ jobs:
     needs: main
     steps:
       - name: Download coverage report
-        uses: actions/download-artifact@v6
+        uses: actions/download-artifact@v7
         with:
           name: coverage report
       - uses: codacy/codacy-coverage-reporter-action@v1
@@ -99,7 +99,7 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v5
       - name: Download coverage report
-        uses: actions/download-artifact@v6
+        uses: actions/download-artifact@v7
         with:
           name: coverage report
       - uses: qltysh/qlty-action/coverage@v2
@@ -112,7 +112,7 @@ jobs:
     needs: main
     steps:
       - name: Download coverage report
-        uses: actions/download-artifact@v6
+        uses: actions/download-artifact@v7
         with:
           name: coverage report
       - uses: codecov/codecov-action@v5
