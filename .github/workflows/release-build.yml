@@ -35,7 +35,7 @@ jobs:
         run: echo ${{ steps.docker_build.outputs.digest }}
 
       - name: Checkout README
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           sparse-checkout: |
             README.md
