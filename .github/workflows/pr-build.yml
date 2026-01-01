@@ -38,7 +38,7 @@ jobs:
         env:
           TEST_OUTPUT_FILE_NAME: unit.xml
       - name: Upload unit test results
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         if: success() || failure()
         with:
           name: unit-test-results
