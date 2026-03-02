@@ -27,7 +27,6 @@ def association_districts(_, short_name):
 
     districts = [
         {
-            "bhvId": district.bhv_id,
             "name": district.name,
         }
         for district in association.district_set.all()
@@ -42,8 +41,8 @@ def seasons(_):
     return JsonResponse({"seasons": light_seasons})
 
 
-def district_season_leagues(_, bhv_id, start_year):
-    district_results = District.objects.filter(bhv_id=bhv_id)
+def district_season_leagues(_, district_name, start_year):
+    district_results = District.objects.filter(name=district_name)
     if not district_results.exists():
         return JsonResponse({"error": "No matching District found."}, status=404)
     district = district_results[0]

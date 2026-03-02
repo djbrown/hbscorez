@@ -1,15 +1,16 @@
 import logging
 from datetime import date, datetime, timedelta
 
+from django.conf import settings
 from django.core.management import BaseCommand
 from django.db import transaction
 
+from associations.management.commands.import_associations import add_default_arguments as association_arguments
 from associations.models import Association
 from base import http, parsing
 from base.middleware import env
 from base.models import Value
 from clubs.models import Club
-from districts.management.commands.import_districts import add_default_arguments as district_arguments
 from districts.models import District
 from leagues.models import League, LeagueName, Season
 from teams.models import Team
@@ -18,7 +19,8 @@ LOGGER = logging.getLogger("hbscorez")
 
 
 def add_default_arguments(parser):
-    district_arguments(parser)
+    association_arguments(parser)
+    parser.add_argument("--districts", "-d", nargs="+", type=str, metavar="districtName", help="Names of Districts.")
     parser.add_argument("--seasons", "-s", nargs="+", type=int, metavar="start year", help="Start Years of Seasons.")
     parser.add_argument("--leagues", "-l", nargs="+", type=int, metavar="score/sGID", help="IDs of Leagues.")
     parser.add_argument("--youth", action="store_true", help="Include youth leagues.")
@@ -42,6 +44,8 @@ class Command(BaseCommand):
 
 
 def import_leagues(options):
+    base_leagues_html = http.get_text(settings.HBNET_ROOT_URL + "/ligen")
+
     associations_filters = {}
     if options["associations"]:
         associations_filters["short_name__in"] = options["associations"]
@@ -53,7 +57,7 @@ def import_leagues(options):
 
     districts_filters = {"associations__short_name__in": associations_short_names}
     if options["districts"]:
-        districts_filters["bhv_id__in"] = options["districts"]
+        districts_filters["name__in"] = options["districts"]
     districts = District.objects.filter(**districts_filters)
     if not districts:
         LOGGER.warning("No matching Districts found.")
@@ -94,9 +98,6 @@ def scrape_district_season(district: District, season: Season, options):
     for interval_number in range(interval_count):
         interval_date = season_begin + timedelta(days=interval_days * interval_number)
         LOGGER.debug("trying District Season: %s %s %s", district, season, interval_date)
-        url = District.build_source_url(district.bhv_id, interval_date)
-        html = http.get_text(url)
-        dom = parsing.html_dom(html)
         league_links = parsing.parse_league_links(dom)
         if league_links:
             break

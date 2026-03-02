@@ -41,21 +41,12 @@ def parse_district_items(json_text: str) -> dict[str, str]:
     return json.loads(json_text)[0]["menu"]["org"]["list"]
 
 
-def parse_district_link_date(link: _Element) -> str:
-    return parse_link_query_item(link, "do")
-
-
 def parse_league_links(dom: _Element) -> list[_Element]:
     return cast(list[_Element], dom.xpath('//div[@id="results"]/div/table[2]/tr/td[1]/a'))
 
 
 def parse_league_bhv_id(link: _Element) -> int:
     return int(parse_link_query_item(link, "score"))
-
-
-def parse_district_season_start_year(district_season_heading: str) -> int | None:
-    matches = re.match(r"Halle(?:nrunde)? (\d{4})/(\d{4})", district_season_heading)
-    return int(matches.group(1)) if matches else None
 
 
 def parse_league_name(dom: _Element) -> str:
