@@ -31,6 +31,9 @@ Also make sure to check messages from the following linter commands before propo
 - `pipenv run mypy src`
 - `pipenv run flake8`
 - `pipenv run pylint src`
+- `pipenv run djlint src --profile html`
+- `pipenv run djlint src --profile django`
+- `pipenv run djlint src --profile jinja`
 
 ## Testing
 

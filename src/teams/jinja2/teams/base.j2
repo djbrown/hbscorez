@@ -1,5 +1,5 @@
-{% extends 'base/base.j2' %}
-{% block title %}{{ team.name }} | {{ super() }}{% endblock %}
+{% extends "base/base.j2" %}
+{% block title %}{{ team.name }} | {{ super() }}{% endblock title %}
 {% block content %}
 {{ super() }}
 <ol class="breadcrumb">
@@ -21,4 +21,4 @@
 <b>Verein:</b> <a href="{{ team.club.get_absolute_url() }}">{{ team.club.name }}</a>
 {% endif %}
 <h1>{{ team.name }}&nbsp;<a href="{{ team.source_url() }}"><span class="fas fa-link" title="Datenquelle"></span></a></h1>
-{% endblock %}
+{% endblock content %}

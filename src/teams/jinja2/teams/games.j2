@@ -1,7 +1,7 @@
-{% extends 'teams/base.j2' %}
-{% block title %}Spiele - {{ super() }}{% endblock %}
+{% extends "teams/base.j2" %}
+{% block title %}Spiele - {{ super() }}{% endblock title %}
 {% block description %}Spielergebnisse der Mannschaft '{{ team.name }}' in der Liga '{{ team.league.name }}' des
-    Bezirks '{{ team.league.district.name }}'{% endblock %}
+    Bezirks '{{ team.league.district.name }}'{% endblock description %}
 {% block content %}
     {{ super() }}
     <nav class="nav nav-pills mb-3">
@@ -39,8 +39,8 @@
                     <td>{{ d }}</td>
                     <td>{{ t if t != "00:00" else "-" }}</td>
                     <td>
-                        {#<img class="table-team-logo" src="{{ team_logo_url(opponent) }}" width="25" alt="HbScorez Logo">#}
-                        <img class="table-team-logo" src="{{ static('base/images/favicons/favicon.png') }}" width="25"
+                        {#<img class="table-team-logo" src="{{ team_logo_url(opponent) }}" height="25" width="25" alt="HbScorez Logo">#}
+                        <img class="table-team-logo" src="{{ static('base/images/favicons/favicon.png') }}" height="25" width="25"
                              alt="HbScorez Logo">
                         <a href="{{ opponent.get_absolute_url() }}">{{ opponent.short_name }}</a>
                     </td>
@@ -77,4 +77,4 @@
             </tfoot>
         </table>
     </div>
-{% endblock %}
+{% endblock content %}

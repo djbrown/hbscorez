@@ -1,5 +1,5 @@
-{% extends 'base/base.j2' %}
-{% block title %}Verbände | {{ super() }}{% endblock %}
+{% extends "base/base.j2" %}
+{% block title %}Verbände | {{ super() }}{% endblock title %}
 {% block content %}
 <ol class="breadcrumb">
     <li class="breadcrumb-item active"><a>Verbände</a></li>
@@ -10,4 +10,4 @@
     <li><a href="{{ association.get_absolute_url() }}">{{ association.abbreviation }} - {{ association.name }}</a></li>
     {% endfor %}
 </ul>
-{% endblock %}
+{% endblock content %}

@@ -2,17 +2,17 @@
 
 {% load static base_extras %}
 
-{% block title %}Spieler verknüpfen{% endblock %}
+{% block title %}Spieler verknüpfen{% endblock title %}
 
 {% block content %}
 <h1>Spieler verknüpfen</h1>
 <p>
-    Wenn Du selbst ein aktiver Handballspieler bist bzw. warst, kannst Du hier Deine aktiven Saisons verknüpfen.<br />
-    Wenn Du Dich verknüpfst, werden Deine Statistiken <strong>für Dich und alle Besucher angezeigt</strong>.<br />
+    Wenn Du selbst ein aktiver Handballspieler bist bzw. warst, kannst Du hier Deine aktiven Saisons verknüpfen.<br>
+    Wenn Du Dich verknüpfst, werden Deine Statistiken <strong>für Dich und alle Besucher angezeigt</strong>.<br>
     Dein Name erscheint dann in allen Dich betreffenden Auswertungen auf HbScorez.
 </p>
 
-<form method="POST">
+<form method="post">
 
     {% csrf_token %}
 
@@ -76,7 +76,7 @@
         <label for="name" class="form-label">Spielername</label>
         <input name="player_name" type="text" id="name" placeholder="Spielername" required
             class="form-control{% if form.player_name.errors %} is-invalid{% endif %}" {% if form.player_name.value %}
-            value="{{ form.player_name.value.strip }}" {% endif %} />
+            value="{{ form.player_name.value.strip }}" {% endif %}>
         <div class="invalid-feedback">{{ form.player_name.errors }}</div>
     </div>
 
@@ -84,30 +84,30 @@
         <legend class="form-label">Ich bestätige hiermit, ...</legend>
         <div class="form-check">
             <input class="form-check-input" type="checkbox" value="True" id="consent-identity" name="consent_identity"
-                required {% if request.POST.consent_identity %}checked{% endif %} />
+                required {% if request.POST.consent_identity %}checked{% endif %}>
             <label class="form-check-label" for="consent-identity">dass ich die angegebene Person bin</label>
         </div>
         <div class="form-check">
             <input class="form-check-input" type="checkbox" value="True" id="consent-delete" name="consent_delete"
-                required {% if request.POST.consent_delete %}checked{% endif %} />
+                required {% if request.POST.consent_delete %}checked{% endif %}>
             <label class="form-check-label" for="consent-delete">dass ich meine Verknüpfung jederzeit
                 <strong>einmalig</strong> löschen kann</label>
         </div>
         <div class="form-check">
             <input class="form-check-input" type="checkbox" value="True" id="consent-publish" name="consent_publish"
-                required {% if request.POST.consent_publish %}checked{% endif %} />
+                required {% if request.POST.consent_publish %}checked{% endif %}>
             <label class="form-check-label" for="consent-publish">dass mein Name und meine Statistiken öffentlich auf
                 HbScorez angezeigt werden</label>
         </div>
     </fieldset>
 
-    <input type="submit" value="Verknüpfen" class="btn btn-primary" />
+    <input type="submit" value="Verknüpfen" class="btn btn-primary">
 
 </form>
-{% endblock %}
+{% endblock content %}
 
 {% block scripts %}
 {{ block.super }}
 <script>const clear = {% if team %}false{% else %}true{% endif %};</script>
 <script src="{% static 'users/scripts/link.js' %}"></script>
-{% endblock %}
+{% endblock scripts %}

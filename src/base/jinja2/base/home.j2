@@ -1,5 +1,5 @@
-{% extends 'base/base.j2' %}
-{% block title %}Start | {{ super() }}{% endblock %}
+{% extends "base/base.j2" %}
+{% block title %}Start | {{ super() }}{% endblock title %}
 {% block content %}
 <div class="container p-5 mb-4 bg-light rounded-3">
     <h1 class="display-4">Willkommen auf HbScorez!</h1>
@@ -18,4 +18,4 @@
         <a class="btn btn-primary" href="{{ url('users:login') }}">Anmelden</a>
     {% endif %}
 </div>
-{% endblock %}
+{% endblock content %}

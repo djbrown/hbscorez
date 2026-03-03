@@ -1,6 +1,6 @@
-{% extends 'base/base.html' %}
+{% extends "base/base.html" %}
 
-{% block title %}Login | {{ block.super }}{% endblock %}
+{% block title %}Login | {{ block.super }}{% endblock title %}
 
 {% block content %}
 <h1>Anmelden</h1>
@@ -21,7 +21,7 @@
 
 {% if cooloff_timedelta %}
     <div class="alert alert-danger" role="alert">
-        <strong>Du hast zu viele fehlgeschlagene Anmeldeversuche.</strong><br />
+        <strong>Du hast zu viele fehlgeschlagene Anmeldeversuche.</strong><br>
         Warte {{ cooloff_timedelta.days }} Tag{{ cooloff_timedelta.days|pluralize:'e' }}
         oder melde Dich über das <a href="{% url 'base:contact_form' %}">Kontaktformular</a> um Deinen Zugang zu entsperren.
     </div>
@@ -35,24 +35,24 @@
         <label for="username" class="form-label">Benutzername</label>
         <input name="username" type="text" id="username" placeholder="Benutzername" required
             class="form-control{% if form.errors or cooloff_timedelta %} is-invalid{% endif %}" {% if form.username.value %}
-            value="{{ form.username.value }}" {% endif %} />
+            value="{{ form.username.value }}" {% endif %}>
     </div>
 
     <div class="mb-3">
         <label for="password" class="form-label">Passwort</label>
         <input name="password" type="password" id="password" placeholder="Passwort" required
-            class="form-control{% if form.errors or cooloff_timedelta %} is-invalid{% endif %}" />
+            class="form-control{% if form.errors or cooloff_timedelta %} is-invalid{% endif %}">
     </div>
 
-    <input type="submit" value="Anmelden" class="btn btn-primary" />
+    <input type="submit" value="Anmelden" class="btn btn-primary">
 
-    <input type="hidden" name="next" value="{{ next }}" />
+    <input type="hidden" name="next" value="{{ next }}">
 
 </form>
 
 <div class="row mb-3">
     <div class="col">
-        <a href="{% url 'django_registration_register' %}" class="btn btn-success">Registrieren</a><br />
+        <a href="{% url 'django_registration_register' %}" class="btn btn-success">Registrieren</a><br>
     </div>
 </div>
 
@@ -62,4 +62,4 @@
             zurücksetzen</a>
     </div>
 </div>
-{% endblock %}
+{% endblock content %}

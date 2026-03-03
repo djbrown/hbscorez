@@ -1,6 +1,6 @@
-{% extends 'leagues/base.j2' %}
-{% block title %}Mannschaften {{ super() }}{% endblock %}
-{% block description %}Mannschaften der Liga '{{ league.name }}' des Bezirks '{{ league.district.name }}'{% endblock %}
+{% extends "leagues/base.j2" %}
+{% block title %}Mannschaften {{ super() }}{% endblock title %}
+{% block description %}Mannschaften der Liga '{{ league.name }}' des Bezirks '{{ league.district.name }}'{% endblock description %}
 {% block content %}
 {{ super() }}
 <nav class="nav nav-pills mb-3">
@@ -16,4 +16,4 @@
     <li><a href="{{ team.get_absolute_url() }}">{{ team.name }}</a></li>
     {% endfor %}
 </ul>
-{% endblock %}
+{% endblock content %}

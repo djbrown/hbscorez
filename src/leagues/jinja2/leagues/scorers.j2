@@ -1,7 +1,6 @@
-{% extends 'leagues/base.j2' %}
-{% block title %}Schützen - {{ super() }}{% endblock %}
-{% block description %}Torschützenranking in der Liga '{{ league.name }}' des Bezirks '{{ league.district.name }}
-    '{% endblock %}
+{% extends "leagues/base.j2" %}
+{% block title %}Schützen - {{ super() }}{% endblock title %}
+{% block description %}Torschützenranking in der Liga '{{ league.name }}' des Bezirks '{{ league.district.name }}'{% endblock description %}
 {% block content %}
     {{ super() }}
     <nav class="nav nav-pills mb-3">
@@ -43,8 +42,8 @@
                     <th scope="row">{{ scorer.place }}</th>
                     <td><a href="{{ scorer.get_absolute_url() }}">{{ scorer.public_name() }}</a></td>
                     <td>
-                        {#<img class="table-team-logo" src="{{ team_logo_url(scorer.team) }}" width="25" alt="HbScorez Logo">#}
-                        <img class="table-team-logo" src="{{ static('base/images/favicons/favicon.png') }}" width="25"
+                        {#<img class="table-team-logo" src="{{ team_logo_url(scorer.team) }}" height="25" width="25" alt="HbScorez Logo">#}
+                        <img class="table-team-logo" src="{{ static('base/images/favicons/favicon.png') }}" height="25" width="25"
                              alt="HbScorez Logo">
                         <a href="{{ scorer.team.get_absolute_url() }}">{{ scorer.team.short_name }}</a>
                     </td>
@@ -72,4 +71,4 @@
             </tfoot>
         </table>
     </div>
-{% endblock %}
+{% endblock content %}

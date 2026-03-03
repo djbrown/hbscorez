@@ -1,6 +1,6 @@
-{% extends 'leagues/base.j2' %}
-{% block title %}Straffällige - {{ super() }}{% endblock %}
-{% block description %}Ranking der straffälligsten Spieler in der Liga {{ league.name }}{% endblock %}
+{% extends "leagues/base.j2" %}
+{% block title %}Straffällige - {{ super() }}{% endblock title %}
+{% block description %}Ranking der straffälligsten Spieler in der Liga {{ league.name }}{% endblock description %}
 {% block content %}
     {{ super() }}
     <nav class="nav nav-pills mb-3">
@@ -18,7 +18,7 @@
     <div class="collapse mb-2" id="offender-info">
         <div class="card card-body">
             Bei der Berechnung der Punktezahl werden Gelbe Karten einfach, 2-Minuten doppelt und Rote Karten dreifach
-            aufaddiert.<br/>
+            aufaddiert.<br>
             Spieler, die keine Strafe erhalten haben, werden in der Tabelle nicht angezeigt.
         </div>
     </div>
@@ -43,9 +43,8 @@
                     <th scope="row">{{ offender.place }}</th>
                     <td><a href="{{ offender.get_absolute_url() }}">{{ offender.public_name() }}</a></td>
                     <td>
-                        {#<img class="table-team-logo" src="{{ team_logo_url(offender.team) }}" width="25" alt="HbScorez Logo">#}
-                        <img class="table-team-logo" src="{{ static('base/images/favicons/favicon.png') }}" width="25"
-                             alt="HbScorez Logo">
+                        {#<img class="table-team-logo" src="{{ team_logo_url(offender.team) }}" height="25" width="25" alt="HbScorez Logo">#}
+                        <img class="table-team-logo" src="{{ static('base/images/favicons/favicon.png') }}" height="25" width="25" alt="HbScorez Logo">
                         <a href="{{ offender.team.get_absolute_url() }}">{{ offender.team.short_name }}</a>
                     </td>
                     <td>{{ offender.games }}</td>
@@ -70,4 +69,4 @@
             </tfoot>
         </table>
     </div>
-{% endblock %}
+{% endblock content %}

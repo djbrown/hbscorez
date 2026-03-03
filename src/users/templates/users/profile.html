@@ -1,6 +1,6 @@
 {% extends "base/base.html" %}
 
-{% block title %}{{ request.user.username }}{% endblock %}
+{% block title %}{{ request.user.username }}{% endblock title %}
 
 
 {% block styles %}
@@ -11,7 +11,7 @@
     }
 
 </style>
-{% endblock %}
+{% endblock styles %}
 
 
 {% block content %}
@@ -30,10 +30,10 @@
     <li>
         {% if player.published %}
         <a href="{% url 'players:detail' player.pk %}">{{ player.team.league.season }} {{ player.public_name }}</a>
-        <form onsubmit="return confirm('Möchtest du die Verknüpfung wirklich löschen?');" method="POST"
+        <form onsubmit="return confirm('Möchtest du die Verknüpfung wirklich löschen?');" method="post"
             action="{% url 'users:unlink' %}">
             {% csrf_token %}
-            <input type="hidden" value="{{ player.pk }}" name="player" />
+            <input type="hidden" value="{{ player.pk }}" name="player">
             <button type="submit" class="btn btn-danger btn-sm">Verknüpfung löschen &times;</button>
         </form>
         {% else %}
@@ -46,4 +46,4 @@
 <p>Du hast bisher noch keine Saisons verknüpft</p>
 {% endif %}
 
-{% endblock %}
+{% endblock content %}
