@@ -59,8 +59,8 @@ class Command(BaseCommand):
         for association in Association.objects.all():
             self.import_association(association)
 
-    def import_association(self, association):
-        if self.options["associations"] and association.bhv_id not in self.options["associations"]:
+    def import_association(self, association: Association):
+        if self.options["associations"] and association.short_name not in self.options["associations"]:
             LOGGER.debug("SKIPPING Association: %s (options)", association)
             return
 
@@ -68,7 +68,7 @@ class Command(BaseCommand):
             self.import_district(district)
 
     def import_district(self, district):
-        if self.options["districts"] and district.bhv_id not in self.options["districts"]:
+        if self.options["districts"] and district.name not in self.options["districts"]:
             LOGGER.debug("SKIPPING District: %s (options)", district)
             return
 
@@ -149,6 +149,8 @@ def import_game(game: Game):
 
 def download_report(game: Game, path: Path):
     url = game.report_source_url()
+    if url is None:
+        return
     try:
         content: bytes = http.get_file(url)
     except http.EmptyResponseError:
