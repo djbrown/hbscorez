@@ -48,7 +48,7 @@ def scrape_association(association: Association, options):
 
     club_options = parsing.parse_club_option_texts(dom)
     for club_option in club_options:
-        (name, bhv_id) = parsing.parse_club_option(club_option)
+        name, bhv_id = parsing.parse_club_option(club_option)
         import_club(association, name, bhv_id, options)
 
 
