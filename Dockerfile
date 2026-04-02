@@ -3,7 +3,7 @@ FROM python:3.13-bookworm
 RUN mkdir /code
 WORKDIR /code
 
-RUN pip install pipenv==2025.0.4
+RUN python -m pip install pipenv==2026.4.0
 RUN apt update \
     && apt install -y --no-install-recommends default-jre fonts-liberation gsfonts locales \
     && apt clean \
