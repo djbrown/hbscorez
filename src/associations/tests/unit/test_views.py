@@ -7,5 +7,5 @@ class TestViews(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_detail(self):
-        response = self.client.get("/verbaende/1/")
+        response = self.client.get("/verbaende/Test/")
         self.assertEqual(response.status_code, 404)

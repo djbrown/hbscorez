@@ -1,23 +1,18 @@
-from django.conf import settings
 from django.db import models
 from django.urls import reverse
 
 
 class Association(models.Model):
     name = models.TextField(unique=True)
-    abbreviation = models.TextField()
-    bhv_id = models.IntegerField(unique=True)
+    short_name = models.TextField(unique=True)
     source_url = models.TextField()
+    abbreviation = models.TextField(blank=True, null=True)
 
     def __str__(self):
-        return f"{self.bhv_id} {self.abbreviation}"
+        return self.name
 
     def get_absolute_url(self):
-        return reverse("associations:detail", kwargs={"bhv_id": self.bhv_id})
-
-    @staticmethod
-    def build_api_url(bhv_id):
-        return f"{settings.ROOT_SOURCE_URL}service/if_g_json.php?cmd=po&og={bhv_id}"
+        return reverse("associations:detail", kwargs={"short_name": self.short_name})
 
     def api_url(self):
-        return self.build_api_url(self.bhv_id)
+        raise NotImplementedError("H4A API is offline")
