@@ -99,6 +99,12 @@ class ModelTestCase(TestCase):
         return objects
 
 
+class ViewTestCase(TestCase):
+    def get_url(self, path_name, **kwargs):
+        url = reverse(path_name, kwargs=kwargs)
+        return self.client.get(url)
+
+
 @pytest.mark.integration
 @pytest.mark.slow
 @skip_unless_any_tag("integration", "slow")
