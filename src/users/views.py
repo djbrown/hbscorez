@@ -75,9 +75,9 @@ def unlink(request):
 
 
 def team_from_request_query(query):
-    team_bhv_id = query.get("team_bhv_id")
+    team_pk = query.get("team_pk")
     try:
-        return Team.objects.get(bhv_id=team_bhv_id)
+        return Team.objects.get(pk=team_pk)
     except ObjectDoesNotExist:
         return None
 

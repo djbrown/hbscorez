@@ -17,10 +17,10 @@ class Player(models.Model):
         unique_together = ("name", "team")
 
     def __str__(self):
-        return f"{self.name} {self.team.short_name}"
+        return f"{self.pk} {self.name} {self.team.short_name}"
 
     def get_absolute_url(self):
-        return reverse("players:detail", kwargs={"key": self.pk})
+        return reverse("players:detail", kwargs={"pk": self.pk})
 
     def public_name(self):
         if self.user is not None and self.published is True or settings.PUBLIC_NAMES is True:
@@ -48,7 +48,7 @@ class Score(models.Model):
         unique_together = ("player", "game")
 
     def __str__(self):
-        return f"{self.game.number} {self.game.report_number} {self.player_number}"
+        return f"{self.game.pk} {self.game.number} {self.game.report_number} {self.player_number}"
 
 
 class ReportsBlacklist(models.Model):

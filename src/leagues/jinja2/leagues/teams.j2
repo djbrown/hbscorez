@@ -4,11 +4,11 @@
 {% block content %}
 {{ super() }}
 <nav class="nav nav-pills mb-3">
-    <a class="nav-item nav-link m-1" href="{{ url('leagues:detail', args=[league.bhv_id]) }}">Übersicht</a>
+    <a class="nav-item nav-link m-1" href="{{ url('leagues:detail', args=[league.pk]) }}">Übersicht</a>
     <a class="nav-item nav-link m-1 active" href="#/">Mannschaften</a>
-    <a class="nav-item nav-link m-1" href="{{ url('leagues:games', args=[league.bhv_id]) }}">Spiele</a>
-    <a class="nav-item nav-link m-1" href="{{ url('leagues:scorers', args=[league.bhv_id]) }}">Schützen</a>
-    <a class="nav-item nav-link m-1" href="{{ url('leagues:offenders', args=[league.bhv_id]) }}">Straffällige</a>
+    <a class="nav-item nav-link m-1" href="{{ url('leagues:games', args=[league.pk]) }}">Spiele</a>
+    <a class="nav-item nav-link m-1" href="{{ url('leagues:scorers', args=[league.pk]) }}">Schützen</a>
+    <a class="nav-item nav-link m-1" href="{{ url('leagues:offenders', args=[league.pk]) }}">Straffällige</a>
 </nav>
 <h2>Mannschaften</h2>
 <ul>

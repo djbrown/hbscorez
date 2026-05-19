@@ -6,5 +6,5 @@ app_name = "associations"
 
 urlpatterns = [
     path("", show_all, name="list"),
-    path("<int:bhv_id>/", include([path("", detail, name="detail")])),
+    path("<int:pk>/", include([path("", detail, name="detail")])),
 ]

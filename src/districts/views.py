@@ -5,8 +5,8 @@ from django.shortcuts import get_object_or_404, render
 from districts.models import District
 
 
-def detail(request, bhv_id):
-    district = get_object_or_404(District, bhv_id=bhv_id)
+def detail(request, pk):
+    district = get_object_or_404(District, pk=pk)
     leagues = district.league_set
     grouped = collections.defaultdict(list)
     for league in leagues.all():

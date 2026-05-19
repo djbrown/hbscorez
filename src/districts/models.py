@@ -13,10 +13,10 @@ class District(models.Model):
     bhv_id = models.IntegerField(unique=True)
 
     def __str__(self):
-        return f"{self.bhv_id} {self.name}"
+        return f"{self.pk} {self.bhv_id} {self.name}"
 
     def get_absolute_url(self):
-        return reverse("districts:detail", kwargs={"bhv_id": self.bhv_id})
+        return reverse("districts:detail", kwargs={"pk": self.pk})
 
     @staticmethod
     def build_source_url(bhv_id, date: datetime.date | None = None):

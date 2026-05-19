@@ -8,7 +8,7 @@ from leagues.models import League, Season
 def associations(_):
     light_associations = [
         {
-            "bhvId": a.bhv_id,
+            "pk": a.pk,
             "name": a.name,
             "abbreviation": a.abbreviation,
         }
@@ -18,8 +18,8 @@ def associations(_):
     return JsonResponse({"associations": light_associations})
 
 
-def association_districts(_, bhv_id):
-    association_results = Association.objects.filter(bhv_id=bhv_id)
+def association_districts(_, pk):
+    association_results = Association.objects.filter(pk=pk)
 
     if not association_results.exists():
         return JsonResponse({"error": "No matching Association found."}, status=404)
@@ -28,7 +28,7 @@ def association_districts(_, bhv_id):
 
     districts = [
         {
-            "bhvId": district.bhv_id,
+            "pk": district.pk,
             "name": district.name,
         }
         for district in association.district_set.all()
@@ -43,8 +43,8 @@ def seasons(_):
     return JsonResponse({"seasons": light_seasons})
 
 
-def district_season_leagues(_, bhv_id, start_year):
-    district_results = District.objects.filter(bhv_id=bhv_id)
+def district_season_leagues(_, pk, start_year):
+    district_results = District.objects.filter(pk=pk)
     if not district_results.exists():
         return JsonResponse({"error": "No matching District found."}, status=404)
     district = district_results[0]
@@ -56,7 +56,7 @@ def district_season_leagues(_, bhv_id, start_year):
 
     light_leagues = [
         {
-            "bhvId": league.bhv_id,
+            "pk": league.pk,
             "name": league.name,
         }
         for league in League.objects.filter(district=district, season=season)
@@ -65,8 +65,8 @@ def district_season_leagues(_, bhv_id, start_year):
     return JsonResponse({"leagues": light_leagues})
 
 
-def league_teams(_, bhv_id):
-    leagues = League.objects.filter(bhv_id=bhv_id)
+def league_teams(_, pk):
+    leagues = League.objects.filter(pk=pk)
 
     if not leagues.exists():
         return JsonResponse({"error": "No matching League found."}, status=404)
@@ -75,7 +75,7 @@ def league_teams(_, bhv_id):
 
     light_teams = [
         {
-            "bhvId": team.bhv_id,
+            "pk": team.pk,
             "name": team.name,
             "shortName": team.short_name,
         }

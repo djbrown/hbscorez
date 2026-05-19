@@ -22,10 +22,10 @@ class Team(models.Model):
         unique_together = (("name", "league"), ("short_name", "league"))
 
     def __str__(self):
-        return f"{self.bhv_id} {self.short_name}"
+        return f"{self.pk} {self.bhv_id} {self.short_name}"
 
     def get_absolute_url(self):
-        return reverse("teams:detail", kwargs={"bhv_id": self.bhv_id})
+        return reverse("teams:detail", kwargs={"pk": self.pk})
 
     @staticmethod
     def build_source_url(league_bhv_id, team_bhv_id):

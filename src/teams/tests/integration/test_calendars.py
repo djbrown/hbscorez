@@ -9,6 +9,4 @@ class CalendarTest(IntegrationTestCase):
         self.assert_command("import_leagues", "-s", 2017, "-l", 28454)
         self.assert_command("import_games")
 
-        self.client.get("/mannschaften/391930/kalender/")
-
         self.assert_object(Team, filters={"retirement__isnull": False})

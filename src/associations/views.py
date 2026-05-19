@@ -16,6 +16,6 @@ def show_all(request):
     )
 
 
-def detail(request, bhv_id):
-    association = get_object_or_404(Association, bhv_id=bhv_id)
+def detail(request, pk):
+    association = get_object_or_404(Association, pk=pk)
     return render(request, "associations/detail.j2", {"association": association})

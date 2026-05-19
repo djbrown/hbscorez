@@ -14,7 +14,7 @@ $(() => {
 
         $.get("/api/associations/", (response) => {
             response.associations.sort((a, b) => a.name.localeCompare(b.name)).forEach((association) => {
-                $associations.append(`<option value="${association.bhvId}">${association.name} (${association.abbreviation})</option>`);
+                $associations.append(`<option value="${association.pk}">${association.name} (${association.abbreviation})</option>`);
             });
         });
     }
@@ -24,7 +24,7 @@ $(() => {
         clearDistricts();
         $.get(`/api/associations/${associationId}/districts/`, (response) => {
             response.districts.sort((a, b) => a.name.localeCompare(b.name)).forEach((district) => {
-                $districts.append(`<option value="${district.bhvId}">${district.name}</option>`);
+                $districts.append(`<option value="${district.pk}">${district.name}</option>`);
             });
         });
     });
@@ -44,7 +44,7 @@ $(() => {
         clearLeagues();
         $.get(`/api/districts/${districtId}/seasons/${seasonStartYear}/leagues/`, (response) => {
             response.leagues.sort((a, b) => a.name.localeCompare(b.name)).forEach((league) => {
-                $leagues.append(`<option value="${league.bhvId}">${league.name}</option>`);
+                $leagues.append(`<option value="${league.pk}">${league.name}</option>`);
             });
         });
     });
@@ -54,7 +54,7 @@ $(() => {
         clearTeams();
         $.get(`/api/leagues/${leagueId}/teams/`, (response) => {
             response.teams.sort((a, b) => a.name.localeCompare(b.name)).forEach((team) => {
-                $teams.append(`<option value="${team.bhvId}">${team.name}</option>`);
+                $teams.append(`<option value="${team.pk}">${team.name}</option>`);
             });
         });
     });

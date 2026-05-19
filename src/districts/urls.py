@@ -5,5 +5,5 @@ from districts.views import detail
 app_name = "districts"
 
 urlpatterns = [
-    path("<int:bhv_id>/", include([path("", detail, name="detail")])),
+    path("<int:pk>/", include([path("", detail, name="detail")])),
 ]

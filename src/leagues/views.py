@@ -1,4 +1,3 @@
-from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, render
 
 from base import logic
@@ -6,8 +5,8 @@ from base.logic import add_ranking_place
 from leagues.models import League
 
 
-def detail(request, bhv_id):
-    league = get_object_or_404(League, bhv_id=bhv_id)
+def detail(request, pk):
+    league = get_object_or_404(League, pk=pk)
     top_teams = logic.top_league_teams(league)
     top_league_scorers = logic.top_league_scorers(league)
     top_league_offenders = logic.top_league_offenders(league)
@@ -31,29 +30,25 @@ def detail(request, bhv_id):
     )
 
 
-def teams(request, bhv_id):
-    league = get_object_or_404(League, bhv_id=bhv_id)
+def teams(request, pk):
+    league = get_object_or_404(League, pk=pk)
     return render(request, "leagues/teams.j2", {"league": league})
 
 
-def games(request, bhv_id):
-    league = get_object_or_404(League, bhv_id=bhv_id)
+def games(request, pk):
+    league = get_object_or_404(League, pk=pk)
     games_by_month = logic.league_games(league)
     return render(request, "leagues/games.j2", {"league": league, "games_by_month": games_by_month})
 
 
-def scorers(request, bhv_id):
-    league = get_object_or_404(League, bhv_id=bhv_id)
+def scorers(request, pk):
+    league = get_object_or_404(League, pk=pk)
     league_scorers = logic.league_scorers(league)
     return render(request, "leagues/scorers.j2", {"league": league, "scorers": league_scorers})
 
 
-def offenders(request, bhv_id):
-    league = get_object_or_404(League, bhv_id=bhv_id)
+def offenders(request, pk):
+    league = get_object_or_404(League, pk=pk)
     league_offenders = logic.league_offenders(league)
     add_ranking_place(league_offenders, "offender_points")
     return render(request, "leagues/offenders.j2", {"league": league, "offenders": league_offenders})
-
-
-def calendar():
-    return HttpResponse(status=501)

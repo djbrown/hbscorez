@@ -6,8 +6,8 @@ from clubs.models import Club
 from teams.models import Team
 
 
-def detail(request, bhv_id):
-    club = get_object_or_404(Club, bhv_id=bhv_id)
+def detail(request, pk):
+    club = get_object_or_404(Club, pk=pk)
     teams_by_season = defaultdict(list)
     team: Team
     for team in club.team_set.order_by("-league__season__start_year", "name", "league__abbreviation"):

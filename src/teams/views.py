@@ -15,25 +15,25 @@ from players.models import Player
 from teams.models import Team
 
 
-def detail(request, bhv_id):
-    team = get_object_or_404(Team, bhv_id=bhv_id)
+def detail(request, pk):
+    team = get_object_or_404(Team, pk=pk)
     return render(request, "teams/detail.j2", {"team": team})
 
 
-def games(request, bhv_id):
-    team = get_object_or_404(Team, bhv_id=bhv_id)
+def games(request, pk):
+    team = get_object_or_404(Team, pk=pk)
     team_games = Game.objects.filter(Q(home_team=team) | Q(guest_team=team)).order_by("opening_whistle")
     return render(request, "teams/games.j2", {"team": team, "games": team_games})
 
 
-def players(request, bhv_id):
-    team = get_object_or_404(Team, bhv_id=bhv_id)
+def players(request, pk):
+    team = get_object_or_404(Team, pk=pk)
     team_players = Player.objects.filter(team=team).annotate(games=Count("score")).order_by("name")
     return render(request, "teams/players.j2", {"team": team, "players": team_players})
 
 
-def scorers(request, bhv_id):
-    team = get_object_or_404(Team, bhv_id=bhv_id)
+def scorers(request, pk):
+    team = get_object_or_404(Team, pk=pk)
     team_players = (
         Player.objects.filter(team=team)
         .annotate(games=Count("score"))
@@ -47,8 +47,8 @@ def scorers(request, bhv_id):
     return render(request, "teams/scorers.j2", {"team": team, "players": team_players})
 
 
-def offenders(request, bhv_id):
-    team = get_object_or_404(Team, bhv_id=bhv_id)
+def offenders(request, pk):
+    team = get_object_or_404(Team, pk=pk)
     team_offenders = (
         Player.objects.filter(team=team)
         .annotate(games=Count("score"))
@@ -67,8 +67,8 @@ def offenders(request, bhv_id):
     return render(request, "teams/offenders.j2", {"team": team, "offenders": team_offenders})
 
 
-def calendar(_, bhv_id):
-    team = get_object_or_404(Team, bhv_id=bhv_id)
+def calendar(_, pk):
+    team = get_object_or_404(Team, pk=pk)
     team_games = Game.objects.filter(Q(home_team=team) | Q(guest_team=team))
 
     cal = Calendar()

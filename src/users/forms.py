@@ -42,22 +42,22 @@ class CaptchaRegistrationForm(RegistrationForm):  # pylint: disable=too-many-anc
 
 
 class LinkForm(forms.Form):
-    team_bhv_id = forms.IntegerField()
+    team_pk = forms.IntegerField()
     player_name = forms.CharField(max_length=100)
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-    def clean_team_bhv_id(self):
-        team_bhv_id = self.cleaned_data.get("team_bhv_id")
+    def clean_team_pk(self):
+        team_pk = self.cleaned_data.get("team_pk")
 
         try:
-            team = Team.objects.get(bhv_id=team_bhv_id)
+            team = Team.objects.get(pk=team_pk)
         except Team.DoesNotExist as exc:
             raise ValidationError("Mannschaft konnte nicht gefunden werden.") from exc
 
         self.cleaned_data["team"] = team
-        return team_bhv_id
+        return team_pk
 
     def clean(self):
         team = self.cleaned_data.get("team")

@@ -5,7 +5,7 @@ from teams.views import calendar, detail, games, offenders, players, scorers
 app_name = "teams"
 urlpatterns = [
     path(
-        "<int:bhv_id>/",
+        "<int:pk>/",
         include(
             [
                 path("", detail, name="detail"),

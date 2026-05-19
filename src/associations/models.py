@@ -10,10 +10,10 @@ class Association(models.Model):
     source_url = models.TextField()
 
     def __str__(self):
-        return f"{self.bhv_id} {self.abbreviation}"
+        return f"{self.pk} {self.bhv_id} {self.abbreviation}"
 
     def get_absolute_url(self):
-        return reverse("associations:detail", kwargs={"bhv_id": self.bhv_id})
+        return reverse("associations:detail", kwargs={"pk": self.pk})
 
     @staticmethod
     def build_api_url(bhv_id):

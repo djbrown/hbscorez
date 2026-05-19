@@ -30,10 +30,10 @@ class League(models.Model):
         unique_together = (("name", "district", "season"), ("abbreviation", "district", "season"))
 
     def __str__(self):
-        return f"{self.bhv_id} {self.name} {self.season}"
+        return f"{self.pk} {self.bhv_id} {self.name} {self.season}"
 
     def get_absolute_url(self):
-        return reverse("leagues:detail", kwargs={"bhv_id": self.bhv_id})
+        return reverse("leagues:detail", kwargs={"pk": self.pk})
 
     @staticmethod
     def build_source_url(bhv_id):
@@ -111,7 +111,7 @@ class LeagueName(models.Model):
     name = models.TextField()
 
     def __str__(self):
-        return f"{self.bhv_id} {self.name}"
+        return f"{self.pk} {self.bhv_id} {self.name}"
 
 
 class YouthUndecidableError(Exception):
