@@ -16,8 +16,8 @@ def add_default_arguments(parser):
         "--associations",
         "-a",
         nargs="+",
-        type=int,
-        metavar="orgGrpID",
+        type=str,
+        metavar="short_name",
         help="IDs of Associations.",
     )
 
@@ -39,13 +39,13 @@ class Command(BaseCommand):
 
 
 def import_associations(options):
-    start_html = http.get_text(settings.NEW_ROOT_SOURCE_URL)
-    start_dom = parsing.html_dom(start_html)
-    association_urls = parsing.parse_association_urls(start_dom)
+    associations_html = http.get_text(settings.HBNET_ROOT_URL + "/verbaende")
+    associations_dom = parsing.html_dom(associations_html)
+    association_paths = parsing.parse_association_paths(associations_dom)
 
-    for association_url in association_urls:
+    for association_path in association_paths:
         try:
-            url = settings.NEW_ROOT_SOURCE_URL + association_url[1:]
+            url = settings.HBNET_ROOT_URL + association_path
             scrape_association(url, options)
         except Exception:
             LOGGER.exception("Could not create Association")
@@ -56,19 +56,15 @@ def scrape_association(url: str, options):
     dom = parsing.html_dom(html)
 
     name = parsing.parse_association_name(dom)
-    bhv_id = parsing.parse_association_bhv_id(dom)
+    short_name = parsing.parse_association_short_name(url)
 
-    if options["associations"] and bhv_id not in options["associations"]:
-        LOGGER.debug("SKIPPING Association (options): %s %s", bhv_id, name)
+    if options["associations"] and short_name not in options["associations"]:
+        LOGGER.debug("SKIPPING Association (options): %s %s", short_name, name)
         return
 
-    api_url = Association.build_api_url(bhv_id)
-    json = http.get_throttled(api_url)
-    abbreviation = parsing.parse_association_abbreviation(json)
-
-    association = Association.objects.filter(bhv_id=bhv_id).first()
+    association = Association.objects.filter(short_name=short_name).first()
     if association is None:
-        association = Association.objects.create(name=name, abbreviation=abbreviation, bhv_id=bhv_id, source_url=url)
+        association = Association.objects.create(name=name, short_name=short_name, source_url=url)
         LOGGER.info("CREATED Association: %s", association)
         return
 
@@ -76,10 +72,6 @@ def scrape_association(url: str, options):
 
     if association.name != name:
         association.name = name
-        updated = True
-
-    if association.abbreviation != abbreviation:
-        association.abbreviation = abbreviation
         updated = True
 
     if association.source_url != url:

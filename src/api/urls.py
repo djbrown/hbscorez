@@ -6,7 +6,7 @@ app_name = "api"
 
 urlpatterns = [
     path("associations/", views.associations, name="associations"),
-    path("associations/<int:bhv_id>/districts/", views.association_districts, name="association_districts"),
+    path("associations/<str:short_name>/districts/", views.association_districts, name="association_districts"),
     path("seasons/", views.seasons, name="seasons"),
     path(
         "districts/<int:bhv_id>/seasons/<int:start_year>/leagues/",

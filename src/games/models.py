@@ -50,8 +50,8 @@ class Game(models.Model):
         return f"{self.number} {self.league} {self.home_team.short_name} vs. {self.guest_team.short_name}"
 
     @staticmethod
-    def build_report_source_url(report_number):
-        return settings.ROOT_SOURCE_URL + f"misc/sboPublicReports.php?sGID={report_number}"
+    def build_report_source_url(report_number) -> str:
+        return settings.H4A_ROOT_SPO_URL + f"/misc/sboPublicReports.php?sGID={report_number}"
 
     def report_source_url(self):
         if self.report_number is None:

@@ -10,7 +10,7 @@
     </li>
     <li class="breadcrumb-item active"><a>{{ district.name }}</a></li>
 </ol>
-<h1>{{ district.name }}&nbsp;<a href="{{ district.source_url() }}"><span class="fas fa-link" title="Datenquelle"></span></a></h1>
+<h1>{{ district.name }}</h1>
     {% for start_year, leagues in leagues.items() %}
     <h2>{{ start_year }}/{{ start_year + 1 }}</h2>
     <ul>

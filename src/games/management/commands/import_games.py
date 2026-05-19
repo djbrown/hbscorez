@@ -33,7 +33,7 @@ class Command(BaseCommand):
             self.import_association(association)
 
     def import_association(self, association: Association):
-        if self.options["associations"] and association.bhv_id not in self.options["associations"]:
+        if self.options["associations"] and association.short_name not in self.options["associations"]:
             LOGGER.debug("SKIPPING Association: %s (options)", association)
             return
 
@@ -41,7 +41,7 @@ class Command(BaseCommand):
             self.import_district(district)
 
     def import_district(self, district: District):
-        if self.options["districts"] and district.bhv_id not in self.options["districts"]:
+        if self.options["districts"] and district.hbnet_id not in self.options["districts"]:
             LOGGER.debug("SKIPPING District: %s (options)", district)
             return
 

@@ -8,9 +8,8 @@ from leagues.models import League, Season
 def associations(_):
     light_associations = [
         {
-            "bhvId": a.bhv_id,
             "name": a.name,
-            "abbreviation": a.abbreviation,
+            "shortName": a.short_name,
         }
         for a in Association.objects.all()
     ]
@@ -18,8 +17,8 @@ def associations(_):
     return JsonResponse({"associations": light_associations})
 
 
-def association_districts(_, bhv_id):
-    association_results = Association.objects.filter(bhv_id=bhv_id)
+def association_districts(_, short_name):
+    association_results = Association.objects.filter(short_name=short_name)
 
     if not association_results.exists():
         return JsonResponse({"error": "No matching Association found."}, status=404)
@@ -28,7 +27,6 @@ def association_districts(_, bhv_id):
 
     districts = [
         {
-            "bhvId": district.bhv_id,
             "name": district.name,
         }
         for district in association.district_set.all()
@@ -43,8 +41,8 @@ def seasons(_):
     return JsonResponse({"seasons": light_seasons})
 
 
-def district_season_leagues(_, bhv_id, start_year):
-    district_results = District.objects.filter(bhv_id=bhv_id)
+def district_season_leagues(_, district_name, start_year):
+    district_results = District.objects.filter(name=district_name)
     if not district_results.exists():
         return JsonResponse({"error": "No matching District found."}, status=404)
     district = district_results[0]

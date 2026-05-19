@@ -218,8 +218,8 @@ MATOMO_URL: str | None = None
 
 REPORTS_PATH = ROOT_DIR / "reports"
 
-ROOT_SOURCE_URL = "https://spo.handball4all.de/"
+H4A_ROOT_SPO_URL = "https://spo.handball4all.de"
 
-NEW_ROOT_SOURCE_URL = "https://www.handball4all.de/"
+HBNET_ROOT_URL = "https://www.handball.net"
 
 BROWSER_TIMEOUT = 3
