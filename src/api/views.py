@@ -1,10 +1,12 @@
 from django.http import JsonResponse
+from django.views.decorators.http import require_safe
 
 from associations.models import Association
 from districts.models import District
 from leagues.models import League, Season
 
 
+@require_safe
 def associations(_):
     light_associations = [
         {
@@ -18,6 +20,7 @@ def associations(_):
     return JsonResponse({"associations": light_associations})
 
 
+@require_safe
 def association_districts(_, pk):
     association_results = Association.objects.filter(pk=pk)
 
@@ -37,12 +40,14 @@ def association_districts(_, pk):
     return JsonResponse({"districts": districts})
 
 
+@require_safe
 def seasons(_):
     light_seasons = [{"startYear": season.start_year} for season in Season.objects.all()]
 
     return JsonResponse({"seasons": light_seasons})
 
 
+@require_safe
 def district_season_leagues(_, pk, start_year):
     district_results = District.objects.filter(pk=pk)
     if not district_results.exists():
@@ -65,6 +70,7 @@ def district_season_leagues(_, pk, start_year):
     return JsonResponse({"leagues": light_leagues})
 
 
+@require_safe
 def league_teams(_, pk):
     leagues = League.objects.filter(pk=pk)
 

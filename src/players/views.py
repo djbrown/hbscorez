@@ -1,9 +1,11 @@
 from django.shortcuts import get_object_or_404, render
+from django.views.decorators.http import require_safe
 
 from base import logic
 from players.models import Player, Score
 
 
+@require_safe
 def detail(request, pk):
     player = get_object_or_404(Player, pk=pk)
     scorer = logic.scorer(player)

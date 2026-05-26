@@ -1,11 +1,13 @@
 from collections import defaultdict
 
 from django.shortcuts import get_object_or_404, render
+from django.views.decorators.http import require_safe
 
 from clubs.models import Club
 from teams.models import Team
 
 
+@require_safe
 def detail(request, pk):
     club = get_object_or_404(Club, pk=pk)
     teams_by_season = defaultdict(list)

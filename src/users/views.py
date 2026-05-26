@@ -4,7 +4,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse_lazy
-from django.views.decorators.http import require_POST
+from django.views.decorators.http import require_POST, require_safe
 from django_registration.backends.activation.views import RegistrationView
 
 from associations.models import Association
@@ -22,12 +22,14 @@ class CaptchaRegistrationView(RegistrationView):
 
 
 @login_required
+@require_safe
 def profile(request):
     players = Player.objects.filter(user=request.user).order_by("-team__league__season__start_year")
     return render(request=request, template_name="users/profile.html", context={"players": players})
 
 
 @login_required
+@require_safe
 def link(request):
     if request.method == "POST":
         form = LinkForm(request.POST)

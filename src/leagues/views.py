@@ -1,10 +1,12 @@
 from django.shortcuts import get_object_or_404, render
+from django.views.decorators.http import require_safe
 
 from base import logic
 from base.logic import add_ranking_place
 from leagues.models import League
 
 
+@require_safe
 def detail(request, pk):
     league = get_object_or_404(League, pk=pk)
     top_teams = logic.top_league_teams(league)
@@ -30,23 +32,27 @@ def detail(request, pk):
     )
 
 
+@require_safe
 def teams(request, pk):
     league = get_object_or_404(League, pk=pk)
     return render(request, "leagues/teams.j2", {"league": league})
 
 
+@require_safe
 def games(request, pk):
     league = get_object_or_404(League, pk=pk)
     games_by_month = logic.league_games(league)
     return render(request, "leagues/games.j2", {"league": league, "games_by_month": games_by_month})
 
 
+@require_safe
 def scorers(request, pk):
     league = get_object_or_404(League, pk=pk)
     league_scorers = logic.league_scorers(league)
     return render(request, "leagues/scorers.j2", {"league": league, "scorers": league_scorers})
 
 
+@require_safe
 def offenders(request, pk):
     league = get_object_or_404(League, pk=pk)
     league_offenders = logic.league_offenders(league)

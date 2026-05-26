@@ -6,6 +6,7 @@ from django.db.models.functions import Coalesce
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, render
 from django.utils import timezone
+from django.views.decorators.http import require_safe
 from icalendar import Calendar, Event, vText
 from returns.result import Result
 
@@ -15,23 +16,27 @@ from players.models import Player
 from teams.models import Team
 
 
+@require_safe
 def detail(request, pk):
     team = get_object_or_404(Team, pk=pk)
     return render(request, "teams/detail.j2", {"team": team})
 
 
+@require_safe
 def games(request, pk):
     team = get_object_or_404(Team, pk=pk)
     team_games = Game.objects.filter(Q(home_team=team) | Q(guest_team=team)).order_by("opening_whistle")
     return render(request, "teams/games.j2", {"team": team, "games": team_games})
 
 
+@require_safe
 def players(request, pk):
     team = get_object_or_404(Team, pk=pk)
     team_players = Player.objects.filter(team=team).annotate(games=Count("score")).order_by("name")
     return render(request, "teams/players.j2", {"team": team, "players": team_players})
 
 
+@require_safe
 def scorers(request, pk):
     team = get_object_or_404(Team, pk=pk)
     team_players = (
@@ -47,6 +52,7 @@ def scorers(request, pk):
     return render(request, "teams/scorers.j2", {"team": team, "players": team_players})
 
 
+@require_safe
 def offenders(request, pk):
     team = get_object_or_404(Team, pk=pk)
     team_offenders = (
@@ -67,6 +73,7 @@ def offenders(request, pk):
     return render(request, "teams/offenders.j2", {"team": team, "offenders": team_offenders})
 
 
+@require_safe
 def calendar(_, pk):
     team = get_object_or_404(Team, pk=pk)
     team_games = Game.objects.filter(Q(home_team=team) | Q(guest_team=team))

@@ -1,10 +1,12 @@
 import collections
 
 from django.shortcuts import get_object_or_404, render
+from django.views.decorators.http import require_safe
 
 from districts.models import District
 
 
+@require_safe
 def detail(request, pk):
     district = get_object_or_404(District, pk=pk)
     leagues = district.league_set
