@@ -44,6 +44,9 @@ def import_associations(options):
     association_urls = parsing.parse_association_urls(start_dom)
 
     for association_url in association_urls:
+        if not (association_url.startswith("/") or association_url.startswith(settings.NEW_ROOT_SOURCE_URL)):
+            LOGGER.debug("SKIPPING Association (non-h4a): %s", association_url)
+            continue
         try:
             url = settings.NEW_ROOT_SOURCE_URL + association_url[1:]
             scrape_association(url, options)
