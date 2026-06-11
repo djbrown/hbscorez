@@ -4,7 +4,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse_lazy
-from django.views.decorators.http import require_POST, require_safe
+from django.views.decorators.http import require_http_methods, require_POST, require_safe
 from django_registration.backends.activation.views import RegistrationView
 
 from associations.models import Association
@@ -29,7 +29,7 @@ def profile(request):
 
 
 @login_required
-@require_safe
+@require_http_methods(["GET", "HEAD", "POST"])
 def link(request):
     if request.method == "POST":
         form = LinkForm(request.POST)
