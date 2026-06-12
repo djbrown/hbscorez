@@ -1,7 +1,7 @@
 import datetime
+import unittest
 from pathlib import Path
 
-import unittest
 from django.conf import settings
 from django.utils import timezone
 

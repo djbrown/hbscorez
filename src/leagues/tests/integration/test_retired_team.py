@@ -1,7 +1,7 @@
+import unittest
 from datetime import date
 from pathlib import Path
 
-import unittest
 from django.conf import settings
 from django.test import TestCase
 
