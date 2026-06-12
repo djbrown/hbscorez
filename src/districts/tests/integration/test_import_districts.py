@@ -1,6 +1,5 @@
 import unittest
 
-from associations.models import Association
 from base.tests.base import IntegrationTestCase
 from districts.models import District
 
