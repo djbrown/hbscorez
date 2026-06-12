@@ -1,4 +1,3 @@
-from associations.management.commands.import_associations import import_associations
 from associations.models import Association
 from base.tests.base import IntegrationTestCase
 
