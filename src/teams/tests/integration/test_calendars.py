@@ -1,10 +1,10 @@
-import pytest
+import unittest
 
 from base.tests.base import IntegrationTestCase
 from teams.models import Team
 
 
-@pytest.skip("broken integration test", True)
+@unittest.skip("broken integration test")
 class CalendarTest(IntegrationTestCase):
     def test_specific(self):
         self.assert_command("import_associations", "-a", 3)

@@ -1,6 +1,6 @@
 import datetime
+import unittest
 
-import pytest
 from django.utils import timezone
 
 from base.tests.base import IntegrationTestCase
@@ -9,7 +9,7 @@ from leagues.models import League
 from players.models import Score
 
 
-@pytest.skip("broken integration test", True)
+@unittest.skip("broken integration test")
 class ImportGamesTest(IntegrationTestCase):
     def test_game_210116_sghh_hcn(self):
         self.assert_command("import_associations", "-a", 35)

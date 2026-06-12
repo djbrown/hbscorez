@@ -1,4 +1,4 @@
-import pytest
+import unittest
 
 from associations.models import Association
 from base.tests.base import IntegrationTestCase
@@ -6,7 +6,7 @@ from games.models import Team
 from teams.models import Club
 
 
-@pytest.skip("broken integration test", True)
+@unittest.skip("broken integration test")
 class ImportClubsTest(IntegrationTestCase):
     def test_no_associations(self):
         self.assert_command("import_clubs")

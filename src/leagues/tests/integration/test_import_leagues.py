@@ -1,11 +1,11 @@
-import pytest
+import unittest
 
 from base.tests.base import IntegrationTestCase
 from districts.models import District
 from leagues.models import League, LeagueName, Season
 
 
-@pytest.skip("broken integration test", True)
+@unittest.skip("broken integration test")
 class SeasonTest(IntegrationTestCase):
     def test_specific(self):
         self.assert_command("import_associations", "-a", 35)
@@ -37,6 +37,7 @@ class SeasonTest(IntegrationTestCase):
             self.assertFalse(exists, f"Season {start_year} should not exist")
 
 
+@unittest.skip("broken integration test")
 class SeasonStartTest(IntegrationTestCase):
     def test_first_hit(self):
         self.assert_command("import_associations", "-a", 80)
@@ -67,6 +68,7 @@ class SeasonStartTest(IntegrationTestCase):
         self.assert_objects(League, count=2)
 
 
+@unittest.skip("broken integration test")
 class CommandTest(IntegrationTestCase):
     def test_specific(self):
         self.assert_command("import_associations", "-a", 35)
@@ -99,6 +101,7 @@ class CommandTest(IntegrationTestCase):
         self.assert_object(League)
 
 
+@unittest.skip("broken integration test")
 class SpecificLeagueTest(IntegrationTestCase):
 
     def test_mvl_2016(self):
@@ -158,6 +161,7 @@ class SpecificLeagueTest(IntegrationTestCase):
         self.assertEqual(league.season, season)
 
 
+@unittest.skip("broken integration test")
 class LeagueNameTest(IntegrationTestCase):
     def test_long_name(self):
         self.assert_command("import_associations", "-a", 83)
@@ -221,6 +225,7 @@ class LeagueNameTest(IntegrationTestCase):
         self.assertEqual(mkl22.name, "Männer Kreisliga 2-2")
 
 
+@unittest.skip("broken integration test")
 class FewGames(IntegrationTestCase):
     def test_short_name_single_game_per_team(self):
         LeagueName.objects.create(bhv_id=83521, name="608120 Aufstieg Männer KL")
@@ -232,6 +237,7 @@ class FewGames(IntegrationTestCase):
         self.assert_object(League)
 
 
+@unittest.skip("broken integration test")
 class YouthTest(IntegrationTestCase):
     def test_youth(self):
         self.assert_command("import_associations", "-a", 35)

@@ -1,11 +1,11 @@
-import pytest
+import unittest
 
 from associations.models import Association
 from base.tests.base import IntegrationTestCase
 from districts.models import District
 
 
-@pytest.skip("broken integration test", True)
+@unittest.skip("broken integration test")
 class CommandTest(IntegrationTestCase):
     def test_specific(self):
         self.assert_command("import_associations", "-a", 35)

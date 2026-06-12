@@ -1,10 +1,10 @@
-import pytest
+import unittest
 
 from base.tests.base import IntegrationTestCase
 from games.models import Team
 
 
-@pytest.skip("broken integration test", True)
+@unittest.skip("broken integration test")
 class TeamTest(IntegrationTestCase):
     def test_update(self):
         self.assert_command("import_associations", "-a", 80)

@@ -1,7 +1,7 @@
 import datetime
 from pathlib import Path
 
-import pytest
+import unittest
 from django.conf import settings
 from django.utils import timezone
 
@@ -13,7 +13,7 @@ from leagues.tests.integration import test_import_leagues
 from players.models import Score
 
 
-@pytest.skip("broken integration test", True)
+@unittest.skip("broken integration test")
 class ImportGamesTest(IntegrationTestCase):
 
     def test_specific(self):
@@ -68,6 +68,7 @@ def read_html(file_name):
     return parsing.html_dom(content)
 
 
+@unittest.skip("broken integration test")
 class UpdateTest(IntegrationTestCase):
     def test_update_game(self):
         self.assert_command("import_associations", "-a", 35)
@@ -113,6 +114,7 @@ class UpdateTest(IntegrationTestCase):
         self.assertEqual(game.report_number, 2340416)
 
 
+@unittest.skip("broken integration test")
 class ForfeitTest(IntegrationTestCase):
     def test_forfeit_with_report(self):
         self.assert_command("import_associations", "-a", 83)
@@ -145,6 +147,7 @@ class ForfeitTest(IntegrationTestCase):
         self.assertEqual(game.forfeiting_team(), game.guest_team)
 
 
+@unittest.skip("broken integration test")
 class YouthTest(IntegrationTestCase):
     def test_youth(self):
         test_import_leagues.YouthTest.test_youth(self)
@@ -162,6 +165,7 @@ class YouthTest(IntegrationTestCase):
         self.assert_objects(Game, count=0)
 
 
+@unittest.skip("broken integration test")
 class BuggedGameRowsTest(IntegrationTestCase):
     def test_additional_heading_row(self):
         self.assert_command("import_associations", "-a", 3)

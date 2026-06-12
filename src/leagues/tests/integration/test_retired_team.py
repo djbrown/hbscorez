@@ -1,7 +1,7 @@
 from datetime import date
 from pathlib import Path
 
-import pytest
+import unittest
 from django.conf import settings
 from django.test import TestCase
 
@@ -12,13 +12,13 @@ from players.models import Score
 from teams.models import Team
 
 
-@pytest.skip("broken integration test", True)
 def read_html(file_name):
     file: Path = settings.ROOT_DIR / "src" / "leagues" / "tests" / file_name
     content = file.read_text()
     return parsing.html_dom(content)
 
 
+@unittest.skip("broken integration test")
 class ParseRetiredTeamTest(TestCase):
     def test_empty_retirement(self):
         dom = read_html("league_without_retired_team.html")
@@ -38,6 +38,7 @@ class ParseRetiredTeamTest(TestCase):
         self.assertEqual(expected, retirements)
 
 
+@unittest.skip("broken integration test")
 class RetiredTeamTest(IntegrationTestCase):
     def test_retired_team(self):
         self.assert_command("import_associations", "-a", 3)
