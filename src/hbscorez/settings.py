@@ -171,9 +171,9 @@ EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
 
 EMAIL_FILE_PATH = ROOT_DIR / "mails"
 
-MANAGERS = [("manager", "manager@localhost")]
+MANAGERS = [("manager@localhost")]
 
-ADMINS = [("admin", "admin@localhost")]
+ADMINS = [("admin@localhost")]
 
 
 # test
