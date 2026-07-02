@@ -130,11 +130,11 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v7
       - name: "Run FOSSA Scan"
-        uses: fossas/fossa-action@v1
+        uses: fossas/fossa-action@v2
         with:
           api-key: ${{secrets.FOSSA_API_KEY}}
       - name: "Run FOSSA Test"
-        uses: fossas/fossa-action@v1
+        uses: fossas/fossa-action@v2
         with:
           api-key: ${{secrets.FOSSA_API_KEY}}
           run-tests: true
