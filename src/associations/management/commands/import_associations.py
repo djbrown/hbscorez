@@ -48,7 +48,7 @@ def import_associations(options):
             LOGGER.debug("SKIPPING Association (non-h4a): %s", association_url)
             continue
         try:
-            url = settings.NEW_ROOT_SOURCE_URL + association_url[1:]
+            url = settings.NEW_ROOT_SOURCE_URL + association_url
             scrape_association(url, options)
         except Exception:
             LOGGER.exception("Could not create Association")
