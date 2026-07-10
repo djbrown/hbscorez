@@ -94,40 +94,36 @@ def scrape_district_season(district: District, season: Season, options):
     for interval_number in range(interval_count):
         interval_date = season_begin + timedelta(days=interval_days * interval_number)
         LOGGER.debug("trying District Season: %s %s %s", district, season, interval_date)
-        url = District.build_source_url(district.bhv_id, interval_date)
-        html = http.get_text(url)
-        dom = parsing.html_dom(html)
-        league_links = parsing.parse_league_links(dom)
-        if league_links:
+        url = district.api_url(date=interval_date)
+        json = http.get_throttled(url)
+        league_bhv_ids = parsing.parse_league_bhv_ids(json)
+        if league_bhv_ids:
             break
     else:
         LOGGER.warning("District Season without Leagues: %s %s", district, season)
         return
 
-    for league_link in league_links:
+    for league_bhv_id in league_bhv_ids:
         try:
-            scrape_league(league_link, district, season, options)
+            scrape_league(league_bhv_id, district, season, options)
         except Exception:
-            LOGGER.exception("Could not create League %s", league_link)
+            LOGGER.exception("Could not create League %s", league_bhv_id)
 
 
 @transaction.atomic
-def scrape_league(league_link, district, season, options):  # pylint: disable=too-many-branches
-    abbreviation = league_link.text
-    bhv_id = parsing.parse_league_bhv_id(league_link)
-
+def scrape_league(bhv_id, district, season, options):  # pylint: disable=too-many-branches
     if options["leagues"] and bhv_id not in options["leagues"]:
-        LOGGER.debug("SKIPPING League (options): %s %s", bhv_id, abbreviation)
+        LOGGER.debug("SKIPPING League (options): %s", bhv_id)
         return
+
+    url = League.build_api_url(district.bhv_id, bhv_id)
+    json = http.get_throttled(url)
+    name = parsing.parse_league_name(json)
+    abbreviation = parsing.parse_league_abbreviation(json)
 
     if abbreviation == "TEST":
         LOGGER.debug("SKIPPING League (test league): %s %s", bhv_id, abbreviation)
         return
-
-    url = League.build_source_url(bhv_id)
-    html = http.get_text(url)
-    dom = parsing.html_dom(html)
-    name = parsing.parse_league_name(dom)
 
     try:
         name = LeagueName.objects.get(bhv_id=bhv_id).name
@@ -159,13 +155,13 @@ def scrape_league(league_link, district, season, options):  # pylint: disable=to
         LOGGER.debug("SKIPPING League (name): %s %s", bhv_id, name)
         return
 
-    team_links = parsing.parse_team_links(dom)
-    if not team_links:
-        LOGGER.debug("SKIPPING League (no team table): %s %s", bhv_id, name)
+    team_bhv_ids = parsing.parse_team_bhv_ids(json)
+    if not team_bhv_ids:
+        LOGGER.debug("SKIPPING League (no teams): %s %s", bhv_id, name)
         return
 
-    game_rows = parsing.parse_game_rows(dom)
-    if not game_rows:
+    games = parsing.parse_game_items(json)
+    if not games:
         LOGGER.debug("SKIPPING League (no games): %s %s", bhv_id, name)
         return
 
@@ -199,10 +195,10 @@ def scrape_league(league_link, district, season, options):  # pylint: disable=to
     if options["skip_teams"]:
         return
 
-    for team_link in team_links:
-        scrape_team(team_link, league)
+    for team_bhv_id in team_bhv_ids:
+        scrape_team(team_bhv_id, league)
 
-    retirements = parsing.parse_retirements(dom)
+    retirements = parsing.parse_retirements(json)
     Team.check_retirements(retirements, league, LOGGER)
 
 

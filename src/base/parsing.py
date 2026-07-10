@@ -51,12 +51,8 @@ def parse_district_link_date(link: _Element) -> str:
     return parse_link_query_item(link, "do")
 
 
-def parse_league_links(dom: _Element) -> list[_Element]:
-    return cast(list[_Element], dom.xpath('//div[@id="results"]/div/table[2]/tr/td[1]/a'))
-
-
-def parse_league_bhv_id(link: _Element) -> int:
-    return int(parse_link_query_item(link, "score"))
+def parse_league_bhv_ids(json_text: str) -> list[int]:
+    return [int(c["gClassID"]) for c in json.loads(json_text)[0]["content"]["classes"]]
 
 
 def parse_district_season_start_year(district_season_heading: str) -> int | None:
@@ -64,19 +60,20 @@ def parse_district_season_start_year(district_season_heading: str) -> int | None
     return int(matches.group(1)) if matches else None
 
 
-def parse_league_name(dom: _Element) -> str:
-    heading = cast(list[str], dom.xpath('//*[@id="results"]/div/h1/text()[2]'))[0]
-    return heading.rsplit(" - ", 1)[0]
+def parse_league_name(json_text: str) -> str:
+    return json.loads(json_text)[0]["head"]["name"]
 
 
-def parse_team_links(dom: _Element) -> list[_Element]:
-    return cast(
-        list[_Element],
-        dom.xpath('//table[@class="scoretable"]/tr[position() > 1]/td[3]/a'),
-    ) or cast(
-        list[_Element],
-        dom.xpath('//table[@class="scoretable"]/tr[position() > 1]/td[2]/a'),
-    )
+def parse_league_abbreviation(json_text: str) -> str:
+    return json.loads(json_text)[0]["head"]["sname"]
+
+
+def parse_team_bhv_ids(json_text: str) -> list[int]:
+    return [int(c["teamID"]) for c in json.loads(json_text)[0]["content"]["teamsList"]]
+
+
+def parse_game_items(json_text: str) -> list[int]:
+    return json.loads(json_text)[0]["content"]["futureGames"]["games"]
 
 
 def parse_retirements(dom: _Element) -> list[tuple[str, datetime]]:

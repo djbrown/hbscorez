@@ -1,5 +1,6 @@
 from datetime import timedelta
 
+from associations.models import Association
 from base.tests.base import ViewTestCase
 from districts.models import District
 from games.models import Game
@@ -11,7 +12,9 @@ from teams.models import Team
 
 class TestDetails(ViewTestCase):
     def test(self):
+        association = Association.objects.create(name="Test Association 1", abbreviation="A1", bhv_id=1, source_url="")
         district = District.objects.create(name="Test District 10", bhv_id=10)
+        district.associations.add(association)
         season = Season.objects.create(start_year=2025)
         lg = League.objects.create(name="Test L 25", abbreviation="L25", bhv_id=25, district=district, season=season)
         team = Team.objects.create(name="Test Team 251", short_name="T251", bhv_id=251, league=lg)
@@ -29,7 +32,9 @@ class TestDetails(ViewTestCase):
         self.assertContains(response, offender.name)
 
     def test_empty(self):
+        association = Association.objects.create(name="Test Association 1", abbreviation="A1", bhv_id=1, source_url="")
         district = District.objects.create(name="Test District 10", bhv_id=10)
+        district.associations.add(association)
         season = Season.objects.create(start_year=2025)
         lg = League.objects.create(name="Test L 25", abbreviation="L25", bhv_id=25, district=district, season=season)
         response = self.get_url("leagues:detail", pk=lg.pk)
@@ -43,7 +48,9 @@ class TestDetails(ViewTestCase):
 
 class TestTeams(ViewTestCase):
     def test(self):
+        association = Association.objects.create(name="Test Association 1", abbreviation="A1", bhv_id=1, source_url="")
         district = District.objects.create(name="Test District 10", bhv_id=10)
+        district.associations.add(association)
         season = Season.objects.create(start_year=2025)
         lg = League.objects.create(name="Test L 25", abbreviation="L25", bhv_id=25, district=district, season=season)
         team251 = Team.objects.create(name="Test Team 251", short_name="T251", bhv_id=251, league=lg)
@@ -56,7 +63,9 @@ class TestTeams(ViewTestCase):
         self.assertContains(response, team252.name)
 
     def test_empty(self):
+        association = Association.objects.create(name="Test Association 1", abbreviation="A1", bhv_id=1, source_url="")
         district = District.objects.create(name="Test District 10", bhv_id=10)
+        district.associations.add(association)
         season = Season.objects.create(start_year=2025)
         lg = League.objects.create(name="Test L 25", abbreviation="L25", bhv_id=25, district=district, season=season)
         response = self.get_url("leagues:teams", pk=lg.pk)
@@ -70,7 +79,9 @@ class TestTeams(ViewTestCase):
 
 class TestGames(ViewTestCase):
     def test(self):
+        association = Association.objects.create(name="Test Association 1", abbreviation="A1", bhv_id=1, source_url="")
         district = District.objects.create(name="Test District 10", bhv_id=10)
+        district.associations.add(association)
         season = Season.objects.create(start_year=2025)
         lg = League.objects.create(name="Test L 25", abbreviation="L25", bhv_id=25, district=district, season=season)
         team = Team.objects.create(name="Test Team 251", short_name="T251", bhv_id=251, league=lg)
@@ -87,7 +98,9 @@ class TestGames(ViewTestCase):
         self.assertContains(response, game.report_number)
 
     def test_empty(self):
+        association = Association.objects.create(name="Test Association 1", abbreviation="A1", bhv_id=1, source_url="")
         district = District.objects.create(name="Test District 10", bhv_id=10)
+        district.associations.add(association)
         season = Season.objects.create(start_year=2025)
         lg = League.objects.create(name="Test L 25", abbreviation="L25", bhv_id=25, district=district, season=season)
         response = self.get_url("leagues:games", pk=lg.pk)
@@ -101,7 +114,9 @@ class TestGames(ViewTestCase):
 
 class TestScorers(ViewTestCase):
     def test(self):
+        association = Association.objects.create(name="Test Association 1", abbreviation="A1", bhv_id=1, source_url="")
         district = District.objects.create(name="Test District 10", bhv_id=10)
+        district.associations.add(association)
         season = Season.objects.create(start_year=2025)
         lg = League.objects.create(name="Test L 25", abbreviation="L25", bhv_id=25, district=district, season=season)
         team = Team.objects.create(name="Test Team 251", short_name="T251", bhv_id=251, league=lg)
@@ -116,7 +131,9 @@ class TestScorers(ViewTestCase):
         self.assertContains(response, scorer.name)
 
     def test_empty(self):
+        association = Association.objects.create(name="Test Association 1", abbreviation="A1", bhv_id=1, source_url="")
         district = District.objects.create(name="Test District 10", bhv_id=10)
+        district.associations.add(association)
         season = Season.objects.create(start_year=2025)
         lg = League.objects.create(name="Test L 25", abbreviation="L25", bhv_id=25, district=district, season=season)
         team = Team.objects.create(name="Test Team 251", short_name="T251", bhv_id=251, league=lg)
@@ -133,7 +150,9 @@ class TestScorers(ViewTestCase):
 
 class TestOffenders(ViewTestCase):
     def test(self):
+        association = Association.objects.create(name="Test Association 1", abbreviation="A1", bhv_id=1, source_url="")
         district = District.objects.create(name="Test District 10", bhv_id=10)
+        district.associations.add(association)
         season = Season.objects.create(start_year=2025)
         lg = League.objects.create(name="Test L 25", abbreviation="L25", bhv_id=25, district=district, season=season)
         team = Team.objects.create(name="Test Team 251", short_name="T251", bhv_id=251, league=lg)
@@ -148,7 +167,9 @@ class TestOffenders(ViewTestCase):
         self.assertContains(response, offender.name)
 
     def test_empty(self):
+        association = Association.objects.create(name="Test Association 1", abbreviation="A1", bhv_id=1, source_url="")
         district = District.objects.create(name="Test District 10", bhv_id=10)
+        district.associations.add(association)
         season = Season.objects.create(start_year=2025)
         lg = League.objects.create(name="Test L 25", abbreviation="L25", bhv_id=25, district=district, season=season)
         team = Team.objects.create(name="Test Team 251", short_name="T251", bhv_id=251, league=lg)

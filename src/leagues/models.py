@@ -36,11 +36,15 @@ class League(models.Model):
         return reverse("leagues:detail", kwargs={"pk": self.pk})
 
     @staticmethod
-    def build_source_url(bhv_id):
-        return f"{settings.ROOT_SOURCE_URL}Spielbetrieb/index.php?orgGrpID=1&all=1&score={bhv_id}"
+    def build_api_url(district_bhv_id, bhv_id):
+        return f"{settings.ROOT_SOURCE_URL}/service/if_g_json.php?cmd=ps&og={district_bhv_id}&cl={bhv_id}&ca=1"
+
+    @staticmethod
+    def build_source_url(district, bhv_id):
+        return f"{district.source_url()}&lId={bhv_id}&allGames=1"
 
     def source_url(self):
-        return self.build_source_url(self.bhv_id)
+        return self.build_source_url(self.district, self.bhv_id)
 
     @property
     def youth(self) -> bool:
