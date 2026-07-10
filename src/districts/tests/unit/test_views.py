@@ -1,3 +1,4 @@
+from associations.models import Association
 from base.tests.base import ViewTestCase
 from districts.models import District
 from leagues.models import League, Season
@@ -5,7 +6,9 @@ from leagues.models import League, Season
 
 class TestViews(ViewTestCase):
     def test_detail(self):
+        a = Association.objects.create(name="Test Association 10", abbreviation="A10", bhv_id=10, source_url="")
         district = District.objects.create(name="Test District 10", bhv_id=10)
+        district.associations.add(a)
         s25 = Season.objects.create(start_year=2025)
         l25 = League.objects.create(name="Test League 25", abbreviation="L25", bhv_id=25, district=district, season=s25)
         s26 = Season.objects.create(start_year=2026)
@@ -19,7 +22,9 @@ class TestViews(ViewTestCase):
         self.assertContains(response, l26.name)
 
     def test_detail_empty(self):
+        a = Association.objects.create(name="Test Association 10", abbreviation="A10", bhv_id=10, source_url="")
         district = District.objects.create(name="Test District 10", bhv_id=10)
+        district.associations.add(a)
         response = self.get_url("districts:detail", pk=district.pk)
         self.assertContains(response, district.name)
 
