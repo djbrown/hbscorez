@@ -7,45 +7,6 @@ from base.tests.base import IntegrationTestCase
 from districts.models import District
 from leagues.models import League, LeagueName, Season
 
-
-class SeasonTest(IntegrationTestCase):
-    def test_specific(self):
-        association = Association.objects.create(
-            bhv_id=76, source_url=f"{settings.NEW_ROOT_SOURCE_URL}/home/portal/vorarlberg"
-        )
-        District.objects.create(bhv_id=76).associations.add(association)
-        self.assert_command("import_leagues", "-s", 2017, "-l", 0, "--skip-teams")
-
-        season = self.assert_object(Season)
-        self.assertEqual(season.start_year, 2017)
-
-    def test_all(self):
-        association = Association.objects.create(
-            bhv_id=76, source_url=f"{settings.NEW_ROOT_SOURCE_URL}/home/portal/vorarlberg"
-        )
-        District.objects.create(bhv_id=76).associations.add(association)
-        self.assert_command("import_leagues", "-l", 0, "--skip-teams")
-
-        self.assert_objects(League, 0)
-        for start_year in range(2004, 2026):
-            exists = Season.objects.filter(start_year=start_year).exists()
-            self.assertTrue(exists, f"Season {start_year} should exist")
-
-    def test_old_seasons(self):
-        association = Association.objects.create(
-            bhv_id=95, source_url=f"{settings.NEW_ROOT_SOURCE_URL}/home/portal/luxemburg"
-        )
-        District.objects.create(bhv_id=95).associations.add(association)
-        self.assert_command("import_leagues", "-l", 0, "--skip-teams")
-
-        self.assert_objects(League, count=0)
-
-        for start_year in range(1999, 2004):
-            exists = Season.objects.filter(start_year=start_year).exists()
-            self.assertFalse(exists, f"Season {start_year} should not exist")
-
-
-@unittest.skip("broken integration test")
 class SeasonStartTest(IntegrationTestCase):
     def test_first_hit(self):
         self.assert_command("import_associations", "-a", 80)

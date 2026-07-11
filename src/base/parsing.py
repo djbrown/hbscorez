@@ -43,6 +43,17 @@ def parse_association_bhv_id(dom: _Element) -> int:
     return int(bhv_id)
 
 
+def parse_association_season_items(json_text: str) -> dict[str, str]:
+    return json.loads(json_text)[0]["menu"]["period"]["list"]
+
+
+def parse_season_start_year(season_name: str) -> int:
+    match: re.Match[str] | None = re.match(r"(\d\d)/\d\d", season_name)
+    if match:
+        return int(match.group(1)) + 2000
+    raise ValueError(f"invalid season name: {season_name}")
+
+
 def parse_district_items(json_text: str) -> dict[str, str]:
     return json.loads(json_text)[0]["menu"]["org"]["list"]
 

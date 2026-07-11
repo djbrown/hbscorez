@@ -10,6 +10,7 @@ from base.middleware import env
 from base.models import Value
 from clubs.models import Club
 from districts.management.commands.import_districts import add_default_arguments as district_arguments
+from leagues.management.commands.import_seasons import add_default_arguments as season_arguments
 from districts.models import District
 from leagues.models import League, LeagueName, Season
 from teams.models import Team
@@ -19,7 +20,7 @@ LOGGER = logging.getLogger("hbscorez")
 
 def add_default_arguments(parser):
     district_arguments(parser)
-    parser.add_argument("--seasons", "-s", nargs="+", type=int, metavar="start year", help="Start Years of Seasons.")
+    season_arguments(parser)
     parser.add_argument("--leagues", "-l", nargs="+", type=int, metavar="score/sGID", help="IDs of Leagues.")
     parser.add_argument("--youth", action="store_true", help="Include youth leagues.")
 
@@ -59,7 +60,13 @@ def import_leagues(options):
         LOGGER.warning("No matching Districts found.")
         return
 
-    seasons = create_seasons(options)
+    seasons_filters = {}
+    if options["seasons"]:
+        seasons_filters["start_year"] = options["seasons"]
+    seasons = Season.objects.filter(**associations_filters)
+    if not seasons:
+        LOGGER.warning("No matching Season found.")
+        return
 
     for district in districts:
         for season in seasons:
@@ -67,24 +74,6 @@ def import_leagues(options):
                 scrape_district_season(district, season, options)
             except Exception:
                 LOGGER.exception("Could not create Leagues for District %s in Season %s", district, season)
-
-
-def create_seasons(options):
-    seasons = []
-
-    for start_year in range(2004, datetime.now().year + 1):
-        if options["seasons"] and start_year not in options["seasons"]:
-            LOGGER.debug("SKIPPING Season (options): %s", start_year)
-            continue
-
-        season, season_created = Season.objects.get_or_create(start_year=start_year)
-        seasons.append(season)
-        if season_created:
-            LOGGER.info("CREATED Season: %s", season)
-        else:
-            LOGGER.debug("UNCHANGED Season: %s", season)
-
-    return seasons
 
 
 def scrape_district_season(district: District, season: Season, options):

@@ -14,9 +14,11 @@ class Season(models.Model):
             validators.MaxValueValidator(2050),
         ],
     )
+    name = models.TextField(blank=True, null=True, unique=True)
+    bhv_id = models.IntegerField(blank=True, null=True, unique=True)
 
     def __str__(self):
-        return f"{self.start_year}/{self.start_year + 1}"
+        return f"{self.pk} {self.bhv_id} {self.start_year}/{self.start_year + 1}"
 
 
 class League(models.Model):

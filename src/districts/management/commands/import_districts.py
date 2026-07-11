@@ -39,6 +39,9 @@ def import_districts(options):
     if options["associations"]:
         associations_filters["bhv_id__in"] = options["associations"]
     associations = Association.objects.filter(**associations_filters)
+    if not associations:
+        LOGGER.warning("No matching Associations found.")
+        return
 
     for association in associations:
         try:
