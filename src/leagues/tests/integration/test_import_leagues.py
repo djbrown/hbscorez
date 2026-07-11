@@ -7,6 +7,7 @@ from base.tests.base import IntegrationTestCase
 from districts.models import District
 from leagues.models import League, LeagueName, Season
 
+
 class SeasonStartTest(IntegrationTestCase):
     def test_first_hit(self):
         self.assert_command("import_associations", "-a", 80)
