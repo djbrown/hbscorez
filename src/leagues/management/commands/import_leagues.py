@@ -10,8 +10,8 @@ from base.middleware import env
 from base.models import Value
 from clubs.models import Club
 from districts.management.commands.import_districts import add_default_arguments as district_arguments
-from leagues.management.commands.import_seasons import add_default_arguments as season_arguments
 from districts.models import District
+from leagues.management.commands.import_seasons import add_default_arguments as season_arguments
 from leagues.models import League, LeagueName, Season
 from teams.models import Team
 
