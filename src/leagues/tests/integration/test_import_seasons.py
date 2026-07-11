@@ -2,7 +2,7 @@ from base.tests.base import IntegrationTestCase
 from leagues.models import Season
 
 
-class SeasonTest(IntegrationTestCase):
+class CommandTest(IntegrationTestCase):
     def test_specific(self):
         self.assert_command("import_seasons", "-s", 2017)
 

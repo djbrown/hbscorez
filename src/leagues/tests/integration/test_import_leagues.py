@@ -1,131 +1,49 @@
 import unittest
 
+from django.conf import settings
+
+from associations.models import Association
 from base.tests.base import IntegrationTestCase
 from districts.models import District
 from leagues.models import League, LeagueName, Season
 
 
-class SeasonStartTest(IntegrationTestCase):
-    def test_first_hit(self):
-        self.assert_command("import_associations", "-a", 80)
-        self.assert_command("import_districts", "-d", 80)
-        self.assert_command("import_leagues", "-s", 2018, "-l", 34744)
-
-        self.assert_object(League)
-
-    def test_first_hit_multiseason(self):
-        self.assert_command("import_associations", "-a", 80)
-        self.assert_command("import_districts", "-d", 80)
-        self.assert_command("import_leagues", "-s", 2017, 2018, "-l", 27265, 34744)
-
-        self.assert_objects(League, count=2)
-
-    def test_later_hit(self):
-        self.assert_command("import_associations", "-a", 81)
-        self.assert_command("import_districts", "-d", 81)
-        self.assert_command("import_leagues", "-s", 2018, "-l", 37511)
-
-        self.assert_object(League)
-
-    def test_later_hit_multiseason(self):
-        self.assert_command("import_associations", "-a", 81)
-        self.assert_command("import_districts", "-d", 81)
-        self.assert_command("import_leagues", "-s", 2017, 2018, "-l", 30859, 37511)
-
-        self.assert_objects(League, count=2)
-
-
-@unittest.skip("broken integration test")
 class CommandTest(IntegrationTestCase):
     def test_specific(self):
-        self.assert_command("import_associations", "-a", 35)
-        self.assert_command("import_districts", "-d", 35)
-        self.assert_command("import_leagues", "-s", 2017, "-l", 26777)
+        a = Association.objects.create(bhv_id=95, source_url=f"{settings.NEW_ROOT_SOURCE_URL}/home/portal/luxemburg")
+        District.objects.create(bhv_id=95).associations.add(a)
+        Season.objects.create(start_year=2024, bhv_id=130)
+
+        self.assert_command("import_leagues", "-s", 2024, "-l", 127086, "--skip-teams")
 
         league = self.assert_object(League)
-        self.assertEqual(league.name, "Verbandsliga Männer")
-        self.assertEqual(league.abbreviation, "M-VL")
-        self.assertEqual(league.bhv_id, 26777)
+        self.assertEqual(league.name, "AXA League Männer")
+        self.assertEqual(league.abbreviation, "H-AXA")
+        self.assertEqual(league.bhv_id, 127086)
 
     def test_update(self):
-        self.assert_command("import_associations", "-a", 35)
-        self.assert_command("import_districts", "-d", 35)
-        district = self.assert_object(District)
-        season = Season.objects.create(start_year=2017)
-        League.objects.create(name="My League", abbreviation="ABBR", district=district, season=season, bhv_id=26777)
+        a = Association.objects.create(bhv_id=95, source_url=f"{settings.NEW_ROOT_SOURCE_URL}/home/portal/luxemburg")
+        district = District.objects.create(bhv_id=95)
+        district.associations.add(a)
+        season = Season.objects.create(start_year=2024, bhv_id=130)
+        League.objects.create(name="My League", abbreviation="ABBR", district=district, season=season, bhv_id=127086)
 
-        self.assert_command("import_leagues", "-s", 2017, "-l", 26777)
-
-        league = self.assert_object(League)
-        self.assertEqual(league.name, "Verbandsliga Männer")
-        self.assertEqual(league.abbreviation, "M-VL")
-        self.assertEqual(league.bhv_id, 26777)
-
-    def test_oberliga_hamburg_schleswig(self):
-        self.assert_command("import_associations", "-a", 77)
-        self.assert_command("import_districts", "-d", 77)
-        self.assert_command("import_leagues", "-s", 2021, "-l", 77606)
-        self.assert_object(League)
-
-
-@unittest.skip("broken integration test")
-class SpecificLeagueTest(IntegrationTestCase):
-
-    def test_mvl_2016(self):
-        self.assert_command("import_associations", "-a", 35)
-        self.assert_command("import_districts", "-d", 35)
-        self.assert_command("import_leagues", "-s", 2016, "-l", 21666)
-
-        season = self.assert_object(Season)
-        self.assertEqual(season.start_year, 2016)
+        self.assert_command("import_leagues", "-s", 2024, "-l", 127086, "--skip-teams")
 
         league = self.assert_object(League)
-        self.assertEqual(league.name, "Verbandsliga Männer")
-        self.assertEqual(league.abbreviation, "M-VL")
-        self.assertEqual(league.bhv_id, 21666)
-        self.assertEqual(league.season, season)
+        self.assertEqual(league.name, "AXA League Männer")
+        self.assertEqual(league.abbreviation, "H-AXA")
+        self.assertEqual(league.bhv_id, 127086)
 
-    def test_mvl_2017(self):
-        self.assert_command("import_associations", "-a", 35)
-        self.assert_command("import_districts", "-d", 35)
-        self.assert_command("import_leagues", "-s", 2017, "-l", 26777)
+    def test_multiseason(self):
+        a = Association.objects.create(bhv_id=95, source_url=f"{settings.NEW_ROOT_SOURCE_URL}/home/portal/luxemburg")
+        District.objects.create(bhv_id=95).associations.add(a)
+        Season.objects.create(start_year=2023, bhv_id=121)
+        Season.objects.create(start_year=2024, bhv_id=130)
 
-        season = self.assert_object(Season)
-        self.assertEqual(season.start_year, 2017)
+        self.assert_command("import_leagues", "-s", 2023, 2024, "-l", 111316, 127086, "--skip-teams")
 
-        league = self.assert_object(League)
-        self.assertEqual(league.name, "Verbandsliga Männer")
-        self.assertEqual(league.abbreviation, "M-VL")
-        self.assertEqual(league.bhv_id, 26777)
-        self.assertEqual(league.season, season)
-
-    def test_mwls_2016(self):
-        self.assert_command("import_associations", "-a", 3)
-        self.assert_command("import_districts", "-d", 3)
-        self.assert_command("import_leagues", "-s", 2016, "-l", 21747)
-
-        season = self.assert_object(Season)
-        self.assertEqual(season.start_year, 2016)
-
-        league = self.assert_object(League)
-        self.assertEqual(league.name, "Männer Württemberg-Liga Süd")
-        self.assertEqual(league.abbreviation, "M-WL-S")
-        self.assertEqual(league.bhv_id, 21747)
-        self.assertEqual(league.season, season)
-
-    def test_mwls_2017(self):
-        self.assert_command("import_associations", "-a", 3)
-        self.assert_command("import_districts", "-d", 3)
-        self.assert_command("import_leagues", "-s", 2017, "-l", 27505)
-
-        season = self.assert_object(Season)
-        self.assertEqual(season.start_year, 2017)
-
-        league = self.assert_object(League)
-        self.assertEqual(league.name, "Männer Württemberg-Liga Süd")
-        self.assertEqual(league.abbreviation, "M-WL-S")
-        self.assertEqual(league.bhv_id, 27505)
-        self.assertEqual(league.season, season)
+        self.assert_objects(League, count=2)
 
 
 @unittest.skip("broken integration test")

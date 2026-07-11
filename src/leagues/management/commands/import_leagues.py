@@ -1,5 +1,4 @@
 import logging
-from datetime import date, timedelta
 
 from django.core.management import BaseCommand
 from django.db import transaction
@@ -62,8 +61,8 @@ def import_leagues(options):
 
     seasons_filters = {}
     if options["seasons"]:
-        seasons_filters["start_year"] = options["seasons"]
-    seasons = Season.objects.filter(**associations_filters)
+        seasons_filters["start_year__in"] = options["seasons"]
+    seasons = Season.objects.filter(**seasons_filters)
     if not seasons:
         LOGGER.warning("No matching Season found.")
         return
@@ -77,18 +76,10 @@ def import_leagues(options):
 
 
 def scrape_district_season(district: District, season: Season, options):
-    season_begin = date(season.start_year, 10, 1)
-    interval_days = 10
-    interval_count = 4
-    for interval_number in range(interval_count):
-        interval_date = season_begin + timedelta(days=interval_days * interval_number)
-        LOGGER.debug("trying District Season: %s %s %s", district, season, interval_date)
-        url = district.api_url(date=interval_date)
-        json = http.get_throttled(url)
-        league_bhv_ids = parsing.parse_league_bhv_ids(json)
-        if league_bhv_ids:
-            break
-    else:
+    url = district.api_url(season_bhv_id=season.bhv_id)
+    json = http.get_throttled(url)
+    league_bhv_ids = parsing.parse_league_bhv_ids(json)
+    if not league_bhv_ids:
         LOGGER.warning("District Season without Leagues: %s %s", district, season)
         return
 
