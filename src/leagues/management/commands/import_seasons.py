@@ -1,6 +1,4 @@
 import logging
-import re
-from datetime import date, datetime, timedelta
 
 from django.core.management import BaseCommand
 

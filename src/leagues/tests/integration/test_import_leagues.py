@@ -1,8 +1,5 @@
 import unittest
 
-from django.conf import settings
-
-from associations.models import Association
 from base.tests.base import IntegrationTestCase
 from districts.models import District
 from leagues.models import League, LeagueName, Season

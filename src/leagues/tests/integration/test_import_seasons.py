@@ -1,5 +1,3 @@
-from django.conf import settings
-
 from base.tests.base import IntegrationTestCase
 from leagues.models import Season
 
