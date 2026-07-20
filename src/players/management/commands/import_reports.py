@@ -7,12 +7,16 @@ from django.conf import settings
 from django.core.management import BaseCommand
 from django.db import transaction
 
+from associations.management.commands.import_associations import add_association_arguments
 from associations.models import Association
 from base import http
 from base.middleware import env
 from base.models import Value
+from districts.management.commands.import_districts import add_district_arguments
+from games.management.commands.import_games import add_game_arguments
 from games.models import Game
-from leagues.management.commands.import_leagues import add_default_arguments
+from leagues.management.commands.import_leagues import add_league_arguments
+from leagues.management.commands.import_seasons import add_season_arguments
 from leagues.models import Season
 from players.management.commands import parse_report
 from players.models import ReportsBlacklist
@@ -20,33 +24,21 @@ from players.models import ReportsBlacklist
 LOGGER = logging.getLogger("hbscorez")
 
 
+def add_report_arguments(parser):
+    parser.add_argument("--skip-games", "-G", nargs="+", type=int, metavar="game number", help="numbers of Games.")
+    parser.add_argument("--force-update", "-f", action="store_true", help="force download/overwrite existing report")
+
+
 class Command(BaseCommand):
     options: dict[str, Any] = {}
 
     def add_arguments(self, parser):
-        add_default_arguments(parser)
-        parser.add_argument(
-            "--games",
-            "-g",
-            nargs="+",
-            type=int,
-            metavar="game number",
-            help="numbers of Games.",
-        )
-        parser.add_argument(
-            "--skip-games",
-            "-G",
-            nargs="+",
-            type=int,
-            metavar="game number",
-            help="numbers of Games.",
-        )
-        parser.add_argument(
-            "--force-update",
-            "-f",
-            action="store_true",
-            help="force download and overwrite if report already exists",
-        )
+        add_association_arguments(parser)
+        add_district_arguments(parser)
+        add_season_arguments(parser)
+        add_league_arguments(parser)
+        add_game_arguments(parser)
+        add_report_arguments(parser)
 
     def handle(self, *args, **options):
         self.options = options

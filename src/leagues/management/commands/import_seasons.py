@@ -11,14 +11,14 @@ from leagues.models import Season
 LOGGER = logging.getLogger("hbscorez")
 
 
-def add_default_arguments(parser):
+def add_season_arguments(parser):
     parser.add_argument("--seasons", "-s", nargs="+", type=int, metavar="start year", help="Start Years of Seasons.")
 
 
 class Command(BaseCommand):
 
     def add_arguments(self, parser):
-        add_default_arguments(parser)
+        add_season_arguments(parser)
 
     def handle(self, *args, **options):
         env.updating().set_value(Value.TRUE)

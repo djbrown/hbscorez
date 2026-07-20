@@ -2,7 +2,7 @@ import logging
 
 from django.core.management import BaseCommand
 
-from associations.management.commands.import_associations import add_default_arguments as association_arguments
+from associations.management.commands.import_associations import add_association_arguments
 from associations.models import Association
 from base import http, parsing
 from base.middleware import env
@@ -12,15 +12,15 @@ from districts.models import District
 LOGGER = logging.getLogger("hbscorez")
 
 
-def add_default_arguments(parser):
-    association_arguments(parser)
-    parser.add_argument("--districts", "-d", nargs="+", type=int, metavar="orgID", help="IDs of Districts.")
+def add_district_arguments(parser):
+    parser.add_argument("--districts", "-d", nargs="+", type=int, metavar="o/oId", help="h4a IDs of Districts.")
 
 
 class Command(BaseCommand):
 
     def add_arguments(self, parser):
-        add_default_arguments(parser)
+        add_association_arguments(parser)
+        add_district_arguments(parser)
 
     def handle(self, *args, **options):
         env.updating().set_value(Value.TRUE)

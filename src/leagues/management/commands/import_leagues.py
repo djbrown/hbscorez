@@ -3,32 +3,33 @@ import logging
 from django.core.management import BaseCommand
 from django.db import transaction
 
+from associations.management.commands.import_associations import add_association_arguments
 from associations.models import Association
 from base import http, parsing
 from base.middleware import env
 from base.models import Value
 from clubs.models import Club
-from districts.management.commands.import_districts import add_default_arguments as district_arguments
+from districts.management.commands.import_districts import add_district_arguments
 from districts.models import District
-from leagues.management.commands.import_seasons import add_default_arguments as season_arguments
+from leagues.management.commands.import_seasons import add_season_arguments
 from leagues.models import League, LeagueName, Season
 from teams.models import Team
 
 LOGGER = logging.getLogger("hbscorez")
 
 
-def add_default_arguments(parser):
-    district_arguments(parser)
-    season_arguments(parser)
-    parser.add_argument("--leagues", "-l", nargs="+", type=int, metavar="score/sGID", help="IDs of Leagues.")
+def add_league_arguments(parser):
+    parser.add_argument("--leagues", "-l", nargs="+", type=int, metavar="cl/lId", help="IDs of Leagues.")
     parser.add_argument("--youth", action="store_true", help="Include youth leagues.")
 
 
 class Command(BaseCommand):
 
     def add_arguments(self, parser):
-        add_default_arguments(parser)
-        parser.add_argument("--skip-teams", action="store_true", help="Skip processing Teams.")
+        add_association_arguments(parser)
+        add_district_arguments(parser)
+        add_season_arguments(parser)
+        add_league_arguments(parser)
 
     def handle(self, *args, **options):
         env.updating().set_value(Value.TRUE)

@@ -11,21 +11,14 @@ from base.models import Value
 LOGGER = logging.getLogger("hbscorez")
 
 
-def add_default_arguments(parser):
-    parser.add_argument(
-        "--associations",
-        "-a",
-        nargs="+",
-        type=int,
-        metavar="orgGrpID",
-        help="IDs of Associations.",
-    )
+def add_association_arguments(parser):
+    parser.add_argument("--associations", "-a", nargs="+", type=int, metavar="og/ogId", help="h4a IDs of Associations.")
 
 
 class Command(BaseCommand):
 
     def add_arguments(self, parser):
-        add_default_arguments(parser)
+        add_association_arguments(parser)
 
     def handle(self, *args, **options):
         env.updating().set_value(Value.TRUE)
@@ -45,7 +38,7 @@ def import_associations(options):
 
     for association_url in association_urls:
         if not (association_url.startswith("/") or association_url.startswith(settings.NEW_ROOT_SOURCE_URL)):
-            LOGGER.debug("SKIPPING Association (non-h4a): %s", association_url)
+            LOGGER.debug("SKIPPING Association (non h4a): %s", association_url)
             continue
         try:
             url = settings.NEW_ROOT_SOURCE_URL + association_url
