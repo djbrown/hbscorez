@@ -41,6 +41,9 @@ class League(models.Model):
     def build_api_url(district_bhv_id, bhv_id):
         return f"{settings.ROOT_SOURCE_URL}/service/if_g_json.php?cmd=ps&og={district_bhv_id}&cl={bhv_id}&ca=1"
 
+    def api_url(self):
+        return League.build_api_url(self.district.bhv_id, self.bhv_id)
+
     @staticmethod
     def build_source_url(district, bhv_id):
         return f"{district.source_url()}&lId={bhv_id}&allGames=1"

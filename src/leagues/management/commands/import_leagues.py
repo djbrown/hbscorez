@@ -8,12 +8,10 @@ from associations.models import Association
 from base import http, parsing
 from base.middleware import env
 from base.models import Value
-from clubs.models import Club
 from districts.management.commands.import_districts import add_district_arguments
 from districts.models import District
 from leagues.management.commands.import_seasons import add_season_arguments
 from leagues.models import League, LeagueName, Season
-from teams.models import Team
 
 LOGGER = logging.getLogger("hbscorez")
 
@@ -71,20 +69,20 @@ def import_leagues(options):
     for district in districts:
         for season in seasons:
             try:
-                scrape_district_season(district, season, options)
+                scrape_leagues(district, season, options)
             except Exception:
                 LOGGER.exception("Could not create Leagues for District %s in Season %s", district, season)
 
 
-def scrape_district_season(district: District, season: Season, options):
+def scrape_leagues(district: District, season: Season, options):
     url = district.api_url(season_bhv_id=season.bhv_id)
     json = http.get_throttled(url)
-    league_bhv_ids = parsing.parse_league_bhv_ids(json)
-    if not league_bhv_ids:
+    leagues_bhv_ids = parsing.parse_league_bhv_ids(json)
+    if not leagues_bhv_ids:
         LOGGER.warning("District Season without Leagues: %s %s", district, season)
         return
 
-    for league_bhv_id in league_bhv_ids:
+    for league_bhv_id in leagues_bhv_ids:
         try:
             scrape_league(league_bhv_id, district, season, options)
         except Exception:
@@ -98,7 +96,11 @@ def scrape_league(bhv_id, district, season, options):  # pylint: disable=too-man
         return
 
     url = League.build_api_url(district.bhv_id, bhv_id)
-    json = http.get_throttled(url)
+    json = http.get_throttled(url, wait=5)
+    if "permission denied" in json:
+        LOGGER.warning("SKIPPING League (unauthorized): %s - Season: %s - District %s", bhv_id, season, district)
+        return
+
     name = parsing.parse_league_name(json)
     abbreviation = parsing.parse_league_abbreviation(json)
 
@@ -167,36 +169,16 @@ def scrape_league(bhv_id, district, season, options):  # pylint: disable=too-man
         league.abbreviation = abbreviation
         updated = True
 
+    if league.district != district:
+        league.district = district
+        updated = True
+
+    if league.season != season:
+        league.season = season
+        updated = True
+
     if updated:
         league.save()
         LOGGER.info("UPDATED League: %s", league)
     else:
         LOGGER.debug("UNCHANGED League: %s", league)
-
-    if options["skip_teams"]:
-        return
-
-    for team_bhv_id in team_bhv_ids:
-        scrape_team(team_bhv_id, league)
-
-    retirements = parsing.parse_retirements(json)
-    Team.check_retirements(retirements, league, LOGGER)
-
-
-def scrape_team(link, league):
-    bhv_id = parsing.parse_team_bhv_id(link)
-    name = link.text
-
-    club_name = parsing.parse_team_club_name(name)
-    club = Club.objects.filter(name=club_name).first()
-
-    url = Team.build_source_url(league.bhv_id, bhv_id)
-    html = http.get_text(url)
-    dom = parsing.html_dom(html)
-    game_rows = parsing.parse_game_rows(dom)
-    short_team_names = parsing.parse_team_short_names(game_rows)
-    short_team_name = Team.find_matching_short_name(name, short_team_names)
-
-    Team.create_or_update_team(
-        name=name, short_name=short_team_name, league=league, club=club, bhv_id=bhv_id, logger=LOGGER
-    )

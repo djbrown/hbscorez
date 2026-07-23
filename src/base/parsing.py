@@ -130,10 +130,6 @@ def parse_team_club_name(team_name: str) -> str:
     raise ValueError(f"cannot parse team club name: {team_name}")
 
 
-def parse_team_bhv_id(link: _Element) -> int:
-    return int(parse_link_query_item(link, "teamID"))
-
-
 def parse_team_names(text: str) -> tuple[str, str]:
     match: re.Match[str] | None = re.match(r"(.+) - (.+)", text)
     if match:

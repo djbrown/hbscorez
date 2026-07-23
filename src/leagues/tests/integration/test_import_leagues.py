@@ -14,7 +14,7 @@ class CommandTest(IntegrationTestCase):
         District.objects.create(bhv_id=95).associations.add(a)
         Season.objects.create(start_year=2024, bhv_id=130)
 
-        self.assert_command("import_leagues", "-s", 2024, "-l", 127086, "--skip-teams")
+        self.assert_command("import_leagues", "-l", 127086)
 
         league = self.assert_object(League)
         self.assertEqual(league.name, "AXA League Männer")
@@ -28,7 +28,7 @@ class CommandTest(IntegrationTestCase):
         season = Season.objects.create(start_year=2024, bhv_id=130)
         League.objects.create(name="My League", abbreviation="ABBR", district=district, season=season, bhv_id=127086)
 
-        self.assert_command("import_leagues", "-s", 2024, "-l", 127086, "--skip-teams")
+        self.assert_command("import_leagues", "-l", 127086)
 
         league = self.assert_object(League)
         self.assertEqual(league.name, "AXA League Männer")
@@ -41,9 +41,36 @@ class CommandTest(IntegrationTestCase):
         Season.objects.create(start_year=2023, bhv_id=121)
         Season.objects.create(start_year=2024, bhv_id=130)
 
-        self.assert_command("import_leagues", "-s", 2023, 2024, "-l", 111316, 127086, "--skip-teams")
+        self.assert_command("import_leagues", "-s", 2023, 2024, "-l", 111316, 127086)
 
         self.assert_objects(League, count=2)
+
+    def test_without_association_filter(self):
+        a = Association.objects.create(bhv_id=95, source_url=f"{settings.NEW_ROOT_SOURCE_URL}/home/portal/luxemburg")
+        District.objects.create(bhv_id=95).associations.add(a)
+        Season.objects.create(start_year=2024, bhv_id=130)
+
+        self.assert_command("import_leagues", "-s", 2024, "-l", 127086)
+
+        self.assert_object(League)
+
+    def test_season_filter(self):
+        a = Association.objects.create(bhv_id=95, source_url=f"{settings.NEW_ROOT_SOURCE_URL}/home/portal/luxemburg")
+        District.objects.create(bhv_id=95).associations.add(a)
+        Season.objects.create(start_year=2023, bhv_id=121)
+        Season.objects.create(start_year=2024, bhv_id=130)
+
+        self.assert_command("import_leagues", "-s", 2024, "-l", 111316, 127086)
+
+        self.assert_object(League)
+
+    def test_all(self):
+        self.assert_command("import_associations")
+        self.assert_command("import_districts")
+        self.assert_command("import_seasons")
+        self.assert_command("import_leagues")
+
+        self.assert_objects(League, 25)
 
 
 @unittest.skip("broken integration test")
