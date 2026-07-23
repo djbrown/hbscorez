@@ -105,14 +105,6 @@ class Command(BaseCommand):
             LOGGER.debug("SKIPPING Report (blacklist): %s - %s", game.report_number, game)
             return
 
-        if game.home_team.retirement is not None or game.guest_team.retirement is not None:
-            if game.score_set.count() > 0:
-                game.score_set.all().delete()
-                LOGGER.info("DELETED Game Scores (retired team): %s - %s", game.report_number, game)
-            else:
-                LOGGER.debug("SKIPPING Game (retired team): %s - %s", game.report_number, game)
-            return
-
         if game.score_set.count() > 0:
             if not self.options["force_update"]:
                 LOGGER.debug("SKIPPING Game (existing scores): %s - %s", game.report_number, game)

@@ -105,9 +105,6 @@ def scrape_teams(league: League, options):
         except Exception:
             LOGGER.exception("Could not create League %s", team_bhv_id)
 
-    # retirements = parsing.parse_retirements(json)
-    # Team.check_retirements(retirements, league, LOGGER)
-
 
 def scrape_team(bhv_id, league, options):
     if options["teams"] and bhv_id not in options["teams"]:

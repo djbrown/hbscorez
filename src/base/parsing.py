@@ -87,31 +87,6 @@ def parse_game_items(json_text: str) -> list[int]:
     return json.loads(json_text)[0]["content"]["futureGames"]["games"]
 
 
-def parse_retirements(dom: _Element) -> list[tuple[str, datetime]]:
-    retirements = []
-    paragraphs = cast(
-        list[html.HtmlMixin],
-        dom.xpath('//table[@class="scoretable"]/following::div[following::table[@class="gametable"]]'),
-    )
-    for paragraph in paragraphs:
-        text: str = cast(str, paragraph.text_content())
-        matches = re.match(r"(?:Der|Die) (.*) hat.* ([0123]\d\.[012]\d\.\d{2,4}).* zurückgezogen.*", text)
-        if matches:
-            team_name = matches.group(1)
-
-            def date_from_text(text):
-                for date_format in ["%d.%m.%y", "%d.%m.%Y"]:
-                    try:
-                        return datetime.strptime(text, date_format).date()
-                    except ValueError:
-                        pass
-                raise ValueError("no date format is valid")
-
-            retirement_date = date_from_text(matches.group(2))
-            retirements.append((team_name, retirement_date))
-    return retirements
-
-
 def parse_club_option_texts(dom) -> list[str]:
     return cast(list[str], dom.xpath('//select[@name="club"]/option/text()'))
 
