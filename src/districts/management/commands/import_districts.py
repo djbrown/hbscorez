@@ -58,12 +58,12 @@ def scrape_districs(association: Association, options):
 
     for bhv_id, name in districts.items():
         try:
-            scrape_district(int(bhv_id), name, association, options)
+            create_district(int(bhv_id), name, association, options)
         except Exception:
             LOGGER.exception("Could not create District %s %s", bhv_id, name)
 
 
-def scrape_district(bhv_id, name, association: Association, options):
+def create_district(bhv_id, name, association: Association, options):
     if options["districts"] and bhv_id not in options["districts"]:
         LOGGER.debug("SKIPPING District (options): %s %s", bhv_id, name)
         return

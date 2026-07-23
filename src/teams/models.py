@@ -1,10 +1,8 @@
 import logging
-from collections import Counter
 
 from django.conf import settings
 from django.db import models
 from django.urls import reverse
-from fuzzywuzzy import process
 
 from clubs.models import Club
 from leagues.models import League
@@ -28,10 +26,14 @@ class Team(models.Model):
         return reverse("teams:detail", kwargs={"pk": self.pk})
 
     @staticmethod
-    def build_api_url(league_bhv_id, team_bhv_id):
+    def build_api_url(district_bhv_id, league_bhv_id, team_bhv_id):
         return (
-            f"{settings.ROOT_SOURCE_URL}/Spielbetrieb/index.php?orgGrpID=1&score={league_bhv_id}&teamID={team_bhv_id}"
+            settings.ROOT_SOURCE_URL
+            + f"/service/if_g_json.php?cmd=ps&og={district_bhv_id}&cl={league_bhv_id}&ct={team_bhv_id}&ca=1"
         )
+
+    def api_url(self):
+        return Team.build_api_url(self.league.district.bhv_id, self.league.bhv_id, self.bhv_id)
 
     @staticmethod
     def build_source_url(league_bhv_id, team_bhv_id):
@@ -39,45 +41,5 @@ class Team(models.Model):
             f"{settings.ROOT_SOURCE_URL}/Spielbetrieb/index.php?orgGrpID=1&score={league_bhv_id}&teamID={team_bhv_id}"
         )
 
-    @staticmethod
-    def create_or_update_team(*, name, short_name, league, club, bhv_id, logger: logging.Logger = logging.getLogger()):
-        team = Team.objects.filter(bhv_id=bhv_id).first()
-        if team is None:
-            team = Team.objects.create(name=name, short_name=short_name, league=league, club=club, bhv_id=bhv_id)
-            logger.info("CREATED Team: %s", team)
-            return
-
-        updated = False
-
-        if team.name != name:
-            team.name = name
-            updated = True
-
-        if team.short_name != short_name:
-            team.short_name = short_name
-            updated = True
-
-        if team.club != club:
-            team.club = club
-            updated = True
-
-        if updated:
-            team.save()
-            logger.info("UPDATED Team: %s", team)
-        else:
-            logger.debug("UNCHANGED Team: %s", team)
-
     def source_url(self):
         return self.build_source_url(self.league.bhv_id, self.bhv_id)
-
-    @staticmethod
-    def find_matching_short_name(name: str, short_names: list[str]) -> str:
-        counter = Counter(short_names)
-        by_count: list[tuple[str, int]] = counter.most_common()
-        max_count: int = by_count[0][1]
-        most_commons: list[str] = []
-        for short_name, count in by_count:
-            if count < max_count:
-                break
-            most_commons.append(short_name)
-        return process.extractOne(name, set(most_commons))[0]

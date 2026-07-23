@@ -79,8 +79,8 @@ def parse_league_abbreviation(json_text: str) -> str:
     return json.loads(json_text)[0]["head"]["sname"]
 
 
-def parse_team_bhv_ids(json_text: str) -> list[int]:
-    return [int(c["teamID"]) for c in json.loads(json_text)[0]["content"]["teamsList"]]
+def parse_team_items(json_text: str) -> dict[int, str]:
+    return {int(c["teamID"]): "" for c in json.loads(json_text)[0]["content"]["teamsList"]}
 
 
 def parse_game_items(json_text: str) -> list[int]:
@@ -105,19 +105,8 @@ def parse_team_club_name(team_name: str) -> str:
     raise ValueError(f"cannot parse team club name: {team_name}")
 
 
-def parse_team_names(text: str) -> tuple[str, str]:
-    match: re.Match[str] | None = re.match(r"(.+) - (.+)", text)
-    if match:
-        return match.group(1), match.group(2)
-    raise ValueError(f"invalid team names: {text}")
-
-
 def parse_game_rows(dom: _Element) -> list[_Element]:
     return cast(list[_Element], dom.xpath('//table[@class="gametable"]/tr[td and not(@class="rgs")]'))
-
-
-def parse_team_short_names(game_rows: list[_Element]) -> list[str | None]:
-    return [c.text for game_row in game_rows for c in cast(list[_Element], game_row.xpath("td"))[4:7:2]]
 
 
 def parse_opening_whistle(text: str) -> datetime | None:

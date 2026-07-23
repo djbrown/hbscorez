@@ -9,7 +9,6 @@ Django = "*"
 django-axes = "*"
 django-registration = "*"
 django-contact-form = {version = "*", extras = ["akismet"]}
-fuzzywuzzy = "*"
 icalendar = "*"
 Jinja2 = "*"
 lxml = "*"

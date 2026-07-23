@@ -14,8 +14,7 @@ from districts.models import District
 from leagues.management.commands.import_leagues import add_league_arguments
 from leagues.management.commands.import_seasons import add_season_arguments
 from leagues.models import League, Season
-
-# from teams.models import Team
+from teams.models import Team
 
 LOGGER = logging.getLogger("hbscorez")
 
@@ -80,47 +79,66 @@ def import_teams(options):
     if options["leagues"]:
         league_filters["bhv_id__in"] = options["leagues"]
     leagues = League.objects.filter(**league_filters)
-    if not seasons:
-        LOGGER.warning("No matching Season found.")
+    if not leagues:
+        LOGGER.warning("No matching League found.")
         return
 
     for league in leagues:
         try:
             scrape_teams(league, options)
         except Exception:
-            LOGGER.exception("Could not create Teams for League %s", league)
+            LOGGER.exception("Could not scrape Teams for League %s", league)
 
 
 def scrape_teams(league: League, options):
     url = league.api_url()
     json = http.get_throttled(url)
-    team_bhv_ids = parsing.parse_team_bhv_ids(json)
-    if not team_bhv_ids:
+    team_items = parsing.parse_team_items(json)
+    if not team_items:
         LOGGER.debug("SKIPPING League (no Teams): %s", league)
         return
 
-    for team_bhv_id in team_bhv_ids:
+    for team_bhv_id, team_name in team_items.items():
         try:
-            scrape_team(team_bhv_id, league, options)
+            create_team(team_bhv_id, team_name, league, options)
         except Exception:
-            LOGGER.exception("Could not create League %s", team_bhv_id)
+            LOGGER.exception("Could not create Team %s in League %s", team_bhv_id, league)
 
 
-def scrape_team(bhv_id, league, options):
+def create_team(bhv_id, name, league, options):
     if options["teams"] and bhv_id not in options["teams"]:
-        LOGGER.debug("SKIPPING Team (options): %s", bhv_id)
+        LOGGER.debug("SKIPPING Team (options): %s %s", bhv_id, name)
         return
 
     # club_name = parsing.parse_team_club_name(name)
     # club = Club.objects.filter(name=club_name).first()
 
-    # url = Team.build_source_url(league.bhv_id, bhv_id)
-    # json = http.get_text(url)
-    # dom = parsing.html_dom(html)
-    # game_rows = parsing.parse_game_rows(dom)
-    # short_team_names = parsing.parse_team_short_names(game_rows)
-    # short_team_name = Team.find_matching_short_name(name, short_team_names)
+    team = Team.objects.filter(bhv_id=bhv_id).first()
+    if team is None:
+        team = Team.objects.create(name=name, short_name=name, league=league, club=None, bhv_id=bhv_id)
+        LOGGER.info("CREATED Team: %s", team)
+        return
 
-    # Team.create_or_update_team(
-    #     name=name, short_name=short_team_name, league=league, club=club, bhv_id=bhv_id, logger=LOGGER
-    # )
+    updated = False
+
+    if team.name != name:
+        team.name = name
+        updated = True
+
+    if team.short_name != name:
+        team.short_name = name
+        updated = True
+
+    if team.league != league:
+        team.league = league
+        updated = True
+
+    # if team.club != club:
+    #     team.club = club
+    #     updated = True
+
+    if updated:
+        team.save()
+        LOGGER.info("UPDATED Team: %s", team)
+    else:
+        LOGGER.debug("UNCHANGED Team: %s", team)

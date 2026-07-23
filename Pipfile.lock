@@ -245,14 +245,6 @@
             "markers": "python_version >= '3.9'",
             "version": "==5.2.1"
         },
-        "fuzzywuzzy": {
-            "hashes": [
-                "sha256:45016e92264780e58972dca1b3d939ac864b78437422beecebb3095f8efd00e8",
-                "sha256:928244b28db720d1e0ee7587acf660ea49d7e4c632569cad4f1cd7e68a5f0993"
-            ],
-            "index": "pypi",
-            "version": "==0.18.0"
-        },
         "h11": {
             "hashes": [
                 "sha256:4e35b956cf45792e4caa5885e69fba00bdbc6ffafbfa020300e549b208ee5ff1",

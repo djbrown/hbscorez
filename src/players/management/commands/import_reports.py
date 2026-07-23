@@ -88,11 +88,11 @@ class Command(BaseCommand):
 
         for game in league.game_set.all():
             try:
-                self.import_game(game)
+                self.import_report(game)
             except Exception:
                 LOGGER.exception("Could not import Report")
 
-    def import_game(self, game: Game):
+    def import_report(self, game: Game):
         if self.options["games"] and game.number not in self.options["games"]:
             LOGGER.debug("SKIPPING Game (options): %s - %s", game.report_number, game)
             return

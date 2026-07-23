@@ -71,7 +71,7 @@ def import_leagues(options):
             try:
                 scrape_leagues(district, season, options)
             except Exception:
-                LOGGER.exception("Could not create Leagues for District %s in Season %s", district, season)
+                LOGGER.exception("Could not scrape Leagues for District %s in Season %s", district, season)
 
 
 def scrape_leagues(district: District, season: Season, options):
@@ -86,7 +86,7 @@ def scrape_leagues(district: District, season: Season, options):
         try:
             scrape_league(league_bhv_id, district, season, options)
         except Exception:
-            LOGGER.exception("Could not create League %s", league_bhv_id)
+            LOGGER.exception("Could not scrape League %s", league_bhv_id)
 
 
 @transaction.atomic
@@ -138,8 +138,8 @@ def scrape_league(bhv_id, district, season, options):  # pylint: disable=too-man
         LOGGER.debug("SKIPPING League (name): %s %s", bhv_id, name)
         return
 
-    team_bhv_ids = parsing.parse_team_bhv_ids(json)
-    if not team_bhv_ids:
+    teams = parsing.parse_team_items(json)
+    if not teams:
         LOGGER.debug("SKIPPING League (no teams): %s %s", bhv_id, name)
         return
 
