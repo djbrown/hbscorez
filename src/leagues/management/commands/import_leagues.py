@@ -96,7 +96,7 @@ def scrape_league(bhv_id, district, season, options):  # pylint: disable=too-man
         return
 
     url = League.build_api_url(district.bhv_id, bhv_id)
-    json = http.get_throttled(url, wait=5)
+    json = http.get_throttled(url, wait=10)
     if "permission denied" in json:
         LOGGER.warning("SKIPPING League (unauthorized): %s - Season: %s - District %s", bhv_id, season, district)
         return

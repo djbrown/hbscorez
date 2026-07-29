@@ -23,7 +23,7 @@ class CommandTest(IntegrationTestCase):
         self.assertEqual(district.associations.first(), association)
 
     def test_specific_stored_association(self):
-        Association.objects.create(bhv_id=95)
+        Association.objects.create(bhv_id=95, name="95")
         association = Association.objects.create(bhv_id=76)
 
         self.assert_command("import_districts", "-a", 76)
