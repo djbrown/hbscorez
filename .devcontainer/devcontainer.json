@@ -1,0 +1,21 @@
+{
+  "image": "mcr.microsoft.com/devcontainers/python:3.13-bookworm",
+  "customizations": {
+    "vscode": {
+      "settings": {},
+      "extensions": [
+        "ms-python.python",
+        "ms-python.black-formatter",
+        "ms-python.isort",
+        "ms-python.pylint",
+        "monosans.djlint",
+        "qwtel.sqlite-viewer",
+        "redhat.vscode-yaml",
+        "jebbs.plantuml",
+        "github.vscode-github-actions"
+      ]
+    }
+  },
+  "forwardPorts": [5000],
+  "postCreateCommand": "pipenv install --dev --deploy"
+}
