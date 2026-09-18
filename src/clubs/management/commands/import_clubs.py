@@ -1,4 +1,5 @@
 import logging
+import time
 from typing import Any
 
 from django.conf import settings
@@ -29,6 +30,25 @@ class Command(BaseCommand):
         env.UPDATING.set_value(Value.TRUE)
         scrape_associations(options)
         env.UPDATING.set_value(Value.FALSE)
+
+
+def scrape_clubs(_):
+    for prefix in range(10, 100):
+        time.sleep(1)
+        url = f"{settings.ROOT_SOURCE_URL}service/if_g_json.php?cmd=cs&cs={prefix}"
+        json_text = http.get_text(url)
+        results: list = parsing.parse_club_search_results(json_text)
+        for result in results:
+            name = result["lname"]
+            bhv_id = int(result["id"])
+            _ = int(result["no"])  # number
+            if bhv_id in [8241]:
+                continue
+            club, created = Club.objects.get_or_create(name=name, bhv_id=bhv_id)
+            if created:
+                LOGGER.info('CREATED Club: %s', club)
+            else:
+                LOGGER.info('EXISTING Club: %s', club)
 
 
 def scrape_associations(options):

@@ -93,6 +93,10 @@ def parse_retirements(dom: _Element) -> list[tuple[str, datetime]]:
     return retirements
 
 
+def parse_club_search_results(json_text) -> list:
+    return json.loads(json_text)[0]["searchResult"]["list"]
+
+
 def parse_club_option_texts(dom) -> list[str]:
     return cast(list[str], dom.xpath('//select[@name="club"]/option/text()'))
 
