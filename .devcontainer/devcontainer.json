@@ -17,5 +17,10 @@
     }
   },
   "forwardPorts": [5000],
-  "postCreateCommand": "pipenv install --dev --deploy"
+  "postCreateCommand": "pipenv install --dev --deploy",
+  "features": {
+      "ghcr.io/devcontainers/features/sshd:1": {
+        "version": "latest"
+    }
+  }
 }
