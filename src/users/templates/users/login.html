@@ -21,7 +21,7 @@
 
 {% if cooloff_timedelta %}
     <div class="alert alert-danger" role="alert">
-        <strong>Du hast zu viele fehlgeschlagene Anmeldeversuche.</strong><br>
+        <strong>Du hast zu viele fehlgeschlagene Anmeldeversuche.</strong>
         Warte {{ cooloff_timedelta.days }} Tag{{ cooloff_timedelta.days|pluralize:'e' }}
         oder melde Dich über das <a href="{% url 'base:contact_form' %}">Kontaktformular</a> um Deinen Zugang zu entsperren.
     </div>
@@ -52,7 +52,7 @@
 
 <div class="row mb-3">
     <div class="col">
-        <a href="{% url 'django_registration_register' %}" class="btn btn-success">Registrieren</a><br>
+        <a href="{% url 'django_registration_register' %}" class="btn btn-success">Registrieren</a>
     </div>
 </div>
 
