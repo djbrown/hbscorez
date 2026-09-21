@@ -44,7 +44,7 @@ def import_associations(options):
             url = settings.NEW_ROOT_SOURCE_URL + association_url
             scrape_association(url, options)
         except Exception:
-            LOGGER.exception("Could not create Association")
+            LOGGER.exception("Could not create Association: %s", association_url)
 
 
 def scrape_association(url: str, options):
@@ -60,6 +60,9 @@ def scrape_association(url: str, options):
 
     api_url = Association.build_api_url(bhv_id)
     json = http.get_throttled(api_url)
+    if parsing.parse_error_denied(json):
+        LOGGER.debug("SKIPPING Association (denied): %s %s", bhv_id, name)
+        return
     abbreviation = parsing.parse_association_abbreviation(json)
 
     association = Association.objects.filter(bhv_id=bhv_id).first()

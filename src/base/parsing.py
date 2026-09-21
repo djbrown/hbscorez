@@ -43,6 +43,11 @@ def parse_association_bhv_id(dom: _Element) -> int:
     return int(bhv_id)
 
 
+def parse_error_denied(json_text: str) -> bool:
+    data = json.loads(json_text)
+    return isinstance(data, dict) and data.get("statusText") == "permission denied"
+
+
 def parse_association_season_items(json_text: str) -> dict[str, str]:
     return json.loads(json_text)[0]["menu"]["period"]["list"]
 
