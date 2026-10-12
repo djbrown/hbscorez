@@ -21,6 +21,7 @@ class ParseAssociationTest(TestCase):
         actual = parsing.parse_association_urls(dom)
 
         expected = [
+            "/home/portal/events",
             "/home/portal/baden",
             "/home/portal/hamburg",
             "/home/portal/luxemburg",

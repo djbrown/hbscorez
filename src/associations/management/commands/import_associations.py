@@ -36,9 +36,14 @@ def import_associations(options):
     start_dom = parsing.html_dom(start_html)
     association_urls = parsing.parse_association_urls(start_dom)
 
+    ignore_list = ["/home/portal", "/home/portal/wlt2026", "/home/portal/events"]
+
     for association_url in association_urls:
         if not (association_url.startswith("/") or association_url.startswith(settings.NEW_ROOT_SOURCE_URL)):
             LOGGER.debug("SKIPPING Association (non h4a): %s", association_url)
+            continue
+        if any([association_url.endswith(ignore) for ignore in ignore_list]):
+            LOGGER.debug("SKIPPING Association (ignore): %s", association_url)
             continue
         try:
             url = settings.NEW_ROOT_SOURCE_URL + association_url
