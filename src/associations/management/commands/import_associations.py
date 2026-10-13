@@ -42,7 +42,7 @@ def import_associations(options):
         if not (association_url.startswith("/") or association_url.startswith(settings.NEW_ROOT_SOURCE_URL)):
             LOGGER.debug("SKIPPING Association (non h4a): %s", association_url)
             continue
-        if any([association_url.endswith(ignore) for ignore in ignore_list]):
+        if any(association_url.endswith(ignore) for ignore in ignore_list):
             LOGGER.debug("SKIPPING Association (ignore): %s", association_url)
             continue
         try:
