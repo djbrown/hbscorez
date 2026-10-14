@@ -1,4 +1,4 @@
-FROM python:3.13-bookworm
+FROM python:3.15-bookworm
 
 RUN mkdir /code
 WORKDIR /code
